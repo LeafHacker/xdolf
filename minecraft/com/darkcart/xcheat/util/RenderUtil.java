@@ -206,14 +206,14 @@ public class RenderUtil {
 	public static int target = 3;
 	public static int team = 4;
 
-	public static void entityESPBox(Entity entity, int mode) {
+	public static void entityESPBox(Entity entity, Color c) {
 		GL11.glBlendFunc(770, 771);
 		GL11.glEnable(GL_BLEND);
 		GL11.glLineWidth(2.0F);
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GL11.glDisable(GL_DEPTH_TEST);
 		GL11.glDepthMask(false);
-		GL11.glColor4f(1.0f, 1.0f, 1.0f, 0.5f);
+		GL11.glColor4f(c.getRed() / 255f, c.getGreen() / 255f, c.getBlue() / 255f, c.getAlpha() / 255f);
 		RenderManager renderManager = Minecraft.getMinecraft().getRenderManager();
 		drawSelectionBoundingBox(new AxisAlignedBB(
 				entity.boundingBox.minX - 0.05 - entity.posX + (entity.posX - renderManager.renderPosX),
@@ -355,7 +355,8 @@ public class RenderUtil {
 		setColor(color);
 		glBegin(GL_LINES);
 		{
-			glVertex3d(Client.gameResolution.getScaledWidth() / 2, Minecraft.getMinecraft().player.getEyeHeight(), Client.gameResolution.getScaledHeight() / 2);
+			glVertex3d(Client.gameResolution.getScaledWidth() / 2, Minecraft.getMinecraft().player.getEyeHeight(),
+					Client.gameResolution.getScaledHeight() / 2);
 			glVertex3d(x, y, z);
 		}
 		glEnd();
@@ -431,10 +432,6 @@ public class RenderUtil {
 	}
 
 	public static float[] getColorValues(Color c) {
-		float[] v = new float[3];
-		v[0] = c.getRed() / 255f;
-		v[1] = c.getGreen() / 255f;
-		v[2] = c.getBlue() / 255f;
-		return v;
+		return new float[] { c.getRed() / 255f, c.getGreen() / 255f, c.getGreen() / 255f };
 	}
 }
