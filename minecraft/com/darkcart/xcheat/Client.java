@@ -1,22 +1,30 @@
 package com.darkcart.xcheat;
 
-import java.awt.List;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 
 import org.lwjgl.input.Keyboard;
 
-import com.darkcart.xcheat.mods.*;
+import com.darkcart.xcheat.mods.EntityESP;
+import com.darkcart.xcheat.mods.Fullbright;
+import com.darkcart.xcheat.mods.NoFall;
+import com.darkcart.xcheat.mods.NoHurtCam;
+import com.darkcart.xcheat.mods.Step;
+import com.darkcart.xcheat.mods.StorageESP;
+import com.darkcart.xcheat.mods.Tracers;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.multiplayer.WorldClient;
 
 public class Client {
 
 	public static ArrayList<Module> modules = new ArrayList<Module>();
 	public static Minecraft mc = Minecraft.getMinecraft();
 	public static ScaledResolution gameResolution;
+	
+	public static EntityPlayerSP player = mc.player;
+	public static WorldClient world = mc.world;
 	
 	public Client() {
 		modules.add(new Fullbright());
