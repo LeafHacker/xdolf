@@ -31,20 +31,16 @@ public class XCheatOverlay extends GuiIngame {
 
 		this.drawRect(0, 0, Client.mc.fontRendererObj.getStringWidth("XClient") + 4, 12, 0x77222222);
 		Client.mc.fontRendererObj.drawString("XCheat", 2, 2, 0x55ff55);
-		for(Module m: Client.modules)
-		{
-			if(m.isToggled()) {
-				Client.mc.fontRendererObj.drawString(m.getName(), 20, 2, 0xFFFFFF);
-			}
-		}
 		
 		int count = 0;
 		try {
 			for(Module m: Client.modules) {
-				int x2 = width - (Client.mc.fontRendererObj.getStringWidth(m.getName()));
-				int y = (10 * count);
-				Client.mc.fontRendererObj.drawString(m.getName(), x2 - 2, y + 2, 0xffffff);
-				count++;
+				if(m.isToggled()) {
+					int x2 = width - (Client.mc.fontRendererObj.getStringWidth(m.getName()));
+					int y = (10 * count);
+					Client.mc.fontRendererObj.drawString(m.getName(), x2 - 2, y + 2, 0xffffff);
+					count++;
+				}
 			}
 		}catch(Exception ex){}
 
