@@ -25,6 +25,11 @@ public class Fullbright extends Module {
 	public int getKeyCode() {
 		return Keyboard.KEY_B;
 	}
+	
+	@Override
+	public String getName() {
+		return "Fullbright";
+	}
 
 	@Override
 	public String getDescription() {

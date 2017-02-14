@@ -28,6 +28,11 @@ public class NoFall extends Module {
 	public int getKeyCode() {
 		return Keyboard.KEY_O;
 	}
+	
+	@Override
+	public String getName() {
+		return "NoFall";
+	}
 
 	@Override
 	public String getDescription() {

@@ -38,6 +38,11 @@ public class Tracers extends Module {
 			RenderUtil.tracerLine(e, Color.green);
 		}
 	}
+	
+	@Override
+	public String getName() {
+		return "Tracers";
+	}
 
 	@Override
 	public String getDescription() {

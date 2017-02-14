@@ -1,6 +1,7 @@
 package net.minecraft.client.renderer;
 
 import com.darkcart.xcheat.Client;
+import com.darkcart.xcheat.mods.NoHurtCam;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.gson.JsonSyntaxException;
@@ -577,7 +578,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
 
     private void hurtCameraEffect(float partialTicks)
     {
-    	if (!Client.modules.get("NoHurtCam").isToggled()) {
+    	if (!Client.findMod(NoHurtCam.class).isToggled()) {
     		if (this.mc.getRenderViewEntity() instanceof EntityLivingBase)
         	{
             	EntityLivingBase entitylivingbase = (EntityLivingBase)this.mc.getRenderViewEntity();

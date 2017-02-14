@@ -46,6 +46,11 @@ public class EntityESP extends Module {
 			}
 		}
 	}
+	
+	@Override
+	public String getName() {
+		return "EntityESP";
+	}
 
 	@Override
 	public String getDescription() {

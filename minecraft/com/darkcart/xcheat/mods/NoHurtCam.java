@@ -27,6 +27,11 @@ public class NoHurtCam extends Module {
 	}
 
 	@Override
+	public String getName() {
+		return "NoHurtCam";
+	}
+	
+	@Override
 	public String getDescription() {
 		return "Disables the HurtCam animation when damage is taken.";
 	}

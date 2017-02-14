@@ -54,6 +54,11 @@ public class StorageESP extends Module {
 			}
 		}
 	}
+	
+	@Override
+	public String getName() {
+		return "StorageESP";
+	}
 
 	@Override
 	public String getDescription() {

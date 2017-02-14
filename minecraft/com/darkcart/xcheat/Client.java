@@ -1,6 +1,9 @@
 package com.darkcart.xcheat;
 
+import java.awt.List;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import org.lwjgl.input.Keyboard;
 
@@ -16,23 +19,23 @@ import net.minecraft.client.gui.ScaledResolution;
 
 public class Client {
 
-	public static HashMap<String, Module> modules = new HashMap<String, Module>();
+	public static ArrayList<Module> modules = new ArrayList<Module>();
 	public static Minecraft mc = Minecraft.getMinecraft();
 	public static ScaledResolution gameResolution;
 	
 	public Client() {
-		modules.put("Fullbright", new Fullbright());
-		modules.put("Tracers", new Tracers());
-		modules.put("StorageESP", new StorageESP());
-		modules.put("EntityESP", new EntityESP());
-		modules.put("NoFall", new NoFall());
-		modules.put("NoHurtCam", new NoHurtCam());
+		modules.add(new Fullbright());
+		modules.add(new Tracers());
+		modules.add(new StorageESP());
+		modules.add(new EntityESP());
+		modules.add(new NoFall());
+		modules.add(new NoHurtCam());
 	}
 	
 	// ANY CODE BELOW THIS SHOULD NOT CHANGE
 	
 	public void tick() {
-		for (Module m: modules.values()) {
+		for (Module m: modules) {
 			if (m.isToggled()) {
 				m.tick();
 			}
@@ -40,8 +43,21 @@ public class Client {
 		gameResolution = new ScaledResolution(Client.mc);
 	}
 	
+	public static Module findMod(Class<?extends Module> clazz) 
+	{
+		for(Module m: modules)
+		{
+			if(m.getClass() == clazz)
+			{
+				return m;
+			}
+		}
+		
+		return null;
+	}
+	
 	public void parseKey(int key) {
-		for (Module m: modules.values()) {
+		for (Module m: modules) {
 			if (Keyboard.isKeyDown(m.getKeyCode())) {
 				m.toggle();
 			}
@@ -49,7 +65,7 @@ public class Client {
 	}
 	
 	public static void render() {
-		for (Module m: modules.values()) {
+		for (Module m: modules) {
 			if (m.isToggled()) {
 				m.render();
 			}
