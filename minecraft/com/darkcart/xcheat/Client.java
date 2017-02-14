@@ -7,12 +7,7 @@ import java.util.LinkedHashMap;
 
 import org.lwjgl.input.Keyboard;
 
-import com.darkcart.xcheat.mods.EntityESP;
-import com.darkcart.xcheat.mods.Fullbright;
-import com.darkcart.xcheat.mods.NoFall;
-import com.darkcart.xcheat.mods.NoHurtCam;
-import com.darkcart.xcheat.mods.StorageESP;
-import com.darkcart.xcheat.mods.Tracers;
+import com.darkcart.xcheat.mods.*;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
@@ -30,6 +25,7 @@ public class Client {
 		modules.add(new EntityESP());
 		modules.add(new NoFall());
 		modules.add(new NoHurtCam());
+		modules.add(new Step());
 	}
 	
 	// ANY CODE BELOW THIS SHOULD NOT CHANGE

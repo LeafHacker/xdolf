@@ -35,5 +35,4 @@ public class NoHurtCam extends Module {
 	public String getDescription() {
 		return "Disables the HurtCam animation when damage is taken.";
 	}
-
 }

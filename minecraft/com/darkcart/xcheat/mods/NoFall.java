@@ -38,5 +38,4 @@ public class NoFall extends Module {
 	public String getDescription() {
 		return "Prevents fall damage.";
 	}
-
 }
