@@ -577,29 +577,31 @@ public class EntityRenderer implements IResourceManagerReloadListener
 
     private void hurtCameraEffect(float partialTicks)
     {
-        if (this.mc.getRenderViewEntity() instanceof EntityLivingBase)
-        {
-            EntityLivingBase entitylivingbase = (EntityLivingBase)this.mc.getRenderViewEntity();
-            float f = (float)entitylivingbase.hurtTime - partialTicks;
+    	if (!Client.modules.get("NoHurtCam").isToggled()) {
+    		if (this.mc.getRenderViewEntity() instanceof EntityLivingBase)
+        	{
+            	EntityLivingBase entitylivingbase = (EntityLivingBase)this.mc.getRenderViewEntity();
+            	float f = (float)entitylivingbase.hurtTime - partialTicks;
 
-            if (entitylivingbase.getHealth() <= 0.0F)
-            {
-                float f1 = (float)entitylivingbase.deathTime + partialTicks;
-                GlStateManager.rotate(40.0F - 8000.0F / (f1 + 200.0F), 0.0F, 0.0F, 1.0F);
-            }
+            	if (entitylivingbase.getHealth() <= 0.0F)
+            	{
+                	float f1 = (float)entitylivingbase.deathTime + partialTicks;
+                	GlStateManager.rotate(40.0F - 8000.0F / (f1 + 200.0F), 0.0F, 0.0F, 1.0F);
+            	}
 
-            if (f < 0.0F)
-            {
-                return;
-            }
+            	if (f < 0.0F)
+            	{
+                	return;
+            	}
 
-            f = f / (float)entitylivingbase.maxHurtTime;
-            f = MathHelper.sin(f * f * f * f * (float)Math.PI);
-            float f2 = entitylivingbase.attackedAtYaw;
-            GlStateManager.rotate(-f2, 0.0F, 1.0F, 0.0F);
-            GlStateManager.rotate(-f * 14.0F, 0.0F, 0.0F, 1.0F);
-            GlStateManager.rotate(f2, 0.0F, 1.0F, 0.0F);
-        }
+            	f = f / (float)entitylivingbase.maxHurtTime;
+            	f = MathHelper.sin(f * f * f * f * (float)Math.PI);
+            	float f2 = entitylivingbase.attackedAtYaw;
+            	GlStateManager.rotate(-f2, 0.0F, 1.0F, 0.0F);
+            	GlStateManager.rotate(-f * 14.0F, 0.0F, 0.0F, 1.0F);
+            	GlStateManager.rotate(f2, 0.0F, 1.0F, 0.0F);
+        	}
+    	}
     }
 
     /**

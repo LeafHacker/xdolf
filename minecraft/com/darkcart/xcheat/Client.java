@@ -7,6 +7,7 @@ import org.lwjgl.input.Keyboard;
 import com.darkcart.xcheat.mods.EntityESP;
 import com.darkcart.xcheat.mods.Fullbright;
 import com.darkcart.xcheat.mods.NoFall;
+import com.darkcart.xcheat.mods.NoHurtCam;
 import com.darkcart.xcheat.mods.StorageESP;
 import com.darkcart.xcheat.mods.Tracers;
 
@@ -25,6 +26,7 @@ public class Client {
 		modules.put("StorageESP", new StorageESP());
 		modules.put("EntityESP", new EntityESP());
 		modules.put("NoFall", new NoFall());
+		modules.put("NoHurtCam", new NoHurtCam());
 	}
 	
 	// ANY CODE BELOW THIS SHOULD NOT CHANGE
