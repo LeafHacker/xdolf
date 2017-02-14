@@ -39,7 +39,7 @@ public class StorageESP extends Module {
 
 	@Override
 	public void render() {
-		for (TileEntity e : Client.mc.world.loadedTileEntityList) {
+		for (TileEntity e : Client.world.loadedTileEntityList) {
 			if (e instanceof TileEntityChest) {
 				RenderUtil.blockESP(e.getPos(), Color.green);
 			}

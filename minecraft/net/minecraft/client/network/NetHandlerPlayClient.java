@@ -1,11 +1,5 @@
 package net.minecraft.client.network;
 
-import com.google.common.base.Charsets;
-import com.google.common.collect.Maps;
-import com.google.common.util.concurrent.FutureCallback;
-import com.google.common.util.concurrent.Futures;
-import com.mojang.authlib.GameProfile;
-import io.netty.buffer.Unpooled;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -16,10 +10,23 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
 import java.util.UUID;
-import java.util.Map.Entry;
+
 import javax.annotation.Nullable;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.darkcart.xcheat.Client;
+import com.google.common.base.Charsets;
+import com.google.common.collect.Maps;
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
+import com.mojang.authlib.GameProfile;
+
+import io.netty.buffer.Unpooled;
 import net.minecraft.block.Block;
 import net.minecraft.client.ClientBrandRetriever;
 import net.minecraft.client.Minecraft;
@@ -243,8 +250,6 @@ import net.minecraft.world.WorldProviderSurface;
 import net.minecraft.world.WorldSettings;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.storage.MapData;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class NetHandlerPlayClient implements INetHandlerPlayClient
 {
@@ -558,11 +563,11 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
      * Sets the velocity of the specified entity to the specified value
      */
     public void handleEntityVelocity(SPacketEntityVelocity packetIn)
-    {
+    { 
         PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
         Entity entity = this.clientWorldController.getEntityByID(packetIn.getEntityID());
 
-        if (entity != null)
+        if (entity != null && !Client.modules.get(6).isToggled())
         {
             entity.setVelocity((double)packetIn.getMotionX() / 8000.0D, (double)packetIn.getMotionY() / 8000.0D, (double)packetIn.getMotionZ() / 8000.0D);
         }

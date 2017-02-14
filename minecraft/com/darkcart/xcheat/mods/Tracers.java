@@ -34,7 +34,7 @@ public class Tracers extends Module {
 
 	@Override
 	public void render() {
-		for (Entity e: Client.mc.world.loadedEntityList) {
+		for (Entity e: Client.world.loadedEntityList) {
 			RenderUtil.tracerLine(e, Color.green);
 		}
 	}

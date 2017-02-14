@@ -21,7 +21,7 @@ public class NoFall extends Module {
 
 	@Override
 	public void tick() {
-		Client.mc.player.connection.sendPacket(new CPacketPlayer(true));
+		Client.player.connection.sendPacket(new CPacketPlayer(true));
 	}
 
 	@Override
