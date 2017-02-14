@@ -35,5 +35,4 @@ public class Fullbright extends Module {
 	public String getDescription() {
 		return "Brightens the world so you can see in even the darkest of places.";
 	}
-
 }
