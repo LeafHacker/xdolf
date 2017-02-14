@@ -252,7 +252,7 @@ public class Minecraft implements IThreadListener, ISnooperInfo {
 	private ItemRenderer itemRenderer;
 	public EntityPlayerSP player;
 	@Nullable
-	private Entity renderViewEntity;
+	public Entity renderViewEntity;
 	public Entity pointedEntity;
 	public ParticleManager effectRenderer;
 	private final Session session;
