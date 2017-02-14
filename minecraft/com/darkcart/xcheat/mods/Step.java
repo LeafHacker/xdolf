@@ -34,7 +34,7 @@ public class Step extends Module {
 
 	@Override
 	public int getKeyCode() {
-		return Keyboard.KEY_G;
+		return Keyboard.KEY_U;
 	}
 
 	@Override
