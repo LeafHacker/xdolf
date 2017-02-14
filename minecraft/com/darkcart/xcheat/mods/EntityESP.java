@@ -46,4 +46,9 @@ public class EntityESP extends Module {
 			}
 		}
 	}
+
+	@Override
+	public String getDescription() {
+		return "Creates an ESP box around entities.";
+	}
 }

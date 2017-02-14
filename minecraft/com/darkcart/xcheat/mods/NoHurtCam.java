@@ -26,4 +26,9 @@ public class NoHurtCam extends Module {
 		return Keyboard.KEY_Z;
 	}
 
+	@Override
+	public String getDescription() {
+		return "Disables the HurtCam animation when damage is taken.";
+	}
+
 }

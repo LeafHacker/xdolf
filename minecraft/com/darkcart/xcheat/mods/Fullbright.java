@@ -26,4 +26,9 @@ public class Fullbright extends Module {
 		return Keyboard.KEY_B;
 	}
 
+	@Override
+	public String getDescription() {
+		return "Brightens the world so you can see in even the darkest of places.";
+	}
+
 }

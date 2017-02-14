@@ -29,4 +29,9 @@ public class NoFall extends Module {
 		return Keyboard.KEY_O;
 	}
 
+	@Override
+	public String getDescription() {
+		return "Prevents fall damage.";
+	}
+
 }

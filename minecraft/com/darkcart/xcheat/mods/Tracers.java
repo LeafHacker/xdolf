@@ -38,4 +38,9 @@ public class Tracers extends Module {
 			RenderUtil.tracerLine(e, Color.green);
 		}
 	}
+
+	@Override
+	public String getDescription() {
+		return "Draws a line to entities within render distance.";
+	}
 }

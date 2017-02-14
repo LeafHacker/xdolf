@@ -54,4 +54,9 @@ public class StorageESP extends Module {
 			}
 		}
 	}
+
+	@Override
+	public String getDescription() {
+		return "Creates an ESP box around blocks which can be used to store items.";
+	}
 }

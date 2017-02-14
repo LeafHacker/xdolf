@@ -24,6 +24,8 @@ public abstract class Module {
 	}
 
 	public abstract int getKeyCode();
+	
+	public abstract String getDescription();
 
 	public void render() {
 		
