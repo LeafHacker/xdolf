@@ -1,7 +1,16 @@
 package net.minecraft.client.gui;
 
 import java.io.IOException;
+
 import javax.annotation.Nullable;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
+
+import com.darkcart.xcheat.commands.CommandManager;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ITabCompleter;
 import net.minecraft.util.TabCompleter;
@@ -10,15 +19,13 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
 
 public class GuiChat extends GuiScreen implements ITabCompleter
 {
     private static final Logger LOGGER = LogManager.getLogger();
     private String historyBuffer = "";
+    
+    private CommandManager commandManager = new CommandManager();
 
     /**
      * keeps position of which chat message you will select when you press up, (does not increase for duplicated
@@ -128,7 +135,11 @@ public class GuiChat extends GuiScreen implements ITabCompleter
 
             if (!s.isEmpty())
             {
-                this.sendChatMessage(s);
+            	if (!s.startsWith(".")) {
+            		this.sendChatMessage(s);
+            	} else {
+            		commandManager.runCommands(s);
+            	}
             }
 
             this.mc.displayGuiScreen((GuiScreen)null);
