@@ -1,5 +1,6 @@
 package net.minecraft.client.gui;
 
+import com.darkcart.xcheat.Client;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -156,7 +157,9 @@ public class GuiIngame extends Gui
 
         if (this.mc.gameSettings.thirdPersonView == 0 && itemstack.getItem() == Item.getItemFromBlock(Blocks.PUMPKIN))
         {
-            this.renderPumpkinOverlay(scaledresolution);
+        	if (!Client.modules.get(11).isToggled()) {
+        		this.renderPumpkinOverlay(scaledresolution);
+        	}
         }
 
         if (!this.mc.player.isPotionActive(MobEffects.NAUSEA))

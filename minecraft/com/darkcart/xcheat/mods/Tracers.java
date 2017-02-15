@@ -47,31 +47,30 @@ public class Tracers extends Module {
 			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 			GL11.glEnable(GL11.GL_BLEND);
 			GL11.glLineWidth(1.5F);
-			for (Object entities : Client.mc.world.loadedEntityList) {
+			for (Entity entities : Client.mc.world.loadedEntityList) {
 				if (entities != Client.mc.player && entities != null) {
-					if (entities instanceof EntityPlayer) {
-						EntityPlayer entity = (EntityPlayer) entities;
-						float distance = Client.mc.renderViewEntity.getDistanceToEntity(entity);
-						double posX = ((entity.lastTickPosX + (entity.posX - entity.lastTickPosX)
-								- RenderManager.renderPosX));
-						double posY = ((entity.lastTickPosY + (entity.posY - entity.lastTickPosY)
-								- RenderManager.renderPosY));
-						double posZ = ((entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ)
-								- RenderManager.renderPosZ));
+					float distance = Client.mc.renderViewEntity.getDistanceToEntity(entities);
+					double posX = ((entities.lastTickPosX + (entities.posX - entities.lastTickPosX)
+							- RenderManager.renderPosX));
+					double posY = ((entities.lastTickPosY + (entities.posY - entities.lastTickPosY)
+							- RenderManager.renderPosY));
+					double posZ = ((entities.lastTickPosZ + (entities.posZ - entities.lastTickPosZ)
+							- RenderManager.renderPosZ));
 
-						if (distance <= 6F) {
-							GL11.glColor3f(1.0F, 0.0F, 0.0F);
-						} else if (distance <= 96F) {
-							GL11.glColor3f(1.0F, (distance / 100F), 0.0F);
-						} else if (distance > 96F) {
-							GL11.glColor3f(0.1F, 0.6F, 255.0F);
-						}
-
-						GL11.glBegin(GL11.GL_LINE_LOOP);
-						GL11.glVertex3d(0, 0, 0);
-						GL11.glVertex3d(posX, posY + 1, posZ);
-						GL11.glEnd();
+					if (distance <= 6F) {
+						GL11.glColor3f(1.0F, 0.0F, 0.0F);
+					} else if (distance <= 96F) {
+						GL11.glColor3f(1.0F, (distance / 100F), 0.0F);
+					} else if (distance > 96F) {
+						GL11.glColor3f(0.1F, 0.6F, 255.0F);
 					}
+
+					GL11.glBegin(GL11.GL_LINE_LOOP);
+					GL11.glVertex3d(0, Client.mc.player.getEyeHeight(), 0);
+
+					GL11.glVertex3d(posX, posY + 1, posZ);
+
+					GL11.glEnd();
 				}
 			}
 			GL11.glDisable(GL11.GL_BLEND);

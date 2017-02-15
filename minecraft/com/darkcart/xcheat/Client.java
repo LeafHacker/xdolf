@@ -11,6 +11,7 @@ import com.darkcart.xcheat.mods.Flight;
 import com.darkcart.xcheat.mods.Fullbright;
 import com.darkcart.xcheat.mods.NoFall;
 import com.darkcart.xcheat.mods.NoHurtCam;
+import com.darkcart.xcheat.mods.NoPumpkinBlur;
 import com.darkcart.xcheat.mods.Step;
 import com.darkcart.xcheat.mods.StorageESP;
 import com.darkcart.xcheat.mods.Timer;
@@ -37,6 +38,7 @@ public class Client {
 		modules.add(new Flight());
 		modules.add(new BHop());
 		modules.add(new Timer());
+		modules.add(new NoPumpkinBlur());
 	}
 	
 	// ANY CODE BELOW THIS SHOULD NOT CHANGE
