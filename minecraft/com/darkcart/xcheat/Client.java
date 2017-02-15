@@ -13,6 +13,7 @@ import com.darkcart.xcheat.mods.NoFall;
 import com.darkcart.xcheat.mods.NoHurtCam;
 import com.darkcart.xcheat.mods.Step;
 import com.darkcart.xcheat.mods.StorageESP;
+import com.darkcart.xcheat.mods.Timer;
 import com.darkcart.xcheat.mods.Tracers;
 
 import net.minecraft.client.Minecraft;
@@ -35,6 +36,7 @@ public class Client {
 		modules.add(new Step());
 		modules.add(new Flight());
 		modules.add(new BHop());
+		modules.add(new Timer());
 	}
 	
 	// ANY CODE BELOW THIS SHOULD NOT CHANGE
