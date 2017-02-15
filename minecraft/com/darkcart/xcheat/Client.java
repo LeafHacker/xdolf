@@ -4,7 +4,10 @@ import java.util.ArrayList;
 
 import org.lwjgl.input.Keyboard;
 
+import com.darkcart.xcheat.mods.AntiKnockback;
+import com.darkcart.xcheat.mods.BHop;
 import com.darkcart.xcheat.mods.EntityESP;
+import com.darkcart.xcheat.mods.Flight;
 import com.darkcart.xcheat.mods.Fullbright;
 import com.darkcart.xcheat.mods.NoFall;
 import com.darkcart.xcheat.mods.NoHurtCam;
@@ -13,18 +16,13 @@ import com.darkcart.xcheat.mods.StorageESP;
 import com.darkcart.xcheat.mods.Tracers;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.multiplayer.WorldClient;
 
 public class Client {
 
 	public static ArrayList<Module> modules = new ArrayList<Module>();
 	public static Minecraft mc = Minecraft.getMinecraft();
 	public static ScaledResolution gameResolution;
-	
-	public static EntityPlayerSP player = mc.player;
-	public static WorldClient world = mc.world;
 	
 	public Client() {
 		modules.add(new Fullbright());
@@ -33,7 +31,10 @@ public class Client {
 		modules.add(new EntityESP());
 		modules.add(new NoFall());
 		modules.add(new NoHurtCam());
+		modules.add(new AntiKnockback());
 		modules.add(new Step());
+		modules.add(new Flight());
+		modules.add(new BHop());
 	}
 	
 	// ANY CODE BELOW THIS SHOULD NOT CHANGE

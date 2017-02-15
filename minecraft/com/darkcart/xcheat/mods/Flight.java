@@ -5,9 +5,7 @@ import org.lwjgl.input.Keyboard;
 import com.darkcart.xcheat.Client;
 import com.darkcart.xcheat.Module;
 
-import net.minecraft.network.play.client.CPacketPlayer;
-
-public class NoFall extends Module {
+public class Flight extends Module {
 
 	@Override
 	public void enable() {
@@ -21,21 +19,24 @@ public class NoFall extends Module {
 
 	@Override
 	public void tick() {
-		Client.mc.player.connection.sendPacket(new CPacketPlayer(true));
+		if (Client.mc.gameSettings.keyBindForward.isKeyDown()) {
+			Client.mc.player.jump();
+		}
 	}
 
 	@Override
 	public int getKeyCode() {
-		return Keyboard.KEY_O;
+		return Keyboard.KEY_F;
 	}
-	
+
 	@Override
 	public String getName() {
-		return "NoFall";
+		return "Flight";
 	}
 
 	@Override
 	public String getDescription() {
-		return "Prevents fall damage.";
+		return "GOTTA GO FAST";
 	}
+
 }

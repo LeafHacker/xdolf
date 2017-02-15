@@ -33,7 +33,7 @@ public class EntityESP extends Module {
 	}
 	
 	public void render() {
-		for (Entity e: Client.world.loadedEntityList) {
+		for (Entity e: Client.mc.world.loadedEntityList) {
 			String entityPackage = e.getClass().getPackage().getName();
 			if (entityPackage.equals("net.minecraft.entity.monster")) {
 				RenderUtil.entityESPBox(e, Color.red);
