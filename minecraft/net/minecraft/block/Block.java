@@ -1,5 +1,7 @@
 package net.minecraft.block;
 
+import com.darkcart.xcheat.Client;
+import com.darkcart.xcheat.mods.XRay;
 import com.google.common.collect.Sets;
 import com.google.common.collect.UnmodifiableIterator;
 import java.util.List;
@@ -536,6 +538,10 @@ public class Block
                 {
                     return true;
                 }
+        }
+        
+        if (Client.modules.get(12).isToggled() && XRay.xrayBlocks.contains(this)) {
+        	return false;
         }
 
         return !blockAccess.getBlockState(pos.offset(side)).isOpaqueCube();

@@ -16,6 +16,7 @@ import com.darkcart.xcheat.mods.Step;
 import com.darkcart.xcheat.mods.StorageESP;
 import com.darkcart.xcheat.mods.Timer;
 import com.darkcart.xcheat.mods.Tracers;
+import com.darkcart.xcheat.mods.XRay;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
@@ -39,6 +40,7 @@ public class Client {
 		modules.add(new BHop());
 		modules.add(new Timer());
 		modules.add(new NoPumpkinBlur());
+		modules.add(new XRay());
 	}
 	
 	// ANY CODE BELOW THIS SHOULD NOT CHANGE
