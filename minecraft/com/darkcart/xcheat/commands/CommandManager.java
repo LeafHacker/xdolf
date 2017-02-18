@@ -6,7 +6,7 @@ import com.darkcart.xcheat.Client;
 
 import net.minecraft.util.text.TextComponentString;
 
-public class CommandManager //TODO: STILL NEEDS TO BE HOOKED WHERE CHAT MESSAGES ARE DEALT WITH
+public class CommandManager
 {
 	public static ArrayList<Command> commands = new ArrayList<Command>();
 
@@ -20,6 +20,8 @@ public class CommandManager //TODO: STILL NEEDS TO BE HOOKED WHERE CHAT MESSAGES
 	public void addCommands()
 	{
 		commands.clear();
+		commands.add(new CmdHelp());
+		commands.add(new CmdToggle());
 	}
 	
 	public void runCommands(String s)
