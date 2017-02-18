@@ -5,16 +5,22 @@ import org.lwjgl.input.Keyboard;
 import com.darkcart.xcheat.Client;
 import com.darkcart.xcheat.Module;
 
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.potion.PotionType;
+
 public class Fullbright extends Module {
 
 	@Override
 	public void enable() {
-		Client.mc.gameSettings.gammaSetting = 1000f;
+		PotionEffect nightVision = new PotionEffect(Potion.getPotionById(16), Integer.MAX_VALUE, 0);
+		nightVision.setPotionDurationMax(true);
+		Client.mc.player.addPotionEffect(nightVision);
 	}
 
 	@Override
 	public void disable() {
-		Client.mc.gameSettings.gammaSetting = 0f;
+		Client.mc.player.removeActivePotionEffect(Potion.getPotionById(16));
 	}
 
 	@Override
@@ -33,6 +39,6 @@ public class Fullbright extends Module {
 
 	@Override
 	public String getDescription() {
-		return "Brightens the world so you can see in even the darkest of places.";
+		return "Activates NightVision potion effect.";
 	}
 }
