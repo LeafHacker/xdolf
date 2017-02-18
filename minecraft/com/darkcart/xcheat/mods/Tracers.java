@@ -7,7 +7,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.darkcart.xcheat.Client;
 import com.darkcart.xcheat.Module;
-import com.darkcart.xcheat.util.RenderUtil;
+import com.darkcart.xcheat.util.RenderUtils;
 
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;

@@ -6,7 +6,7 @@ import org.lwjgl.input.Keyboard;
 
 import com.darkcart.xcheat.Client;
 import com.darkcart.xcheat.Module;
-import com.darkcart.xcheat.util.RenderUtil;
+import com.darkcart.xcheat.util.RenderUtils;
 
 import net.minecraft.entity.Entity;
 
@@ -36,13 +36,13 @@ public class EntityESP extends Module {
 		for (Entity e: Client.mc.world.loadedEntityList) {
 			String entityPackage = e.getClass().getPackage().getName();
 			if (entityPackage.equals("net.minecraft.entity.monster")) {
-				RenderUtil.entityESPBox(e, Color.red);
+				RenderUtils.entityESPBox(e, Color.red);
 			}
 			if (entityPackage.equals("net.minecraft.entity.passive")) {
-				RenderUtil.entityESPBox(e, Color.green);
+				RenderUtils.entityESPBox(e, Color.green);
 			}
 			if (entityPackage.equals("net.minecraft.entity.item")) {
-				RenderUtil.entityESPBox(e, Color.white);
+				RenderUtils.entityESPBox(e, Color.white);
 			}
 		}
 	}

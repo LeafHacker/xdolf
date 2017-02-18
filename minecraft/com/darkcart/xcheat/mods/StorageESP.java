@@ -6,7 +6,7 @@ import org.lwjgl.input.Keyboard;
 
 import com.darkcart.xcheat.Client;
 import com.darkcart.xcheat.Module;
-import com.darkcart.xcheat.util.RenderUtil;
+import com.darkcart.xcheat.util.RenderUtils;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
@@ -41,16 +41,16 @@ public class StorageESP extends Module {
 	public void render() {
 		for (TileEntity e : Client.mc.world.loadedTileEntityList) {
 			if (e instanceof TileEntityChest) {
-				RenderUtil.blockESP(e.getPos(), Color.green);
+				RenderUtils.blockESP(e.getPos(), Color.green);
 			}
 			if (e instanceof TileEntityEnderChest) {
-				RenderUtil.blockESP(e.getPos(), Color.magenta);
+				RenderUtils.blockESP(e.getPos(), Color.magenta);
 			}
 			if (e instanceof TileEntityFurnace || e instanceof TileEntityDispenser || e instanceof TileEntityDropper) {
-				RenderUtil.blockESP(e.getPos(), Color.gray);
+				RenderUtils.blockESP(e.getPos(), Color.gray);
 			}
 			if (e instanceof TileEntityShulkerBox) {
-				RenderUtil.blockESP(e.getPos(), Color.red);
+				RenderUtils.blockESP(e.getPos(), Color.red);
 			}
 		}
 	}

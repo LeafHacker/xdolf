@@ -40,7 +40,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
-public class RenderUtil {
+public class RenderUtils {
 	/**
 	 * Renders a box with any size and any color.
 	 *

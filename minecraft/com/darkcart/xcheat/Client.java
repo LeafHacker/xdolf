@@ -9,6 +9,7 @@ import com.darkcart.xcheat.mods.BHop;
 import com.darkcart.xcheat.mods.EntityESP;
 import com.darkcart.xcheat.mods.Flight;
 import com.darkcart.xcheat.mods.Fullbright;
+import com.darkcart.xcheat.mods.KillAura;
 import com.darkcart.xcheat.mods.NoFall;
 import com.darkcart.xcheat.mods.NoHurtCam;
 import com.darkcart.xcheat.mods.NoPumpkinBlur;
@@ -26,6 +27,7 @@ public class Client {
 	public static ArrayList<Module> modules = new ArrayList<Module>();
 	public static Minecraft mc = Minecraft.getMinecraft();
 	public static ScaledResolution gameResolution;
+	public static ArrayList<String> friends = new ArrayList<String>();
 	
 	public Client() {
 		modules.add(new Fullbright());
@@ -41,6 +43,7 @@ public class Client {
 		modules.add(new Timer());
 		modules.add(new NoPumpkinBlur());
 		modules.add(new XRay());
+		modules.add(new KillAura());
 	}
 	
 	// ANY CODE BELOW THIS SHOULD NOT CHANGE
