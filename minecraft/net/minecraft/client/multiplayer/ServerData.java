@@ -23,7 +23,7 @@ public class ServerData
 
     /** last server ping that showed up in the server browser */
     public long pingToServer;
-    public int version = 315;
+    public int version = 316;
 
     /** Game version for this server. */
     public String gameVersion = "1.11";

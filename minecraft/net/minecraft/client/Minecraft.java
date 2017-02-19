@@ -2148,7 +2148,7 @@ public class Minecraft implements IThreadListener, ISnooperInfo {
 		SocketAddress socketaddress = this.theIntegratedServer.getNetworkSystem().addLocalEndpoint();
 		NetworkManager networkmanager = NetworkManager.provideLocalClient(socketaddress);
 		networkmanager.setNetHandler(new NetHandlerLoginClient(networkmanager, this, (GuiScreen) null));
-		networkmanager.sendPacket(new C00Handshake(315, socketaddress.toString(), 0, EnumConnectionState.LOGIN));
+		networkmanager.sendPacket(new C00Handshake(316, socketaddress.toString(), 0, EnumConnectionState.LOGIN));
 		networkmanager.sendPacket(new CPacketLoginStart(this.getSession().getProfile()));
 		this.myNetworkManager = networkmanager;
 	}
