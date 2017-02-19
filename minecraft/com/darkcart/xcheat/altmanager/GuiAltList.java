@@ -11,6 +11,8 @@ import com.darkcart.xcheat.Client;
 
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiMainMenu;
+import net.minecraft.client.gui.GuiMultiplayer;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiYesNo;
 import net.minecraft.client.resources.I18n;
@@ -97,6 +99,10 @@ public class GuiAltList extends GuiScreen {
 				deleteMenuOpen = true;
 				this.mc.displayGuiScreen(guiyesno);
 			}catch(Exception e) {}
+		}
+		if(button.id == 4)
+		{
+			this.mc.displayGuiScreen(new GuiMultiplayer(new GuiMainMenu()));
 		}
 		if(button.id == 5)
 		{
