@@ -15,7 +15,7 @@ public class CmdTimer extends Command {
 
 	@Override
 	public String getDescription() {
-		return "Makes your game run EVEN faster";
+		return "Change timer speed.";
 	}
 
 	@Override
