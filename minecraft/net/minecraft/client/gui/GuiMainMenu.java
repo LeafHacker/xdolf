@@ -1,17 +1,21 @@
 package net.minecraft.client.gui;
 
-import com.darkcart.xcheat.Wrapper;
-import com.darkcart.xcheat.altmanager.Manager;
-import com.google.common.collect.Lists;
-import java.io.BufferedReader;
-import java.io.Closeable;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URL;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Random;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.lwjgl.opengl.GLContext;
+import org.lwjgl.util.glu.Project;
+
+import com.darkcart.xcheat.altmanager.Manager;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -30,12 +34,6 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.demo.DemoWorldServer;
 import net.minecraft.world.storage.ISaveFormat;
 import net.minecraft.world.storage.WorldInfo;
-import org.apache.commons.io.Charsets;
-import org.apache.commons.io.IOUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.lwjgl.opengl.GLContext;
-import org.lwjgl.util.glu.Project;
 
 public class GuiMainMenu extends GuiScreen
 {
@@ -111,47 +109,17 @@ public class GuiMainMenu extends GuiScreen
     public GuiMainMenu()
     {
         this.openGLWarning2 = MORE_INFO_TEXT;
-        this.splashText = "missingno";
         IResource iresource = null;
 
-        try
-        {
-            List<String> list = Lists.<String>newArrayList();
-            iresource = Minecraft.getMinecraft().getResourceManager().getResource(SPLASH_TEXTS);
-            BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(iresource.getInputStream(), Charsets.UTF_8));
-            String s;
-
-            while ((s = bufferedreader.readLine()) != null)
-            {
-                s = s.trim();
-
-                if (!s.isEmpty())
-                {
-                    list.add(s);
-                }
-            }
-
-            if (!list.isEmpty())
-            {
-                while (true)
-                {
-                    this.splashText = (String)list.get(RANDOM.nextInt(list.size()));
-
-                    if (this.splashText.hashCode() != 125780783)
-                    {
-                        break;
-                    }
-                }
-            }
-        }
-        catch (IOException var8)
-        {
-            ;
-        }
-        finally
-        {
-            IOUtils.closeQuietly((Closeable)iresource);
-        }
+       // TODO: marker
+        try {
+			String[] splashes = IOUtils.toString(new URL("http://darkcart.co/splashes/splashes.txt")).split("\n");
+			splashText = splashes[new Random().nextInt(splashes.length)];
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
         this.updateCounter = RANDOM.nextFloat();
         this.openGLWarning1 = "";
