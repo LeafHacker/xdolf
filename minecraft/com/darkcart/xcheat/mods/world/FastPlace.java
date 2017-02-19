@@ -1,41 +1,43 @@
-package com.darkcart.xcheat.mods;
+package com.darkcart.xcheat.mods.world;
 
 import org.lwjgl.input.Keyboard;
 
 import com.darkcart.xcheat.Client;
 import com.darkcart.xcheat.Module;
 
-import net.minecraft.network.play.client.CPacketPlayer;
-
-public class NoFall extends Module {
+public class FastPlace extends Module {
 
 	@Override
 	public void enable() {
-		
+
 	}
 
 	@Override
 	public void disable() {
-		
+
 	}
 
 	@Override
 	public void tick() {
-		Client.mc.player.connection.sendPacket(new CPacketPlayer(true));
+		if(isToggled())
+        {
+			Client.mc.rightClickDelayTimer = 0;
+        }
 	}
 
 	@Override
 	public int getKeyCode() {
-		return Keyboard.KEY_O;
+		return Keyboard.KEYBOARD_SIZE;
 	}
-	
+
 	@Override
 	public String getName() {
-		return "NoFall";
+		return "FastPlace";
 	}
 
 	@Override
 	public String getDescription() {
-		return "Prevents fall damage.";
+		return "Allows you to quickly place blocks.";
 	}
+
 }

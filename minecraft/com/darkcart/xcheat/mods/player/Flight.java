@@ -1,12 +1,11 @@
-package com.darkcart.xcheat.mods;
+package com.darkcart.xcheat.mods.player;
 
 import org.lwjgl.input.Keyboard;
 
+import com.darkcart.xcheat.Client;
 import com.darkcart.xcheat.Module;
 
-public class NoHurtCam extends Module {
-	
-	// Actual code is in another class
+public class Flight extends Module {
 
 	@Override
 	public void enable() {
@@ -20,21 +19,24 @@ public class NoHurtCam extends Module {
 
 	@Override
 	public void tick() {
-		
+		if (Client.mc.gameSettings.keyBindForward.isKeyDown()) {
+			Client.mc.player.jump();
+		}
 	}
 
 	@Override
 	public int getKeyCode() {
-		return Keyboard.KEY_Z;
+		return Keyboard.KEY_F;
 	}
 
 	@Override
 	public String getName() {
-		return "NoHurtCam";
+		return "Flight";
 	}
-	
+
 	@Override
 	public String getDescription() {
-		return "Disables the HurtCam animation when damage is taken.";
+		return "GOTTA GO FAST";
 	}
+
 }

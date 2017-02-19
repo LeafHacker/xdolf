@@ -4,22 +4,22 @@ import java.util.ArrayList;
 
 import org.lwjgl.input.Keyboard;
 
-import com.darkcart.xcheat.mods.AntiKnockback;
-import com.darkcart.xcheat.mods.AutoArmor;
-import com.darkcart.xcheat.mods.AutoRespawn;
-import com.darkcart.xcheat.mods.BHop;
-import com.darkcart.xcheat.mods.EntityESP;
-import com.darkcart.xcheat.mods.Flight;
-import com.darkcart.xcheat.mods.Fullbright;
-import com.darkcart.xcheat.mods.KillAura;
-import com.darkcart.xcheat.mods.NoFall;
-import com.darkcart.xcheat.mods.NoHurtCam;
-import com.darkcart.xcheat.mods.NoPumpkinBlur;
-import com.darkcart.xcheat.mods.Step;
-import com.darkcart.xcheat.mods.StorageESP;
-import com.darkcart.xcheat.mods.Timer;
-import com.darkcart.xcheat.mods.Tracers;
-import com.darkcart.xcheat.mods.XRay;
+import com.darkcart.xcheat.mods.aura.AutoArmor;
+import com.darkcart.xcheat.mods.aura.KillAura;
+import com.darkcart.xcheat.mods.player.AntiKnockback;
+import com.darkcart.xcheat.mods.player.AutoRespawn;
+import com.darkcart.xcheat.mods.player.BHop;
+import com.darkcart.xcheat.mods.player.Flight;
+import com.darkcart.xcheat.mods.player.NoFall;
+import com.darkcart.xcheat.mods.player.Step;
+import com.darkcart.xcheat.mods.render.EntityESP;
+import com.darkcart.xcheat.mods.render.NoHurtCam;
+import com.darkcart.xcheat.mods.render.NoPumpkinBlur;
+import com.darkcart.xcheat.mods.render.StorageESP;
+import com.darkcart.xcheat.mods.render.Tracers;
+import com.darkcart.xcheat.mods.world.Fullbright;
+import com.darkcart.xcheat.mods.world.Timer;
+import com.darkcart.xcheat.mods.world.XRay;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;

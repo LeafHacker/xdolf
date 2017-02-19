@@ -1,7 +1,7 @@
 package net.minecraft.client.renderer;
 
 import com.darkcart.xcheat.Client;
-import com.darkcart.xcheat.mods.NoHurtCam;
+import com.darkcart.xcheat.mods.render.NoHurtCam;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.gson.JsonSyntaxException;

@@ -1,4 +1,4 @@
-package com.darkcart.xcheat.mods;
+package com.darkcart.xcheat.mods.render;
 
 import java.awt.Color;
 

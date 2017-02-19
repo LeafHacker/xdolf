@@ -1,4 +1,4 @@
-package com.darkcart.xcheat.mods;
+package com.darkcart.xcheat.mods.aura;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

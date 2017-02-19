@@ -1,7 +1,7 @@
 package net.minecraft.block;
 
 import com.darkcart.xcheat.Client;
-import com.darkcart.xcheat.mods.XRay;
+import com.darkcart.xcheat.mods.world.XRay;
 import com.google.common.collect.Sets;
 import com.google.common.collect.UnmodifiableIterator;
 import java.util.List;

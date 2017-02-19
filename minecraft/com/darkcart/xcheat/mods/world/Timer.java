@@ -1,43 +1,41 @@
-package com.darkcart.xcheat.mods;
+package com.darkcart.xcheat.mods.world;
 
 import org.lwjgl.input.Keyboard;
 
-import com.darkcart.xcheat.Client;
 import com.darkcart.xcheat.Module;
 
-public class FastPlace extends Module {
+public class Timer extends Module {
+	
+	public static float speed = 5.0f;
 
 	@Override
 	public void enable() {
-
+		net.minecraft.util.Timer.timerSpeed = speed;
 	}
 
 	@Override
 	public void disable() {
-
+		net.minecraft.util.Timer.timerSpeed = 1;
 	}
 
 	@Override
 	public void tick() {
-		if(isToggled())
-        {
-			Client.mc.rightClickDelayTimer = 0;
-        }
+		
 	}
 
 	@Override
 	public int getKeyCode() {
-		return Keyboard.KEYBOARD_SIZE;
+		return Keyboard.KEY_GRAVE;
 	}
 
 	@Override
 	public String getName() {
-		return "FastPlace";
+		return "Timer";
 	}
 
 	@Override
 	public String getDescription() {
-		return "Allows you to quickly place blocks.";
+		return "Speeds up game. Doesn't bypass on most servers.";
 	}
 
 }

@@ -1,40 +1,40 @@
-package com.darkcart.xcheat.mods;
+package com.darkcart.xcheat.mods.render;
 
 import org.lwjgl.input.Keyboard;
 
-import com.darkcart.xcheat.Client;
 import com.darkcart.xcheat.Module;
 
-public class AntiKnockback extends Module {
+public class NoHurtCam extends Module {
+	
+	// Actual code is in another class
 
 	@Override
 	public void enable() {
-
+		
 	}
 
 	@Override
 	public void disable() {
-
+		
 	}
 
 	@Override
 	public void tick() {
-		// Actual code is in NetHandlerPlayClient
+		
 	}
 
 	@Override
 	public int getKeyCode() {
-		return Keyboard.KEY_C;
+		return Keyboard.KEY_Z;
 	}
 
 	@Override
 	public String getName() {
-		return "AntiKnockback";
+		return "NoHurtCam";
 	}
-
+	
 	@Override
 	public String getDescription() {
-		return "Keeps you from being knocked back.";
+		return "Disables the HurtCam animation when damage is taken.";
 	}
-
 }

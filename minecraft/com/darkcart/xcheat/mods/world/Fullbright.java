@@ -1,4 +1,4 @@
-package com.darkcart.xcheat.mods;
+package com.darkcart.xcheat.mods.world;
 
 import org.lwjgl.input.Keyboard;
 

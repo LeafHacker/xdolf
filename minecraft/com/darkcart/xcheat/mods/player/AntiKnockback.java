@@ -1,43 +1,40 @@
-package com.darkcart.xcheat.mods;
+package com.darkcart.xcheat.mods.player;
 
 import org.lwjgl.input.Keyboard;
 
 import com.darkcart.xcheat.Client;
 import com.darkcart.xcheat.Module;
 
-public class BHop extends Module {
+public class AntiKnockback extends Module {
 
 	@Override
 	public void enable() {
-		
+
 	}
 
 	@Override
 	public void disable() {
-		
+
 	}
 
 	@Override
 	public void tick() {
-		Client.mc.player.setSprinting(true);
-		if (Client.mc.player.onGround && Client.mc.gameSettings.keyBindForward.isKeyDown()) {
-			Client.mc.player.jump();
-		}
+		// Actual code is in NetHandlerPlayClient
 	}
 
 	@Override
 	public int getKeyCode() {
-		return Keyboard.KEY_V;
+		return Keyboard.KEY_C;
 	}
 
 	@Override
 	public String getName() {
-		return "BHop";
+		return "AntiKnockback";
 	}
 
 	@Override
 	public String getDescription() {
-		return "gotta go fast...er!";
+		return "Keeps you from being knocked back.";
 	}
 
 }
