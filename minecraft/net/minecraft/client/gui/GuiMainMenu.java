@@ -285,7 +285,7 @@ public class GuiMainMenu extends GuiScreen
         this.buttonList.add(new GuiButton(1, this.width / 2 - 100, p_73969_1_, I18n.format("menu.singleplayer", new Object[0])));
         this.buttonList.add(new GuiButton(2, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 1, I18n.format("menu.multiplayer", new Object[0])));
         this.buttonList.add(new GuiButton(14, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 2, 98, 20, I18n.format("menu.online", new Object[0])));
-        this.buttonList.add(new GuiButton(4, this.width / 2 + 2, p_73969_1_ + p_73969_2_ * 2, 98, 20, I18n.format("Alt Manager", new Object[0])));
+        this.buttonList.add(new GuiButton(3, this.width / 2 + 2, p_73969_1_ + p_73969_2_ * 2, 98, 20, I18n.format("Alt Manager", new Object[0])));
     }
 
     /**
