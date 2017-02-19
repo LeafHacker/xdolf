@@ -91,12 +91,4 @@ public class Client {
 			}
 		}
 	}
-	
-	public void beforeTick() {
-		
-	}
-	
-	public void afterTick() {
-		
-	}
 }

@@ -1059,9 +1059,7 @@ public class Minecraft implements IThreadListener, ISnooperInfo {
 
 		//TODO: Marker
 		for (int j = 0; j < this.timer.elapsedTicks; ++j) {
-			c.beforeTick();
 			this.runTick();
-			c.afterTick();
 		}
 
 		this.mcProfiler.endStartSection("preRenderErrors");
