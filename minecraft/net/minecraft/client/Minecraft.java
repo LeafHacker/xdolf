@@ -256,7 +256,7 @@ public class Minecraft implements IThreadListener, ISnooperInfo {
 	public Entity renderViewEntity;
 	public Entity pointedEntity;
 	public ParticleManager effectRenderer;
-	private final Session session;
+	public Session session;
 	private boolean isGamePaused;
 
 	/** The font renderer used for displaying and measuring text */
