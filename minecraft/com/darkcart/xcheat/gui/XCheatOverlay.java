@@ -38,7 +38,7 @@ public class XCheatOverlay extends GuiIngame {
 				if(m.isToggled()) {
 					int x2 = width - (Client.mc.fontRendererObj.getStringWidth(m.getName()));
 					int y = (10 * count);
-					Client.mc.fontRendererObj.drawString(m.getName(), x2 - 2, y + 2, 0xffffff);
+					Client.mc.fontRendererObj.drawStringWithShadow(m.getName(), x2 - 2, y + 2, 0xffffff);
 					count++;
 				}
 			}
@@ -46,25 +46,25 @@ public class XCheatOverlay extends GuiIngame {
 
 		if (Client.mc.player != null) {
 			if (Client.mc.player.inventory.armorInventory.get(3) != null) {
-				Client.mc.fontRendererObj.drawString(
+				Client.mc.fontRendererObj.drawStringWithShadow(
 						"h: " + (Client.mc.player.inventory.armorInventory.get(3).getItemDamage()),
 						1, height - 40, 0xffffff);
 			}
 
 			if (Client.mc.player.inventory.armorInventory.get(2) != null) {
-				Client.mc.fontRendererObj.drawString(
+				Client.mc.fontRendererObj.drawStringWithShadow(
 						"c: " + (Client.mc.player.inventory.armorInventory.get(2).getItemDamage()),
 						1, height - 30, 0xffffff);
 			}
 
 			if (Client.mc.player.inventory.armorInventory.get(1) != null) {
-				Client.mc.fontRendererObj.drawString(
+				Client.mc.fontRendererObj.drawStringWithShadow(
 						"l: " + (Client.mc.player.inventory.armorInventory.get(1).getItemDamage()),
 						1, height - 20, 0xffffff);
 			}
 
 			if (Client.mc.player.inventory.armorInventory.get(0) != null) {
-				Client.mc.fontRendererObj.drawString(
+				Client.mc.fontRendererObj.drawStringWithShadow(
 						"b: " + (Client.mc.player.inventory.armorInventory.get(0).getItemDamage()),
 						1, height - 10, 0xffffff);
 			}

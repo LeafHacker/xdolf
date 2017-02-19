@@ -9,19 +9,17 @@ public class Flight extends Module {
 
 	@Override
 	public void enable() {
-		
+		Client.mc.player.capabilities.isFlying = true;
 	}
 
 	@Override
 	public void disable() {
-		
+		Client.mc.player.capabilities.isFlying = false;
 	}
 
 	@Override
 	public void tick() {
-		if (Client.mc.gameSettings.keyBindForward.isKeyDown()) {
-			Client.mc.player.jump();
-		}
+		Client.mc.player.capabilities.isFlying = true;
 	}
 
 	@Override

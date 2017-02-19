@@ -76,9 +76,11 @@ public class Client {
 	
 	public void parseKey(int key) {
 		for (Module m: modules) {
-			if (Keyboard.isKeyDown(m.getKeyCode())) {
-				m.toggle();
-			}
+			try {
+				if (Keyboard.isKeyDown(m.getKeyCode())) {
+					m.toggle();
+				}
+			}catch(Exception ex){/*NEED TO FIX AS CRASH HERE*/}
 		}
 	}
 	
