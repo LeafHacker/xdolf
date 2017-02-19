@@ -1,5 +1,7 @@
 package net.minecraft.client.multiplayer;
 
+import com.darkcart.xcheat.gui.GuiScreenProtocol;
+
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
@@ -23,7 +25,8 @@ public class ServerData
 
     /** last server ping that showed up in the server browser */
     public long pingToServer;
-    public int version = 316;
+    // TODO: Marker
+    public int version = GuiScreenProtocol.proto;
 
     /** Game version for this server. */
     public String gameVersion = "1.11";

@@ -1,5 +1,6 @@
 package net.minecraft.client.network;
 
+import com.darkcart.xcheat.gui.GuiScreenProtocol;
 import com.google.common.base.Charsets;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
@@ -173,7 +174,8 @@ public class ServerPinger
 
         try
         {
-            networkmanager.sendPacket(new C00Handshake(316, serveraddress.getIP(), serveraddress.getPort(), EnumConnectionState.STATUS));
+        	// TODO: marker
+            networkmanager.sendPacket(new C00Handshake(GuiScreenProtocol.proto, serveraddress.getIP(), serveraddress.getPort(), EnumConnectionState.STATUS));
             networkmanager.sendPacket(new CPacketServerQuery());
         }
         catch (Throwable throwable)

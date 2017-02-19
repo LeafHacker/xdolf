@@ -1,5 +1,6 @@
 package net.minecraft.server;
 
+import com.darkcart.xcheat.gui.GuiScreenProtocol;
 import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Queues;
@@ -529,7 +530,8 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
                 this.currentTime = getCurrentTimeMillis();
                 long i = 0L;
                 this.statusResponse.setServerDescription(new TextComponentString(this.motd));
-                this.statusResponse.setVersion(new ServerStatusResponse.Version("1.11", 316));
+                // TODO: Marker
+                this.statusResponse.setVersion(new ServerStatusResponse.Version("1.11", GuiScreenProtocol.proto));
                 this.applyServerIconToResponse(this.statusResponse);
 
                 while (this.serverRunning)

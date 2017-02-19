@@ -43,6 +43,7 @@ import org.lwjgl.opengl.PixelFormat;
 import org.lwjgl.util.glu.GLU;
 
 import com.darkcart.xcheat.Client;
+import com.darkcart.xcheat.gui.GuiScreenProtocol;
 import com.darkcart.xcheat.gui.XCheatOverlay;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Queues;
@@ -2146,7 +2147,8 @@ public class Minecraft implements IThreadListener, ISnooperInfo {
 		SocketAddress socketaddress = this.theIntegratedServer.getNetworkSystem().addLocalEndpoint();
 		NetworkManager networkmanager = NetworkManager.provideLocalClient(socketaddress);
 		networkmanager.setNetHandler(new NetHandlerLoginClient(networkmanager, this, (GuiScreen) null));
-		networkmanager.sendPacket(new C00Handshake(316, socketaddress.toString(), 0, EnumConnectionState.LOGIN));
+		// TODO: marker
+		networkmanager.sendPacket(new C00Handshake(GuiScreenProtocol.proto, socketaddress.toString(), 0, EnumConnectionState.LOGIN));
 		networkmanager.sendPacket(new CPacketLoginStart(this.getSession().getProfile()));
 		this.myNetworkManager = networkmanager;
 	}

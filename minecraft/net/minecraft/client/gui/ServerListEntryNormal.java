@@ -1,5 +1,6 @@
 package net.minecraft.client.gui;
 
+import com.darkcart.xcheat.gui.GuiScreenProtocol;
 import com.google.common.base.Charsets;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import io.netty.buffer.ByteBuf;
@@ -75,8 +76,9 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry
             });
         }
 
-        boolean flag = this.server.version > 316;
-        boolean flag1 = this.server.version < 316;
+        // TODO: Marker
+        boolean flag = this.server.version > GuiScreenProtocol.proto;
+        boolean flag1 = this.server.version < GuiScreenProtocol.proto;
         boolean flag2 = flag || flag1;
         this.mc.fontRendererObj.drawString(this.server.serverName, x + 32 + 3, y + 1, 16777215);
         List<String> list = this.mc.fontRendererObj.listFormattedStringToWidth(this.server.serverMOTD, listWidth - 32 - 2);
