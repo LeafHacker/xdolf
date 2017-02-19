@@ -57,10 +57,20 @@ public class KillAura extends Module {
 	public void disable() {
 		t.stop();
 	}
+	
+	@Override
+	public void beforeUpdate() {
+		
+	}
 
 	@Override
 	public void tick() {
 
+	}
+	
+	@Override
+	public void afterUpdate() {
+		
 	}
 
 	@Override
@@ -77,5 +87,4 @@ public class KillAura extends Module {
 	public String getDescription() {
 		return "what do you fucking think?";
 	}
-
 }

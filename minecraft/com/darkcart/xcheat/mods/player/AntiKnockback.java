@@ -37,4 +37,14 @@ public class AntiKnockback extends Module {
 		return "Keeps you from being knocked back.";
 	}
 
+	@Override
+	public void beforeUpdate() {
+		
+	}
+
+	@Override
+	public void afterUpdate() {
+		
+	}
+
 }

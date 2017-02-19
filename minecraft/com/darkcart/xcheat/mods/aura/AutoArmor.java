@@ -140,4 +140,14 @@ public class AutoArmor extends Module {
 		return "Automatically equips armour detected in inventory.";
 	}
 
+	@Override
+	public void beforeUpdate() {
+		
+	}
+
+	@Override
+	public void afterUpdate() {
+		
+	}
+
 }

@@ -38,4 +38,14 @@ public class NoFall extends Module {
 	public String getDescription() {
 		return "Prevents fall damage.";
 	}
+	
+	@Override
+	public void beforeUpdate() {
+		
+	}
+
+	@Override
+	public void afterUpdate() {
+		
+	}
 }

@@ -55,7 +55,9 @@ public class Client {
 	public void tick() {
 		for (Module m: modules) {
 			if (m.isToggled()) {
+				m.beforeUpdate();
 				m.tick();
+				m.afterUpdate();
 			}
 		}
 		gameResolution = new ScaledResolution(Client.mc);

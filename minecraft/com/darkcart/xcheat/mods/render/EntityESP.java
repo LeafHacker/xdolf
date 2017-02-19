@@ -48,6 +48,16 @@ public class EntityESP extends Module {
 	}
 	
 	@Override
+	public void beforeUpdate() {
+		
+	}
+
+	@Override
+	public void afterUpdate() {
+		
+	}
+	
+	@Override
 	public String getName() {
 		return "EntityESP";
 	}

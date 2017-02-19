@@ -37,6 +37,16 @@ public class XRay extends Module {
 	public void tick() {
 		
 	}
+	
+	@Override
+	public void beforeUpdate() {
+		
+	}
+
+	@Override
+	public void afterUpdate() {
+		
+	}
 
 	@Override
 	public int getKeyCode() {

@@ -24,6 +24,16 @@ public class Timer extends Module {
 	}
 
 	@Override
+	public void beforeUpdate() {
+		
+	}
+
+	@Override
+	public void afterUpdate() {
+		
+	}
+	
+	@Override
 	public int getKeyCode() {
 		return Keyboard.KEY_GRAVE;
 	}

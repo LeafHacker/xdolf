@@ -37,4 +37,13 @@ public class Flight extends Module {
 		return "GOTTA GO FAST";
 	}
 
+	@Override
+	public void beforeUpdate() {
+		
+	}
+
+	@Override
+	public void afterUpdate() {
+		
+	}
 }

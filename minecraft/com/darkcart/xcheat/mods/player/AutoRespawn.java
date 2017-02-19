@@ -40,4 +40,13 @@ public class AutoRespawn extends Module {
 		return "Respawns the player for you upon death.";
 	}
 
+	@Override
+	public void beforeUpdate() {
+		
+	}
+
+	@Override
+	public void afterUpdate() {
+		
+	}
 }

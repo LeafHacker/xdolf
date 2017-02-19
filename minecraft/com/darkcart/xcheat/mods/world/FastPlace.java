@@ -24,6 +24,16 @@ public class FastPlace extends Module {
 			Client.mc.rightClickDelayTimer = 0;
         }
 	}
+	
+	@Override
+	public void beforeUpdate() {
+		
+	}
+
+	@Override
+	public void afterUpdate() {
+		
+	}
 
 	@Override
 	public int getKeyCode() {

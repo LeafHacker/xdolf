@@ -46,4 +46,14 @@ public class Step extends Module {
 	public String getDescription() {
 		return "Allows you to step up 1 block.";
 	}
+	
+	@Override
+	public void beforeUpdate() {
+		
+	}
+
+	@Override
+	public void afterUpdate() {
+		
+	}
 }

@@ -40,4 +40,13 @@ public class BHop extends Module {
 		return "gotta go fast...er!";
 	}
 
+	@Override
+	public void beforeUpdate() {
+		
+	}
+
+	@Override
+	public void afterUpdate() {
+		
+	}
 }

@@ -9,6 +9,10 @@ public abstract class Module {
 	public abstract void disable();
 
 	public abstract void tick();
+	
+	public abstract void beforeUpdate();
+	
+	public abstract void afterUpdate();
 
 	public void toggle() {
 		toggled = !toggled;

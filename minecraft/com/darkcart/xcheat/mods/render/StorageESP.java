@@ -31,6 +31,16 @@ public class StorageESP extends Module {
 	@Override
 	public void tick() {
 	}
+	
+	@Override
+	public void beforeUpdate() {
+		
+	}
+
+	@Override
+	public void afterUpdate() {
+		
+	}
 
 	@Override
 	public int getKeyCode() {
