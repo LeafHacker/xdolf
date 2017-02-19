@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.lwjgl.input.Keyboard;
 
 import com.darkcart.xcheat.mods.AntiKnockback;
+import com.darkcart.xcheat.mods.AutoArmor;
 import com.darkcart.xcheat.mods.AutoRespawn;
 import com.darkcart.xcheat.mods.BHop;
 import com.darkcart.xcheat.mods.EntityESP;
@@ -46,6 +47,7 @@ public class Client {
 		modules.add(new XRay());
 		modules.add(new KillAura());
 		modules.add(new AutoRespawn());
+		modules.add(new AutoArmor());
 	}
 	
 	// ANY CODE BELOW THIS SHOULD NOT CHANGE
