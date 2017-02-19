@@ -20,9 +20,8 @@ public class Fullbright extends Module {
 
 	@Override
 	public void disable() {
-		try {
+		if(Client.mc.player.isPotionActive(Potion.getPotionById(16)))
 			Client.mc.player.removeActivePotionEffect(Potion.getPotionById(16));
-		}catch(Exception ex){/*incase there is no effect to remove*/}
 	}
 
 	@Override
