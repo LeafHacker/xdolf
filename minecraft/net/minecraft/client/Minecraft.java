@@ -223,7 +223,7 @@ public class Minecraft implements IThreadListener, ISnooperInfo {
 	private ServerData currentServerData;
 
 	/** The RenderEngine instance used by Minecraft */
-	private TextureManager renderEngine;
+	public TextureManager renderEngine;
 
 	/**
 	 * Set to 'this' in Minecraft constructor; used by some settings get methods
