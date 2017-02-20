@@ -21,11 +21,7 @@ public class CmdPickupLine extends Command {
 				shit = HtmlManipulator.replaceHtmlEntities(Client.downloadString("http://pickuplinegenerator.com/api.asp").split(">")[1].split("<")[0]);
 			}
 			try {
-				if (shit.length() < 100) {
-					Wrapper.getPlayer().sendChatMessage(shit);
-				}else{
-					Wrapper.addChatMessage("Pickupline too long, try again.");
-				}
+				Wrapper.getPlayer().sendChatMessage(shit);
 			} catch (Exception e) {
 				e.printStackTrace();
 				Wrapper.addChatMessage("Failed to send pickupline.");
