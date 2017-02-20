@@ -1,5 +1,8 @@
 package com.darkcart.xcheat;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.ArrayList;
 
 import org.lwjgl.input.Keyboard;
@@ -93,4 +96,22 @@ public class Client {
 			}
 		}
 	}
+	
+    public static String downloadString(String uri) {
+    	try {
+    		URL url = new URL(uri);
+    		BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
+
+    		String text = "";
+
+    		String line = "";
+    		while((line = reader.readLine()) != null) {
+    			String curLine = line;
+    			text += curLine;
+    		}
+    		return text;
+    	} catch(Exception e) {
+    		return "Failed to retrieve string.";
+    	}
+    }
 }

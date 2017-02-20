@@ -3,6 +3,7 @@ package com.darkcart.xcheat.commands;
 import java.util.ArrayList;
 
 import com.darkcart.xcheat.Client;
+import com.darkcart.xcheat.Wrapper;
 
 import net.minecraft.util.text.TextComponentString;
 
@@ -26,6 +27,7 @@ public class CommandManager
 		commands.add(new CmdAllOff());
 		commands.add(new CmdSay());
 		commands.add(new CmdModList());
+		commands.add(new CmdPickupLine());
 	}
 	
 	public void runCommands(String s)
@@ -50,7 +52,7 @@ public class CommandManager
 
 		if(!commandResolved)
 		{
-			Client.mc.player.addChatMessage(new TextComponentString("Invalid command. Type .help for a list of commands."));
+			Wrapper.getPlayer().addChatMessage(new TextComponentString("Invalid command. Type .help for a list of commands."));
 		}
 	}
 }
