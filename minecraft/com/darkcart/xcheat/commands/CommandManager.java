@@ -24,6 +24,8 @@ public class CommandManager
 		commands.add(new CmdToggle());
 		commands.add(new CmdTimer());
 		commands.add(new CmdAllOff());
+		commands.add(new CmdSay());
+		commands.add(new CmdModList());
 	}
 	
 	public void runCommands(String s)
