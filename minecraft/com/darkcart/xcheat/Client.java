@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import org.lwjgl.input.Keyboard;
 
 import com.darkcart.xcheat.mods.aura.AutoArmor;
+import com.darkcart.xcheat.mods.aura.CrystalAura;
 import com.darkcart.xcheat.mods.aura.KillAura;
 import com.darkcart.xcheat.mods.player.AntiKnockback;
 import com.darkcart.xcheat.mods.player.AutoRespawn;
@@ -51,6 +52,7 @@ public class Client {
 		modules.add(new KillAura());
 		modules.add(new AutoRespawn());
 		modules.add(new AutoArmor());
+		modules.add(new CrystalAura());
 	}
 	
 	// ANY CODE BELOW THIS SHOULD NOT CHANGE
