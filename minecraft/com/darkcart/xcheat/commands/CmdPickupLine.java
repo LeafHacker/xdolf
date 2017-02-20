@@ -24,11 +24,11 @@ public class CmdPickupLine extends Command {
 				if (shit.length() < 100) {
 					Wrapper.getPlayer().sendChatMessage(shit);
 				}else{
-					Wrapper.getPlayer().addChatMessage(new TextComponentString("Pickupline too long, try again."));
+					Wrapper.addChatMessage("Pickupline too long, try again.");
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
-				Wrapper.getPlayer().addChatMessage(new TextComponentString("Failed to send pickupline."));
+				Wrapper.addChatMessage("Failed to send pickupline.");
 			}
 		} catch(Exception e) {}
 	}

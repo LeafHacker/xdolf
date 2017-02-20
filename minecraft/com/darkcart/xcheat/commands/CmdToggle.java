@@ -2,6 +2,7 @@ package com.darkcart.xcheat.commands;
 
 import com.darkcart.xcheat.Client;
 import com.darkcart.xcheat.Module;
+import com.darkcart.xcheat.Wrapper;
 
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
@@ -24,7 +25,7 @@ public class CmdToggle extends Command
 				if(mod.getName().trim().toLowerCase().equalsIgnoreCase(s.substring(7)))
 				{
 					mod.toggle();
-					Client.mc.player.addChatMessage(new TextComponentString("Toggled " + mod.getName() + "."));
+					Wrapper.addChatMessage("Toggled " + mod.getName() + ".");
 					valid = true;
 					break;
 				}
@@ -32,11 +33,11 @@ public class CmdToggle extends Command
 			
 			if(!valid)
 			{
-				Client.mc.player.addChatMessage(new TextComponentString("Invalid mod."));
+				Wrapper.addChatMessage("Invalid mod.");
 			}
 		}catch(Exception e)
 		{
-			Client.mc.player.addChatMessage(new TextComponentString("Usage: " + getSyntax()));
+			Wrapper.addChatMessage("Usage: " + getSyntax());
 		}
 	}
 

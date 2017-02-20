@@ -17,7 +17,7 @@ public class CmdSay extends Command {
 			String s1 = s.substring(4);
 			Wrapper.getPlayer().connection.sendPacket(new CPacketChatMessage(s1));
 		} catch(Exception e) {
-			Wrapper.getPlayer().addChatMessage(new TextComponentString("Usage: " + getSyntax()));
+			Wrapper.addChatMessage("Usage: " + getSyntax());
 		}
 	}
 

@@ -19,7 +19,7 @@ public class CmdModList extends Command
 		for(Module mod: Client.modules)
 		{
 			if(mod.getDescription() != "") {
-				Wrapper.getPlayer().addChatMessage(new TextComponentString(mod.getName().replace("<", "<\247a").replace(">", "\247f>") + " - " + mod.getDescription()));
+				Wrapper.addChatMessage(mod.getName().replace("<", "<\247a").replace(">", "\247f>") + " - " + mod.getDescription());
 			}
 		}
 	}

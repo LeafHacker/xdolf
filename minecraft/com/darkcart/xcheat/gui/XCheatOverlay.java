@@ -41,7 +41,7 @@ public class XCheatOverlay extends GuiIngame {
 		int height = Client.gameResolution.getScaledHeight();
 
 		this.drawRect(0, 0, Client.mc.fontRendererObj.getStringWidth("XClient") + 4, 12, 0x77222222);
-		Client.mc.fontRendererObj.drawString("XCheat", 2, 2, 0x55ff55);
+		Client.mc.fontRendererObj.drawString("XCheat", 2, 2, 0x55FF55);
 		
 		int count = 0;
 		try {

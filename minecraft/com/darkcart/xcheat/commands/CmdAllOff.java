@@ -2,6 +2,7 @@ package com.darkcart.xcheat.commands;
 
 import com.darkcart.xcheat.Client;
 import com.darkcart.xcheat.Module;
+import com.darkcart.xcheat.Wrapper;
 
 import net.minecraft.util.text.TextComponentString;
 
@@ -25,7 +26,7 @@ public class CmdAllOff extends Command
 			}
 		}
 		
-		Client.mc.player.addChatMessage(new TextComponentString(count + (count == 1 ? " hack" : " hacks") + " turned off."));
+		Wrapper.addChatMessage(count + (count == 1 ? " hack" : " hacks") + " turned off.");
 	}
 
 	@Override

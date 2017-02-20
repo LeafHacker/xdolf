@@ -52,7 +52,7 @@ public class CommandManager
 
 		if(!commandResolved)
 		{
-			Wrapper.getPlayer().addChatMessage(new TextComponentString("Invalid command. Type .help for a list of commands."));
+			Wrapper.addChatMessage("Invalid command. Type .help for a list of commands.");
 		}
 	}
 }
