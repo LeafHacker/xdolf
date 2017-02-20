@@ -27,7 +27,6 @@ public class CommandManager
 		commands.add(new CmdAllOff());
 		commands.add(new CmdSay());
 		commands.add(new CmdModList());
-		commands.add(new CmdPickupLine());
 	}
 	
 	public void runCommands(String s)
