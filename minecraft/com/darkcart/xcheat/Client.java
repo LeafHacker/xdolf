@@ -17,6 +17,7 @@ import com.darkcart.xcheat.mods.player.Flight;
 import com.darkcart.xcheat.mods.player.NoFall;
 import com.darkcart.xcheat.mods.player.Step;
 import com.darkcart.xcheat.mods.render.EntityESP;
+import com.darkcart.xcheat.mods.render.IconFixer;
 import com.darkcart.xcheat.mods.render.NoHurtCam;
 import com.darkcart.xcheat.mods.render.NoPumpkinBlur;
 import com.darkcart.xcheat.mods.render.StorageESP;
@@ -53,6 +54,7 @@ public class Client {
 		modules.add(new AutoRespawn());
 		modules.add(new AutoArmor());
 		modules.add(new CrystalAura());
+		modules.add(new IconFixer());
 	}
 	
 	// ANY CODE BELOW THIS SHOULD NOT CHANGE
