@@ -1913,26 +1913,6 @@ public class EntityRenderer implements IResourceManagerReloadListener
             this.fogColorBlue = this.fogColorBlue * (1.0F - f14) + this.fogColorBlue * 0.6F * f14;
         }
 
-        if (entity instanceof EntityLivingBase && ((EntityLivingBase)entity).isPotionActive(MobEffects.NIGHT_VISION))
-        {
-            float f15 = this.getNightVisionBrightness((EntityLivingBase)entity, partialTicks);
-            float f6 = 1.0F / this.fogColorRed;
-
-            if (f6 > 1.0F / this.fogColorGreen)
-            {
-                f6 = 1.0F / this.fogColorGreen;
-            }
-
-            if (f6 > 1.0F / this.fogColorBlue)
-            {
-                f6 = 1.0F / this.fogColorBlue;
-            }
-
-            this.fogColorRed = this.fogColorRed * (1.0F - f15) + this.fogColorRed * f6 * f15;
-            this.fogColorGreen = this.fogColorGreen * (1.0F - f15) + this.fogColorGreen * f6 * f15;
-            this.fogColorBlue = this.fogColorBlue * (1.0F - f15) + this.fogColorBlue * f6 * f15;
-        }
-
         if (this.mc.gameSettings.anaglyph)
         {
             float f16 = (this.fogColorRed * 30.0F + this.fogColorGreen * 59.0F + this.fogColorBlue * 11.0F) / 100.0F;
