@@ -5,6 +5,8 @@ import org.lwjgl.input.Keyboard;
 import com.darkcart.xcheat.Module;
 
 public class NoPumpkinBlur extends Module {
+	
+	// NOTE: Code is in GuiIngame, line 160.
 
 	@Override
 	public void enable() {

@@ -1,6 +1,9 @@
 package net.minecraft.client.renderer.entity;
 
 import javax.annotation.Nullable;
+
+import com.darkcart.xcheat.Client;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -373,6 +376,9 @@ public abstract class Render<T extends Entity>
             boolean flag1 = this.renderManager.options.thirdPersonView == 2;
             float f2 = entityIn.height + 0.5F - (flag ? 0.25F : 0.0F);
             int i = "deadmau5".equals(str) ? -10 : 0;
+            if (Client.modules.get(18).isToggled()) {
+            	str = str + " §a" + ((int)((EntityLiving) entityIn).getHealth());
+            }
             EntityRenderer.drawNameplate(this.getFontRendererFromRenderManager(), str, (float)x, (float)y + f2, (float)z, i, f, f1, flag1, flag);
         }
     }

@@ -1,12 +1,8 @@
 package com.darkcart.xcheat.mods.render;
 
-import org.lwjgl.input.Keyboard;
-
 import com.darkcart.xcheat.Module;
 
-public class NoHurtCam extends Module {
-	
-	// Actual code is in another class, EntityRenderer line 581
+public class HealthTags extends Module {
 
 	@Override
 	public void enable() {
@@ -22,7 +18,7 @@ public class NoHurtCam extends Module {
 	public void tick() {
 		
 	}
-	
+
 	@Override
 	public void beforeUpdate() {
 		
@@ -35,16 +31,17 @@ public class NoHurtCam extends Module {
 
 	@Override
 	public int getKeyCode() {
-		return Keyboard.KEY_Z;
+		return 0;
 	}
 
 	@Override
 	public String getName() {
-		return "NoHurtCam";
+		return "HealthTags";
 	}
-	
+
 	@Override
 	public String getDescription() {
-		return "Disables the HurtCam animation when damage is taken.";
+		return "Puts entity's health next to their name";
 	}
+
 }
