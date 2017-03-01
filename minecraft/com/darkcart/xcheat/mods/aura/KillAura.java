@@ -10,66 +10,134 @@ import org.lwjgl.input.Keyboard;
 
 import com.darkcart.xcheat.Client;
 import com.darkcart.xcheat.Module;
+import com.darkcart.xcheat.Wrapper;
 import com.darkcart.xcheat.util.EntityUtils;
 
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemSword;
+import net.minecraft.potion.Potion;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.MathHelper;
 
 public class KillAura extends Module {
+	
+	private float yaw, pitch, yawHead;
 
-	public static int speed = 1;
-	private Timer t;
-
-	public KillAura() {
-		t = new Timer(speed, new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				for (Iterator<Entity> entities = Client.mc.world.loadedEntityList.iterator(); entities.hasNext();) {
-					Object theObject = entities.next();
-					if ((theObject instanceof EntityLivingBase)) {
-						EntityLivingBase entity = (EntityLivingBase) theObject;
-						if (!(entity instanceof EntityPlayerSP)) {
-							if ((!(entity instanceof EntityPlayer)) || (!Client.friends.contains(entity.getName()))) {
-								if (!entity.isInvisible()) {
-									if ((Client.mc.player.getDistanceToEntity(entity) <= 6.2173615F)
-											&& (entity.isEntityAlive())) {
-										EntityUtils.faceEntityClient(entity);
-										Client.mc.playerController.attackEntity(Client.mc.player, entity);
-										Client.mc.player.swingArm(EnumHand.MAIN_HAND);
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		});
-	}
-
-	@Override
-	public void enable() {
-		t.start();
-	}
-
-	@Override
-	public void disable() {
-		t.stop();
-	}
+	private long currentMS = 0L;
+	private long lastMS = -1L;
 	
 	@Override
 	public void beforeUpdate() {
-		
+		this.yaw = Wrapper.getPlayer().rotationYaw;
+		this.pitch = Wrapper.getPlayer().rotationPitch;
+		this.yawHead = Wrapper.getPlayer().rotationYawHead;
 	}
-
+	
 	@Override
 	public void tick() {
-
+		currentMS = System.nanoTime() / 1000000;
+		if(hasDelayRun((long)(1000 / 8)))
+		{
+			for(Object o: Wrapper.getWorld().loadedEntityList)
+			{
+				try
+				{
+					Entity e = (Entity) o;
+					boolean checks = !(e instanceof EntityPlayerSP) && (e instanceof EntityLivingBase) && Wrapper.getPlayer().getDistanceToEntity(e) <= 4 && Wrapper.getPlayer().canEntityBeSeen(e) && !e.isDead;
+	
+					if(e instanceof EntityPlayer) 
+					{
+						EntityPlayer ep = (EntityPlayer) o;
+						checks = checks && !ep.isPotionActive(Potion.getPotionById(14));
+					}
+				
+					if(checks) 
+					{
+						Wrapper.getPlayer().setSprinting(false);
+						faceEntity(e);
+						Wrapper.getPlayer().swingArm(EnumHand.MAIN_HAND);
+						Wrapper.getMinecraft().playerController.attackEntity(Wrapper.getPlayer(), e);
+						lastMS = System.nanoTime() / 1000000;
+						break;
+					}
+				}catch(Exception e) {}
+			}
+		}
 	}
 	
 	@Override
 	public void afterUpdate() {
+		Wrapper.getPlayer().rotationYaw = this.yaw;
+		Wrapper.getPlayer().rotationPitch = this.pitch;
+		Wrapper.getPlayer().rotationYawHead = this.yawHead;
+	}
+	
+	public boolean hasDelayRun(long time) {
+		return (currentMS - lastMS) >= time;
+	}
+	
+	public void faceEntity(Entity entity)
+    {
+		double x = entity.posX - Wrapper.getPlayer().posX;
+		double z = entity.posZ - Wrapper.getPlayer().posZ;
+		double y = entity.posY + (entity.getEyeHeight()/1.4D) - Wrapper.getPlayer().posY + (Wrapper.getPlayer().getEyeHeight()/1.4D);
+		double helper = MathHelper.sqrt(x * x + z * z);
+
+		float newYaw = (float)((Math.toDegrees(-Math.atan(x / z))));
+		float newPitch = (float)-Math.toDegrees(Math.atan(y / helper));
+
+		if(z < 0 && x < 0) { newYaw = (float)(90D + Math.toDegrees(Math.atan(z / x))); }
+		else if(z < 0 && x > 0) { newYaw = (float)(-90D + Math.toDegrees(Math.atan(z / x))); }
+
+		Wrapper.getPlayer().rotationYaw = newYaw; 
+		Wrapper.getPlayer().rotationPitch = newPitch;
+		Wrapper.getPlayer().rotationYawHead = newPitch;
+    }
+	
+	private boolean isEntityInYawWindow(Entity e, float yawWindow) 
+	{
+		double x = e.posX - Wrapper.getPlayer().posX;
+		double z = e.posZ - Wrapper.getPlayer().posZ;
+
+        float aimedYaw = (float) Math.toDegrees(-Math.atan(x / z));
+
+        if (z < 0 && x < 0) 
+        {
+        	aimedYaw = (float) (90.0D + Math.toDegrees(Math.atan(z / x)));
+        }else if (z < 0 && x > 0) 
+        {
+        	aimedYaw = (float) (-90.0D + Math.toDegrees(Math.atan(z / x)));
+        }
+
+        float yawDiff = Math.abs(this.wrapAngleTo360(Wrapper.getPlayer().rotationYaw) - this.wrapAngleTo360(aimedYaw));
+
+        if (yawDiff > 180)
+        	yawDiff = 360 - yawDiff;
+
+        if (yawDiff <= yawWindow) 
+        {
+        	return true;
+        }
+
+        return false;
+    }
+    
+    private float wrapAngleTo360(float angle) 
+    {
+        return (MathHelper.wrapDegrees(angle) + 180);
+    }
+
+	@Override
+	public void enable() {
+		
+	}
+
+	@Override
+	public void disable() {
 		
 	}
 
