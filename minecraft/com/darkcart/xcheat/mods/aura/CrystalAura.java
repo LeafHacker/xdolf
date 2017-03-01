@@ -29,6 +29,7 @@ public class CrystalAura extends Module {
 					Client.mc.playerController.attackEntity(Client.mc.player, e);
 				}
 				Wrapper.getPlayer().swingArm(EnumHand.MAIN_HAND);
+				Wrapper.getMinecraft().gameSettings.keyBindUseItem.pressed = false;
 			}
 		}
 	}
