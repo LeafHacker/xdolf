@@ -52,7 +52,6 @@ public class KillAura extends Module {
 					if(e instanceof EntityPlayer) 
 					{
 						EntityPlayer ep = (EntityPlayer) o;
-						checks = checks && !ep.isPotionActive(Potion.getPotionById(14));
 					}
 				
 					if(checks) 
