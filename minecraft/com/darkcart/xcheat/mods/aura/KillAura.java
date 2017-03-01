@@ -96,39 +96,6 @@ public class KillAura extends Module {
 		Wrapper.getPlayer().rotationPitch = newPitch;
 		Wrapper.getPlayer().rotationYawHead = newPitch;
     }
-	
-	private boolean isEntityInYawWindow(Entity e, float yawWindow) 
-	{
-		double x = e.posX - Wrapper.getPlayer().posX;
-		double z = e.posZ - Wrapper.getPlayer().posZ;
-
-        float aimedYaw = (float) Math.toDegrees(-Math.atan(x / z));
-
-        if (z < 0 && x < 0) 
-        {
-        	aimedYaw = (float) (90.0D + Math.toDegrees(Math.atan(z / x)));
-        }else if (z < 0 && x > 0) 
-        {
-        	aimedYaw = (float) (-90.0D + Math.toDegrees(Math.atan(z / x)));
-        }
-
-        float yawDiff = Math.abs(this.wrapAngleTo360(Wrapper.getPlayer().rotationYaw) - this.wrapAngleTo360(aimedYaw));
-
-        if (yawDiff > 180)
-        	yawDiff = 360 - yawDiff;
-
-        if (yawDiff <= yawWindow) 
-        {
-        	return true;
-        }
-
-        return false;
-    }
-    
-    private float wrapAngleTo360(float angle) 
-    {
-        return (MathHelper.wrapDegrees(angle) + 180);
-    }
 
 	@Override
 	public void enable() {
