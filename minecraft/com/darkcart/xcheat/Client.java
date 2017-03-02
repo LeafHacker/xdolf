@@ -12,9 +12,9 @@ import com.darkcart.xcheat.mods.aura.CrystalAura;
 import com.darkcart.xcheat.mods.aura.KillAura;
 import com.darkcart.xcheat.mods.player.AntiKnockback;
 import com.darkcart.xcheat.mods.player.AutoRespawn;
-import com.darkcart.xcheat.mods.player.BHop;
 import com.darkcart.xcheat.mods.player.Flight;
 import com.darkcart.xcheat.mods.player.NoFall;
+import com.darkcart.xcheat.mods.player.Spammer;
 import com.darkcart.xcheat.mods.player.Step;
 import com.darkcart.xcheat.mods.render.EntityESP;
 import com.darkcart.xcheat.mods.render.HealthTags;
@@ -36,7 +36,7 @@ public class Client {
 	public static Minecraft mc = Minecraft.getMinecraft();
 	public static ScaledResolution gameResolution;
 	public static ArrayList<String> friends = new ArrayList<String>();
-	
+
 	public Client() {
 		modules.add(new Fullbright());
 		modules.add(new Tracers());
@@ -47,7 +47,7 @@ public class Client {
 		modules.add(new AntiKnockback());
 		modules.add(new Step());
 		modules.add(new Flight());
-		modules.add(new BHop());
+		modules.add(new Spammer());
 		modules.add(new Timer());
 		modules.add(new NoPumpkinBlur());
 		modules.add(new XRay());
@@ -58,11 +58,11 @@ public class Client {
 		modules.add(new IconFixer());
 		modules.add(new HealthTags());
 	}
-	
+
 	// ANY CODE BELOW THIS SHOULD NOT CHANGE
-	
+
 	public void tick() {
-		for (Module m: modules) {
+		for (Module m : modules) {
 			if (m.isToggled()) {
 				m.beforeUpdate();
 				m.tick();
@@ -71,62 +71,65 @@ public class Client {
 		}
 		gameResolution = new ScaledResolution(Client.mc);
 	}
-	
-	public static Module findMod(Class<?extends Module> clazz) 
-	{
-		for(Module m: modules)
-		{
-			if(m.getClass() == clazz)
-			{
+
+	public static Module findMod(Class<? extends Module> clazz) {
+		for (Module m : modules) {
+			if (m.getClass() == clazz) {
 				return m;
 			}
 		}
-		
+
 		return null;
 	}
-	
+
 	public void parseKey(int key) {
-		for (Module m: modules) {
+		for (Module m : modules) {
 			try {
 				if (Keyboard.isKeyDown(m.getKeyCode())) {
 					m.toggle();
 				}
-			}catch(Exception ex){/*NEED TO FIX AS CRASH HERE*/}
+			} catch (Exception ex) {
+				/* NEED TO FIX AS CRASH HERE */}
 		}
 	}
-	
+
 	public static void render() {
-		for (Module m: modules) {
+		for (Module m : modules) {
 			if (m.isToggled()) {
 				m.render();
 			}
 		}
 	}
-	
-    public static String downloadString(String uri) {
-    	try {
-    		URL url = new URL(uri);
-    		BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
 
-    		String text = "";
+	public static String downloadString(String uri) {
+		try {
+			URL url = new URL(uri);
+			BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
 
-    		String line = "";
-    		while((line = reader.readLine()) != null) {
-    			String curLine = line;
-    			text += curLine;
-    		}
-    		return text;
-    	} catch(Exception e) {
-    		return "Failed to retrieve string.";
-    	}
-    }
-    
-	public static String wrap(String in,int len) {
-		in=in.trim();
-		if(in.length()<len) return in;
-		if(in.substring(0, len).contains("\n"))
-		return in.substring(0, in.indexOf("\n")).trim() + "\n\n" + wrap(in.substring(in.indexOf("\n") + 1), len);
-		int place=Math.max(Math.max(in.lastIndexOf(" ",len),in.lastIndexOf("\t",len)),in.lastIndexOf("-",len));
-		return in.substring(0,place).trim()+"\n"+wrap(in.substring(place),len);
+			String text = "";
+
+			String line = "";
+			while ((line = reader.readLine()) != null) {
+				String curLine = line;
+				text += curLine;
+			}
+			return text;
+		} catch (Exception e) {
+			return "Failed to retrieve string.";
+		}
+	}
+
+	public static String wrap(String in, int len) {
+		in = in.trim();
+		if (in.length() < len)
+			return in;
+		if (in.substring(0, len).contains("\n"))
+			return in.substring(0, in.indexOf("\n")).trim() + "\n\n" + wrap(in.substring(in.indexOf("\n") + 1), len);
+		int place = Math.max(Math.max(in.lastIndexOf(" ", len), in.lastIndexOf("\t", len)), in.lastIndexOf("-", len));
+		return in.substring(0, place).trim() + "\n" + wrap(in.substring(place), len);
+	}
+
+	public static void shutdown() {
+		
 	}
 }

@@ -1006,6 +1006,8 @@ public class Minecraft implements IThreadListener, ISnooperInfo {
 	 * exited.
 	 */
 	public void shutdownMinecraftApplet() {
+		Client.shutdown();
+		
 		try {
 			LOGGER.info("Stopping!");
 

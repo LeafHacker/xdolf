@@ -27,6 +27,7 @@ public class CommandManager
 		commands.add(new CmdAllOff());
 		commands.add(new CmdSay());
 		commands.add(new CmdModList());
+		commands.add(new CmdSpam());
 	}
 	
 	public void runCommands(String s)
