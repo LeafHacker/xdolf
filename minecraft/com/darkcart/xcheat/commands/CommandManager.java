@@ -28,6 +28,7 @@ public class CommandManager
 		commands.add(new CmdSay());
 		commands.add(new CmdModList());
 		commands.add(new CmdSpam());
+		commands.add(new CmdRotation());
 	}
 	
 	public void runCommands(String s)
