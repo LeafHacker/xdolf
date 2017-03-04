@@ -30,7 +30,7 @@ public class Manager
 	public static ArrayList<Alt> altList = new ArrayList<Alt>();
 	public static GuiAltList altScreen = new GuiAltList();
 	public static final int slotHeight = 25;
-	public static File adolfDir = new File(Wrapper.getMinecraftDir() + File.separator + "Adolf");
+	public static File xcheatDir = new File(Wrapper.getMinecraftDir() + File.separator + "XCheat");
 
 	public static void addAlt(Alt paramAlt)
 	{
@@ -56,8 +56,7 @@ public class Manager
 	{
 		try
 		{
-			File file = new File(adolfDir.getAbsolutePath(), "alts.txt");
-			//File file = new File(AdolfWrapper.getMinecraftDir().toString().concat(File.separator).concat("Adolf").concat(File.separator).concat("alts.txt"));
+			File file = new File(xcheatDir.getAbsolutePath(), "alts.txt");
 			PrintWriter writer = new PrintWriter(new FileWriter(file));
 			for(Alt alt: altList)
 			{
@@ -127,8 +126,7 @@ public class Manager
 	{
 		try
 		{
-			File file = new File(adolfDir.getAbsolutePath(), "alts.txt");
-			//File file = new File(Adolf.getAppDir("minecraft").toString().concat(File.separator).concat("Adolf").concat(File.separator).concat("alts.txt"));
+			File file = new File(xcheatDir.getAbsolutePath(), "alts.txt");
 			if(file.exists() && file.canRead())
 			{
 				BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
