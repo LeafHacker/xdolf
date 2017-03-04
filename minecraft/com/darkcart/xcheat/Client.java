@@ -18,7 +18,6 @@ import com.darkcart.xcheat.mods.player.Spammer;
 import com.darkcart.xcheat.mods.player.Step;
 import com.darkcart.xcheat.mods.render.EntityESP;
 import com.darkcart.xcheat.mods.render.HealthTags;
-import com.darkcart.xcheat.mods.render.IconFixer;
 import com.darkcart.xcheat.mods.render.NoHurtCam;
 import com.darkcart.xcheat.mods.render.NoPumpkinBlur;
 import com.darkcart.xcheat.mods.render.StorageESP;
@@ -55,7 +54,6 @@ public class Client {
 		modules.add(new AutoRespawn());
 		modules.add(new AutoArmor());
 		modules.add(new CrystalAura());
-		modules.add(new IconFixer());
 		modules.add(new HealthTags());
 	}
 

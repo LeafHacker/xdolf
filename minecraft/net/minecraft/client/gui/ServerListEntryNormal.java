@@ -206,7 +206,7 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry {
 			this.icon = null;
 		} else {
 			ByteBuf bytebuf = null;
-			if (this.server.serverIP.equals("2b2t.org") && Client.modules.get(17).isToggled()) {
+			if (this.server.serverIP.equals("2b2t.org")) {
 				bytebuf = Unpooled.copiedBuffer(
 						"iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAArElEQVR42u3YOw6AIAwAUA7i6P1v5hl0dVI+VUFe0sWkafMGCyWlPY0d549tWW/jolZRMsCfADmNo3IAAAAALsZo44jMmcLxNoC+AeEncbwEoEtAXRsAgMbqANMCoooCAAAARAHqLvSf7QMAI6yUYzyvAzT0AADIKf1EDgAAAMBDyMzhCzAnoOgk7vEfAPgIUHeHAwBovP0DTAuI2hsBAAAA3nxyKpUA/BjwShyj5VutebGjZgAAAABJRU5ErkJggg==",
 						Charsets.UTF_8);
