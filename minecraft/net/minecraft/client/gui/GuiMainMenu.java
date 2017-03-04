@@ -569,8 +569,8 @@ public class GuiMainMenu extends GuiScreen
         }
 
         this.drawString(this.fontRendererObj, s, 2, this.height - 10, -1);
-        String s1 = "(c) minecart26 and x0XP.";
-        this.drawString(this.fontRendererObj, "(c) minecart26 and x0XP.", this.width - this.fontRendererObj.getStringWidth("Copyright Mojang AB. Do not distribute!") - 2, this.height - 10, -1);
+        String s1 = "Copyright minecart26 and x0XP";
+        this.drawString(this.fontRendererObj, s1, this.width - this.fontRendererObj.getStringWidth(s1) - 2, this.height - 10, -1);
 
         if (this.openGLWarning1 != null && !this.openGLWarning1.isEmpty())
         {

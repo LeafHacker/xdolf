@@ -27,7 +27,11 @@ public class CmdToggle extends Command
 				if(mod.getName().trim().toLowerCase().equalsIgnoreCase(s.substring(7)))
 				{
 					mod.toggle();
-					Client.enabledModuleNames.add(mod.getName());
+					if(Client.enabledModuleNames.contains(mod.getName())) {
+						Client.enabledModuleNames.remove(mod.getName());
+					}else{
+						Client.enabledModuleNames.add(mod.getName());
+					}
 					Collections.sort(Client.enabledModuleNames);
 					Wrapper.addChatMessage("Toggled " + mod.getName() + ".");
 					valid = true;

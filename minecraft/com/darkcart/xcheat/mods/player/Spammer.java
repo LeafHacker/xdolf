@@ -45,7 +45,7 @@ public class Spammer extends Module {
 		}
 		if (mode == 2) {
 			try {
-				String[] lines = new String(Files.readAllBytes(Paths.get(file))).split("\n");
+				final String[] lines = new String(Files.readAllBytes(Paths.get(file))).split("\n");
 
 				mode2 = new Timer(delay, new ActionListener() {
 

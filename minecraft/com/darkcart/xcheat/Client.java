@@ -87,7 +87,11 @@ public class Client {
 			try {
 				if (Keyboard.isKeyDown(m.getKeyCode())) {
 					m.toggle();
-					enabledModuleNames.add(m.getName());
+					if(Client.enabledModuleNames.contains(m.getName())) {
+						Client.enabledModuleNames.remove(m.getName());
+					}else{
+						Client.enabledModuleNames.add(m.getName());
+					}
 					Collections.sort(enabledModuleNames);
 				}
 			} catch (Exception ex) {
