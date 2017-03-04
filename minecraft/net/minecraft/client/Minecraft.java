@@ -629,6 +629,7 @@ public class Minecraft implements IThreadListener, ISnooperInfo {
 
 	private void createDisplay() throws LWJGLException {
 		Display.setResizable(true);
+		Display.setTitle("XCheat");
 
 		try {
 			Display.create((new PixelFormat()).withDepthBits(24));
