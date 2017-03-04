@@ -252,8 +252,7 @@ public class GuiMainMenu extends GuiScreen
     {
         this.buttonList.add(new GuiButton(1, this.width / 2 - 100, p_73969_1_, I18n.format("menu.singleplayer", new Object[0])));
         this.buttonList.add(new GuiButton(2, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 1, I18n.format("menu.multiplayer", new Object[0])));
-        this.buttonList.add(new GuiButton(14, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 2, 98, 20, I18n.format("menu.online", new Object[0])));
-        this.buttonList.add(new GuiButton(3, this.width / 2 + 2, p_73969_1_ + p_73969_2_ * 2, 98, 20, I18n.format("Alt Manager", new Object[0])));
+        this.buttonList.add(new GuiButton(3, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 2, "Alt Manager"));
     }
 
     /**
@@ -295,11 +294,6 @@ public class GuiMainMenu extends GuiScreen
         if (button.id == 2)
         {
             this.mc.displayGuiScreen(new GuiMultiplayer(this));
-        }
-
-        if (button.id == 14 && this.realmsButton.visible)
-        {
-            this.switchToRealms();
         }
         
         if (button.id == 3)
@@ -575,8 +569,8 @@ public class GuiMainMenu extends GuiScreen
         }
 
         this.drawString(this.fontRendererObj, s, 2, this.height - 10, -1);
-        String s1 = "Written by minecart26 and x0XP. Please Distribute!";
-        this.drawString(this.fontRendererObj, "Written by minecart26 and x0XP. Please Distribute!", this.width - this.fontRendererObj.getStringWidth("Copyright Mojang AB. Do not distribute!") - 2, this.height - 10, -1);
+        String s1 = "(c) minecart26 and x0XP.";
+        this.drawString(this.fontRendererObj, "(c) minecart26 and x0XP.", this.width - this.fontRendererObj.getStringWidth("Copyright Mojang AB. Do not distribute!") - 2, this.height - 10, -1);
 
         if (this.openGLWarning1 != null && !this.openGLWarning1.isEmpty())
         {
