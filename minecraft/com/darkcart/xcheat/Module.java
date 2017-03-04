@@ -1,6 +1,6 @@
 package com.darkcart.xcheat;
 
-public class Module {
+public abstract class Module {
 
 	boolean toggled = false;
 
@@ -36,13 +36,9 @@ public class Module {
 		return 0;
 	}
 	
-	public String getName() {
-		return null;
-	}
+	public abstract String getName();
 	
-	public String getDescription() {
-		return null;
-	}
+	public abstract String getDescription();
 
 	public void render() {
 		
