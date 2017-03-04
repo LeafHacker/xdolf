@@ -7,21 +7,8 @@ import com.darkcart.xcheat.Module;
 
 public class AntiKnockback extends Module {
 
-	@Override
-	public void enable() {
-
-	}
-
-	@Override
-	public void disable() {
-
-	}
-
-	@Override
-	public void tick() {
-		// Actual code is in NetHandlerPlayClient
-	}
-
+	// Actual code is in NetHandlerPlayClient
+	
 	@Override
 	public int getKeyCode() {
 		return Keyboard.KEY_C;
@@ -37,14 +24,5 @@ public class AntiKnockback extends Module {
 		return "Keeps you from being knocked back.";
 	}
 
-	@Override
-	public void beforeUpdate() {
-		
-	}
-
-	@Override
-	public void afterUpdate() {
-		
-	}
 
 }

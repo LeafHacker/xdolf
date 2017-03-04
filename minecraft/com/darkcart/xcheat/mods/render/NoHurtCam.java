@@ -9,31 +9,6 @@ public class NoHurtCam extends Module {
 	// Actual code is in another class, EntityRenderer line 581
 
 	@Override
-	public void enable() {
-		
-	}
-
-	@Override
-	public void disable() {
-		
-	}
-
-	@Override
-	public void tick() {
-		
-	}
-	
-	@Override
-	public void beforeUpdate() {
-		
-	}
-
-	@Override
-	public void afterUpdate() {
-		
-	}
-
-	@Override
 	public int getKeyCode() {
 		return Keyboard.KEY_Z;
 	}

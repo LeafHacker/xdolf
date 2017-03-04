@@ -6,16 +6,6 @@ import com.darkcart.xcheat.Client;
 import com.darkcart.xcheat.Module;
 
 public class Step extends Module {
-	
-	@Override
-	public void enable() {
-		
-	}
-
-	@Override
-	public void disable() {
-		
-	}
 
 	@Override
 	public void tick() {
@@ -45,15 +35,5 @@ public class Step extends Module {
 	@Override
 	public String getDescription() {
 		return "Allows you to step up 1 block.";
-	}
-	
-	@Override
-	public void beforeUpdate() {
-		
-	}
-
-	@Override
-	public void afterUpdate() {
-		
 	}
 }

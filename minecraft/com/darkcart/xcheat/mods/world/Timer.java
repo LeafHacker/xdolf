@@ -17,21 +17,6 @@ public class Timer extends Module {
 	public void disable() {
 		net.minecraft.util.Timer.timerSpeed = 1;
 	}
-
-	@Override
-	public void tick() {
-		
-	}
-
-	@Override
-	public void beforeUpdate() {
-		
-	}
-
-	@Override
-	public void afterUpdate() {
-		
-	}
 	
 	@Override
 	public int getKeyCode() {

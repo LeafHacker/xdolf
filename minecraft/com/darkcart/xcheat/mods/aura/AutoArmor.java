@@ -25,11 +25,6 @@ public class AutoArmor extends Module {
 	}
 
 	@Override
-	public void disable() {
-
-	}
-
-	@Override
 	public void tick() {
 		if(isToggled() && Client.mc.player.getHealth() <= 0)
         {
@@ -126,11 +121,6 @@ public class AutoArmor extends Module {
 	}
 
 	@Override
-	public int getKeyCode() {
-		return Keyboard.KEYBOARD_SIZE;
-	}
-
-	@Override
 	public String getName() {
 		return "AutoArmor";
 	}
@@ -140,14 +130,5 @@ public class AutoArmor extends Module {
 		return "Automatically equips armour detected in inventory.";
 	}
 
-	@Override
-	public void beforeUpdate() {
-		
-	}
-
-	@Override
-	public void afterUpdate() {
-		
-	}
 
 }

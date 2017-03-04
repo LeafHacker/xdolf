@@ -36,14 +36,4 @@ public class Flight extends Module {
 	public String getDescription() {
 		return "GOTTA GO FAST";
 	}
-
-	@Override
-	public void beforeUpdate() {
-		
-	}
-
-	@Override
-	public void afterUpdate() {
-		
-	}
 }

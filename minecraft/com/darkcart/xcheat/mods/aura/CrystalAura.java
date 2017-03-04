@@ -15,11 +15,6 @@ import net.minecraft.util.EnumHand;
 public class CrystalAura extends Module {
 
 	@Override
-	public void enable() {
-
-	}
-
-	@Override
 	public void disable() {
 		Wrapper.getMinecraft().gameSettings.keyBindUseItem.pressed = false;
 	}
@@ -65,21 +60,6 @@ public class CrystalAura extends Module {
 				}
 			}
 		}
-	}
-
-	@Override
-	public void beforeUpdate() {
-
-	}
-
-	@Override
-	public void afterUpdate() {
-
-	}
-
-	@Override
-	public int getKeyCode() {
-		return 0;
 	}
 
 	@Override

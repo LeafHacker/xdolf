@@ -9,15 +9,6 @@ import net.minecraft.network.play.client.CPacketPlayer;
 
 public class NoFall extends Module {
 
-	@Override
-	public void enable() {
-		
-	}
-
-	@Override
-	public void disable() {
-		
-	}
 
 	@Override
 	public void tick() {
@@ -38,14 +29,5 @@ public class NoFall extends Module {
 	public String getDescription() {
 		return "Prevents fall damage.";
 	}
-	
-	@Override
-	public void beforeUpdate() {
-		
-	}
 
-	@Override
-	public void afterUpdate() {
-		
-	}
 }

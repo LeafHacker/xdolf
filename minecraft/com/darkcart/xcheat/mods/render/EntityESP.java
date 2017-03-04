@@ -13,21 +13,6 @@ import net.minecraft.entity.Entity;
 public class EntityESP extends Module {
 
 	@Override
-	public void enable() {
-		
-	}
-
-	@Override
-	public void disable() {
-		
-	}
-
-	@Override
-	public void tick() {
-		
-	}
-
-	@Override
 	public int getKeyCode() {
 		return Keyboard.KEY_G;
 	}
@@ -45,16 +30,6 @@ public class EntityESP extends Module {
 				RenderUtils.entityESPBox(e, Color.white);
 			}
 		}
-	}
-	
-	@Override
-	public void beforeUpdate() {
-		
-	}
-
-	@Override
-	public void afterUpdate() {
-		
 	}
 	
 	@Override

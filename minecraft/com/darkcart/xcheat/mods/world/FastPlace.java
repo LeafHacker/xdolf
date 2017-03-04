@@ -8,16 +8,6 @@ import com.darkcart.xcheat.Module;
 public class FastPlace extends Module {
 
 	@Override
-	public void enable() {
-
-	}
-
-	@Override
-	public void disable() {
-
-	}
-
-	@Override
 	public void tick() {
 		if(isToggled())
         {
@@ -25,15 +15,6 @@ public class FastPlace extends Module {
         }
 	}
 	
-	@Override
-	public void beforeUpdate() {
-		
-	}
-
-	@Override
-	public void afterUpdate() {
-		
-	}
 
 	@Override
 	public int getKeyCode() {

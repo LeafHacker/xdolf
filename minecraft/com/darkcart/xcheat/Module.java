@@ -1,18 +1,23 @@
 package com.darkcart.xcheat;
 
-public abstract class Module {
+public class Module {
 
 	boolean toggled = false;
 
-	public abstract void enable();
+	public void enable() {
+	}
 
-	public abstract void disable();
+	public void disable() {
+	}
 
-	public abstract void tick();
+	public void tick() {
+	}
 	
-	public abstract void beforeUpdate();
+	public void beforeUpdate() {
+	}
 	
-	public abstract void afterUpdate();
+	public void afterUpdate() {
+	}
 
 	public void toggle() {
 		toggled = !toggled;
@@ -27,11 +32,17 @@ public abstract class Module {
 		return toggled;
 	}
 
-	public abstract int getKeyCode();
+	public int getKeyCode() {
+		return 0;
+	}
 	
-	public abstract String getName();
+	public String getName() {
+		return null;
+	}
 	
-	public abstract String getDescription();
+	public String getDescription() {
+		return null;
+	}
 
 	public void render() {
 		

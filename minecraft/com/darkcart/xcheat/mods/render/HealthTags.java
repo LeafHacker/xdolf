@@ -4,35 +4,7 @@ import com.darkcart.xcheat.Module;
 
 public class HealthTags extends Module {
 
-	@Override
-	public void enable() {
-		
-	}
-
-	@Override
-	public void disable() {
-		
-	}
-
-	@Override
-	public void tick() {
-		
-	}
-
-	@Override
-	public void beforeUpdate() {
-		
-	}
-
-	@Override
-	public void afterUpdate() {
-		
-	}
-
-	@Override
-	public int getKeyCode() {
-		return 0;
-	}
+	// Code is in Render
 
 	@Override
 	public String getName() {

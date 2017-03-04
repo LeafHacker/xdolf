@@ -12,11 +12,6 @@ import net.minecraft.potion.PotionType;
 public class Fullbright extends Module {
 
 	@Override
-	public void enable() {
-
-	}
-
-	@Override
 	public void disable() {
 		if(Client.mc.player.isPotionActive(Potion.getPotionById(16)))
 			Client.mc.player.removeActivePotionEffect(Potion.getPotionById(16));
@@ -31,16 +26,6 @@ public class Fullbright extends Module {
 		}
 	}
 	
-	@Override
-	public void beforeUpdate() {
-		
-	}
-
-	@Override
-	public void afterUpdate() {
-		
-	}
-
 	@Override
 	public int getKeyCode() {
 		return Keyboard.KEY_B;

@@ -16,30 +16,6 @@ import net.minecraft.util.math.Vec3d;
 
 public class Tracers extends Module {
 
-	@Override
-	public void enable() {
-
-	}
-
-	@Override
-	public void disable() {
-
-	}
-
-	@Override
-	public void tick() {
-
-	}
-	
-	@Override
-	public void beforeUpdate() {
-		
-	}
-
-	@Override
-	public void afterUpdate() {
-		
-	}
 
 	@Override
 	public int getKeyCode() {
@@ -78,7 +54,7 @@ public class Tracers extends Module {
 					GL11.glBegin(GL11.GL_LINE_LOOP);
 					GL11.glVertex3d(0, Client.mc.player.getEyeHeight(), 0);
 
-					GL11.glVertex3d(posX, posY + 1, posZ);
+					GL11.glVertex3d(posX, posY, posZ);
 
 					GL11.glEnd();
 				}

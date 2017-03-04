@@ -97,15 +97,6 @@ public class KillAura extends Module {
 		Wrapper.getPlayer().rotationYawHead = newPitch;
     }
 
-	@Override
-	public void enable() {
-		
-	}
-
-	@Override
-	public void disable() {
-		
-	}
 
 	@Override
 	public int getKeyCode() {

@@ -8,26 +8,11 @@ import com.darkcart.xcheat.Module;
 public class AutoRespawn extends Module {
 
 	@Override
-	public void enable() {
-
-	}
-
-	@Override
-	public void disable() {
-
-	}
-
-	@Override
 	public void tick() {
-		if(isToggled() && Client.mc.player.getHealth() <= 0)
+		if(Client.mc.player.getHealth() <= 0)
         {
 			Client.mc.player.respawnPlayer();
         }
-	}
-
-	@Override
-	public int getKeyCode() {
-		return Keyboard.KEYBOARD_SIZE;
 	}
 
 	@Override
@@ -40,13 +25,4 @@ public class AutoRespawn extends Module {
 		return "Respawns the player for you upon death.";
 	}
 
-	@Override
-	public void beforeUpdate() {
-		
-	}
-
-	@Override
-	public void afterUpdate() {
-		
-	}
 }
