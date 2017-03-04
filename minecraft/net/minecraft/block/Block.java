@@ -540,7 +540,7 @@ public class Block
                 }
         }
         
-        if (Client.modules.get(12).isToggled() && XRay.xrayBlocks.contains(this)) {
+        if (Client.findMod(XRay.class).isToggled() && XRay.xrayBlocks.contains(this)) {
         	return false;
         }
 

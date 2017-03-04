@@ -20,6 +20,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.darkcart.xcheat.Client;
+import com.darkcart.xcheat.mods.player.AntiKnockback;
 import com.google.common.base.Charsets;
 import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.FutureCallback;
@@ -567,7 +568,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
         PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
         Entity entity = this.clientWorldController.getEntityByID(packetIn.getEntityID());
 
-        if (entity != null && !Client.modules.get(6).isToggled())
+        if (entity != null && !Client.findMod(AntiKnockback.class).isToggled())
         {
             entity.setVelocity((double)packetIn.getMotionX() / 8000.0D, (double)packetIn.getMotionY() / 8000.0D, (double)packetIn.getMotionZ() / 8000.0D);
         }

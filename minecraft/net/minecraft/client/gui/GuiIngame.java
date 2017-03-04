@@ -1,6 +1,7 @@
 package net.minecraft.client.gui;
 
 import com.darkcart.xcheat.Client;
+import com.darkcart.xcheat.mods.render.NoPumpkinBlur;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -157,7 +158,7 @@ public class GuiIngame extends Gui
 
         if (this.mc.gameSettings.thirdPersonView == 0 && itemstack.getItem() == Item.getItemFromBlock(Blocks.PUMPKIN))
         {
-        	if (!Client.modules.get(11).isToggled()) {
+        	if (!Client.findMod(NoPumpkinBlur.class).isToggled()) {
         		this.renderPumpkinOverlay(scaledresolution);
         	}
         }
