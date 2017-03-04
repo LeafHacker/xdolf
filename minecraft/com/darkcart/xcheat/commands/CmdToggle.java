@@ -1,5 +1,7 @@
 package com.darkcart.xcheat.commands;
 
+import java.util.Collections;
+
 import com.darkcart.xcheat.Client;
 import com.darkcart.xcheat.Module;
 import com.darkcart.xcheat.Wrapper;
@@ -25,6 +27,8 @@ public class CmdToggle extends Command
 				if(mod.getName().trim().toLowerCase().equalsIgnoreCase(s.substring(7)))
 				{
 					mod.toggle();
+					Client.enabledModuleNames.add(mod.getName());
+					Collections.sort(Client.enabledModuleNames);
 					Wrapper.addChatMessage("Toggled " + mod.getName() + ".");
 					valid = true;
 					break;

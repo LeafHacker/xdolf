@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import org.lwjgl.input.Keyboard;
 
@@ -32,6 +33,7 @@ import net.minecraft.client.gui.ScaledResolution;
 public class Client {
 
 	public static ArrayList<Module> modules = new ArrayList<Module>();
+	public static ArrayList<String> enabledModuleNames = new ArrayList<String>();
 	public static Minecraft mc = Minecraft.getMinecraft();
 	public static ScaledResolution gameResolution;
 	public static ArrayList<String> friends = new ArrayList<String>();
@@ -85,6 +87,8 @@ public class Client {
 			try {
 				if (Keyboard.isKeyDown(m.getKeyCode())) {
 					m.toggle();
+					enabledModuleNames.add(m.getName());
+					Collections.sort(enabledModuleNames);
 				}
 			} catch (Exception ex) {
 				/* NEED TO FIX AS CRASH HERE */}
