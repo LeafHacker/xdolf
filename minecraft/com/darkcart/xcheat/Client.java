@@ -13,6 +13,7 @@ import com.darkcart.xcheat.mods.aura.CrystalAura;
 import com.darkcart.xcheat.mods.aura.KillAura;
 import com.darkcart.xcheat.mods.player.AntiKnockback;
 import com.darkcart.xcheat.mods.player.AutoRespawn;
+import com.darkcart.xcheat.mods.player.AutoWalk;
 import com.darkcart.xcheat.mods.player.Flight;
 import com.darkcart.xcheat.mods.player.NoFall;
 import com.darkcart.xcheat.mods.player.Spammer;
@@ -57,6 +58,7 @@ public class Client {
 		modules.add(new AutoArmor());
 		modules.add(new CrystalAura());
 		modules.add(new HealthTags());
+		modules.add(new AutoWalk());
 	}
 
 	// ANY CODE BELOW THIS SHOULD NOT CHANGE
