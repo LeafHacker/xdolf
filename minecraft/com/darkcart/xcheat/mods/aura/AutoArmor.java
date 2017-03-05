@@ -26,10 +26,7 @@ public class AutoArmor extends Module {
 
 	@Override
 	public void tick() {
-		if(isToggled() && Client.mc.player.getHealth() <= 0)
-        {
-			Client.mc.player.respawnPlayer();
-        }
+		equip();
 	}
 	
 	private void equip() {
