@@ -19,11 +19,13 @@ public class Fullbright extends Module {
 
 	@Override
 	public void tick() {
-		if(!Client.mc.player.isPotionActive(Potion.getPotionById(16))) { //if for some reason the effect vanishes
-			PotionEffect nightVision = new PotionEffect(Potion.getPotionById(16), Integer.MAX_VALUE, 0);
-			nightVision.setPotionDurationMax(true);
-			Client.mc.player.addPotionEffect(nightVision);
-		}
+		try {
+			if(!Client.mc.player.isPotionActive(Potion.getPotionById(16))) { //if for some reason the effect vanishes
+				PotionEffect nightVision = new PotionEffect(Potion.getPotionById(16), Integer.MAX_VALUE, 0);
+				nightVision.setPotionDurationMax(true);
+				Client.mc.player.addPotionEffect(nightVision);
+			}
+		}catch(Exception ex){ /* TEMP TO STOP A CRASH UPON LEAVING SERVER */ }
 	}
 	
 	@Override
