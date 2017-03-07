@@ -91,12 +91,15 @@ public class GuiNewChat extends Gui
                                 String s = chatline.getChatComponent().getFormattedText();
                                 GlStateManager.enableBlend();
                                 
-                                String chatMessage = chatline.getChatComponent().getUnformattedText().substring(mc.player.getName().length() + 3);
-                                if (chatMessage.startsWith(">") && Client.findMod(Greentext.class).isToggled()) {
-                                	this.mc.fontRendererObj.drawStringWithShadow("<" + mc.player.getName() + "> \247a" + chatMessage + "\247r", 0.0f, (float)(j2-8), 16777215 + (l1 << 24));
-                                }else {
-                                	this.mc.fontRendererObj.drawStringWithShadow(s, 0.0F, (float)(j2 - 8), 16777215 + (l1 << 24));
-                                }
+                                try {
+                                	String chatMessage = chatline.getChatComponent().getUnformattedText().substring(mc.player.getName().length() + 3);
+                                	if (chatMessage.startsWith(">") && Client.findMod(Greentext.class).isToggled()) {
+                                		this.mc.fontRendererObj.drawStringWithShadow("<" + mc.player.getName() + "> \247a" + chatMessage + "\247r", 0.0f, (float)(j2-8), 16777215 + (l1 << 24));
+                                	}else {
+                                		this.mc.fontRendererObj.drawStringWithShadow(s, 0.0F, (float)(j2 - 8), 16777215 + (l1 << 24));
+                                	}
+                                }catch(Exception ex){}
+                                
                                 GlStateManager.disableAlpha();
                                 GlStateManager.disableBlend();
                             }
