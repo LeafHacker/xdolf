@@ -7,6 +7,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.darkcart.xcheat.Client;
 import com.darkcart.xcheat.Module;
+import com.darkcart.xcheat.Wrapper;
 import com.darkcart.xcheat.util.RenderUtils;
 
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -50,9 +51,9 @@ public class Tracers extends Module {
 					} else if (distance > 96F) {
 						GL11.glColor3f(0.1F, 0.6F, 255.0F);
 					}
-
+					Vec3d eyes = new Vec3d(0, 0, 1).rotatePitch(-(float) Math.toRadians(Wrapper.getPlayer().rotationPitch)).rotateYaw(-(float) Math.toRadians(Wrapper.getPlayer().rotationYaw));
 					GL11.glBegin(GL11.GL_LINE_LOOP);
-					GL11.glVertex3d(0, Client.mc.player.getEyeHeight(), 0);
+					GL11.glVertex3d(eyes.xCoord, Wrapper.getPlayer().getEyeHeight() + eyes.yCoord, eyes.zCoord);
 
 					GL11.glVertex3d(posX, posY, posZ);
 
