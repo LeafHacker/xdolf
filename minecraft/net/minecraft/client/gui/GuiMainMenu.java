@@ -14,7 +14,7 @@ import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.GLContext;
 import org.lwjgl.util.glu.Project;
 
-import com.darkcart.xcheat.altmanager.Manager;
+import com.darkcart.xdolf.altmanager.Manager;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;

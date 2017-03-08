@@ -1,6 +1,6 @@
 package net.minecraft.server;
 
-import com.darkcart.xcheat.gui.GuiScreenProtocol;
+import com.darkcart.xdolf.gui.GuiScreenProtocol;
 import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Queues;

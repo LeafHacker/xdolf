@@ -2,8 +2,8 @@ package net.minecraft.client.renderer.entity;
 
 import javax.annotation.Nullable;
 
-import com.darkcart.xcheat.Client;
-import com.darkcart.xcheat.mods.render.HealthTags;
+import com.darkcart.xdolf.Client;
+import com.darkcart.xdolf.mods.render.HealthTags;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;

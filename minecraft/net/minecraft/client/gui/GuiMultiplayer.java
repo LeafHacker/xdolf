@@ -7,7 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
 
-import com.darkcart.xcheat.gui.GuiScreenProtocol;
+import com.darkcart.xdolf.gui.GuiScreenProtocol;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 

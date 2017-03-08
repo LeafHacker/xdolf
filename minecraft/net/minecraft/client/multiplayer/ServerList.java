@@ -1,6 +1,6 @@
 package net.minecraft.client.multiplayer;
 
-import com.darkcart.xcheat.Client;
+import com.darkcart.xdolf.Client;
 import com.google.common.collect.Lists;
 import java.io.File;
 import java.util.List;

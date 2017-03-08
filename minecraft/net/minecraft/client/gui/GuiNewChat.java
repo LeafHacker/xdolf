@@ -1,7 +1,7 @@
 package net.minecraft.client.gui;
 
-import com.darkcart.xcheat.Client;
-import com.darkcart.xcheat.mods.render.Greentext;
+import com.darkcart.xdolf.Client;
+import com.darkcart.xdolf.mods.render.Greentext;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;

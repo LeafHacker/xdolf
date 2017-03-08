@@ -42,9 +42,9 @@ import org.lwjgl.opengl.OpenGLException;
 import org.lwjgl.opengl.PixelFormat;
 import org.lwjgl.util.glu.GLU;
 
-import com.darkcart.xcheat.Client;
-import com.darkcart.xcheat.gui.GuiScreenProtocol;
-import com.darkcart.xcheat.gui.XCheatOverlay;
+import com.darkcart.xdolf.Client;
+import com.darkcart.xdolf.gui.GuiScreenProtocol;
+import com.darkcart.xdolf.gui.XDolfOverlay;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Queues;
 import com.google.common.collect.Sets;
@@ -584,8 +584,8 @@ public class Minecraft implements IThreadListener, ISnooperInfo {
 		this.effectRenderer = new ParticleManager(this.world, this.renderEngine);
 		this.checkGLError("Post startup");
 		
-		//TODO: xcheat hook ref
-		this.ingameGUI = new XCheatOverlay(this);
+		//TODO: xdolf hook ref
+		this.ingameGUI = new XDolfOverlay(this);
 
 		if (this.serverName != null) {
 			this.displayGuiScreen(new GuiConnecting(new GuiMainMenu(), this, this.serverName, this.serverPort));
@@ -629,7 +629,7 @@ public class Minecraft implements IThreadListener, ISnooperInfo {
 
 	private void createDisplay() throws LWJGLException {
 		Display.setResizable(true);
-		Display.setTitle("XCheat");
+		Display.setTitle("XDolf");
 
 		try {
 			Display.create((new PixelFormat()).withDepthBits(24));
