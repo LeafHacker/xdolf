@@ -30,7 +30,7 @@ public class Manager
 	public static ArrayList<Alt> altList = new ArrayList<Alt>();
 	public static GuiAltList altScreen = new GuiAltList();
 	public static final int slotHeight = 25;
-	public static File xdolfDir = new File(Wrapper.getMinecraftDir() + File.separator + "XDolf");
+	public static File xdolfDir = new File(Wrapper.getMinecraftDir() + File.separator + "Xdolf");
 
 	public static void addAlt(Alt paramAlt)
 	{

@@ -40,9 +40,8 @@ public class XDolfOverlay extends GuiIngame {
 		int width = Client.gameResolution.getScaledWidth();
 		int height = Client.gameResolution.getScaledHeight();
 
-		this.drawRect(0, 0, Client.mc.fontRendererObj.getStringWidth("XClient") + 4, 12, 0x77222222);
-		Client.mc.fontRendererObj.drawString("XCheat", 2, 2, 0x55FF55);
-		Wrapper.getMinecraft().fontRendererObj.drawString("FPS: " + Wrapper.getMinecraft().getDebugFPS(), 2, 14, 0xffffff);
+		this.drawRect(0, 0, Client.mc.fontRendererObj.getStringWidth("Xdolf\247f | FPS: " + Wrapper.getMinecraft().getDebugFPS()) + 4, 12, 0x77222222);
+		Client.mc.fontRendererObj.drawString("Xdolf\247f | FPS: " + Wrapper.getMinecraft().getDebugFPS(), 2, 2, 0x55FF55);
 
 		int count = 0;
 		try {
