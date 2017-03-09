@@ -58,7 +58,6 @@ public class Client {
 		modules.add(new AutoRespawn());
 		modules.add(new AutoArmor());
 		modules.add(new CrystalAura());
-		modules.add(new HealthTags());
 		modules.add(new AutoWalk());
 		modules.add(new Greentext());
 	}
