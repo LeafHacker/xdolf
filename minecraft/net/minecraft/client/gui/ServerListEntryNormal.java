@@ -1,7 +1,7 @@
 package net.minecraft.client.gui;
 
-import com.darkcart.xcheat.Client;
-import com.darkcart.xcheat.gui.GuiScreenProtocol;
+import com.darkcart.xdolf.Client;
+import com.darkcart.xdolf.gui.GuiScreenProtocol;
 import com.google.common.base.Charsets;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import io.netty.buffer.ByteBuf;

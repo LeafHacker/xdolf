@@ -19,7 +19,7 @@ import net.minecraft.util.text.TextComponentTranslation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.darkcart.xcheat.gui.GuiScreenProtocol;
+import com.darkcart.xdolf.gui.GuiScreenProtocol;
 
 public class GuiConnecting extends GuiScreen
 {

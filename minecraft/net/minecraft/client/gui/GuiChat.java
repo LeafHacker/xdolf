@@ -9,7 +9,7 @@ import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
-import com.darkcart.xcheat.commands.CommandManager;
+import com.darkcart.xdolf.commands.CommandManager;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ITabCompleter;

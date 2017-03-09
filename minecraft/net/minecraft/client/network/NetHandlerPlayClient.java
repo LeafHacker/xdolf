@@ -19,8 +19,8 @@ import javax.annotation.Nullable;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.darkcart.xcheat.Client;
-import com.darkcart.xcheat.mods.player.AntiKnockback;
+import com.darkcart.xdolf.Client;
+import com.darkcart.xdolf.mods.player.AntiKnockback;
 import com.google.common.base.Charsets;
 import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.FutureCallback;

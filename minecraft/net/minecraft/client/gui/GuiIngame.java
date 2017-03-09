@@ -1,7 +1,7 @@
 package net.minecraft.client.gui;
 
-import com.darkcart.xcheat.Client;
-import com.darkcart.xcheat.mods.render.NoPumpkinBlur;
+import com.darkcart.xdolf.Client;
+import com.darkcart.xdolf.mods.render.NoPumpkinBlur;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;

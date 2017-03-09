@@ -1,7 +1,7 @@
 package net.minecraft.client.multiplayer;
 
-import com.darkcart.xcheat.Client;
-import com.darkcart.xcheat.gui.GuiScreenProtocol;
+import com.darkcart.xdolf.Client;
+import com.darkcart.xdolf.gui.GuiScreenProtocol;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.text.ITextComponent;
