@@ -14,8 +14,13 @@ public class CmdTimer extends Command {
 
 	@Override
 	public void runCommand(String s, String[] args) {
-		Timer.speed = Integer.parseInt(args[0]);
-		Wrapper.addChatMessage("Timer updated.");
+		try {
+			Timer.speed = Integer.parseInt(args[0]);
+			Wrapper.addChatMessage("Timer updated.");
+		}catch(Exception ex) {
+			ex.printStackTrace();
+			Wrapper.addChatMessage("Usage: " + getSyntax());
+		}
 	}
 
 	@Override

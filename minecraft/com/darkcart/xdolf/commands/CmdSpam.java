@@ -26,7 +26,10 @@ public class CmdSpam extends Command {
 			if (args[0].equalsIgnoreCase("file")) {
 				Spammer.file = Wrapper.getMinecraftDir() + File.pathSeparator + "spam" + File.pathSeparator + args[1];
 			}
-		}catch(Exception ex){ /* YOU HAVE TO HAVE THIS AROUND COMMANDS THAT HAVE ARGS OTHERWISE YOU WILL CRASH */ }
+		}catch(Exception ex) {
+			ex.printStackTrace();
+			Wrapper.addChatMessage("Usage: " + getSyntax());
+		}
 	}
 
 	@Override

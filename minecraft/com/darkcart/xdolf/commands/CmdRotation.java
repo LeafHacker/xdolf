@@ -10,8 +10,13 @@ public class CmdRotation extends Command {
 
 	@Override
 	public void runCommand(String s, String[] args) {
-		Wrapper.getPlayer().rotationYaw = Integer.parseInt(args[0]);
-		Wrapper.getPlayer().rotationPitch = Integer.parseInt(args[1]);
+		try {
+			Wrapper.getPlayer().rotationYaw = Integer.parseInt(args[0]);
+			Wrapper.getPlayer().rotationPitch = Integer.parseInt(args[1]);
+		}catch(Exception ex) {
+			ex.printStackTrace();
+			Wrapper.addChatMessage("Usage: " + getSyntax());
+		}
 	}
 
 	@Override
