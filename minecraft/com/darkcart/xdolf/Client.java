@@ -37,6 +37,9 @@ public class Client {
 	public static Minecraft mc = Minecraft.getMinecraft();
 	public static ScaledResolution gameResolution;
 	public static ArrayList<String> friends = new ArrayList<String>();
+	
+	public static final String CLIENT_NAME = "Xdolf";
+	public static final String CLIENT_VERSION = "1.0.0";
 
 	public Client() {
 		modules.add(new Fullbright());
