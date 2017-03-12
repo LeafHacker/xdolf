@@ -19,7 +19,6 @@ import com.darkcart.xdolf.mods.player.NoFall;
 import com.darkcart.xdolf.mods.player.Spammer;
 import com.darkcart.xdolf.mods.player.Step;
 import com.darkcart.xdolf.mods.render.EntityESP;
-import com.darkcart.xdolf.mods.render.Greentext;
 import com.darkcart.xdolf.mods.render.NoHurtCam;
 import com.darkcart.xdolf.mods.render.NoPumpkinBlur;
 import com.darkcart.xdolf.mods.render.StorageESP;
@@ -58,7 +57,6 @@ public class Client {
 		modules.add(new AutoArmor());
 		modules.add(new CrystalAura());
 		modules.add(new AutoWalk());
-		modules.add(new Greentext());
 	}
 
 	// ANY CODE BELOW THIS SHOULD NOT CHANGE

@@ -1,7 +1,6 @@
 package net.minecraft.client.gui;
 
 import com.darkcart.xdolf.Client;
-import com.darkcart.xdolf.mods.render.Greentext;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
@@ -90,16 +89,7 @@ public class GuiNewChat extends Gui
                                 drawRect(-2, j2 - 9, 0 + k + 4, j2, l1 / 2 << 24);
                                 String s = chatline.getChatComponent().getFormattedText();
                                 GlStateManager.enableBlend();
-                                
-                                try {
-                                	String chatMessage = chatline.getChatComponent().getUnformattedText().substring(mc.player.getName().length() + 3);
-                                	if (chatMessage.startsWith(">") && Client.findMod(Greentext.class).isToggled()) {
-                                		this.mc.fontRendererObj.drawStringWithShadow("<" + mc.player.getName() + "> \247a" + chatMessage + "\247r", 0.0f, (float)(j2-8), 16777215 + (l1 << 24));
-                                	}else {
-                                		this.mc.fontRendererObj.drawStringWithShadow(s, 0.0F, (float)(j2 - 8), 16777215 + (l1 << 24));
-                                	}
-                                }catch(Exception ex){}
-                                
+                                this.mc.fontRendererObj.drawStringWithShadow(s, 0.0F, (float)(j2 - 8), 16777215 + (l1 << 24));
                                 GlStateManager.disableAlpha();
                                 GlStateManager.disableBlend();
                             }

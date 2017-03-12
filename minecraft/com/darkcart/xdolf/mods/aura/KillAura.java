@@ -100,7 +100,7 @@ public class KillAura extends Module {
 
 	@Override
 	public int getKeyCode() {
-		return Keyboard.KEY_K;
+		return Keyboard.KEY_R;
 	}
 
 	@Override
