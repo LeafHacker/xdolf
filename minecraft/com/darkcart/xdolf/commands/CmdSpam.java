@@ -13,23 +13,25 @@ public class CmdSpam extends Command {
 
 	@Override
 	public void runCommand(String s, String[] args) {
-		if (args[0].equalsIgnoreCase("mode")) {
-			Spammer.mode = Integer.parseInt(args[1]);
-		}
-		if (args[0].equalsIgnoreCase("msg")) {
-			Spammer.message = args[1];
-		}
-		if (args[0].equalsIgnoreCase("delay")) {
-			Spammer.delay = Integer.parseInt(args[1]);
-		}
-		if (args[0].equalsIgnoreCase("file")) {
-			Spammer.file = Wrapper.getMinecraftDir() + File.pathSeparator + "spam" + File.pathSeparator + args[1];
-		}
+		try {
+			if (args[0].equalsIgnoreCase("mode")) {
+				Spammer.mode = Integer.parseInt(args[1]);
+			}
+			if (args[0].equalsIgnoreCase("msg")) {
+				Spammer.message = args[1];
+			}
+			if (args[0].equalsIgnoreCase("delay")) {
+				Spammer.delay = Integer.parseInt(args[1]);
+			}
+			if (args[0].equalsIgnoreCase("file")) {
+				Spammer.file = Wrapper.getMinecraftDir() + File.pathSeparator + "spam" + File.pathSeparator + args[1];
+			}
+		}catch(Exception ex){ /* YOU HAVE TO HAVE THIS AROUND COMMANDS THAT HAVE ARGS OTHERWISE YOU WILL CRASH */ }
 	}
 
 	@Override
 	public String getDescription() {
-		return "Changes message and optionally frequency of spam and mode";
+		return "Configure the spam module.";
 	}
 
 	@Override

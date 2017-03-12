@@ -27,7 +27,7 @@ public class CmdModList extends Command
 	@Override
 	public String getDescription()
 	{
-		return "Lists all modules";
+		return "Lists all modules.";
 	}
 
 	@Override
