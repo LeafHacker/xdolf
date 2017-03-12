@@ -18,7 +18,11 @@ public class CmdSpam extends Command {
 				Spammer.mode = Integer.parseInt(args[1]);
 			}
 			if (args[0].equalsIgnoreCase("msg")) {
-				Spammer.message = args[1];
+				String message = "";
+				for (int i = 1; i < args.length; i++) {
+					message += args[i] + " ";
+				}
+				Spammer.message = message;
 			}
 			if (args[0].equalsIgnoreCase("delay")) {
 				Spammer.delay = Integer.parseInt(args[1]);
