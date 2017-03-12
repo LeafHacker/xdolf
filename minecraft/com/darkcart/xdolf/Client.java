@@ -23,6 +23,7 @@ import com.darkcart.xdolf.mods.render.NoHurtCam;
 import com.darkcart.xdolf.mods.render.NoPumpkinBlur;
 import com.darkcart.xdolf.mods.render.StorageESP;
 import com.darkcart.xdolf.mods.render.Tracers;
+import com.darkcart.xdolf.mods.world.Freecam;
 import com.darkcart.xdolf.mods.world.Fullbright;
 import com.darkcart.xdolf.mods.world.Timer;
 import com.darkcart.xdolf.mods.world.XRay;
@@ -60,6 +61,7 @@ public class Client {
 		modules.add(new AutoArmor());
 		modules.add(new CrystalAura());
 		modules.add(new AutoWalk());
+		modules.add(new Freecam());
 	}
 
 	// ANY CODE BELOW THIS SHOULD NOT CHANGE

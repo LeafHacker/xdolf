@@ -23,15 +23,15 @@ public class Flight extends Module {
 		Wrapper.getPlayer().motionX = 0;
 		Wrapper.getPlayer().motionY = 0;
 		Wrapper.getPlayer().motionZ = 0;
-		Wrapper.getPlayer().landMovementFactor = 1;
-		Wrapper.getPlayer().jumpMovementFactor = 1;
+		Wrapper.getPlayer().landMovementFactor = 2;
+		Wrapper.getPlayer().jumpMovementFactor = 2;
 		Wrapper.getPlayer().inWater = false;
 		if(Wrapper.getMinecraft().inGameHasFocus) {
 			if(Keyboard.isKeyDown(Wrapper.getMinecraft().gameSettings.keyBindJump.keyCode)) {
-				Wrapper.getPlayer().motionY += 3 / 2 + 0.2F;
+				Wrapper.getPlayer().motionY += 2 / 2 + 0.2F;
 			}
 			if(Keyboard.isKeyDown(Wrapper.getMinecraft().gameSettings.keyBindSneak.keyCode)) {
-				Wrapper.getPlayer().motionY -= 3 / 2 + 0.2F;
+				Wrapper.getPlayer().motionY -= 2 / 2 + 0.2F;
 			}
 		}
 	}
@@ -48,6 +48,6 @@ public class Flight extends Module {
 
 	@Override
 	public String getDescription() {
-		return "GOTTA GO FAST";
+		return "Enables the player to fly.";
 	}
 }

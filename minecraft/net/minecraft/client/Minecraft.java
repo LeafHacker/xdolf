@@ -43,6 +43,7 @@ import org.lwjgl.opengl.PixelFormat;
 import org.lwjgl.util.glu.GLU;
 
 import com.darkcart.xdolf.Client;
+import com.darkcart.xdolf.fonts.Fonts;
 import com.darkcart.xdolf.gui.GuiScreenProtocol;
 import com.darkcart.xdolf.gui.XDolfOverlay;
 import com.google.common.collect.Lists;
@@ -430,7 +431,7 @@ public class Minecraft implements IThreadListener, ISnooperInfo {
 		ImageIO.setUseCache(false);
 		Bootstrap.register();
 		this.dataFixer = DataFixesManager.createFixer();
-		
+        
 	}
 
 	public void run() {
@@ -612,6 +613,8 @@ public class Minecraft implements IThreadListener, ISnooperInfo {
 		this.renderGlobal.makeEntityOutlineShader();
 		
 		c = new Client();
+		
+        Fonts.loadFonts();
 	}
 
 	private void registerMetadataSerializers() {

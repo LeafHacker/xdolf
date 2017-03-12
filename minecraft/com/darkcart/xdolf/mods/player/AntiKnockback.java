@@ -8,11 +8,6 @@ import com.darkcart.xdolf.Module;
 public class AntiKnockback extends Module {
 
 	// Actual code is in NetHandlerPlayClient
-	
-	@Override
-	public int getKeyCode() {
-		return Keyboard.KEY_C;
-	}
 
 	@Override
 	public String getName() {

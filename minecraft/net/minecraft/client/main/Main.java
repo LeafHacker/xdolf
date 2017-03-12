@@ -1,5 +1,6 @@
 package net.minecraft.client.main;
 
+import com.darkcart.xdolf.fonts.Fonts;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mojang.authlib.properties.PropertyMap;

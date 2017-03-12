@@ -30,7 +30,7 @@ public class Fullbright extends Module {
 	
 	@Override
 	public int getKeyCode() {
-		return Keyboard.KEY_B;
+		return Keyboard.KEY_C;
 	}
 	
 	@Override

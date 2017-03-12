@@ -32,28 +32,29 @@ public class KillAura extends Module {
 	
 	@Override
 	public void beforeUpdate() {
-		this.yaw = Wrapper.getPlayer().rotationYaw;
-		this.pitch = Wrapper.getPlayer().rotationPitch;
-		this.yawHead = Wrapper.getPlayer().rotationYawHead;
+		try {
+			this.yaw = Wrapper.getPlayer().rotationYaw;
+			this.pitch = Wrapper.getPlayer().rotationPitch;
+			this.yawHead = Wrapper.getPlayer().rotationYawHead;
+		}catch(Exception ex){ /* stop crash when leaving server with aura on */ }
 	}
 	
 	@Override
 	public void tick() {
-		currentMS = System.nanoTime() / 1000000;
-		if(hasDelayRun((long)(1000 / 8)))
-		{
-			for(Object o: Wrapper.getWorld().loadedEntityList)
+		try {
+			currentMS = System.nanoTime() / 1000000;
+			if(hasDelayRun((long)(1000 / 8)))
 			{
-				try
+				for(Object o: Wrapper.getWorld().loadedEntityList)
 				{
 					Entity e = (Entity) o;
 					boolean checks = !(e instanceof EntityPlayerSP) && (e instanceof EntityLivingBase) && Wrapper.getPlayer().getDistanceToEntity(e) <= 4 && Wrapper.getPlayer().canEntityBeSeen(e) && !e.isDead;
-	
+		
 					if(e instanceof EntityPlayer) 
 					{
 						EntityPlayer ep = (EntityPlayer) o;
 					}
-				
+					
 					if(checks) 
 					{
 						Wrapper.getPlayer().setSprinting(false);
@@ -63,16 +64,18 @@ public class KillAura extends Module {
 						lastMS = System.nanoTime() / 1000000;
 						break;
 					}
-				}catch(Exception e) {}
+				}
 			}
-		}
+		}catch(Exception ex){}
 	}
 	
 	@Override
 	public void afterUpdate() {
-		Wrapper.getPlayer().rotationYaw = this.yaw;
-		Wrapper.getPlayer().rotationPitch = this.pitch;
-		Wrapper.getPlayer().rotationYawHead = this.yawHead;
+		try {
+			Wrapper.getPlayer().rotationYaw = this.yaw;
+			Wrapper.getPlayer().rotationPitch = this.pitch;
+			Wrapper.getPlayer().rotationYawHead = this.yawHead;
+		}catch(Exception ex){}
 	}
 	
 	public boolean hasDelayRun(long time) {

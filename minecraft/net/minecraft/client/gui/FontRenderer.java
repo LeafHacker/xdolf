@@ -849,7 +849,7 @@ public class FontRenderer implements IResourceManagerReloadListener
     /**
      * Inserts newline and formatting into a string to wrap it within the specified width.
      */
-    String wrapFormattedStringToWidth(String str, int wrapWidth)
+    protected String wrapFormattedStringToWidth(String str, int wrapWidth)
     {
         int i = this.sizeStringToWidth(str, wrapWidth);
 
