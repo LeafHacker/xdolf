@@ -217,7 +217,7 @@ public abstract class Entity implements ICommandSender
     /**
      * Whether this entity is currently inside of water (if it handles water movement that is)
      */
-    protected boolean inWater;
+    public boolean inWater;
 
     /**
      * Remaining time an entity will be "immune" to further damage after being hurt.

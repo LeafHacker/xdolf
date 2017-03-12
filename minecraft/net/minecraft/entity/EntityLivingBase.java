@@ -1,5 +1,8 @@
 package net.minecraft.entity;
 
+import com.darkcart.xdolf.Client;
+import com.darkcart.xdolf.mods.player.Flight;
+import com.darkcart.xdolf.mods.world.XRay;
 import com.google.common.base.Objects;
 import com.google.common.collect.Maps;
 import java.util.Collection;
@@ -217,7 +220,7 @@ public abstract class EntityLivingBase extends Entity
      * A factor used to determine how far this entity will move each tick if it is walking on land. Adjusted by speed,
      * and slipperiness of the current block.
      */
-    private float landMovementFactor;
+    public float landMovementFactor;
 
     /** Number of ticks since last jump */
     private int jumpTicks;
@@ -1966,9 +1969,9 @@ public abstract class EntityLivingBase extends Entity
     {
         if (this.isServerWorld() || this.canPassengerSteer())
         {
-            if (!this.isInWater() || this instanceof EntityPlayer && ((EntityPlayer)this).capabilities.isFlying)
+            if (!this.isInWater() || this instanceof EntityPlayer && ((EntityPlayer)this).capabilities.isFlying || Client.findMod(Flight.class).isToggled())
             {
-                if (!this.isInLava() || this instanceof EntityPlayer && ((EntityPlayer)this).capabilities.isFlying)
+                if (!this.isInLava() || this instanceof EntityPlayer && ((EntityPlayer)this).capabilities.isFlying || Client.findMod(Flight.class).isToggled())
                 {
                     if (this.isElytraFlying())
                     {
