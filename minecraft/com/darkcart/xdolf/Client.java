@@ -36,7 +36,7 @@ public class Client {
 	public static ArrayList<Module> modules = new ArrayList<Module>();
 	public static ArrayList<String> enabledModuleNames = new ArrayList<String>();
 	public static Minecraft mc = Minecraft.getMinecraft();
-	public static ScaledResolution gameResolution;
+	public static ScaledResolution gameResolution = new ScaledResolution(Wrapper.getMinecraft());
 	public static ArrayList<String> friends = new ArrayList<String>();
 	
 	public static final String CLIENT_NAME = "Xdolf";

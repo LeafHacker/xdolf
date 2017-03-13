@@ -253,8 +253,6 @@ public class GuiIngame extends Gui
             this.renderDemo(scaledresolution);
         }
 
-        this.renderPotionEffects(scaledresolution);
-
         if (this.mc.gameSettings.showDebugInfo)
         {
             this.overlayDebug.renderDebugInfo(scaledresolution);

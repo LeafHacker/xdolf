@@ -12,6 +12,7 @@ import com.darkcart.xdolf.fonts.Fonts;
 import com.google.common.collect.Ordering;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.resources.I18n;
@@ -23,7 +24,9 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 
 public class XDolfOverlay extends GuiIngame {
-
+	
+	public static boolean hideGui = false;
+	
 	public XDolfOverlay(Minecraft mcIn) {
 		super(mcIn);
 	}
@@ -38,6 +41,8 @@ public class XDolfOverlay extends GuiIngame {
 
 	public void renderXDolfOverlay() {
 
+		if(Wrapper.getMinecraft().gameSettings.showDebugInfo || hideGui || Wrapper.getMinecraft().currentScreen instanceof GuiChat) return;
+		
 		int width = Client.gameResolution.getScaledWidth();
 		int height = Client.gameResolution.getScaledHeight();
 

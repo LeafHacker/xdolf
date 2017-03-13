@@ -1,5 +1,6 @@
 package net.minecraft.client;
 
+import com.darkcart.xdolf.Client;
 import com.darkcart.xdolf.fonts.Fonts;
 import com.darkcart.xdolf.gui.XDolfOverlay;
 import com.google.common.collect.Lists;
@@ -384,6 +385,8 @@ public class Minecraft implements IThreadListener, ISnooperInfo
     /** Profiler currently displayed in the debug screen pie chart */
     private String debugProfilerName = "root";
 
+    Client c;
+    
     public Minecraft(GameConfiguration gameConfig)
     {
         theMinecraft = this;
@@ -446,6 +449,7 @@ public class Minecraft implements IThreadListener, ISnooperInfo
                     {
                         try
                         {
+                        	c.tick();
                             this.runGameLoop();
                         }
                         catch (OutOfMemoryError var10)
@@ -625,6 +629,8 @@ public class Minecraft implements IThreadListener, ISnooperInfo
 
         this.renderGlobal.makeEntityOutlineShader();
         
+        c = new Client();
+        
         Fonts.loadFonts();
     }
 
@@ -640,7 +646,7 @@ public class Minecraft implements IThreadListener, ISnooperInfo
     private void createDisplay() throws LWJGLException
     {
         Display.setResizable(true);
-        Display.setTitle("Minecraft 1.11");
+        Display.setTitle(c.CLIENT_NAME + " v" + c.CLIENT_VERSION);
 
         try
         {
@@ -1966,6 +1972,7 @@ public class Minecraft implements IThreadListener, ISnooperInfo
     {
         while (Keyboard.next())
         {
+        	c.parseKey(Keyboard.getEventKey());
             int i = Keyboard.getEventKey() == 0 ? Keyboard.getEventCharacter() + 256 : Keyboard.getEventKey();
 
             if (this.debugCrashKeyPressTime > 0L)
