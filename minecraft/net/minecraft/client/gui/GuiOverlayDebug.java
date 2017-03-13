@@ -3,6 +3,7 @@ package net.minecraft.client.gui;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.UnmodifiableIterator;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map.Entry;
 import net.minecraft.block.Block;
@@ -14,6 +15,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.src.Reflector;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.FrameTimer;
 import net.minecraft.util.math.BlockPos;
@@ -44,12 +46,6 @@ public class GuiOverlayDebug extends Gui
         this.renderDebugInfoLeft();
         this.renderDebugInfoRight(scaledResolutionIn);
         GlStateManager.popMatrix();
-
-        if (this.mc.gameSettings.showLagometer)
-        {
-            this.renderLagometer();
-        }
-
         this.mc.mcProfiler.endSection();
     }
 
@@ -188,6 +184,13 @@ public class GuiOverlayDebug extends Gui
         long k = Runtime.getRuntime().freeMemory();
         long l = j - k;
         List<String> list = Lists.newArrayList(new String[] {String.format("Java: %s %dbit", new Object[]{System.getProperty("java.version"), Integer.valueOf(this.mc.isJava64bit() ? 64 : 32)}), String.format("Mem: % 2d%% %03d/%03dMB", new Object[]{Long.valueOf(l * 100L / i), Long.valueOf(bytesToMb(l)), Long.valueOf(bytesToMb(i))}), String.format("Allocated: % 2d%% %03dMB", new Object[]{Long.valueOf(j * 100L / i), Long.valueOf(bytesToMb(j))}), "", String.format("CPU: %s", new Object[]{OpenGlHelper.getCpu()}), "", String.format("Display: %dx%d (%s)", new Object[]{Integer.valueOf(Display.getWidth()), Integer.valueOf(Display.getHeight()), GlStateManager.glGetString(7936)}), GlStateManager.glGetString(7937), GlStateManager.glGetString(7938)});
+
+        if (Reflector.FMLCommonHandler_getBrandings.exists())
+        {
+            Object object = Reflector.call(Reflector.FMLCommonHandler_instance, new Object[0]);
+            list.add("");
+            list.addAll((Collection)Reflector.call(object, Reflector.FMLCommonHandler_getBrandings, new Object[] {Boolean.valueOf(false)}));
+        }
 
         if (this.mc.isReducedDebug())
         {

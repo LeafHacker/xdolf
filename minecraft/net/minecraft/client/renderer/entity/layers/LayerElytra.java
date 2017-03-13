@@ -9,6 +9,8 @@ import net.minecraft.entity.player.EnumPlayerModelParts;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.src.Config;
+import net.minecraft.src.CustomItems;
 import net.minecraft.util.ResourceLocation;
 
 public class LayerElytra implements LayerRenderer<EntityLivingBase>
@@ -43,13 +45,20 @@ public class LayerElytra implements LayerRenderer<EntityLivingBase>
                 {
                     this.renderPlayer.bindTexture(abstractclientplayer.getLocationElytra());
                 }
-                else if (abstractclientplayer.hasPlayerInfo() && abstractclientplayer.getLocationCape() != null && abstractclientplayer.isWearing(EnumPlayerModelParts.CAPE))
+                else if (abstractclientplayer.hasElytraCape() && abstractclientplayer.hasPlayerInfo() && abstractclientplayer.getLocationCape() != null && abstractclientplayer.isWearing(EnumPlayerModelParts.CAPE))
                 {
                     this.renderPlayer.bindTexture(abstractclientplayer.getLocationCape());
                 }
                 else
                 {
-                    this.renderPlayer.bindTexture(TEXTURE_ELYTRA);
+                    ResourceLocation resourcelocation = TEXTURE_ELYTRA;
+
+                    if (Config.isCustomItems())
+                    {
+                        resourcelocation = CustomItems.getCustomElytraTexture(itemstack, resourcelocation);
+                    }
+
+                    this.renderPlayer.bindTexture(resourcelocation);
                 }
             }
             else

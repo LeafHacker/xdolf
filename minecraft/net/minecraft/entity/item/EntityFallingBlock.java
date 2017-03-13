@@ -33,7 +33,7 @@ public class EntityFallingBlock extends Entity
     private IBlockState fallTile;
     public int fallTime;
     public boolean shouldDropItem = true;
-    private boolean canSetAsBlock;
+    private boolean dontSetBlock;
     private boolean hurtEntities;
     private int fallHurtMax = 40;
     private float fallHurtAmount = 2.0F;
@@ -130,7 +130,7 @@ public class EntityFallingBlock extends Entity
                 this.motionY -= 0.03999999910593033D;
             }
 
-            this.moveEntity(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
+            this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
             this.motionX *= 0.9800000190734863D;
             this.motionY *= 0.9800000190734863D;
             this.motionZ *= 0.9800000190734863D;
@@ -157,9 +157,9 @@ public class EntityFallingBlock extends Entity
                     {
                         this.setDead();
 
-                        if (!this.canSetAsBlock)
+                        if (!this.dontSetBlock)
                         {
-                            if (this.world.func_190527_a(block, blockpos1, true, EnumFacing.UP, (Entity)null) && !BlockFalling.canFallThrough(this.world.getBlockState(blockpos1.down())) && this.world.setBlockState(blockpos1, this.fallTile, 3))
+                            if (this.world.mayPlace(block, blockpos1, true, EnumFacing.UP, (Entity)null) && !BlockFalling.canFallThrough(this.world.getBlockState(blockpos1.down())) && this.world.setBlockState(blockpos1, this.fallTile, 3))
                             {
                                 if (block instanceof BlockFalling)
                                 {
@@ -196,7 +196,7 @@ public class EntityFallingBlock extends Entity
                         }
                         else if (block instanceof BlockFalling)
                         {
-                            ((BlockFalling)block).func_190974_b(this.world, blockpos1);
+                            ((BlockFalling)block).onBroken(this.world, blockpos1);
                         }
                     }
                 }
@@ -225,7 +225,7 @@ public class EntityFallingBlock extends Entity
             {
                 List<Entity> list = Lists.newArrayList(this.world.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox()));
                 boolean flag = block == Blocks.ANVIL;
-                DamageSource damagesource = flag ? DamageSource.anvil : DamageSource.fallingBlock;
+                DamageSource damagesource = flag ? DamageSource.ANVIL : DamageSource.FALLING_BLOCK;
 
                 for (Entity entity : list)
                 {
@@ -239,7 +239,7 @@ public class EntityFallingBlock extends Entity
 
                     if (j > 2)
                     {
-                        this.canSetAsBlock = true;
+                        this.dontSetBlock = true;
                     }
                     else
                     {

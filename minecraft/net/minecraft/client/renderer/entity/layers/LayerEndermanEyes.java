@@ -4,7 +4,9 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.entity.RenderEnderman;
 import net.minecraft.entity.monster.EntityEnderman;
+import net.minecraft.src.Config;
 import net.minecraft.util.ResourceLocation;
+import shadersmod.client.Shaders;
 
 public class LayerEndermanEyes implements LayerRenderer<EntityEnderman>
 {
@@ -30,6 +32,12 @@ public class LayerEndermanEyes implements LayerRenderer<EntityEnderman>
         OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 61680.0F, 0.0F);
         GlStateManager.enableLighting();
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+
+        if (Config.isShaders())
+        {
+            Shaders.beginSpiderEyes();
+        }
+
         this.endermanRenderer.getMainModel().render(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
         this.endermanRenderer.setLightmap(entitylivingbaseIn, partialTicks);
         GlStateManager.depthMask(true);

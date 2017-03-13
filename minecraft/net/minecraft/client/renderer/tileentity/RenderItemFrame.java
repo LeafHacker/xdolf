@@ -13,14 +13,19 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemMap;
 import net.minecraft.item.ItemStack;
+import net.minecraft.src.Config;
+import net.minecraft.src.Reflector;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.storage.MapData;
+import shadersmod.client.ShadersTex;
 
 public class RenderItemFrame extends Render<EntityItemFrame>
 {
@@ -53,7 +58,7 @@ public class RenderItemFrame extends Render<EntityItemFrame>
         ModelManager modelmanager = blockrendererdispatcher.getBlockModelShapes().getModelManager();
         IBakedModel ibakedmodel;
 
-        if (!entity.getDisplayedItem().func_190926_b() && entity.getDisplayedItem().getItem() == Items.FILLED_MAP)
+        if (!entity.getDisplayedItem().isEmpty() && entity.getDisplayedItem().getItem() == Items.FILLED_MAP)
         {
             ibakedmodel = modelmanager.getModel(this.mapModel);
         }
@@ -100,56 +105,74 @@ public class RenderItemFrame extends Render<EntityItemFrame>
     {
         ItemStack itemstack = itemFrame.getDisplayedItem();
 
-        if (!itemstack.func_190926_b())
+        if (!itemstack.isEmpty())
         {
+            if (!Config.zoomMode)
+            {
+                Entity entity = this.mc.player;
+                double d0 = itemFrame.getDistanceSq(entity.posX, entity.posY, entity.posZ);
+
+                if (d0 > 4096.0D)
+                {
+                    return;
+                }
+            }
+
             EntityItem entityitem = new EntityItem(itemFrame.world, 0.0D, 0.0D, 0.0D, itemstack);
             Item item = entityitem.getEntityItem().getItem();
-            entityitem.getEntityItem().func_190920_e(1);
+            entityitem.getEntityItem().setCount(1);
             entityitem.hoverStart = 0.0F;
             GlStateManager.pushMatrix();
             GlStateManager.disableLighting();
             int i = itemFrame.getRotation();
 
-            if (item == Items.FILLED_MAP)
+            if (item instanceof ItemMap)
             {
                 i = i % 4 * 2;
             }
 
             GlStateManager.rotate((float)i * 360.0F / 8.0F, 0.0F, 0.0F, 1.0F);
 
-            if (item == Items.FILLED_MAP)
+            if (!Reflector.postForgeBusEvent(Reflector.RenderItemInFrameEvent_Constructor, new Object[] {itemFrame, this}))
             {
-                this.renderManager.renderEngine.bindTexture(MAP_BACKGROUND_TEXTURES);
-                GlStateManager.rotate(180.0F, 0.0F, 0.0F, 1.0F);
-                float f = 0.0078125F;
-                GlStateManager.scale(0.0078125F, 0.0078125F, 0.0078125F);
-                GlStateManager.translate(-64.0F, -64.0F, 0.0F);
-                MapData mapdata = Items.FILLED_MAP.getMapData(entityitem.getEntityItem(), itemFrame.world);
-                GlStateManager.translate(0.0F, 0.0F, -1.0F);
-
-                if (mapdata != null)
+                if (item instanceof ItemMap)
                 {
-                    this.mc.entityRenderer.getMapItemRenderer().renderMap(mapdata, true);
+                    this.renderManager.renderEngine.bindTexture(MAP_BACKGROUND_TEXTURES);
+                    GlStateManager.rotate(180.0F, 0.0F, 0.0F, 1.0F);
+                    float f = 0.0078125F;
+                    GlStateManager.scale(0.0078125F, 0.0078125F, 0.0078125F);
+                    GlStateManager.translate(-64.0F, -64.0F, 0.0F);
+                    MapData mapdata = Items.FILLED_MAP.getMapData(entityitem.getEntityItem(), itemFrame.world);
+                    GlStateManager.translate(0.0F, 0.0F, -1.0F);
+
+                    if (mapdata != null)
+                    {
+                        this.mc.entityRenderer.getMapItemRenderer().renderMap(mapdata, true);
+                    }
+                }
+                else
+                {
+                    GlStateManager.scale(0.5F, 0.5F, 0.5F);
+                    GlStateManager.pushAttrib();
+                    RenderHelper.enableStandardItemLighting();
+                    this.itemRenderer.renderItem(entityitem.getEntityItem(), ItemCameraTransforms.TransformType.FIXED);
+                    RenderHelper.disableStandardItemLighting();
+                    GlStateManager.popAttrib();
                 }
             }
-            else
-            {
-                GlStateManager.scale(0.5F, 0.5F, 0.5F);
-                GlStateManager.pushAttrib();
-                RenderHelper.enableStandardItemLighting();
-                this.itemRenderer.renderItem(entityitem.getEntityItem(), ItemCameraTransforms.TransformType.FIXED);
-                RenderHelper.disableStandardItemLighting();
-                GlStateManager.popAttrib();
-            }
-
             GlStateManager.enableLighting();
             GlStateManager.popMatrix();
+        }
+
+        if (Config.isShaders())
+        {
+            ShadersTex.updatingTex = null;
         }
     }
 
     protected void renderName(EntityItemFrame entity, double x, double y, double z)
     {
-        if (Minecraft.isGuiEnabled() && !entity.getDisplayedItem().func_190926_b() && entity.getDisplayedItem().hasDisplayName() && this.renderManager.pointedEntity == entity)
+        if (Minecraft.isGuiEnabled() && !entity.getDisplayedItem().isEmpty() && entity.getDisplayedItem().hasDisplayName() && this.renderManager.pointedEntity == entity)
         {
             double d0 = entity.getDistanceSqToEntity(this.renderManager.renderViewEntity);
             float f = entity.isSneaking() ? 32.0F : 64.0F;

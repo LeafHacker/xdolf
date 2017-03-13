@@ -21,7 +21,7 @@ import org.apache.logging.log4j.Logger;
 public class WorldGenDungeons extends WorldGenerator
 {
     private static final Logger LOGGER = LogManager.getLogger();
-    private static final ResourceLocation[] SPAWNERTYPES = new ResourceLocation[] {EntityList.func_191306_a(EntitySkeleton.class), EntityList.func_191306_a(EntityZombie.class), EntityList.func_191306_a(EntityZombie.class), EntityList.func_191306_a(EntitySpider.class)};
+    private static final ResourceLocation[] SPAWNERTYPES = new ResourceLocation[] {EntityList.getKey(EntitySkeleton.class), EntityList.getKey(EntityZombie.class), EntityList.getKey(EntityZombie.class), EntityList.getKey(EntitySpider.class)};
 
     public boolean generate(World worldIn, Random rand, BlockPos position)
     {
@@ -142,7 +142,7 @@ public class WorldGenDungeons extends WorldGenerator
 
             if (tileentity instanceof TileEntityMobSpawner)
             {
-                ((TileEntityMobSpawner)tileentity).getSpawnerBaseLogic().func_190894_a(this.pickMobSpawner(rand));
+                ((TileEntityMobSpawner)tileentity).getSpawnerBaseLogic().setEntityId(this.pickMobSpawner(rand));
             }
             else
             {

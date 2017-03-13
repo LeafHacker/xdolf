@@ -30,7 +30,7 @@ public class NettyVarint21FrameDecoder extends ByteToMessageDecoder
 
                 try
                 {
-                    int j = packetbuffer.readVarIntFromBuffer();
+                    int j = packetbuffer.readVarInt();
 
                     if (p_decode_2_.readableBytes() >= j)
                     {

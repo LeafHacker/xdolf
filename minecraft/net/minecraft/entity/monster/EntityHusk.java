@@ -17,14 +17,14 @@ import net.minecraft.world.storage.loot.LootTableList;
 
 public class EntityHusk extends EntityZombie
 {
-    public EntityHusk(World p_i47286_1_)
+    public EntityHusk(World worldIn)
     {
-        super(p_i47286_1_);
+        super(worldIn);
     }
 
-    public static void func_190740_b(DataFixer p_190740_0_)
+    public static void registerFixesHusk(DataFixer fixer)
     {
-        EntityLiving.registerFixesMob(p_190740_0_, EntityHusk.class);
+        EntityLiving.registerFixesMob(fixer, EntityHusk.class);
     }
 
     /**
@@ -35,7 +35,7 @@ public class EntityHusk extends EntityZombie
         return super.getCanSpawnHere() && this.world.canSeeSky(new BlockPos(this));
     }
 
-    protected boolean func_190730_o()
+    protected boolean shouldBurnInDay()
     {
         return false;
     }
@@ -55,7 +55,7 @@ public class EntityHusk extends EntityZombie
         return SoundEvents.ENTITY_HUSK_DEATH;
     }
 
-    protected SoundEvent func_190731_di()
+    protected SoundEvent getStepSound()
     {
         return SoundEvents.ENTITY_HUSK_STEP;
     }
@@ -63,14 +63,14 @@ public class EntityHusk extends EntityZombie
     @Nullable
     protected ResourceLocation getLootTable()
     {
-        return LootTableList.field_191182_ar;
+        return LootTableList.ENTITIES_HUSK;
     }
 
     public boolean attackEntityAsMob(Entity entityIn)
     {
         boolean flag = super.attackEntityAsMob(entityIn);
 
-        if (flag && this.getHeldItemMainhand().func_190926_b() && entityIn instanceof EntityLivingBase)
+        if (flag && this.getHeldItemMainhand().isEmpty() && entityIn instanceof EntityLivingBase)
         {
             float f = this.world.getDifficultyForLocation(new BlockPos(this)).getAdditionalDifficulty();
             ((EntityLivingBase)entityIn).addPotionEffect(new PotionEffect(MobEffects.HUNGER, 140 * (int)f));
@@ -79,8 +79,8 @@ public class EntityHusk extends EntityZombie
         return flag;
     }
 
-    protected ItemStack func_190732_dj()
+    protected ItemStack getSkullDrop()
     {
-        return ItemStack.field_190927_a;
+        return ItemStack.EMPTY;
     }
 }

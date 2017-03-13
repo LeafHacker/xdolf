@@ -22,7 +22,7 @@ public class EntityMinecartEmpty extends EntityMinecart
         EntityMinecart.registerFixesMinecart(fixer, EntityMinecartEmpty.class);
     }
 
-    public boolean processInitialInteract(EntityPlayer player, EnumHand stack)
+    public boolean processInitialInteract(EntityPlayer player, EnumHand hand)
     {
         if (player.isSneaking())
         {

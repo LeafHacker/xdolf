@@ -26,44 +26,44 @@ public class ItemSign extends Item
     /**
      * Called when a Block is right-clicked with this Item
      */
-    public EnumActionResult onItemUse(EntityPlayer stack, World playerIn, BlockPos worldIn, EnumHand pos, EnumFacing hand, float facing, float hitX, float hitY)
+    public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
     {
-        IBlockState iblockstate = playerIn.getBlockState(worldIn);
-        boolean flag = iblockstate.getBlock().isReplaceable(playerIn, worldIn);
+        IBlockState iblockstate = worldIn.getBlockState(pos);
+        boolean flag = iblockstate.getBlock().isReplaceable(worldIn, pos);
 
-        if (hand != EnumFacing.DOWN && (iblockstate.getMaterial().isSolid() || flag) && (!flag || hand == EnumFacing.UP))
+        if (facing != EnumFacing.DOWN && (iblockstate.getMaterial().isSolid() || flag) && (!flag || facing == EnumFacing.UP))
         {
-            worldIn = worldIn.offset(hand);
-            ItemStack itemstack = stack.getHeldItem(pos);
+            pos = pos.offset(facing);
+            ItemStack itemstack = player.getHeldItem(hand);
 
-            if (stack.canPlayerEdit(worldIn, hand, itemstack) && Blocks.STANDING_SIGN.canPlaceBlockAt(playerIn, worldIn))
+            if (player.canPlayerEdit(pos, facing, itemstack) && Blocks.STANDING_SIGN.canPlaceBlockAt(worldIn, pos))
             {
-                if (playerIn.isRemote)
+                if (worldIn.isRemote)
                 {
                     return EnumActionResult.SUCCESS;
                 }
                 else
                 {
-                    worldIn = flag ? worldIn.down() : worldIn;
+                    pos = flag ? pos.down() : pos;
 
-                    if (hand == EnumFacing.UP)
+                    if (facing == EnumFacing.UP)
                     {
-                        int i = MathHelper.floor((double)((stack.rotationYaw + 180.0F) * 16.0F / 360.0F) + 0.5D) & 15;
-                        playerIn.setBlockState(worldIn, Blocks.STANDING_SIGN.getDefaultState().withProperty(BlockStandingSign.ROTATION, Integer.valueOf(i)), 11);
+                        int i = MathHelper.floor((double)((player.rotationYaw + 180.0F) * 16.0F / 360.0F) + 0.5D) & 15;
+                        worldIn.setBlockState(pos, Blocks.STANDING_SIGN.getDefaultState().withProperty(BlockStandingSign.ROTATION, Integer.valueOf(i)), 11);
                     }
                     else
                     {
-                        playerIn.setBlockState(worldIn, Blocks.WALL_SIGN.getDefaultState().withProperty(BlockWallSign.FACING, hand), 11);
+                        worldIn.setBlockState(pos, Blocks.WALL_SIGN.getDefaultState().withProperty(BlockWallSign.FACING, facing), 11);
                     }
 
-                    TileEntity tileentity = playerIn.getTileEntity(worldIn);
+                    TileEntity tileentity = worldIn.getTileEntity(pos);
 
-                    if (tileentity instanceof TileEntitySign && !ItemBlock.setTileEntityNBT(playerIn, stack, worldIn, itemstack))
+                    if (tileentity instanceof TileEntitySign && !ItemBlock.setTileEntityNBT(worldIn, player, pos, itemstack))
                     {
-                        stack.openEditSign((TileEntitySign)tileentity);
+                        player.openEditSign((TileEntitySign)tileentity);
                     }
 
-                    itemstack.func_190918_g(1);
+                    itemstack.shrink(1);
                     return EnumActionResult.SUCCESS;
                 }
             }

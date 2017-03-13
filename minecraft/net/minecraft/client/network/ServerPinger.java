@@ -174,7 +174,6 @@ public class ServerPinger
 
         try
         {
-        	// TODO: marker
             networkmanager.sendPacket(new C00Handshake(GuiScreenProtocol.proto, serveraddress.getIP(), serveraddress.getPort(), EnumConnectionState.STATUS));
             networkmanager.sendPacket(new CPacketServerQuery());
         }

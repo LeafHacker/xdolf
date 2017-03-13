@@ -17,7 +17,7 @@ public class CommandEmote extends CommandBase
     /**
      * Gets the name of the command
      */
-    public String getCommandName()
+    public String getName()
     {
         return "me";
     }
@@ -33,7 +33,7 @@ public class CommandEmote extends CommandBase
     /**
      * Gets the usage string for the command.
      */
-    public String getCommandUsage(ICommandSender sender)
+    public String getUsage(ICommandSender sender)
     {
         return "commands.me.usage";
     }
@@ -50,12 +50,12 @@ public class CommandEmote extends CommandBase
         else
         {
             ITextComponent itextcomponent = getChatComponentFromNthArg(sender, args, 0, !(sender instanceof EntityPlayer));
-            server.getPlayerList().sendChatMsg(new TextComponentTranslation("chat.type.emote", new Object[] {sender.getDisplayName(), itextcomponent}));
+            server.getPlayerList().sendMessage(new TextComponentTranslation("chat.type.emote", new Object[] {sender.getDisplayName(), itextcomponent}));
         }
     }
 
-    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
+    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
     {
-        return getListOfStringsMatchingLastWord(args, server.getAllUsernames());
+        return getListOfStringsMatchingLastWord(args, server.getOnlinePlayerNames());
     }
 }

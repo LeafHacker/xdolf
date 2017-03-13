@@ -11,20 +11,20 @@ import net.minecraft.world.storage.loot.LootTableList;
 
 public class EntityDonkey extends AbstractChestHorse
 {
-    public EntityDonkey(World p_i47298_1_)
+    public EntityDonkey(World worldIn)
     {
-        super(p_i47298_1_);
+        super(worldIn);
     }
 
-    public static void func_190699_b(DataFixer p_190699_0_)
+    public static void registerFixesDonkey(DataFixer fixer)
     {
-        AbstractChestHorse.func_190694_b(p_190699_0_, EntityDonkey.class);
+        AbstractChestHorse.registerFixesAbstractChestHorse(fixer, EntityDonkey.class);
     }
 
     @Nullable
     protected ResourceLocation getLootTable()
     {
-        return LootTableList.field_191190_H;
+        return LootTableList.ENTITIES_DONKEY;
     }
 
     protected SoundEvent getAmbientSound()
@@ -56,7 +56,7 @@ public class EntityDonkey extends AbstractChestHorse
     public EntityAgeable createChild(EntityAgeable ageable)
     {
         AbstractHorse abstracthorse = (AbstractHorse)(ageable instanceof EntityHorse ? new EntityMule(this.world) : new EntityDonkey(this.world));
-        this.func_190681_a(ageable, abstracthorse);
+        this.setOffspringAttributes(ageable, abstracthorse);
         return abstracthorse;
     }
 }

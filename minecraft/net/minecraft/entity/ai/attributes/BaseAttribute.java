@@ -21,7 +21,7 @@ public abstract class BaseAttribute implements IAttribute
         }
     }
 
-    public String getAttributeUnlocalizedName()
+    public String getName()
     {
         return this.unlocalizedName;
     }
@@ -55,6 +55,6 @@ public abstract class BaseAttribute implements IAttribute
 
     public boolean equals(Object p_equals_1_)
     {
-        return p_equals_1_ instanceof IAttribute && this.unlocalizedName.equals(((IAttribute)p_equals_1_).getAttributeUnlocalizedName());
+        return p_equals_1_ instanceof IAttribute && this.unlocalizedName.equals(((IAttribute)p_equals_1_).getName());
     }
 }

@@ -59,7 +59,7 @@ public class BannerTextures
 
                     for (BannerPattern bannerpattern : patternList)
                     {
-                        list.add(this.cacheResourceBase + bannerpattern.func_190997_a() + ".png");
+                        list.add(this.cacheResourceBase + bannerpattern.getFileName() + ".png");
                     }
 
                     bannertextures$cacheentry = new BannerTextures.CacheEntry();

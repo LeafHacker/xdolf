@@ -2,27 +2,27 @@ package net.minecraft.world.storage;
 
 public class MapDecoration
 {
-    private final MapDecoration.Type field_191181_a;
+    private final MapDecoration.Type type;
     private byte x;
     private byte y;
     private byte rotation;
 
-    public MapDecoration(MapDecoration.Type p_i47236_1_, byte p_i47236_2_, byte p_i47236_3_, byte p_i47236_4_)
+    public MapDecoration(MapDecoration.Type typeIn, byte xIn, byte yIn, byte rotationIn)
     {
-        this.field_191181_a = p_i47236_1_;
-        this.x = p_i47236_2_;
-        this.y = p_i47236_3_;
-        this.rotation = p_i47236_4_;
+        this.type = typeIn;
+        this.x = xIn;
+        this.y = yIn;
+        this.rotation = rotationIn;
     }
 
-    public byte getType()
+    public byte getImage()
     {
-        return this.field_191181_a.func_191163_a();
+        return this.type.getIcon();
     }
 
-    public MapDecoration.Type func_191179_b()
+    public MapDecoration.Type getType()
     {
-        return this.field_191181_a;
+        return this.type;
     }
 
     public byte getX()
@@ -40,9 +40,9 @@ public class MapDecoration
         return this.rotation;
     }
 
-    public boolean func_191180_f()
+    public boolean renderOnFrame()
     {
-        return this.field_191181_a.func_191160_b();
+        return this.type.isRenderedOnFrame();
     }
 
     public boolean equals(Object p_equals_1_)
@@ -58,13 +58,13 @@ public class MapDecoration
         else
         {
             MapDecoration mapdecoration = (MapDecoration)p_equals_1_;
-            return this.field_191181_a != mapdecoration.field_191181_a ? false : (this.rotation != mapdecoration.rotation ? false : (this.x != mapdecoration.x ? false : this.y == mapdecoration.y));
+            return this.type != mapdecoration.type ? false : (this.rotation != mapdecoration.rotation ? false : (this.x != mapdecoration.x ? false : this.y == mapdecoration.y));
         }
     }
 
     public int hashCode()
     {
-        int i = this.field_191181_a.func_191163_a();
+        int i = this.type.getIcon();
         i = 31 * i + this.x;
         i = 31 * i + this.y;
         i = 31 * i + this.rotation;
@@ -84,9 +84,9 @@ public class MapDecoration
         MANSION(true, 5393476),
         MONUMENT(true, 3830373);
 
-        private final byte field_191175_k;
-        private final boolean field_191176_l;
-        private final int field_191177_m;
+        private final byte icon;
+        private final boolean renderedOnFrame;
+        private final int mapColor;
 
         private Type(boolean p_i47343_3_)
         {
@@ -95,32 +95,32 @@ public class MapDecoration
 
         private Type(boolean p_i47344_3_, int p_i47344_4_)
         {
-            this.field_191175_k = (byte)this.ordinal();
-            this.field_191176_l = p_i47344_3_;
-            this.field_191177_m = p_i47344_4_;
+            this.icon = (byte)this.ordinal();
+            this.renderedOnFrame = p_i47344_3_;
+            this.mapColor = p_i47344_4_;
         }
 
-        public byte func_191163_a()
+        public byte getIcon()
         {
-            return this.field_191175_k;
+            return this.icon;
         }
 
-        public boolean func_191160_b()
+        public boolean isRenderedOnFrame()
         {
-            return this.field_191176_l;
+            return this.renderedOnFrame;
         }
 
-        public boolean func_191162_c()
+        public boolean hasMapColor()
         {
-            return this.field_191177_m >= 0;
+            return this.mapColor >= 0;
         }
 
-        public int func_191161_d()
+        public int getMapColor()
         {
-            return this.field_191177_m;
+            return this.mapColor;
         }
 
-        public static MapDecoration.Type func_191159_a(byte p_191159_0_)
+        public static MapDecoration.Type byIcon(byte p_191159_0_)
         {
             return values()[p_191159_0_];
         }

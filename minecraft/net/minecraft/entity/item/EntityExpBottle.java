@@ -53,7 +53,7 @@ public class EntityExpBottle extends EntityThrowable
             {
                 int j = EntityXPOrb.getXPSplit(i);
                 i -= j;
-                this.world.spawnEntityInWorld(new EntityXPOrb(this.world, this.posX, this.posY, this.posZ, j));
+                this.world.spawnEntity(new EntityXPOrb(this.world, this.posX, this.posY, this.posZ, j));
             }
 
             this.setDead();

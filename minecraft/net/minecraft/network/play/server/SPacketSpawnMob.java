@@ -36,7 +36,7 @@ public class SPacketSpawnMob implements Packet<INetHandlerPlayClient>
     {
         this.entityId = entityIn.getEntityId();
         this.uniqueId = entityIn.getUniqueID();
-        this.type = EntityList.field_191308_b.getIDForObject(entityIn.getClass());
+        this.type = EntityList.REGISTRY.getIDForObject(entityIn.getClass());
         this.x = entityIn.posX;
         this.y = entityIn.posY;
         this.z = entityIn.posZ;
@@ -89,9 +89,9 @@ public class SPacketSpawnMob implements Packet<INetHandlerPlayClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.entityId = buf.readVarIntFromBuffer();
-        this.uniqueId = buf.readUuid();
-        this.type = buf.readVarIntFromBuffer();
+        this.entityId = buf.readVarInt();
+        this.uniqueId = buf.readUniqueId();
+        this.type = buf.readVarInt();
         this.x = buf.readDouble();
         this.y = buf.readDouble();
         this.z = buf.readDouble();
@@ -109,9 +109,9 @@ public class SPacketSpawnMob implements Packet<INetHandlerPlayClient>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeVarIntToBuffer(this.entityId);
-        buf.writeUuid(this.uniqueId);
-        buf.writeVarIntToBuffer(this.type);
+        buf.writeVarInt(this.entityId);
+        buf.writeUniqueId(this.uniqueId);
+        buf.writeVarInt(this.type);
         buf.writeDouble(this.x);
         buf.writeDouble(this.y);
         buf.writeDouble(this.z);

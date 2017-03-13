@@ -31,7 +31,7 @@ public class SPacketCustomPayload implements Packet<INetHandlerPlayClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.channel = buf.readStringFromBuffer(20);
+        this.channel = buf.readString(20);
         int i = buf.readableBytes();
 
         if (i >= 0 && i <= 1048576)

@@ -32,7 +32,7 @@ public class SPacketSpawnExperienceOrb implements Packet<INetHandlerPlayClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.entityID = buf.readVarIntFromBuffer();
+        this.entityID = buf.readVarInt();
         this.posX = buf.readDouble();
         this.posY = buf.readDouble();
         this.posZ = buf.readDouble();
@@ -44,7 +44,7 @@ public class SPacketSpawnExperienceOrb implements Packet<INetHandlerPlayClient>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeVarIntToBuffer(this.entityID);
+        buf.writeVarInt(this.entityID);
         buf.writeDouble(this.posX);
         buf.writeDouble(this.posY);
         buf.writeDouble(this.posZ);

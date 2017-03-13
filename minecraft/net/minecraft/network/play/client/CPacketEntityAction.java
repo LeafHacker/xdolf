@@ -33,9 +33,9 @@ public class CPacketEntityAction implements Packet<INetHandlerPlayServer>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.entityID = buf.readVarIntFromBuffer();
+        this.entityID = buf.readVarInt();
         this.action = (CPacketEntityAction.Action)buf.readEnumValue(CPacketEntityAction.Action.class);
-        this.auxData = buf.readVarIntFromBuffer();
+        this.auxData = buf.readVarInt();
     }
 
     /**
@@ -43,9 +43,9 @@ public class CPacketEntityAction implements Packet<INetHandlerPlayServer>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeVarIntToBuffer(this.entityID);
+        buf.writeVarInt(this.entityID);
         buf.writeEnumValue(this.action);
-        buf.writeVarIntToBuffer(this.auxData);
+        buf.writeVarInt(this.auxData);
     }
 
     /**

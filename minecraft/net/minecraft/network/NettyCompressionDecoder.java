@@ -25,7 +25,7 @@ public class NettyCompressionDecoder extends ByteToMessageDecoder
         if (p_decode_2_.readableBytes() != 0)
         {
             PacketBuffer packetbuffer = new PacketBuffer(p_decode_2_);
-            int i = packetbuffer.readVarIntFromBuffer();
+            int i = packetbuffer.readVarInt();
 
             if (i == 0)
             {

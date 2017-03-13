@@ -63,8 +63,8 @@ public class SPacketSpawnObject implements Packet<INetHandlerPlayClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.entityId = buf.readVarIntFromBuffer();
-        this.uniqueId = buf.readUuid();
+        this.entityId = buf.readVarInt();
+        this.uniqueId = buf.readUniqueId();
         this.type = buf.readByte();
         this.x = buf.readDouble();
         this.y = buf.readDouble();
@@ -82,8 +82,8 @@ public class SPacketSpawnObject implements Packet<INetHandlerPlayClient>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeVarIntToBuffer(this.entityId);
-        buf.writeUuid(this.uniqueId);
+        buf.writeVarInt(this.entityId);
+        buf.writeUniqueId(this.uniqueId);
         buf.writeByte(this.type);
         buf.writeDouble(this.x);
         buf.writeDouble(this.y);

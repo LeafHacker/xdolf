@@ -53,9 +53,9 @@ public class EntityMinecartMobSpawner extends EntityMinecart
             {
                 String s = compound.getString("id");
 
-                if (EntityList.func_191306_a(EntityMinecartMobSpawner.class).equals(new ResourceLocation(s)))
+                if (EntityList.getKey(EntityMinecartMobSpawner.class).equals(new ResourceLocation(s)))
                 {
-                    compound.setString("id", TileEntity.func_190559_a(TileEntityMobSpawner.class).toString());
+                    compound.setString("id", TileEntity.getKey(TileEntityMobSpawner.class).toString());
                     fixer.process(FixTypes.BLOCK_ENTITY, compound, versionIn);
                     compound.setString("id", s);
                 }

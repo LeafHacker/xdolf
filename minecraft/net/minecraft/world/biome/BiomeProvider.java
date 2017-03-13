@@ -17,7 +17,7 @@ import net.minecraft.world.storage.WorldInfo;
 
 public class BiomeProvider
 {
-    private ChunkProviderSettings field_190945_a;
+    private ChunkProviderSettings settings;
     private GenLayer genBiomes;
 
     /** A GenLayer containing the indices into BiomeGenBase.biomeList[] */
@@ -39,10 +39,10 @@ public class BiomeProvider
 
         if (worldTypeIn == WorldType.CUSTOMIZED && !options.isEmpty())
         {
-            this.field_190945_a = ChunkProviderSettings.Factory.jsonToFactory(options).build();
+            this.settings = ChunkProviderSettings.Factory.jsonToFactory(options).build();
         }
 
-        GenLayer[] agenlayer = GenLayer.initializeAllBiomeGenerators(seed, worldTypeIn, this.field_190945_a);
+        GenLayer[] agenlayer = GenLayer.initializeAllBiomeGenerators(seed, worldTypeIn, this.settings);
         this.genBiomes = agenlayer[0];
         this.biomeIndexLayer = agenlayer[1];
     }
@@ -233,13 +233,13 @@ public class BiomeProvider
         this.biomeCache.cleanupCache();
     }
 
-    public boolean func_190944_c()
+    public boolean isFixedBiome()
     {
-        return this.field_190945_a != null && this.field_190945_a.fixedBiome >= 0;
+        return this.settings != null && this.settings.fixedBiome >= 0;
     }
 
-    public Biome func_190943_d()
+    public Biome getFixedBiome()
     {
-        return this.field_190945_a != null && this.field_190945_a.fixedBiome >= 0 ? Biome.getBiomeForId(this.field_190945_a.fixedBiome) : null;
+        return this.settings != null && this.settings.fixedBiome >= 0 ? Biome.getBiomeForId(this.settings.fixedBiome) : null;
     }
 }

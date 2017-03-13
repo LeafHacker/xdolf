@@ -37,7 +37,7 @@ public class ItemShield extends Item
     {
         if (stack.getSubCompound("BlockEntityTag") != null)
         {
-            EnumDyeColor enumdyecolor = TileEntityBanner.func_190616_d(stack);
+            EnumDyeColor enumdyecolor = TileEntityBanner.getColor(stack);
             return I18n.translateToLocal("item.shield." + enumdyecolor.getUnlocalizedName() + ".name");
         }
         else
@@ -87,10 +87,10 @@ public class ItemShield extends Item
         return 72000;
     }
 
-    public ActionResult<ItemStack> onItemRightClick(World itemStackIn, EntityPlayer worldIn, EnumHand playerIn)
+    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
     {
-        ItemStack itemstack = worldIn.getHeldItem(playerIn);
-        worldIn.setActiveHand(playerIn);
+        ItemStack itemstack = playerIn.getHeldItem(handIn);
+        playerIn.setActiveHand(handIn);
         return new ActionResult(EnumActionResult.SUCCESS, itemstack);
     }
 

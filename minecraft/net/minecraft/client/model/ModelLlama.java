@@ -6,8 +6,8 @@ import net.minecraft.entity.passive.AbstractChestHorse;
 
 public class ModelLlama extends ModelQuadruped
 {
-    private final ModelRenderer field_191226_i;
-    private final ModelRenderer field_191227_j;
+    private final ModelRenderer chest1;
+    private final ModelRenderer chest2;
 
     public ModelLlama(float p_i47226_1_)
     {
@@ -23,14 +23,14 @@ public class ModelLlama extends ModelQuadruped
         this.body = new ModelRenderer(this, 29, 0);
         this.body.addBox(-6.0F, -10.0F, -7.0F, 12, 18, 10, p_i47226_1_);
         this.body.setRotationPoint(0.0F, 5.0F, 2.0F);
-        this.field_191226_i = new ModelRenderer(this, 45, 28);
-        this.field_191226_i.addBox(-3.0F, 0.0F, 0.0F, 8, 8, 3, p_i47226_1_);
-        this.field_191226_i.setRotationPoint(-8.5F, 3.0F, 3.0F);
-        this.field_191226_i.rotateAngleY = ((float)Math.PI / 2F);
-        this.field_191227_j = new ModelRenderer(this, 45, 41);
-        this.field_191227_j.addBox(-3.0F, 0.0F, 0.0F, 8, 8, 3, p_i47226_1_);
-        this.field_191227_j.setRotationPoint(5.5F, 3.0F, 3.0F);
-        this.field_191227_j.rotateAngleY = ((float)Math.PI / 2F);
+        this.chest1 = new ModelRenderer(this, 45, 28);
+        this.chest1.addBox(-3.0F, 0.0F, 0.0F, 8, 8, 3, p_i47226_1_);
+        this.chest1.setRotationPoint(-8.5F, 3.0F, 3.0F);
+        this.chest1.rotateAngleY = ((float)Math.PI / 2F);
+        this.chest2 = new ModelRenderer(this, 45, 41);
+        this.chest2.addBox(-3.0F, 0.0F, 0.0F, 8, 8, 3, p_i47226_1_);
+        this.chest2.setRotationPoint(5.5F, 3.0F, 3.0F);
+        this.chest2.rotateAngleY = ((float)Math.PI / 2F);
         int i = 4;
         int j = 14;
         this.leg1 = new ModelRenderer(this, 29, 29);
@@ -62,7 +62,7 @@ public class ModelLlama extends ModelQuadruped
     public void render(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale)
     {
         AbstractChestHorse abstractchesthorse = (AbstractChestHorse)entityIn;
-        boolean flag = !abstractchesthorse.isChild() && abstractchesthorse.func_190695_dh();
+        boolean flag = !abstractchesthorse.isChild() && abstractchesthorse.hasChest();
         this.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale, entityIn);
 
         if (this.isChild)
@@ -104,8 +104,8 @@ public class ModelLlama extends ModelQuadruped
 
         if (flag)
         {
-            this.field_191226_i.render(scale);
-            this.field_191227_j.render(scale);
+            this.chest1.render(scale);
+            this.chest2.render(scale);
         }
     }
 }

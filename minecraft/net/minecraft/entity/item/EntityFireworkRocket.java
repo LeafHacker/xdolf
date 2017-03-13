@@ -37,7 +37,7 @@ public class EntityFireworkRocket extends Entity
 
     protected void entityInit()
     {
-        this.dataManager.register(FIREWORK_ITEM, ItemStack.field_190927_a);
+        this.dataManager.register(FIREWORK_ITEM, ItemStack.EMPTY);
     }
 
     /**
@@ -56,7 +56,7 @@ public class EntityFireworkRocket extends Entity
         this.setPosition(x, y, z);
         int i = 1;
 
-        if (!givenItem.func_190926_b() && givenItem.hasTagCompound())
+        if (!givenItem.isEmpty() && givenItem.hasTagCompound())
         {
             this.dataManager.set(FIREWORK_ITEM, givenItem);
             NBTTagCompound nbttagcompound = givenItem.getTagCompound();
@@ -101,7 +101,7 @@ public class EntityFireworkRocket extends Entity
         this.motionX *= 1.15D;
         this.motionZ *= 1.15D;
         this.motionY += 0.04D;
-        this.moveEntity(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
+        this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
         float f = MathHelper.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
         this.rotationYaw = (float)(MathHelper.atan2(this.motionX, this.motionZ) * (180D / Math.PI));
 
@@ -152,7 +152,7 @@ public class EntityFireworkRocket extends Entity
         if (id == 17 && this.world.isRemote)
         {
             ItemStack itemstack = (ItemStack)this.dataManager.get(FIREWORK_ITEM);
-            NBTTagCompound nbttagcompound = itemstack.func_190926_b() ? null : itemstack.getSubCompound("Fireworks");
+            NBTTagCompound nbttagcompound = itemstack.isEmpty() ? null : itemstack.getSubCompound("Fireworks");
             this.world.makeFireworks(this.posX, this.posY, this.posZ, this.motionX, this.motionY, this.motionZ, nbttagcompound);
         }
 
@@ -173,7 +173,7 @@ public class EntityFireworkRocket extends Entity
         compound.setInteger("LifeTime", this.lifetime);
         ItemStack itemstack = (ItemStack)this.dataManager.get(FIREWORK_ITEM);
 
-        if (!itemstack.func_190926_b())
+        if (!itemstack.isEmpty())
         {
             compound.setTag("FireworksItem", itemstack.writeToNBT(new NBTTagCompound()));
         }
@@ -192,7 +192,7 @@ public class EntityFireworkRocket extends Entity
         {
             ItemStack itemstack = new ItemStack(nbttagcompound);
 
-            if (!itemstack.func_190926_b())
+            if (!itemstack.isEmpty())
             {
                 this.dataManager.set(FIREWORK_ITEM, itemstack);
             }

@@ -71,12 +71,12 @@ public class NpcMerchant implements IMerchant
         return (ITextComponent)(this.name != null ? this.name : new TextComponentTranslation("entity.Villager.name", new Object[0]));
     }
 
-    public World func_190670_t_()
+    public World getWorld()
     {
         return this.customer.world;
     }
 
-    public BlockPos func_190671_u_()
+    public BlockPos getPos()
     {
         return new BlockPos(this.customer);
     }

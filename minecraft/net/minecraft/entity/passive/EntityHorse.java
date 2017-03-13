@@ -52,7 +52,7 @@ public class EntityHorse extends AbstractHorse
 
     public static void registerFixesHorse(DataFixer fixer)
     {
-        AbstractHorse.func_190683_c(fixer, EntityHorse.class);
+        AbstractHorse.registerFixesAbstractHorse(fixer, EntityHorse.class);
         fixer.registerWalker(FixTypes.ENTITY, new ItemStackData(EntityHorse.class, new String[] {"ArmorItem"}));
     }
 
@@ -64,7 +64,7 @@ public class EntityHorse extends AbstractHorse
         super.writeEntityToNBT(compound);
         compound.setInteger("Variant", this.getHorseVariant());
 
-        if (!this.horseChest.getStackInSlot(1).func_190926_b())
+        if (!this.horseChest.getStackInSlot(1).isEmpty())
         {
             compound.setTag("ArmorItem", this.horseChest.getStackInSlot(1).writeToNBT(new NBTTagCompound()));
         }
@@ -82,7 +82,7 @@ public class EntityHorse extends AbstractHorse
         {
             ItemStack itemstack = new ItemStack(compound.getCompoundTag("ArmorItem"));
 
-            if (!itemstack.func_190926_b() && HorseArmorType.isHorseArmor(itemstack.getItem()))
+            if (!itemstack.isEmpty() && HorseArmorType.isHorseArmor(itemstack.getItem()))
             {
                 this.horseChest.setInventorySlotContents(1, itemstack);
             }
@@ -189,9 +189,9 @@ public class EntityHorse extends AbstractHorse
         }
     }
 
-    protected void func_190680_a(SoundType p_190680_1_)
+    protected void playGallopSound(SoundType p_190680_1_)
     {
-        super.func_190680_a(p_190680_1_);
+        super.playGallopSound(p_190680_1_);
 
         if (this.rand.nextInt(10) == 0)
         {
@@ -253,7 +253,7 @@ public class EntityHorse extends AbstractHorse
     public boolean processInteract(EntityPlayer player, EnumHand hand)
     {
         ItemStack itemstack = player.getHeldItem(hand);
-        boolean flag = !itemstack.func_190926_b();
+        boolean flag = !itemstack.isEmpty();
 
         if (flag && itemstack.getItem() == Items.SPAWN_EGG)
         {
@@ -277,11 +277,11 @@ public class EntityHorse extends AbstractHorse
 
             if (flag)
             {
-                if (this.func_190678_b(player, itemstack))
+                if (this.handleEating(player, itemstack))
                 {
                     if (!player.capabilities.isCreativeMode)
                     {
-                        itemstack.func_190918_g(1);
+                        itemstack.shrink(1);
                     }
 
                     return true;
@@ -294,7 +294,7 @@ public class EntityHorse extends AbstractHorse
 
                 if (!this.isTame())
                 {
-                    this.func_190687_dF();
+                    this.makeMad();
                     return true;
                 }
 
@@ -374,18 +374,18 @@ public class EntityHorse extends AbstractHorse
             ((EntityHorse)abstracthorse).setHorseVariant(i);
         }
 
-        this.func_190681_a(ageable, abstracthorse);
+        this.setOffspringAttributes(ageable, abstracthorse);
         return abstracthorse;
     }
 
-    public boolean func_190677_dK()
+    public boolean wearsArmor()
     {
         return true;
     }
 
-    public boolean func_190682_f(ItemStack p_190682_1_)
+    public boolean isArmor(ItemStack stack)
     {
-        return HorseArmorType.isHorseArmor(p_190682_1_.getItem());
+        return HorseArmorType.isHorseArmor(stack.getItem());
     }
 
     @Nullable
@@ -401,7 +401,7 @@ public class EntityHorse extends AbstractHorse
 
         if (livingdata instanceof EntityHorse.GroupData)
         {
-            i = ((EntityHorse.GroupData)livingdata).field_190885_a;
+            i = ((EntityHorse.GroupData)livingdata).variant;
         }
         else
         {
@@ -415,11 +415,11 @@ public class EntityHorse extends AbstractHorse
 
     public static class GroupData implements IEntityLivingData
     {
-        public int field_190885_a;
+        public int variant;
 
-        public GroupData(int p_i47337_1_)
+        public GroupData(int variantIn)
         {
-            this.field_190885_a = p_i47337_1_;
+            this.variant = variantIn;
         }
     }
 }

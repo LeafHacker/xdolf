@@ -10,7 +10,7 @@ public class CommandDefaultGameMode extends CommandGameMode
     /**
      * Gets the name of the command
      */
-    public String getCommandName()
+    public String getName()
     {
         return "defaultgamemode";
     }
@@ -18,7 +18,7 @@ public class CommandDefaultGameMode extends CommandGameMode
     /**
      * Gets the usage string for the command.
      */
-    public String getCommandUsage(ICommandSender sender)
+    public String getUsage(ICommandSender sender)
     {
         return "commands.defaultgamemode.usage";
     }
@@ -50,7 +50,7 @@ public class CommandDefaultGameMode extends CommandGameMode
 
         if (server.getForceGamemode())
         {
-            for (EntityPlayerMP entityplayermp : server.getPlayerList().getPlayerList())
+            for (EntityPlayerMP entityplayermp : server.getPlayerList().getPlayers())
             {
                 entityplayermp.setGameType(gameType);
             }

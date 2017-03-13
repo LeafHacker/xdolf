@@ -177,28 +177,26 @@ public class ChunkRenderWorker implements Runnable
                 {
                     ChunkRenderWorker.this.freeRenderBuilder(generator);
                     generator.getLock().lock();
-                    label21:
-                    {
-                        try
-                        {
-                            if (generator.getStatus() == ChunkCompileTaskGenerator.Status.UPLOADING)
-                            {
-                                generator.setStatus(ChunkCompileTaskGenerator.Status.DONE);
-                                break label21;
-                            }
 
+                    try
+                    {
+                        if (generator.getStatus() != ChunkCompileTaskGenerator.Status.UPLOADING)
+                        {
                             if (!generator.isFinished())
                             {
                                 ChunkRenderWorker.LOGGER.warn("Chunk render task was {} when I expected it to be uploading; aborting task", new Object[] {generator.getStatus()});
                             }
-                        }
-                        finally
-                        {
-                            generator.getLock().unlock();
+
+                            return;
                         }
 
-                        return;
+                        generator.setStatus(ChunkCompileTaskGenerator.Status.DONE);
                     }
+                    finally
+                    {
+                        generator.getLock().unlock();
+                    }
+
                     generator.getRenderChunk().setCompiledChunk(lvt_7_2_);
                 }
                 public void onFailure(Throwable p_onFailure_1_)
@@ -216,7 +214,7 @@ public class ChunkRenderWorker implements Runnable
 
     private boolean isChunkExisting(BlockPos p_188263_1_, World p_188263_2_)
     {
-        return !p_188263_2_.getChunkFromChunkCoords(p_188263_1_.getX() >> 4, p_188263_1_.getZ() >> 4).isEmpty();
+        return p_188263_2_ == null ? false : !p_188263_2_.getChunkFromChunkCoords(p_188263_1_.getX() >> 4, p_188263_1_.getZ() >> 4).isEmpty();
     }
 
     private RegionRenderCacheBuilder getRegionRenderCacheBuilder() throws InterruptedException

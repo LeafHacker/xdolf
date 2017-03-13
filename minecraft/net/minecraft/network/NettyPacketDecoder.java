@@ -26,7 +26,7 @@ public class NettyPacketDecoder extends ByteToMessageDecoder
         if (p_decode_2_.readableBytes() != 0)
         {
             PacketBuffer packetbuffer = new PacketBuffer(p_decode_2_);
-            int i = packetbuffer.readVarIntFromBuffer();
+            int i = packetbuffer.readVarInt();
             Packet<?> packet = ((EnumConnectionState)p_decode_1_.channel().attr(NetworkManager.PROTOCOL_ATTRIBUTE_KEY).get()).getPacket(this.direction, i);
 
             if (packet == null)

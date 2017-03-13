@@ -407,7 +407,7 @@ public class EntityWolf extends EntityTameable
 
         if (this.isTamed())
         {
-            if (!itemstack.func_190926_b())
+            if (!itemstack.isEmpty())
             {
                 if (itemstack.getItem() instanceof ItemFood)
                 {
@@ -417,7 +417,7 @@ public class EntityWolf extends EntityTameable
                     {
                         if (!player.capabilities.isCreativeMode)
                         {
-                            itemstack.func_190918_g(1);
+                            itemstack.shrink(1);
                         }
 
                         this.heal((float)itemfood.getHealAmount(itemstack));
@@ -434,7 +434,7 @@ public class EntityWolf extends EntityTameable
 
                         if (!player.capabilities.isCreativeMode)
                         {
-                            itemstack.func_190918_g(1);
+                            itemstack.shrink(1);
                         }
 
                         return true;
@@ -454,7 +454,7 @@ public class EntityWolf extends EntityTameable
         {
             if (!player.capabilities.isCreativeMode)
             {
-                itemstack.func_190918_g(1);
+                itemstack.shrink(1);
             }
 
             if (!this.world.isRemote)
@@ -631,22 +631,22 @@ public class EntityWolf extends EntityTameable
 
     class AIAvoidEntity<T extends Entity> extends EntityAIAvoidEntity<T>
     {
-        private final EntityWolf field_190856_d;
+        private final EntityWolf wolf;
 
-        public AIAvoidEntity(EntityWolf p_i47251_2_, Class<T> p_i47251_3_, float p_i47251_4_, double p_i47251_5_, double p_i47251_7_)
+        public AIAvoidEntity(EntityWolf wolfIn, Class<T> p_i47251_3_, float p_i47251_4_, double p_i47251_5_, double p_i47251_7_)
         {
-            super(p_i47251_2_, p_i47251_3_, p_i47251_4_, p_i47251_5_, p_i47251_7_);
-            this.field_190856_d = p_i47251_2_;
+            super(wolfIn, p_i47251_3_, p_i47251_4_, p_i47251_5_, p_i47251_7_);
+            this.wolf = wolfIn;
         }
 
         public boolean shouldExecute()
         {
-            return super.shouldExecute() && this.closestLivingEntity instanceof EntityLlama ? !this.field_190856_d.isTamed() && this.func_190854_a((EntityLlama)this.closestLivingEntity) : false;
+            return super.shouldExecute() && this.closestLivingEntity instanceof EntityLlama ? !this.wolf.isTamed() && this.avoidLlama((EntityLlama)this.closestLivingEntity) : false;
         }
 
-        private boolean func_190854_a(EntityLlama p_190854_1_)
+        private boolean avoidLlama(EntityLlama p_190854_1_)
         {
-            return p_190854_1_.func_190707_dL() >= EntityWolf.this.rand.nextInt(5);
+            return p_190854_1_.getStrength() >= EntityWolf.this.rand.nextInt(5);
         }
 
         public void startExecuting()

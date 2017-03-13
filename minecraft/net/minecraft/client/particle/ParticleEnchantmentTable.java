@@ -34,9 +34,9 @@ public class ParticleEnchantmentTable extends Particle
         this.setParticleTextureIndex((int)(Math.random() * 26.0D + 1.0D + 224.0D));
     }
 
-    public void moveEntity(double x, double y, double z)
+    public void move(double x, double y, double z)
     {
-        this.setEntityBoundingBox(this.getEntityBoundingBox().offset(x, y, z));
+        this.setBoundingBox(this.getBoundingBox().offset(x, y, z));
         this.resetPositionToBB();
     }
 

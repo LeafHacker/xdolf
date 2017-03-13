@@ -75,10 +75,13 @@ public class DataFixer implements IDataFixer
 
     public void registerWalker(FixTypes type, IDataWalker walker)
     {
-        this.registerWalkerAdd(type, walker);
+        this.registerVanillaWalker(type, walker);
     }
 
-    public void registerWalkerAdd(IFixType type, IDataWalker walker)
+    /**
+     * Do not invoke this method, use registerWalker instead. It is expected to be removed in future versions.
+     */
+    public void registerVanillaWalker(IFixType type, IDataWalker walker)
     {
         this.getTypeList(this.walkerMap, type).add(walker);
     }

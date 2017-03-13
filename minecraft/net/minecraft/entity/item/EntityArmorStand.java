@@ -79,8 +79,8 @@ public class EntityArmorStand extends EntityLivingBase
     public EntityArmorStand(World worldIn)
     {
         super(worldIn);
-        this.handItems = NonNullList.<ItemStack>func_191197_a(2, ItemStack.field_190927_a);
-        this.armorItems = NonNullList.<ItemStack>func_191197_a(4, ItemStack.field_190927_a);
+        this.handItems = NonNullList.<ItemStack>withSize(2, ItemStack.EMPTY);
+        this.armorItems = NonNullList.<ItemStack>withSize(4, ItemStack.EMPTY);
         this.headRotation = DEFAULT_HEAD_ROTATION;
         this.bodyRotation = DEFAULT_BODY_ROTATION;
         this.leftArmRotation = DEFAULT_LEFTARM_ROTATION;
@@ -151,7 +151,7 @@ public class EntityArmorStand extends EntityLivingBase
                 return (ItemStack)this.armorItems.get(slotIn.getIndex());
 
             default:
-                return ItemStack.field_190927_a;
+                return ItemStack.EMPTY;
         }
     }
 
@@ -204,7 +204,7 @@ public class EntityArmorStand extends EntityLivingBase
             entityequipmentslot = EntityEquipmentSlot.FEET;
         }
 
-        if (!itemStackIn.func_190926_b() && !EntityLiving.isItemStackInSlot(entityequipmentslot, itemStackIn) && entityequipmentslot != EntityEquipmentSlot.HEAD)
+        if (!itemStackIn.isEmpty() && !EntityLiving.isItemStackInSlot(entityequipmentslot, itemStackIn) && entityequipmentslot != EntityEquipmentSlot.HEAD)
         {
             return false;
         }
@@ -232,7 +232,7 @@ public class EntityArmorStand extends EntityLivingBase
         {
             NBTTagCompound nbttagcompound = new NBTTagCompound();
 
-            if (!itemstack.func_190926_b())
+            if (!itemstack.isEmpty())
             {
                 itemstack.writeToNBT(nbttagcompound);
             }
@@ -247,7 +247,7 @@ public class EntityArmorStand extends EntityLivingBase
         {
             NBTTagCompound nbttagcompound1 = new NBTTagCompound();
 
-            if (!itemstack1.func_190926_b())
+            if (!itemstack1.isEmpty())
             {
                 itemstack1.writeToNBT(nbttagcompound1);
             }
@@ -405,12 +405,12 @@ public class EntityArmorStand extends EntityLivingBase
             {
                 EntityEquipmentSlot entityequipmentslot = EntityLiving.getSlotForItemStack(itemstack);
 
-                if (itemstack.func_190926_b())
+                if (itemstack.isEmpty())
                 {
-                    EntityEquipmentSlot entityequipmentslot1 = this.func_190772_a(vec);
+                    EntityEquipmentSlot entityequipmentslot1 = this.getClickedSlot(vec);
                     EntityEquipmentSlot entityequipmentslot2 = this.isDisabled(entityequipmentslot1) ? entityequipmentslot : entityequipmentslot1;
 
-                    if (this.func_190630_a(entityequipmentslot2))
+                    if (this.hasItemInSlot(entityequipmentslot2))
                     {
                         this.swapItem(player, entityequipmentslot2, itemstack, stack);
                     }
@@ -443,26 +443,26 @@ public class EntityArmorStand extends EntityLivingBase
         }
     }
 
-    protected EntityEquipmentSlot func_190772_a(Vec3d p_190772_1_)
+    protected EntityEquipmentSlot getClickedSlot(Vec3d p_190772_1_)
     {
         EntityEquipmentSlot entityequipmentslot = EntityEquipmentSlot.MAINHAND;
         boolean flag = this.isSmall();
         double d0 = flag ? p_190772_1_.yCoord * 2.0D : p_190772_1_.yCoord;
         EntityEquipmentSlot entityequipmentslot1 = EntityEquipmentSlot.FEET;
 
-        if (d0 >= 0.1D && d0 < 0.1D + (flag ? 0.8D : 0.45D) && this.func_190630_a(entityequipmentslot1))
+        if (d0 >= 0.1D && d0 < 0.1D + (flag ? 0.8D : 0.45D) && this.hasItemInSlot(entityequipmentslot1))
         {
             entityequipmentslot = EntityEquipmentSlot.FEET;
         }
-        else if (d0 >= 0.9D + (flag ? 0.3D : 0.0D) && d0 < 0.9D + (flag ? 1.0D : 0.7D) && this.func_190630_a(EntityEquipmentSlot.CHEST))
+        else if (d0 >= 0.9D + (flag ? 0.3D : 0.0D) && d0 < 0.9D + (flag ? 1.0D : 0.7D) && this.hasItemInSlot(EntityEquipmentSlot.CHEST))
         {
             entityequipmentslot = EntityEquipmentSlot.CHEST;
         }
-        else if (d0 >= 0.4D && d0 < 0.4D + (flag ? 1.0D : 0.8D) && this.func_190630_a(EntityEquipmentSlot.LEGS))
+        else if (d0 >= 0.4D && d0 < 0.4D + (flag ? 1.0D : 0.8D) && this.hasItemInSlot(EntityEquipmentSlot.LEGS))
         {
             entityequipmentslot = EntityEquipmentSlot.LEGS;
         }
-        else if (d0 >= 1.6D && this.func_190630_a(EntityEquipmentSlot.HEAD))
+        else if (d0 >= 1.6D && this.hasItemInSlot(EntityEquipmentSlot.HEAD))
         {
             entityequipmentslot = EntityEquipmentSlot.HEAD;
         }
@@ -479,24 +479,24 @@ public class EntityArmorStand extends EntityLivingBase
     {
         ItemStack itemstack = this.getItemStackFromSlot(p_184795_2_);
 
-        if (itemstack.func_190926_b() || (this.disabledSlots & 1 << p_184795_2_.getSlotIndex() + 8) == 0)
+        if (itemstack.isEmpty() || (this.disabledSlots & 1 << p_184795_2_.getSlotIndex() + 8) == 0)
         {
-            if (!itemstack.func_190926_b() || (this.disabledSlots & 1 << p_184795_2_.getSlotIndex() + 16) == 0)
+            if (!itemstack.isEmpty() || (this.disabledSlots & 1 << p_184795_2_.getSlotIndex() + 16) == 0)
             {
-                if (player.capabilities.isCreativeMode && itemstack.func_190926_b() && !p_184795_3_.func_190926_b())
+                if (player.capabilities.isCreativeMode && itemstack.isEmpty() && !p_184795_3_.isEmpty())
                 {
                     ItemStack itemstack2 = p_184795_3_.copy();
-                    itemstack2.func_190920_e(1);
+                    itemstack2.setCount(1);
                     this.setItemStackToSlot(p_184795_2_, itemstack2);
                 }
-                else if (!p_184795_3_.func_190926_b() && p_184795_3_.func_190916_E() > 1)
+                else if (!p_184795_3_.isEmpty() && p_184795_3_.getCount() > 1)
                 {
-                    if (itemstack.func_190926_b())
+                    if (itemstack.isEmpty())
                     {
                         ItemStack itemstack1 = p_184795_3_.copy();
-                        itemstack1.func_190920_e(1);
+                        itemstack1.setCount(1);
                         this.setItemStackToSlot(p_184795_2_, itemstack1);
-                        p_184795_3_.func_190918_g(1);
+                        p_184795_3_.shrink(1);
                     }
                 }
                 else
@@ -515,7 +515,7 @@ public class EntityArmorStand extends EntityLivingBase
     {
         if (!this.world.isRemote && !this.isDead)
         {
-            if (DamageSource.outOfWorld.equals(source))
+            if (DamageSource.OUT_OF_WORLD.equals(source))
             {
                 this.setDead();
                 return false;
@@ -528,7 +528,7 @@ public class EntityArmorStand extends EntityLivingBase
                     this.setDead();
                     return false;
                 }
-                else if (DamageSource.inFire.equals(source))
+                else if (DamageSource.IN_FIRE.equals(source))
                 {
                     if (this.isBurning())
                     {
@@ -541,7 +541,7 @@ public class EntityArmorStand extends EntityLivingBase
 
                     return false;
                 }
-                else if (DamageSource.onFire.equals(source) && this.getHealth() > 0.5F)
+                else if (DamageSource.ON_FIRE.equals(source) && this.getHealth() > 0.5F)
                 {
                     this.damageArmorStand(4.0F);
                     return false;
@@ -568,7 +568,7 @@ public class EntityArmorStand extends EntityLivingBase
                         }
                         else if (source.isCreativePlayer())
                         {
-                            this.func_190773_I();
+                            this.playBrokenSound();
                             this.playParticles();
                             this.setDead();
                             return false;
@@ -669,16 +669,16 @@ public class EntityArmorStand extends EntityLivingBase
 
     private void dropContents()
     {
-        this.func_190773_I();
+        this.playBrokenSound();
 
         for (int i = 0; i < this.handItems.size(); ++i)
         {
             ItemStack itemstack = (ItemStack)this.handItems.get(i);
 
-            if (!itemstack.func_190926_b())
+            if (!itemstack.isEmpty())
             {
                 Block.spawnAsEntity(this.world, (new BlockPos(this)).up(), itemstack);
-                this.handItems.set(i, ItemStack.field_190927_a);
+                this.handItems.set(i, ItemStack.EMPTY);
             }
         }
 
@@ -686,15 +686,15 @@ public class EntityArmorStand extends EntityLivingBase
         {
             ItemStack itemstack1 = (ItemStack)this.armorItems.get(j);
 
-            if (!itemstack1.func_190926_b())
+            if (!itemstack1.isEmpty())
             {
                 Block.spawnAsEntity(this.world, (new BlockPos(this)).up(), itemstack1);
-                this.armorItems.set(j, ItemStack.field_190927_a);
+                this.armorItems.set(j, ItemStack.EMPTY);
             }
         }
     }
 
-    private void func_190773_I()
+    private void playBrokenSound()
     {
         this.world.playSound((EntityPlayer)null, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_ARMORSTAND_BREAK, this.getSoundCategory(), 1.0F, 1.0F);
     }
@@ -1043,7 +1043,7 @@ public class EntityArmorStand extends EntityLivingBase
         super.notifyDataManagerChange(key);
     }
 
-    public boolean func_190631_cK()
+    public boolean attackable()
     {
         return false;
     }

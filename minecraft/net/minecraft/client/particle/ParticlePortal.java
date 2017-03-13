@@ -33,23 +33,23 @@ public class ParticlePortal extends Particle
         this.setParticleTextureIndex((int)(Math.random() * 8.0D));
     }
 
-    public void moveEntity(double x, double y, double z)
+    public void move(double x, double y, double z)
     {
-        this.setEntityBoundingBox(this.getEntityBoundingBox().offset(x, y, z));
+        this.setBoundingBox(this.getBoundingBox().offset(x, y, z));
         this.resetPositionToBB();
     }
 
     /**
      * Renders the particle
      */
-    public void renderParticle(VertexBuffer worldRendererIn, Entity entityIn, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ)
+    public void renderParticle(VertexBuffer buffer, Entity entityIn, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ)
     {
         float f = ((float)this.particleAge + partialTicks) / (float)this.particleMaxAge;
         f = 1.0F - f;
         f = f * f;
         f = 1.0F - f;
         this.particleScale = this.portalParticleScale * f;
-        super.renderParticle(worldRendererIn, entityIn, partialTicks, rotationX, rotationZ, rotationYZ, rotationXY, rotationXZ);
+        super.renderParticle(buffer, entityIn, partialTicks, rotationX, rotationZ, rotationYZ, rotationXY, rotationXZ);
     }
 
     public int getBrightnessForRender(float p_189214_1_)

@@ -114,82 +114,82 @@ public class BlockModelShapes
                 return this.modelManager.getTextureMap().getAtlasSprite("minecraft:items/structure_void");
             }
 
-            if (block == Blocks.field_190977_dl)
+            if (block == Blocks.WHITE_SHULKER_BOX)
             {
                 return this.modelManager.getTextureMap().getAtlasSprite("minecraft:blocks/shulker_top_white");
             }
 
-            if (block == Blocks.field_190978_dm)
+            if (block == Blocks.ORANGE_SHULKER_BOX)
             {
                 return this.modelManager.getTextureMap().getAtlasSprite("minecraft:blocks/shulker_top_orange");
             }
 
-            if (block == Blocks.field_190979_dn)
+            if (block == Blocks.MAGENTA_SHULKER_BOX)
             {
                 return this.modelManager.getTextureMap().getAtlasSprite("minecraft:blocks/shulker_top_magenta");
             }
 
-            if (block == Blocks.field_190980_do)
+            if (block == Blocks.LIGHT_BLUE_SHULKER_BOX)
             {
                 return this.modelManager.getTextureMap().getAtlasSprite("minecraft:blocks/shulker_top_light_blue");
             }
 
-            if (block == Blocks.field_190981_dp)
+            if (block == Blocks.YELLOW_SHULKER_BOX)
             {
                 return this.modelManager.getTextureMap().getAtlasSprite("minecraft:blocks/shulker_top_yellow");
             }
 
-            if (block == Blocks.field_190982_dq)
+            if (block == Blocks.LIME_SHULKER_BOX)
             {
                 return this.modelManager.getTextureMap().getAtlasSprite("minecraft:blocks/shulker_top_lime");
             }
 
-            if (block == Blocks.field_190983_dr)
+            if (block == Blocks.PINK_SHULKER_BOX)
             {
                 return this.modelManager.getTextureMap().getAtlasSprite("minecraft:blocks/shulker_top_pink");
             }
 
-            if (block == Blocks.field_190984_ds)
+            if (block == Blocks.GRAY_SHULKER_BOX)
             {
                 return this.modelManager.getTextureMap().getAtlasSprite("minecraft:blocks/shulker_top_gray");
             }
 
-            if (block == Blocks.field_190985_dt)
+            if (block == Blocks.SILVER_SHULKER_BOX)
             {
                 return this.modelManager.getTextureMap().getAtlasSprite("minecraft:blocks/shulker_top_silver");
             }
 
-            if (block == Blocks.field_190986_du)
+            if (block == Blocks.CYAN_SHULKER_BOX)
             {
                 return this.modelManager.getTextureMap().getAtlasSprite("minecraft:blocks/shulker_top_cyan");
             }
 
-            if (block == Blocks.field_190987_dv)
+            if (block == Blocks.PURPLE_SHULKER_BOX)
             {
                 return this.modelManager.getTextureMap().getAtlasSprite("minecraft:blocks/shulker_top_purple");
             }
 
-            if (block == Blocks.field_190988_dw)
+            if (block == Blocks.BLUE_SHULKER_BOX)
             {
                 return this.modelManager.getTextureMap().getAtlasSprite("minecraft:blocks/shulker_top_blue");
             }
 
-            if (block == Blocks.field_190989_dx)
+            if (block == Blocks.BROWN_SHULKER_BOX)
             {
                 return this.modelManager.getTextureMap().getAtlasSprite("minecraft:blocks/shulker_top_brown");
             }
 
-            if (block == Blocks.field_190990_dy)
+            if (block == Blocks.GREEN_SHULKER_BOX)
             {
                 return this.modelManager.getTextureMap().getAtlasSprite("minecraft:blocks/shulker_top_green");
             }
 
-            if (block == Blocks.field_190991_dz)
+            if (block == Blocks.RED_SHULKER_BOX)
             {
                 return this.modelManager.getTextureMap().getAtlasSprite("minecraft:blocks/shulker_top_red");
             }
 
-            if (block == Blocks.field_190975_dA)
+            if (block == Blocks.BLACK_SHULKER_BOX)
             {
                 return this.modelManager.getTextureMap().getAtlasSprite("minecraft:blocks/shulker_top_black");
             }
@@ -242,7 +242,7 @@ public class BlockModelShapes
 
     private void registerAllBlocks()
     {
-        this.registerBuiltInBlocks(new Block[] {Blocks.AIR, Blocks.FLOWING_WATER, Blocks.WATER, Blocks.FLOWING_LAVA, Blocks.LAVA, Blocks.PISTON_EXTENSION, Blocks.CHEST, Blocks.ENDER_CHEST, Blocks.TRAPPED_CHEST, Blocks.STANDING_SIGN, Blocks.SKULL, Blocks.END_PORTAL, Blocks.BARRIER, Blocks.WALL_SIGN, Blocks.WALL_BANNER, Blocks.STANDING_BANNER, Blocks.END_GATEWAY, Blocks.STRUCTURE_VOID, Blocks.field_190977_dl, Blocks.field_190978_dm, Blocks.field_190979_dn, Blocks.field_190980_do, Blocks.field_190981_dp, Blocks.field_190982_dq, Blocks.field_190983_dr, Blocks.field_190984_ds, Blocks.field_190985_dt, Blocks.field_190986_du, Blocks.field_190987_dv, Blocks.field_190988_dw, Blocks.field_190989_dx, Blocks.field_190990_dy, Blocks.field_190991_dz, Blocks.field_190975_dA});
+        this.registerBuiltInBlocks(new Block[] {Blocks.AIR, Blocks.FLOWING_WATER, Blocks.WATER, Blocks.FLOWING_LAVA, Blocks.LAVA, Blocks.PISTON_EXTENSION, Blocks.CHEST, Blocks.ENDER_CHEST, Blocks.TRAPPED_CHEST, Blocks.STANDING_SIGN, Blocks.SKULL, Blocks.END_PORTAL, Blocks.BARRIER, Blocks.WALL_SIGN, Blocks.WALL_BANNER, Blocks.STANDING_BANNER, Blocks.END_GATEWAY, Blocks.STRUCTURE_VOID, Blocks.WHITE_SHULKER_BOX, Blocks.ORANGE_SHULKER_BOX, Blocks.MAGENTA_SHULKER_BOX, Blocks.LIGHT_BLUE_SHULKER_BOX, Blocks.YELLOW_SHULKER_BOX, Blocks.LIME_SHULKER_BOX, Blocks.PINK_SHULKER_BOX, Blocks.GRAY_SHULKER_BOX, Blocks.SILVER_SHULKER_BOX, Blocks.CYAN_SHULKER_BOX, Blocks.PURPLE_SHULKER_BOX, Blocks.BLUE_SHULKER_BOX, Blocks.BROWN_SHULKER_BOX, Blocks.GREEN_SHULKER_BOX, Blocks.RED_SHULKER_BOX, Blocks.BLACK_SHULKER_BOX});
         this.registerBlockWithStateMapper(Blocks.STONE, (new StateMap.Builder()).withName(BlockStone.VARIANT).build());
         this.registerBlockWithStateMapper(Blocks.PRISMARINE, (new StateMap.Builder()).withName(BlockPrismarine.VARIANT).build());
         this.registerBlockWithStateMapper(Blocks.LEAVES, (new StateMap.Builder()).withName(BlockOldLeaf.VARIANT).withSuffix("_leaves").ignore(new IProperty[] {BlockLeaves.CHECK_DECAY, BlockLeaves.DECAYABLE}).build());

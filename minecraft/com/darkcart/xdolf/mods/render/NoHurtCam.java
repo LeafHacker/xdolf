@@ -5,8 +5,6 @@ import org.lwjgl.input.Keyboard;
 import com.darkcart.xdolf.Module;
 
 public class NoHurtCam extends Module {
-	
-	// Actual code is in another class, EntityRenderer line 581
 
 	@Override
 	public int getKeyCode() {

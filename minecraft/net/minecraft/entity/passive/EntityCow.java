@@ -98,9 +98,9 @@ public class EntityCow extends EntityAnimal
         if (itemstack.getItem() == Items.BUCKET && !player.capabilities.isCreativeMode && !this.isChild())
         {
             player.playSound(SoundEvents.ENTITY_COW_MILK, 1.0F, 1.0F);
-            itemstack.func_190918_g(1);
+            itemstack.shrink(1);
 
-            if (itemstack.func_190926_b())
+            if (itemstack.isEmpty())
             {
                 player.setHeldItem(hand, new ItemStack(Items.MILK_BUCKET));
             }

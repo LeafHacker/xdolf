@@ -349,9 +349,9 @@ public abstract class World implements IBlockAccess
         return this.chunkProvider.provideChunk(chunkX, chunkZ);
     }
 
-    public boolean func_190526_b(int p_190526_1_, int p_190526_2_)
+    public boolean isChunkGeneratedAt(int p_190526_1_, int p_190526_2_)
     {
-        return this.isChunkLoaded(p_190526_1_, p_190526_2_, false) ? true : this.chunkProvider.func_191062_e(p_190526_1_, p_190526_2_);
+        return this.isChunkLoaded(p_190526_1_, p_190526_2_, false) ? true : this.chunkProvider.isChunkGeneratedAt(p_190526_1_, p_190526_2_);
     }
 
     /**
@@ -404,7 +404,7 @@ public abstract class World implements IBlockAccess
                 }
                 else if (!this.isRemote && (flags & 16) == 0)
                 {
-                    this.func_190522_c(pos, block);
+                    this.updateObservingBlocksAt(pos, block);
                 }
 
                 return true;
@@ -478,7 +478,7 @@ public abstract class World implements IBlockAccess
             x2 = i;
         }
 
-        if (this.provider.func_191066_m())
+        if (this.provider.hasSkyLight())
         {
             for (int j = x2; j <= z2; ++j)
             {
@@ -505,28 +505,28 @@ public abstract class World implements IBlockAccess
         }
     }
 
-    public void func_190522_c(BlockPos p_190522_1_, Block p_190522_2_)
+    public void updateObservingBlocksAt(BlockPos p_190522_1_, Block p_190522_2_)
     {
-        this.func_190529_b(p_190522_1_.west(), p_190522_2_, p_190522_1_);
-        this.func_190529_b(p_190522_1_.east(), p_190522_2_, p_190522_1_);
-        this.func_190529_b(p_190522_1_.down(), p_190522_2_, p_190522_1_);
-        this.func_190529_b(p_190522_1_.up(), p_190522_2_, p_190522_1_);
-        this.func_190529_b(p_190522_1_.north(), p_190522_2_, p_190522_1_);
-        this.func_190529_b(p_190522_1_.south(), p_190522_2_, p_190522_1_);
+        this.observedNeighborChanged(p_190522_1_.west(), p_190522_2_, p_190522_1_);
+        this.observedNeighborChanged(p_190522_1_.east(), p_190522_2_, p_190522_1_);
+        this.observedNeighborChanged(p_190522_1_.down(), p_190522_2_, p_190522_1_);
+        this.observedNeighborChanged(p_190522_1_.up(), p_190522_2_, p_190522_1_);
+        this.observedNeighborChanged(p_190522_1_.north(), p_190522_2_, p_190522_1_);
+        this.observedNeighborChanged(p_190522_1_.south(), p_190522_2_, p_190522_1_);
     }
 
-    public void notifyNeighborsOfStateChange(BlockPos pos, Block blockType, boolean p_175685_3_)
+    public void notifyNeighborsOfStateChange(BlockPos pos, Block blockType, boolean updateObservers)
     {
-        this.func_190524_a(pos.west(), blockType, pos);
-        this.func_190524_a(pos.east(), blockType, pos);
-        this.func_190524_a(pos.down(), blockType, pos);
-        this.func_190524_a(pos.up(), blockType, pos);
-        this.func_190524_a(pos.north(), blockType, pos);
-        this.func_190524_a(pos.south(), blockType, pos);
+        this.neighborChanged(pos.west(), blockType, pos);
+        this.neighborChanged(pos.east(), blockType, pos);
+        this.neighborChanged(pos.down(), blockType, pos);
+        this.neighborChanged(pos.up(), blockType, pos);
+        this.neighborChanged(pos.north(), blockType, pos);
+        this.neighborChanged(pos.south(), blockType, pos);
 
-        if (p_175685_3_)
+        if (updateObservers)
         {
-            this.func_190522_c(pos, blockType);
+            this.updateObservingBlocksAt(pos, blockType);
         }
     }
 
@@ -534,36 +534,36 @@ public abstract class World implements IBlockAccess
     {
         if (skipSide != EnumFacing.WEST)
         {
-            this.func_190524_a(pos.west(), blockType, pos);
+            this.neighborChanged(pos.west(), blockType, pos);
         }
 
         if (skipSide != EnumFacing.EAST)
         {
-            this.func_190524_a(pos.east(), blockType, pos);
+            this.neighborChanged(pos.east(), blockType, pos);
         }
 
         if (skipSide != EnumFacing.DOWN)
         {
-            this.func_190524_a(pos.down(), blockType, pos);
+            this.neighborChanged(pos.down(), blockType, pos);
         }
 
         if (skipSide != EnumFacing.UP)
         {
-            this.func_190524_a(pos.up(), blockType, pos);
+            this.neighborChanged(pos.up(), blockType, pos);
         }
 
         if (skipSide != EnumFacing.NORTH)
         {
-            this.func_190524_a(pos.north(), blockType, pos);
+            this.neighborChanged(pos.north(), blockType, pos);
         }
 
         if (skipSide != EnumFacing.SOUTH)
         {
-            this.func_190524_a(pos.south(), blockType, pos);
+            this.neighborChanged(pos.south(), blockType, pos);
         }
     }
 
-    public void func_190524_a(BlockPos p_190524_1_, final Block p_190524_2_, BlockPos p_190524_3_)
+    public void neighborChanged(BlockPos p_190524_1_, final Block p_190524_2_, BlockPos p_190524_3_)
     {
         if (!this.isRemote)
         {
@@ -597,17 +597,17 @@ public abstract class World implements IBlockAccess
         }
     }
 
-    public void func_190529_b(BlockPos p_190529_1_, final Block p_190529_2_, BlockPos p_190529_3_)
+    public void observedNeighborChanged(BlockPos p_190529_1_, final Block p_190529_2_, BlockPos p_190529_3_)
     {
         if (!this.isRemote)
         {
             IBlockState iblockstate = this.getBlockState(p_190529_1_);
 
-            if (iblockstate.getBlock() == Blocks.field_190976_dk)
+            if (iblockstate.getBlock() == Blocks.OBSERVER)
             {
                 try
                 {
-                    ((BlockObserver)iblockstate.getBlock()).func_190962_b(iblockstate, this, p_190529_1_, p_190529_2_, p_190529_3_);
+                    ((BlockObserver)iblockstate.getBlock()).observedNeighborChanged(iblockstate, this, p_190529_1_, p_190529_2_, p_190529_3_);
                 }
                 catch (Throwable throwable)
                 {
@@ -813,7 +813,7 @@ public abstract class World implements IBlockAccess
 
     public int getLightFromNeighborsFor(EnumSkyBlock type, BlockPos pos)
     {
-        if (!this.provider.func_191066_m() && type == EnumSkyBlock.SKY)
+        if (!this.provider.hasSkyLight() && type == EnumSkyBlock.SKY)
         {
             return 0;
         }
@@ -1187,11 +1187,11 @@ public abstract class World implements IBlockAccess
         this.spawnParticle(particleType.getParticleID(), particleType.getShouldIgnoreRange(), xCoord, yCoord, zCoord, xSpeed, ySpeed, zSpeed, parameters);
     }
 
-    public void func_190523_a(int p_190523_1_, double p_190523_2_, double p_190523_4_, double p_190523_6_, double p_190523_8_, double p_190523_10_, double p_190523_12_, int... p_190523_14_)
+    public void spawnAlwaysVisibleParticle(int p_190523_1_, double p_190523_2_, double p_190523_4_, double p_190523_6_, double p_190523_8_, double p_190523_10_, double p_190523_12_, int... p_190523_14_)
     {
         for (int i = 0; i < this.eventListeners.size(); ++i)
         {
-            ((IWorldEventListener)this.eventListeners.get(i)).func_190570_a(p_190523_1_, false, true, p_190523_2_, p_190523_4_, p_190523_6_, p_190523_8_, p_190523_10_, p_190523_12_, p_190523_14_);
+            ((IWorldEventListener)this.eventListeners.get(i)).spawnParticle(p_190523_1_, false, true, p_190523_2_, p_190523_4_, p_190523_6_, p_190523_8_, p_190523_10_, p_190523_12_, p_190523_14_);
         }
     }
 
@@ -1220,7 +1220,7 @@ public abstract class World implements IBlockAccess
     /**
      * Called when an entity is spawned in the world. This includes players.
      */
-    public boolean spawnEntityInWorld(Entity entityIn)
+    public boolean spawnEntity(Entity entityIn)
     {
         int i = MathHelper.floor(entityIn.posX / 16.0D);
         int j = MathHelper.floor(entityIn.posZ / 16.0D);
@@ -1852,7 +1852,7 @@ public abstract class World implements IBlockAccess
         {
             TileEntity tileentity = (TileEntity)iterator.next();
 
-            if (!tileentity.isInvalid() && tileentity.hasWorldObj())
+            if (!tileentity.isInvalid() && tileentity.hasWorld())
             {
                 BlockPos blockpos = tileentity.getPos();
 
@@ -2585,7 +2585,7 @@ public abstract class World implements IBlockAccess
      */
     protected void updateWeather()
     {
-        if (this.provider.func_191066_m())
+        if (this.provider.hasSkyLight())
         {
             if (!this.isRemote)
             {
@@ -2786,7 +2786,7 @@ public abstract class World implements IBlockAccess
     {
         boolean flag = false;
 
-        if (this.provider.func_191066_m())
+        if (this.provider.hasSkyLight())
         {
             flag |= this.checkLightFor(EnumSkyBlock.SKY, pos);
         }
@@ -3178,7 +3178,7 @@ public abstract class World implements IBlockAccess
         this.unloadedEntityList.addAll(entityCollection);
     }
 
-    public boolean func_190527_a(Block p_190527_1_, BlockPos p_190527_2_, boolean p_190527_3_, EnumFacing p_190527_4_, @Nullable Entity p_190527_5_)
+    public boolean mayPlace(Block p_190527_1_, BlockPos p_190527_2_, boolean p_190527_3_, EnumFacing p_190527_4_, @Nullable Entity p_190527_5_)
     {
         IBlockState iblockstate = this.getBlockState(p_190527_2_);
         AxisAlignedBB axisalignedbb = p_190527_3_ ? null : p_190527_1_.getDefaultState().getCollisionBoundingBox(this, p_190527_2_);
@@ -3325,11 +3325,11 @@ public abstract class World implements IBlockAccess
     public EntityPlayer getClosestPlayer(double posX, double posY, double posZ, double distance, boolean spectator)
     {
         Predicate<Entity> predicate = spectator ? EntitySelectors.CAN_AI_TARGET : EntitySelectors.NOT_SPECTATING;
-        return this.func_190525_a(posX, posY, posZ, distance, predicate);
+        return this.getClosestPlayer(posX, posY, posZ, distance, predicate);
     }
 
     @Nullable
-    public EntityPlayer func_190525_a(double p_190525_1_, double p_190525_3_, double p_190525_5_, double p_190525_7_, Predicate<Entity> p_190525_9_)
+    public EntityPlayer getClosestPlayer(double p_190525_1_, double p_190525_3_, double p_190525_5_, double p_190525_7_, Predicate<Entity> p_190525_9_)
     {
         double d0 = -1.0D;
         EntityPlayer entityplayer = null;
@@ -3701,7 +3701,7 @@ public abstract class World implements IBlockAccess
      * Assigns the given String id to the given MapDataBase using the MapStorage, removing any existing ones of the same
      * id.
      */
-    public void setItemData(String dataID, WorldSavedData worldSavedDataIn)
+    public void setData(String dataID, WorldSavedData worldSavedDataIn)
     {
         this.mapStorage.setData(dataID, worldSavedDataIn);
     }
@@ -3712,7 +3712,7 @@ public abstract class World implements IBlockAccess
      * Loads an existing MapDataBase corresponding to the given String id from disk using the MapStorage, instantiating
      * the given Class, or returns null if none such file exists.
      */
-    public WorldSavedData loadItemData(Class <? extends WorldSavedData > clazz, String dataID)
+    public WorldSavedData loadData(Class <? extends WorldSavedData > clazz, String dataID)
     {
         return this.mapStorage.getOrLoadData(clazz, dataID);
     }
@@ -3773,7 +3773,7 @@ public abstract class World implements IBlockAccess
      */
     public int getActualHeight()
     {
-        return this.provider.getHasNoSky() ? 128 : 256;
+        return this.provider.hasNoSky() ? 128 : 256;
     }
 
     /**
@@ -3959,7 +3959,7 @@ public abstract class World implements IBlockAccess
     }
 
     @Nullable
-    public BlockPos func_190528_a(String p_190528_1_, BlockPos p_190528_2_, boolean p_190528_3_)
+    public BlockPos findNearestStructure(String p_190528_1_, BlockPos p_190528_2_, boolean p_190528_3_)
     {
         return null;
     }

@@ -22,7 +22,7 @@ import org.apache.logging.log4j.Logger;
 public abstract class AbstractResourcePack implements IResourcePack
 {
     private static final Logger LOGGER = LogManager.getLogger();
-    protected final File resourcePackFile;
+    public final File resourcePackFile;
 
     public AbstractResourcePack(File resourcePackFileIn)
     {

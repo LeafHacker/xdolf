@@ -75,7 +75,7 @@ public class BlockPumpkin extends BlockHorizontal
             EntitySnowman entitysnowman = new EntitySnowman(worldIn);
             BlockPos blockpos1 = blockpattern$patternhelper.translateOffset(0, 2, 0).getPos();
             entitysnowman.setLocationAndAngles((double)blockpos1.getX() + 0.5D, (double)blockpos1.getY() + 0.05D, (double)blockpos1.getZ() + 0.5D, 0.0F, 0.0F);
-            worldIn.spawnEntityInWorld(entitysnowman);
+            worldIn.spawnEntity(entitysnowman);
 
             for (int j = 0; j < 120; ++j)
             {
@@ -106,7 +106,7 @@ public class BlockPumpkin extends BlockHorizontal
                 EntityIronGolem entityirongolem = new EntityIronGolem(worldIn);
                 entityirongolem.setPlayerCreated(true);
                 entityirongolem.setLocationAndAngles((double)blockpos.getX() + 0.5D, (double)blockpos.getY() + 0.05D, (double)blockpos.getZ() + 0.5D, 0.0F, 0.0F);
-                worldIn.spawnEntityInWorld(entityirongolem);
+                worldIn.spawnEntity(entityirongolem);
 
                 for (int j1 = 0; j1 < 120; ++j1)
                 {
@@ -152,7 +152,7 @@ public class BlockPumpkin extends BlockHorizontal
      * Called by ItemBlocks just before a block is actually set in the world, to allow for adjustments to the
      * IBlockstate
      */
-    public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
+    public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
     {
         return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite());
     }

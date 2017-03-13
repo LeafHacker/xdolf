@@ -5,9 +5,9 @@ public class ItemBook extends Item
     /**
      * Checks isDamagable and if it cannot be stacked
      */
-    public boolean isItemTool(ItemStack stack)
+    public boolean isEnchantable(ItemStack stack)
     {
-        return stack.func_190916_E() == 1;
+        return stack.getCount() == 1;
     }
 
     /**

@@ -38,7 +38,7 @@ import net.minecraft.world.storage.loot.LootTableList;
 
 public class EntityGuardian extends EntityMob
 {
-    private static final DataParameter<Boolean> field_190766_bz = EntityDataManager.<Boolean>createKey(EntityGuardian.class, DataSerializers.BOOLEAN);
+    private static final DataParameter<Boolean> MOVING = EntityDataManager.<Boolean>createKey(EntityGuardian.class, DataSerializers.BOOLEAN);
     private static final DataParameter<Integer> TARGET_ENTITY = EntityDataManager.<Integer>createKey(EntityGuardian.class, DataSerializers.VARINT);
     protected float clientSideTailAnimation;
     protected float clientSideTailAnimationO;
@@ -92,7 +92,7 @@ public class EntityGuardian extends EntityMob
     /**
      * Returns new PathNavigateGround instance
      */
-    protected PathNavigate getNewNavigator(World worldIn)
+    protected PathNavigate createNavigator(World worldIn)
     {
         return new PathNavigateSwimmer(this, worldIn);
     }
@@ -100,18 +100,18 @@ public class EntityGuardian extends EntityMob
     protected void entityInit()
     {
         super.entityInit();
-        this.dataManager.register(field_190766_bz, Boolean.valueOf(false));
+        this.dataManager.register(MOVING, Boolean.valueOf(false));
         this.dataManager.register(TARGET_ENTITY, Integer.valueOf(0));
     }
 
     public boolean isMoving()
     {
-        return ((Boolean)this.dataManager.get(field_190766_bz)).booleanValue();
+        return ((Boolean)this.dataManager.get(MOVING)).booleanValue();
     }
 
     private void setMoving(boolean moving)
     {
-        this.dataManager.set(field_190766_bz, Boolean.valueOf(moving));
+        this.dataManager.set(MOVING, Boolean.valueOf(moving));
     }
 
     public int getAttackDuration()
@@ -232,7 +232,7 @@ public class EntityGuardian extends EntityMob
 
                 if (this.motionY > 0.0D && this.clientSideTouchedGround && !this.isSilent())
                 {
-                    this.world.playSound(this.posX, this.posY, this.posZ, this.func_190765_dj(), this.getSoundCategory(), 1.0F, 1.0F, false);
+                    this.world.playSound(this.posX, this.posY, this.posZ, this.getFlopSound(), this.getSoundCategory(), 1.0F, 1.0F, false);
                 }
 
                 this.clientSideTouchedGround = this.motionY < 0.0D && this.world.isBlockNormalCube((new BlockPos(this)).down(), false);
@@ -333,7 +333,7 @@ public class EntityGuardian extends EntityMob
         super.onLivingUpdate();
     }
 
-    protected SoundEvent func_190765_dj()
+    protected SoundEvent getFlopSound()
     {
         return SoundEvents.ENTITY_GUARDIAN_FLOP;
     }
@@ -423,7 +423,7 @@ public class EntityGuardian extends EntityMob
         if (this.isServerWorld() && this.isInWater())
         {
             this.moveRelative(strafe, forward, 0.1F);
-            this.moveEntity(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
+            this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
             this.motionX *= 0.8999999761581421D;
             this.motionY *= 0.8999999761581421D;
             this.motionZ *= 0.8999999761581421D;
@@ -443,12 +443,12 @@ public class EntityGuardian extends EntityMob
     {
         private final EntityGuardian theEntity;
         private int tickCounter;
-        private final boolean field_190881_c;
+        private final boolean isElder;
 
         public AIGuardianAttack(EntityGuardian guardian)
         {
             this.theEntity = guardian;
-            this.field_190881_c = guardian instanceof EntityElderGuardian;
+            this.isElder = guardian instanceof EntityElderGuardian;
             this.setMutexBits(3);
         }
 
@@ -460,7 +460,7 @@ public class EntityGuardian extends EntityMob
 
         public boolean continueExecuting()
         {
-            return super.continueExecuting() && (this.field_190881_c || this.theEntity.getDistanceSqToEntity(this.theEntity.getAttackTarget()) > 9.0D);
+            return super.continueExecuting() && (this.isElder || this.theEntity.getDistanceSqToEntity(this.theEntity.getAttackTarget()) > 9.0D);
         }
 
         public void startExecuting()
@@ -506,7 +506,7 @@ public class EntityGuardian extends EntityMob
                         f += 2.0F;
                     }
 
-                    if (this.field_190881_c)
+                    if (this.isElder)
                     {
                         f += 2.0F;
                     }

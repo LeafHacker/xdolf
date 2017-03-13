@@ -25,7 +25,7 @@ public class CommandBanIp extends CommandBase
     /**
      * Gets the name of the command
      */
-    public String getCommandName()
+    public String getName()
     {
         return "ban-ip";
     }
@@ -49,7 +49,7 @@ public class CommandBanIp extends CommandBase
     /**
      * Gets the usage string for the command.
      */
-    public String getCommandUsage(ICommandSender sender)
+    public String getUsage(ICommandSender sender)
     {
         return "commands.banip.usage";
     }
@@ -86,9 +86,9 @@ public class CommandBanIp extends CommandBase
         }
     }
 
-    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
+    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
     {
-        return args.length == 1 ? getListOfStringsMatchingLastWord(args, server.getAllUsernames()) : Collections.<String>emptyList();
+        return args.length == 1 ? getListOfStringsMatchingLastWord(args, server.getOnlinePlayerNames()) : Collections.<String>emptyList();
     }
 
     protected void banIp(MinecraftServer server, ICommandSender sender, String ipAddress, @Nullable String banReason)
@@ -101,7 +101,7 @@ public class CommandBanIp extends CommandBase
 
         for (EntityPlayerMP entityplayermp : list)
         {
-            entityplayermp.connection.kickPlayerFromServer("You have been IP banned.");
+            entityplayermp.connection.disconnect("You have been IP banned.");
             astring[i++] = entityplayermp.getName();
         }
 

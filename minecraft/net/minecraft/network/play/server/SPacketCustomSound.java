@@ -38,7 +38,7 @@ public class SPacketCustomSound implements Packet<INetHandlerPlayClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.soundName = buf.readStringFromBuffer(256);
+        this.soundName = buf.readString(256);
         this.category = (SoundCategory)buf.readEnumValue(SoundCategory.class);
         this.x = buf.readInt();
         this.y = buf.readInt();

@@ -40,7 +40,7 @@ public class MapGenEndCity extends MapGenStructure
 
         int k = chunkX / 20;
         int l = chunkZ / 20;
-        Random random = this.worldObj.setRandomSeed(k, l, 10387313);
+        Random random = this.world.setRandomSeed(k, l, 10387313);
         k = k * 20;
         l = l * 20;
         k = k + (random.nextInt(9) + random.nextInt(9)) / 2;
@@ -48,7 +48,7 @@ public class MapGenEndCity extends MapGenStructure
 
         if (i == k && j == l && this.endProvider.isIslandChunk(i, j))
         {
-            int i1 = func_191070_b(i, j, this.endProvider);
+            int i1 = getYPosForStructure(i, j, this.endProvider);
             return i1 >= 60;
         }
         else
@@ -59,16 +59,16 @@ public class MapGenEndCity extends MapGenStructure
 
     protected StructureStart getStructureStart(int chunkX, int chunkZ)
     {
-        return new MapGenEndCity.Start(this.worldObj, this.endProvider, this.rand, chunkX, chunkZ);
+        return new MapGenEndCity.Start(this.world, this.endProvider, this.rand, chunkX, chunkZ);
     }
 
     public BlockPos getClosestStrongholdPos(World worldIn, BlockPos pos, boolean p_180706_3_)
     {
-        this.worldObj = worldIn;
-        return func_191069_a(worldIn, this, pos, 20, 11, 10387313, true, 100, p_180706_3_);
+        this.world = worldIn;
+        return findNearestStructurePosBySpacing(worldIn, this, pos, 20, 11, 10387313, true, 100, p_180706_3_);
     }
 
-    private static int func_191070_b(int p_191070_0_, int p_191070_1_, ChunkProviderEnd p_191070_2_)
+    private static int getYPosForStructure(int p_191070_0_, int p_191070_1_, ChunkProviderEnd p_191070_2_)
     {
         Random random = new Random((long)(p_191070_0_ + p_191070_1_ * 10387313));
         Rotation rotation = Rotation.values()[random.nextInt(Rotation.values().length)];
@@ -117,7 +117,7 @@ public class MapGenEndCity extends MapGenStructure
         {
             Random random = new Random((long)(chunkX + chunkZ * 10387313));
             Rotation rotation = Rotation.values()[random.nextInt(Rotation.values().length)];
-            int i = MapGenEndCity.func_191070_b(chunkX, chunkZ, chunkProvider);
+            int i = MapGenEndCity.getYPosForStructure(chunkX, chunkZ, chunkProvider);
 
             if (i < 60)
             {
@@ -126,7 +126,7 @@ public class MapGenEndCity extends MapGenStructure
             else
             {
                 BlockPos blockpos = new BlockPos(chunkX * 16 + 8, i, chunkZ * 16 + 8);
-                StructureEndCityPieces.func_191087_a(worldIn.getSaveHandler().getStructureTemplateManager(), blockpos, rotation, this.components, rnd);
+                StructureEndCityPieces.startHouseTower(worldIn.getSaveHandler().getStructureTemplateManager(), blockpos, rotation, this.components, rnd);
                 this.updateBoundingBox();
                 this.isSizeable = true;
             }

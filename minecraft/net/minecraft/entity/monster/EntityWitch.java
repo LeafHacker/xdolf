@@ -129,7 +129,7 @@ public class EntityWitch extends EntityMob implements IRangedAttackMob
                 {
                     this.setAggressive(false);
                     ItemStack itemstack = this.getHeldItemMainhand();
-                    this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, ItemStack.field_190927_a);
+                    this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, ItemStack.EMPTY);
 
                     if (itemstack.getItem() == Items.POTIONITEM)
                     {
@@ -232,8 +232,6 @@ public class EntityWitch extends EntityMob implements IRangedAttackMob
 
     /**
      * Attack the specified entity using a ranged attack.
-     *  
-     * @param distanceFactor How far the target is, normalized and clamped between 0.1 and 1.0
      */
     public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor)
     {
@@ -263,7 +261,7 @@ public class EntityWitch extends EntityMob implements IRangedAttackMob
             entitypotion.rotationPitch -= -20.0F;
             entitypotion.setThrowableHeading(d1, d2 + (double)(f * 0.2F), d3, 0.75F, 8.0F);
             this.world.playSound((EntityPlayer)null, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_WITCH_THROW, this.getSoundCategory(), 1.0F, 0.8F + this.rand.nextFloat() * 0.4F);
-            this.world.spawnEntityInWorld(entitypotion);
+            this.world.spawnEntity(entitypotion);
         }
     }
 

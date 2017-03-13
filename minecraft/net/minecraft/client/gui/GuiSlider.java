@@ -14,34 +14,53 @@ public class GuiSlider extends GuiButton
     private final GuiPageButtonList.GuiResponder responder;
     private GuiSlider.FormatHelper formatHelper;
 
-    public GuiSlider(GuiPageButtonList.GuiResponder guiResponder, int idIn, int x, int y, String name, float min, float max, float defaultValue, GuiSlider.FormatHelper formatter)
+    public GuiSlider(GuiPageButtonList.GuiResponder guiResponder, int idIn, int x, int y, String nameIn, float minIn, float maxIn, float defaultValue, GuiSlider.FormatHelper formatter)
     {
         super(idIn, x, y, 150, 20, "");
-        this.name = name;
-        this.min = min;
-        this.max = max;
-        this.sliderPosition = (defaultValue - min) / (max - min);
+        this.name = nameIn;
+        this.min = minIn;
+        this.max = maxIn;
+        this.sliderPosition = (defaultValue - minIn) / (maxIn - minIn);
         this.formatHelper = formatter;
         this.responder = guiResponder;
         this.displayString = this.getDisplayString();
     }
 
+    /**
+     * Gets the value of the slider.
+     * @return A value that will under normal circumstances be between the slider's {@link #min} and {@link #max}
+     * values, unless it was manually set out of that range.
+     */
     public float getSliderValue()
     {
         return this.min + (this.max - this.min) * this.sliderPosition;
     }
 
-    public void setSliderValue(float p_175218_1_, boolean p_175218_2_)
+    /**
+     * Sets the slider's value, optionally notifying the associated {@linkplain GuiPageButtonList.GuiResponder
+     * responder} of the change.
+     *  
+     * @param value The new value of the slider. Should usually be between the slider's {@link #min} and {@link #max}
+     * values, but this is not validated.
+     * @param notifyResponder If true, this slider's {@linkplain GuiPageButtonList.GuiResponder responder} will be
+     * notified that the value has changed.
+     */
+    public void setSliderValue(float value, boolean notifyResponder)
     {
-        this.sliderPosition = (p_175218_1_ - this.min) / (this.max - this.min);
+        this.sliderPosition = (value - this.min) / (this.max - this.min);
         this.displayString = this.getDisplayString();
 
-        if (p_175218_2_)
+        if (notifyResponder)
         {
             this.responder.setEntryValue(this.id, this.getSliderValue());
         }
     }
 
+    /**
+     * Gets the slider's position.
+     * @return The position of the slider, which will under normal circumstances be between 0 and 1, unless it was
+     * manually set out of that range.
+     */
     public float getSliderPosition()
     {
         return this.sliderPosition;
@@ -92,9 +111,15 @@ public class GuiSlider extends GuiButton
         }
     }
 
-    public void setSliderPosition(float p_175219_1_)
+    /**
+     * Sets the position of the slider and notifies the associated {@linkplain GuiPageButtonList.GuiResponder responder}
+     * of the change
+     *  
+     * @param position The new position of the slider. Should usually be between the 0 and 1, but this is not validated.
+     */
+    public void setSliderPosition(float position)
     {
-        this.sliderPosition = p_175219_1_;
+        this.sliderPosition = position;
         this.displayString = this.getDisplayString();
         this.responder.setEntryValue(this.id, this.getSliderValue());
     }

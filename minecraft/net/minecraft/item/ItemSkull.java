@@ -36,47 +36,47 @@ public class ItemSkull extends Item
     /**
      * Called when a Block is right-clicked with this Item
      */
-    public EnumActionResult onItemUse(EntityPlayer stack, World playerIn, BlockPos worldIn, EnumHand pos, EnumFacing hand, float facing, float hitX, float hitY)
+    public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
     {
-        if (hand == EnumFacing.DOWN)
+        if (facing == EnumFacing.DOWN)
         {
             return EnumActionResult.FAIL;
         }
         else
         {
-            IBlockState iblockstate = playerIn.getBlockState(worldIn);
+            IBlockState iblockstate = worldIn.getBlockState(pos);
             Block block = iblockstate.getBlock();
-            boolean flag = block.isReplaceable(playerIn, worldIn);
+            boolean flag = block.isReplaceable(worldIn, pos);
 
             if (!flag)
             {
-                if (!playerIn.getBlockState(worldIn).getMaterial().isSolid())
+                if (!worldIn.getBlockState(pos).getMaterial().isSolid())
                 {
                     return EnumActionResult.FAIL;
                 }
 
-                worldIn = worldIn.offset(hand);
+                pos = pos.offset(facing);
             }
 
-            ItemStack itemstack = stack.getHeldItem(pos);
+            ItemStack itemstack = player.getHeldItem(hand);
 
-            if (stack.canPlayerEdit(worldIn, hand, itemstack) && Blocks.SKULL.canPlaceBlockAt(playerIn, worldIn))
+            if (player.canPlayerEdit(pos, facing, itemstack) && Blocks.SKULL.canPlaceBlockAt(worldIn, pos))
             {
-                if (playerIn.isRemote)
+                if (worldIn.isRemote)
                 {
                     return EnumActionResult.SUCCESS;
                 }
                 else
                 {
-                    playerIn.setBlockState(worldIn, Blocks.SKULL.getDefaultState().withProperty(BlockSkull.FACING, hand), 11);
+                    worldIn.setBlockState(pos, Blocks.SKULL.getDefaultState().withProperty(BlockSkull.FACING, facing), 11);
                     int i = 0;
 
-                    if (hand == EnumFacing.UP)
+                    if (facing == EnumFacing.UP)
                     {
-                        i = MathHelper.floor((double)(stack.rotationYaw * 16.0F / 360.0F) + 0.5D) & 15;
+                        i = MathHelper.floor((double)(player.rotationYaw * 16.0F / 360.0F) + 0.5D) & 15;
                     }
 
-                    TileEntity tileentity = playerIn.getTileEntity(worldIn);
+                    TileEntity tileentity = worldIn.getTileEntity(pos);
 
                     if (tileentity instanceof TileEntitySkull)
                     {
@@ -108,10 +108,10 @@ public class ItemSkull extends Item
                         }
 
                         tileentityskull.setSkullRotation(i);
-                        Blocks.SKULL.checkWitherSpawn(playerIn, worldIn, tileentityskull);
+                        Blocks.SKULL.checkWitherSpawn(worldIn, pos, tileentityskull);
                     }
 
-                    itemstack.func_190918_g(1);
+                    itemstack.shrink(1);
                     return EnumActionResult.SUCCESS;
                 }
             }

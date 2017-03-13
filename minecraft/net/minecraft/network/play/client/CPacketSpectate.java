@@ -27,7 +27,7 @@ public class CPacketSpectate implements Packet<INetHandlerPlayServer>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.id = buf.readUuid();
+        this.id = buf.readUniqueId();
     }
 
     /**
@@ -35,7 +35,7 @@ public class CPacketSpectate implements Packet<INetHandlerPlayServer>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeUuid(this.id);
+        buf.writeUniqueId(this.id);
     }
 
     /**

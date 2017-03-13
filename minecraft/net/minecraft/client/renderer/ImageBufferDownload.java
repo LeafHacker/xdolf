@@ -24,40 +24,50 @@ public class ImageBufferDownload implements IImageBuffer
         {
             this.imageWidth = 64;
             this.imageHeight = 64;
+            int i = image.getWidth();
+            int j = image.getHeight();
+            int k;
+
+            for (k = 1; this.imageWidth < i || this.imageHeight < j; k *= 2)
+            {
+                this.imageWidth *= 2;
+                this.imageHeight *= 2;
+            }
+
             BufferedImage bufferedimage = new BufferedImage(this.imageWidth, this.imageHeight, 2);
             Graphics graphics = bufferedimage.getGraphics();
             graphics.drawImage(image, 0, 0, (ImageObserver)null);
-            boolean flag = image.getHeight() == 32;
+            boolean flag = image.getHeight() == 32 * k;
 
             if (flag)
             {
                 graphics.setColor(new Color(0, 0, 0, 0));
-                graphics.fillRect(0, 32, 64, 32);
-                graphics.drawImage(bufferedimage, 24, 48, 20, 52, 4, 16, 8, 20, (ImageObserver)null);
-                graphics.drawImage(bufferedimage, 28, 48, 24, 52, 8, 16, 12, 20, (ImageObserver)null);
-                graphics.drawImage(bufferedimage, 20, 52, 16, 64, 8, 20, 12, 32, (ImageObserver)null);
-                graphics.drawImage(bufferedimage, 24, 52, 20, 64, 4, 20, 8, 32, (ImageObserver)null);
-                graphics.drawImage(bufferedimage, 28, 52, 24, 64, 0, 20, 4, 32, (ImageObserver)null);
-                graphics.drawImage(bufferedimage, 32, 52, 28, 64, 12, 20, 16, 32, (ImageObserver)null);
-                graphics.drawImage(bufferedimage, 40, 48, 36, 52, 44, 16, 48, 20, (ImageObserver)null);
-                graphics.drawImage(bufferedimage, 44, 48, 40, 52, 48, 16, 52, 20, (ImageObserver)null);
-                graphics.drawImage(bufferedimage, 36, 52, 32, 64, 48, 20, 52, 32, (ImageObserver)null);
-                graphics.drawImage(bufferedimage, 40, 52, 36, 64, 44, 20, 48, 32, (ImageObserver)null);
-                graphics.drawImage(bufferedimage, 44, 52, 40, 64, 40, 20, 44, 32, (ImageObserver)null);
-                graphics.drawImage(bufferedimage, 48, 52, 44, 64, 52, 20, 56, 32, (ImageObserver)null);
+                graphics.fillRect(0 * k, 32 * k, 64 * k, 32 * k);
+                graphics.drawImage(bufferedimage, 24 * k, 48 * k, 20 * k, 52 * k, 4 * k, 16 * k, 8 * k, 20 * k, (ImageObserver)null);
+                graphics.drawImage(bufferedimage, 28 * k, 48 * k, 24 * k, 52 * k, 8 * k, 16 * k, 12 * k, 20 * k, (ImageObserver)null);
+                graphics.drawImage(bufferedimage, 20 * k, 52 * k, 16 * k, 64 * k, 8 * k, 20 * k, 12 * k, 32 * k, (ImageObserver)null);
+                graphics.drawImage(bufferedimage, 24 * k, 52 * k, 20 * k, 64 * k, 4 * k, 20 * k, 8 * k, 32 * k, (ImageObserver)null);
+                graphics.drawImage(bufferedimage, 28 * k, 52 * k, 24 * k, 64 * k, 0 * k, 20 * k, 4 * k, 32 * k, (ImageObserver)null);
+                graphics.drawImage(bufferedimage, 32 * k, 52 * k, 28 * k, 64 * k, 12 * k, 20 * k, 16 * k, 32 * k, (ImageObserver)null);
+                graphics.drawImage(bufferedimage, 40 * k, 48 * k, 36 * k, 52 * k, 44 * k, 16 * k, 48 * k, 20 * k, (ImageObserver)null);
+                graphics.drawImage(bufferedimage, 44 * k, 48 * k, 40 * k, 52 * k, 48 * k, 16 * k, 52 * k, 20 * k, (ImageObserver)null);
+                graphics.drawImage(bufferedimage, 36 * k, 52 * k, 32 * k, 64 * k, 48 * k, 20 * k, 52 * k, 32 * k, (ImageObserver)null);
+                graphics.drawImage(bufferedimage, 40 * k, 52 * k, 36 * k, 64 * k, 44 * k, 20 * k, 48 * k, 32 * k, (ImageObserver)null);
+                graphics.drawImage(bufferedimage, 44 * k, 52 * k, 40 * k, 64 * k, 40 * k, 20 * k, 44 * k, 32 * k, (ImageObserver)null);
+                graphics.drawImage(bufferedimage, 48 * k, 52 * k, 44 * k, 64 * k, 52 * k, 20 * k, 56 * k, 32 * k, (ImageObserver)null);
             }
 
             graphics.dispose();
             this.imageData = ((DataBufferInt)bufferedimage.getRaster().getDataBuffer()).getData();
-            this.setAreaOpaque(0, 0, 32, 16);
+            this.setAreaOpaque(0 * k, 0 * k, 32 * k, 16 * k);
 
             if (flag)
             {
-                this.doTransparencyHack(32, 0, 64, 32);
+                this.setAreaTransparent(32 * k, 0 * k, 64 * k, 32 * k);
             }
 
-            this.setAreaOpaque(0, 16, 64, 32);
-            this.setAreaOpaque(16, 48, 48, 64);
+            this.setAreaOpaque(0 * k, 16 * k, 64 * k, 32 * k);
+            this.setAreaOpaque(16 * k, 48 * k, 48 * k, 64 * k);
             return bufferedimage;
         }
     }
@@ -66,11 +76,11 @@ public class ImageBufferDownload implements IImageBuffer
     {
     }
 
-    private void doTransparencyHack(int p_189559_1_, int p_189559_2_, int p_189559_3_, int p_189559_4_)
+    private void setAreaTransparent(int p_setAreaTransparent_1_, int p_setAreaTransparent_2_, int p_setAreaTransparent_3_, int p_setAreaTransparent_4_)
     {
-        for (int i = p_189559_1_; i < p_189559_3_; ++i)
+        for (int i = p_setAreaTransparent_1_; i < p_setAreaTransparent_3_; ++i)
         {
-            for (int j = p_189559_2_; j < p_189559_4_; ++j)
+            for (int j = p_setAreaTransparent_2_; j < p_setAreaTransparent_4_; ++j)
             {
                 int k = this.imageData[i + j * this.imageWidth];
 
@@ -81,9 +91,9 @@ public class ImageBufferDownload implements IImageBuffer
             }
         }
 
-        for (int l = p_189559_1_; l < p_189559_3_; ++l)
+        for (int l = p_setAreaTransparent_1_; l < p_setAreaTransparent_3_; ++l)
         {
-            for (int i1 = p_189559_2_; i1 < p_189559_4_; ++i1)
+            for (int i1 = p_setAreaTransparent_2_; i1 < p_setAreaTransparent_4_; ++i1)
             {
                 this.imageData[l + i1 * this.imageWidth] &= 16777215;
             }

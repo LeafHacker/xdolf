@@ -173,7 +173,7 @@ public class GuiCreateFlatWorld extends GuiScreen
             this.drawItemBackground(x + 1, z + 1);
             GlStateManager.enableRescaleNormal();
 
-            if (!itemToDraw.func_190926_b())
+            if (!itemToDraw.isEmpty())
             {
                 RenderHelper.enableGUIStandardItemLighting();
                 GuiCreateFlatWorld.this.itemRender.renderItemIntoGUI(itemToDraw, x + 2, z + 2);
@@ -233,7 +233,7 @@ public class GuiCreateFlatWorld extends GuiScreen
             Block block = iblockstate.getBlock();
             Item item = Item.getItemFromBlock(block);
 
-            if (item == Items.field_190931_a)
+            if (item == Items.AIR)
             {
                 if (block != Blocks.WATER && block != Blocks.FLOWING_WATER)
                 {

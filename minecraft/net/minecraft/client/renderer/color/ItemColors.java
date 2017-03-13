@@ -93,14 +93,14 @@ public class ItemColors
         {
             public int getColorFromItemstack(ItemStack stack, int tintIndex)
             {
-                return tintIndex > 0 ? -1 : PotionUtils.func_190932_c(stack);
+                return tintIndex > 0 ? -1 : PotionUtils.getColor(stack);
             }
         }, new Item[] {Items.POTIONITEM, Items.SPLASH_POTION, Items.LINGERING_POTION});
         itemcolors.registerItemColorHandler(new IItemColor()
         {
             public int getColorFromItemstack(ItemStack stack, int tintIndex)
             {
-                EntityList.EntityEggInfo entitylist$entityegginfo = (EntityList.EntityEggInfo)EntityList.ENTITY_EGGS.get(ItemMonsterPlacer.func_190908_h(stack));
+                EntityList.EntityEggInfo entitylist$entityegginfo = (EntityList.EntityEggInfo)EntityList.ENTITY_EGGS.get(ItemMonsterPlacer.getNamedIdFrom(stack));
                 return entitylist$entityegginfo == null ? -1 : (tintIndex == 0 ? entitylist$entityegginfo.primaryColor : entitylist$entityegginfo.secondaryColor);
             }
         }, new Item[] {Items.SPAWN_EGG});
@@ -116,14 +116,14 @@ public class ItemColors
         {
             public int getColorFromItemstack(ItemStack stack, int tintIndex)
             {
-                return tintIndex == 0 ? PotionUtils.func_190932_c(stack) : -1;
+                return tintIndex == 0 ? PotionUtils.getColor(stack) : -1;
             }
         }, new Item[] {Items.TIPPED_ARROW});
         itemcolors.registerItemColorHandler(new IItemColor()
         {
             public int getColorFromItemstack(ItemStack stack, int tintIndex)
             {
-                return tintIndex == 0 ? -1 : ItemMap.func_190907_h(stack);
+                return tintIndex == 0 ? -1 : ItemMap.getColor(stack);
             }
         }, new Item[] {Items.FILLED_MAP});
         return itemcolors;

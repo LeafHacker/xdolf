@@ -12,7 +12,7 @@ public class SlotMerchantResult extends Slot
     private final InventoryMerchant theMerchantInventory;
 
     /** The Player whos trying to buy/sell stuff. */
-    private final EntityPlayer thePlayer;
+    private final EntityPlayer player;
     private int removeCount;
 
     /** "Instance" of the Merchant. */
@@ -21,7 +21,7 @@ public class SlotMerchantResult extends Slot
     public SlotMerchantResult(EntityPlayer player, IMerchant merchant, InventoryMerchant merchantInventory, int slotIndex, int xPosition, int yPosition)
     {
         super(merchantInventory, slotIndex, xPosition, yPosition);
-        this.thePlayer = player;
+        this.player = player;
         this.theMerchant = merchant;
         this.theMerchantInventory = merchantInventory;
     }
@@ -42,7 +42,7 @@ public class SlotMerchantResult extends Slot
     {
         if (this.getHasStack())
         {
-            this.removeCount += Math.min(amount, this.getStack().func_190916_E());
+            this.removeCount += Math.min(amount, this.getStack().getCount());
         }
 
         return super.decrStackSize(amount);
@@ -63,11 +63,11 @@ public class SlotMerchantResult extends Slot
      */
     protected void onCrafting(ItemStack stack)
     {
-        stack.onCrafting(this.thePlayer.world, this.thePlayer, this.removeCount);
+        stack.onCrafting(this.player.world, this.player, this.removeCount);
         this.removeCount = 0;
     }
 
-    public ItemStack func_190901_a(EntityPlayer p_190901_1_, ItemStack p_190901_2_)
+    public ItemStack onTake(EntityPlayer p_190901_1_, ItemStack p_190901_2_)
     {
         this.onCrafting(p_190901_2_);
         MerchantRecipe merchantrecipe = this.theMerchantInventory.getCurrentRecipe();
@@ -94,18 +94,18 @@ public class SlotMerchantResult extends Slot
         ItemStack itemstack = trade.getItemToBuy();
         ItemStack itemstack1 = trade.getSecondItemToBuy();
 
-        if (firstItem.getItem() == itemstack.getItem() && firstItem.func_190916_E() >= itemstack.func_190916_E())
+        if (firstItem.getItem() == itemstack.getItem() && firstItem.getCount() >= itemstack.getCount())
         {
-            if (!itemstack1.func_190926_b() && !secondItem.func_190926_b() && itemstack1.getItem() == secondItem.getItem() && secondItem.func_190916_E() >= itemstack1.func_190916_E())
+            if (!itemstack1.isEmpty() && !secondItem.isEmpty() && itemstack1.getItem() == secondItem.getItem() && secondItem.getCount() >= itemstack1.getCount())
             {
-                firstItem.func_190918_g(itemstack.func_190916_E());
-                secondItem.func_190918_g(itemstack1.func_190916_E());
+                firstItem.shrink(itemstack.getCount());
+                secondItem.shrink(itemstack1.getCount());
                 return true;
             }
 
-            if (itemstack1.func_190926_b() && secondItem.func_190926_b())
+            if (itemstack1.isEmpty() && secondItem.isEmpty())
             {
-                firstItem.func_190918_g(itemstack.func_190916_E());
+                firstItem.shrink(itemstack.getCount());
                 return true;
             }
         }

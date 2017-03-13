@@ -49,22 +49,22 @@ public class BlockStatePaletteHashMap implements IBlockStatePalette
     public void read(PacketBuffer buf)
     {
         this.statePaletteMap.clear();
-        int i = buf.readVarIntFromBuffer();
+        int i = buf.readVarInt();
 
         for (int j = 0; j < i; ++j)
         {
-            this.statePaletteMap.add(Block.BLOCK_STATE_IDS.getByValue(buf.readVarIntFromBuffer()));
+            this.statePaletteMap.add(Block.BLOCK_STATE_IDS.getByValue(buf.readVarInt()));
         }
     }
 
     public void write(PacketBuffer buf)
     {
         int i = this.statePaletteMap.size();
-        buf.writeVarIntToBuffer(i);
+        buf.writeVarInt(i);
 
         for (int j = 0; j < i; ++j)
         {
-            buf.writeVarIntToBuffer(Block.BLOCK_STATE_IDS.get(this.statePaletteMap.get(j)));
+            buf.writeVarInt(Block.BLOCK_STATE_IDS.get(this.statePaletteMap.get(j)));
         }
     }
 

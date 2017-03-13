@@ -2,6 +2,7 @@ package net.minecraft.block.state;
 
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
+import com.google.common.base.Optional;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
@@ -21,12 +22,15 @@ import java.util.Map.Entry;
 import java.util.regex.Pattern;
 import javax.annotation.Nullable;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockFlower;
 import net.minecraft.block.material.EnumPushReaction;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.src.BlockModelUtils;
+import net.minecraft.src.Reflector;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MapPopulator;
@@ -39,6 +43,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.property.IUnlistedProperty;
 
 public class BlockStateContainer
 {
@@ -53,37 +58,47 @@ public class BlockStateContainer
     };
     private final Block block;
     private final ImmutableSortedMap < String, IProperty<? >> properties;
-    private final ImmutableList<IBlockState> validStates;
+    private final ImmutableList<StateImplementation> validStates;
 
     public BlockStateContainer(Block blockIn, IProperty<?>... properties)
     {
-        this.block = blockIn;
+        this(blockIn, properties, (ImmutableMap < IUnlistedProperty<?>, Optional<? >>)null);
+    }
+
+    protected BlockStateContainer.StateImplementation createState(Block p_createState_1_, ImmutableMap < IProperty<?>, Comparable<? >> p_createState_2_, ImmutableMap < IUnlistedProperty<?>, Optional<? >> p_createState_3_)
+    {
+        return new BlockStateContainer.StateImplementation(p_createState_1_, p_createState_2_);
+    }
+
+    protected BlockStateContainer(Block p_i9_1_, IProperty<?>[] p_i9_2_, ImmutableMap < IUnlistedProperty<?>, Optional<? >> p_i9_3_)
+    {
+        this.block = p_i9_1_;
         Map < String, IProperty<? >> map = Maps. < String, IProperty<? >> newHashMap();
 
-        for (IProperty<?> iproperty : properties)
+        for (IProperty<?> iproperty : p_i9_2_)
         {
-            validateProperty(blockIn, iproperty);
+            validateProperty(p_i9_1_, iproperty);
             map.put(iproperty.getName(), iproperty);
         }
 
         this.properties = ImmutableSortedMap. < String, IProperty<? >> copyOf(map);
         Map < Map < IProperty<?>, Comparable<? >> , BlockStateContainer.StateImplementation > map2 = Maps. < Map < IProperty<?>, Comparable<? >> , BlockStateContainer.StateImplementation > newLinkedHashMap();
-        List<BlockStateContainer.StateImplementation> list1 = Lists.<BlockStateContainer.StateImplementation>newArrayList();
+        List<BlockStateContainer.StateImplementation> list = Lists.<BlockStateContainer.StateImplementation>newArrayList();
 
-        for (List < Comparable<? >> list : Cartesian.cartesianProduct(this.getAllowedValues()))
+        for (List < Comparable<? >> list1 : Cartesian.cartesianProduct(this.getAllowedValues()))
         {
-            Map < IProperty<?>, Comparable<? >> map1 = MapPopulator. < IProperty<?>, Comparable<? >> createMap(this.properties.values(), list);
-            BlockStateContainer.StateImplementation blockstatecontainer$stateimplementation = new BlockStateContainer.StateImplementation(blockIn, ImmutableMap.copyOf(map1));
+            Map < IProperty<?>, Comparable<? >> map1 = MapPopulator. < IProperty<?>, Comparable<? >> createMap(this.properties.values(), list1);
+            BlockStateContainer.StateImplementation blockstatecontainer$stateimplementation = this.createState(p_i9_1_, ImmutableMap. < IProperty<?>, Comparable<? >> copyOf(map1), p_i9_3_);
             map2.put(map1, blockstatecontainer$stateimplementation);
-            list1.add(blockstatecontainer$stateimplementation);
+            list.add(blockstatecontainer$stateimplementation);
         }
 
-        for (BlockStateContainer.StateImplementation blockstatecontainer$stateimplementation1 : list1)
+        for (BlockStateContainer.StateImplementation blockstatecontainer$stateimplementation1 : list)
         {
             blockstatecontainer$stateimplementation1.buildPropertyValueTable(map2);
         }
 
-        this.validStates = ImmutableList.<IBlockState>copyOf(list1);
+        this.validStates = ImmutableList.copyOf(list);
     }
 
     public static <T extends Comparable<T>> String validateProperty(Block block, IProperty<T> property)
@@ -110,7 +125,7 @@ public class BlockStateContainer
         }
     }
 
-    public ImmutableList<IBlockState> getValidStates()
+    public ImmutableList<StateImplementation> getValidStates()
     {
         return this.validStates;
     }
@@ -156,6 +171,55 @@ public class BlockStateContainer
         return (IProperty)this.properties.get(propertyName);
     }
 
+    public static class Builder
+    {
+        private final Block block;
+        private final List < IProperty<? >> listed = Lists. < IProperty<? >> newArrayList();
+        private final List < IUnlistedProperty<? >> unlisted = Lists. < IUnlistedProperty<? >> newArrayList();
+
+        public Builder(Block p_i11_1_)
+        {
+            this.block = p_i11_1_;
+        }
+
+        public BlockStateContainer.Builder add(IProperty<?>... p_add_1_)
+        {
+            for (IProperty<?> iproperty : p_add_1_)
+            {
+                this.listed.add(iproperty);
+            }
+
+            return this;
+        }
+
+        public BlockStateContainer.Builder add(IUnlistedProperty<?>... p_add_1_)
+        {
+            for (IUnlistedProperty<?> iunlistedproperty : p_add_1_)
+            {
+                this.unlisted.add(iunlistedproperty);
+            }
+
+            return this;
+        }
+
+        public BlockStateContainer build()
+        {
+            IProperty<?>[] iproperty = new IProperty[this.listed.size()];
+            iproperty = (IProperty[])this.listed.toArray(iproperty);
+
+            if (this.unlisted.size() == 0)
+            {
+                return new BlockStateContainer(this.block, iproperty);
+            }
+            else
+            {
+                IUnlistedProperty<?>[] iunlistedproperty = new IUnlistedProperty[this.unlisted.size()];
+                iunlistedproperty = (IUnlistedProperty[])this.unlisted.toArray(iunlistedproperty);
+                return (BlockStateContainer)Reflector.newInstance(Reflector.ExtendedBlockState_Constructor, new Object[] {this.block, iproperty, iunlistedproperty});
+            }
+        }
+    }
+
     static class StateImplementation extends BlockStateBase
     {
         private final Block block;
@@ -168,7 +232,14 @@ public class BlockStateContainer
             this.properties = propertiesIn;
         }
 
-        public Collection < IProperty<? >> getPropertyNames()
+        protected StateImplementation(Block p_i8_1_, ImmutableMap < IProperty<?>, Comparable<? >> p_i8_2_, ImmutableTable < IProperty<?>, Comparable<?>, IBlockState > p_i8_3_)
+        {
+            this.block = p_i8_1_;
+            this.properties = p_i8_2_;
+            this.propertyValueTable = p_i8_3_;
+        }
+
+        public Collection < IProperty<? >> getPropertyKeys()
         {
             return Collections. < IProperty<? >> unmodifiableCollection(this.properties.keySet());
         }
@@ -325,9 +396,9 @@ public class BlockStateContainer
             return this.block.isFullCube(this);
         }
 
-        public boolean func_191057_i()
+        public boolean hasCustomBreakingProgress()
         {
-            return this.block.func_190946_v(this);
+            return this.block.hasCustomBreakingProgress(this);
         }
 
         public EnumBlockRenderType getRenderType()
@@ -428,7 +499,18 @@ public class BlockStateContainer
 
         public AxisAlignedBB getBoundingBox(IBlockAccess blockAccess, BlockPos pos)
         {
-            return this.block.getBoundingBox(this, blockAccess, pos);
+            Block.EnumOffsetType block$enumoffsettype = this.block.getOffsetType();
+
+            if (block$enumoffsettype != Block.EnumOffsetType.NONE && !(this.block instanceof BlockFlower))
+            {
+                AxisAlignedBB axisalignedbb = this.block.getBoundingBox(this, blockAccess, pos);
+                axisalignedbb = BlockModelUtils.getOffsetBoundingBox(axisalignedbb, block$enumoffsettype, pos);
+                return axisalignedbb;
+            }
+            else
+            {
+                return this.block.getBoundingBox(this, blockAccess, pos);
+            }
         }
 
         public RayTraceResult collisionRayTrace(World worldIn, BlockPos pos, Vec3d start, Vec3d end)
@@ -441,9 +523,9 @@ public class BlockStateContainer
             return this.block.isFullyOpaque(this);
         }
 
-        public Vec3d func_191059_e(IBlockAccess p_191059_1_, BlockPos p_191059_2_)
+        public Vec3d getOffset(IBlockAccess p_191059_1_, BlockPos p_191059_2_)
         {
-            return this.block.func_190949_e(this, p_191059_1_, p_191059_2_);
+            return this.block.getOffset(this, p_191059_1_, p_191059_2_);
         }
 
         public boolean onBlockEventReceived(World worldIn, BlockPos pos, int id, int param)
@@ -451,14 +533,39 @@ public class BlockStateContainer
             return this.block.eventReceived(this, worldIn, pos, id, param);
         }
 
-        public void neighborChanged(World worldIn, BlockPos pos, Block blockIn, BlockPos p_189546_4_)
+        public void neighborChanged(World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos)
         {
-            this.block.neighborChanged(this, worldIn, pos, blockIn, p_189546_4_);
+            this.block.neighborChanged(this, worldIn, pos, blockIn, fromPos);
         }
 
-        public boolean func_191058_s()
+        public boolean causesSuffocation()
         {
             return this.block.causesSuffocation(this);
+        }
+
+        public ImmutableTable < IProperty<?>, Comparable<?>, IBlockState > getPropertyValueTable()
+        {
+            return this.propertyValueTable;
+        }
+
+        public int getLightOpacity(IBlockAccess p_getLightOpacity_1_, BlockPos p_getLightOpacity_2_)
+        {
+            return Reflector.callInt(this.block, Reflector.ForgeBlock_getLightOpacity, new Object[] {this, p_getLightOpacity_1_, p_getLightOpacity_2_});
+        }
+
+        public int getLightValue(IBlockAccess p_getLightValue_1_, BlockPos p_getLightValue_2_)
+        {
+            return Reflector.callInt(this.block, Reflector.ForgeBlock_getLightValue, new Object[] {this, p_getLightValue_1_, p_getLightValue_2_});
+        }
+
+        public boolean isSideSolid(IBlockAccess p_isSideSolid_1_, BlockPos p_isSideSolid_2_, EnumFacing p_isSideSolid_3_)
+        {
+            return Reflector.callBoolean(this.block, Reflector.ForgeBlock_isSideSolid, new Object[] {this, p_isSideSolid_1_, p_isSideSolid_2_, p_isSideSolid_3_});
+        }
+
+        public boolean doesSideBlockRendering(IBlockAccess p_doesSideBlockRendering_1_, BlockPos p_doesSideBlockRendering_2_, EnumFacing p_doesSideBlockRendering_3_)
+        {
+            return Reflector.callBoolean(this.block, Reflector.ForgeBlock_doesSideBlockRendering, new Object[] {this, p_doesSideBlockRendering_1_, p_doesSideBlockRendering_2_, p_doesSideBlockRendering_3_});
         }
     }
 }

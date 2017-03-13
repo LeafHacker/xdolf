@@ -74,7 +74,7 @@ public class EntitySpider extends EntityMob
     /**
      * Returns new PathNavigateGround instance
      */
-    protected PathNavigate getNewNavigator(World worldIn)
+    protected PathNavigate createNavigator(World worldIn)
     {
         return new PathNavigateClimber(this, worldIn);
     }
@@ -203,7 +203,7 @@ public class EntitySpider extends EntityMob
             EntitySkeleton entityskeleton = new EntitySkeleton(this.world);
             entityskeleton.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
             entityskeleton.onInitialSpawn(difficulty, (IEntityLivingData)null);
-            this.world.spawnEntityInWorld(entityskeleton);
+            this.world.spawnEntity(entityskeleton);
             entityskeleton.startRiding(this);
         }
 

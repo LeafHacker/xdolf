@@ -13,53 +13,53 @@ import net.minecraft.world.WorldServer;
 
 public class EntityEvokerFangs extends Entity
 {
-    private int field_190553_a;
-    private boolean field_190554_b;
-    private int field_190555_c;
-    private boolean field_190556_d;
-    private EntityLivingBase field_190557_e;
-    private UUID field_190558_f;
+    private int warmupDelayTicks;
+    private boolean sentSpikeEvent;
+    private int lifeTicks;
+    private boolean clientSideAttackStarted;
+    private EntityLivingBase caster;
+    private UUID casterUuid;
 
-    public EntityEvokerFangs(World p_i47275_1_)
+    public EntityEvokerFangs(World worldIn)
     {
-        super(p_i47275_1_);
-        this.field_190555_c = 22;
+        super(worldIn);
+        this.lifeTicks = 22;
         this.setSize(0.5F, 0.8F);
     }
 
-    public EntityEvokerFangs(World p_i47276_1_, double p_i47276_2_, double p_i47276_4_, double p_i47276_6_, float p_i47276_8_, int p_i47276_9_, EntityLivingBase p_i47276_10_)
+    public EntityEvokerFangs(World worldIn, double x, double y, double z, float p_i47276_8_, int p_i47276_9_, EntityLivingBase casterIn)
     {
-        this(p_i47276_1_);
-        this.field_190553_a = p_i47276_9_;
-        this.func_190549_a(p_i47276_10_);
+        this(worldIn);
+        this.warmupDelayTicks = p_i47276_9_;
+        this.setCaster(casterIn);
         this.rotationYaw = p_i47276_8_ * (180F / (float)Math.PI);
-        this.setPosition(p_i47276_2_, p_i47276_4_, p_i47276_6_);
+        this.setPosition(x, y, z);
     }
 
     protected void entityInit()
     {
     }
 
-    public void func_190549_a(@Nullable EntityLivingBase p_190549_1_)
+    public void setCaster(@Nullable EntityLivingBase p_190549_1_)
     {
-        this.field_190557_e = p_190549_1_;
-        this.field_190558_f = p_190549_1_ == null ? null : p_190549_1_.getUniqueID();
+        this.caster = p_190549_1_;
+        this.casterUuid = p_190549_1_ == null ? null : p_190549_1_.getUniqueID();
     }
 
     @Nullable
-    public EntityLivingBase func_190552_j()
+    public EntityLivingBase getCaster()
     {
-        if (this.field_190557_e == null && this.field_190558_f != null && this.world instanceof WorldServer)
+        if (this.caster == null && this.casterUuid != null && this.world instanceof WorldServer)
         {
-            Entity entity = ((WorldServer)this.world).getEntityFromUuid(this.field_190558_f);
+            Entity entity = ((WorldServer)this.world).getEntityFromUuid(this.casterUuid);
 
             if (entity instanceof EntityLivingBase)
             {
-                this.field_190557_e = (EntityLivingBase)entity;
+                this.caster = (EntityLivingBase)entity;
             }
         }
 
-        return this.field_190557_e;
+        return this.caster;
     }
 
     /**
@@ -67,8 +67,8 @@ public class EntityEvokerFangs extends Entity
      */
     protected void readEntityFromNBT(NBTTagCompound compound)
     {
-        this.field_190553_a = compound.getInteger("Warmup");
-        this.field_190558_f = compound.getUniqueId("OwnerUUID");
+        this.warmupDelayTicks = compound.getInteger("Warmup");
+        this.casterUuid = compound.getUniqueId("OwnerUUID");
     }
 
     /**
@@ -76,11 +76,11 @@ public class EntityEvokerFangs extends Entity
      */
     protected void writeEntityToNBT(NBTTagCompound compound)
     {
-        compound.setInteger("Warmup", this.field_190553_a);
+        compound.setInteger("Warmup", this.warmupDelayTicks);
 
-        if (this.field_190558_f != null)
+        if (this.casterUuid != null)
         {
-            compound.setUniqueId("OwnerUUID", this.field_190558_f);
+            compound.setUniqueId("OwnerUUID", this.casterUuid);
         }
     }
 
@@ -93,11 +93,11 @@ public class EntityEvokerFangs extends Entity
 
         if (this.world.isRemote)
         {
-            if (this.field_190556_d)
+            if (this.clientSideAttackStarted)
             {
-                --this.field_190555_c;
+                --this.lifeTicks;
 
-                if (this.field_190555_c == 14)
+                if (this.lifeTicks == 14)
                 {
                     for (int i = 0; i < 12; ++i)
                     {
@@ -112,38 +112,38 @@ public class EntityEvokerFangs extends Entity
                 }
             }
         }
-        else if (--this.field_190553_a < 0)
+        else if (--this.warmupDelayTicks < 0)
         {
-            if (this.field_190553_a == -8)
+            if (this.warmupDelayTicks == -8)
             {
                 for (EntityLivingBase entitylivingbase : this.world.getEntitiesWithinAABB(EntityLivingBase.class, this.getEntityBoundingBox().expand(0.2D, 0.0D, 0.2D)))
                 {
-                    this.func_190551_c(entitylivingbase);
+                    this.damage(entitylivingbase);
                 }
             }
 
-            if (!this.field_190554_b)
+            if (!this.sentSpikeEvent)
             {
                 this.world.setEntityState(this, (byte)4);
-                this.field_190554_b = true;
+                this.sentSpikeEvent = true;
             }
 
-            if (--this.field_190555_c < 0)
+            if (--this.lifeTicks < 0)
             {
                 this.setDead();
             }
         }
     }
 
-    private void func_190551_c(EntityLivingBase p_190551_1_)
+    private void damage(EntityLivingBase p_190551_1_)
     {
-        EntityLivingBase entitylivingbase = this.func_190552_j();
+        EntityLivingBase entitylivingbase = this.getCaster();
 
-        if (p_190551_1_.isEntityAlive() && !p_190551_1_.func_190530_aW() && p_190551_1_ != entitylivingbase)
+        if (p_190551_1_.isEntityAlive() && !p_190551_1_.getIsInvulnerable() && p_190551_1_ != entitylivingbase)
         {
             if (entitylivingbase == null)
             {
-                p_190551_1_.attackEntityFrom(DamageSource.magic, 6.0F);
+                p_190551_1_.attackEntityFrom(DamageSource.MAGIC, 6.0F);
             }
             else
             {
@@ -163,24 +163,24 @@ public class EntityEvokerFangs extends Entity
 
         if (id == 4)
         {
-            this.field_190556_d = true;
+            this.clientSideAttackStarted = true;
 
             if (!this.isSilent())
             {
-                this.world.playSound(this.posX, this.posY, this.posZ, SoundEvents.field_191242_bl, this.getSoundCategory(), 1.0F, this.rand.nextFloat() * 0.2F + 0.85F, false);
+                this.world.playSound(this.posX, this.posY, this.posZ, SoundEvents.EVOCATION_FANGS_ATTACK, this.getSoundCategory(), 1.0F, this.rand.nextFloat() * 0.2F + 0.85F, false);
             }
         }
     }
 
-    public float func_190550_a(float p_190550_1_)
+    public float getAnimationProgress(float p_190550_1_)
     {
-        if (!this.field_190556_d)
+        if (!this.clientSideAttackStarted)
         {
             return 0.0F;
         }
         else
         {
-            int i = this.field_190555_c - 2;
+            int i = this.lifeTicks - 2;
             return i <= 0 ? 1.0F : 1.0F - ((float)i - p_190550_1_) / 20.0F;
         }
     }

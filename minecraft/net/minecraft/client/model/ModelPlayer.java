@@ -129,15 +129,6 @@ public class ModelPlayer extends ModelBiped
         copyModelAngles(this.bipedLeftArm, this.bipedLeftArmwear);
         copyModelAngles(this.bipedRightArm, this.bipedRightArmwear);
         copyModelAngles(this.bipedBody, this.bipedBodyWear);
-
-        if (entityIn.isSneaking())
-        {
-            this.bipedCape.rotationPointY = 2.0F;
-        }
-        else
-        {
-            this.bipedCape.rotationPointY = 0.0F;
-        }
     }
 
     public void setInvisible(boolean invisible)

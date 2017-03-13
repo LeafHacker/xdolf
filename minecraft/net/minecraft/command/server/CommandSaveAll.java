@@ -18,7 +18,7 @@ public class CommandSaveAll extends CommandBase
     /**
      * Gets the name of the command
      */
-    public String getCommandName()
+    public String getName()
     {
         return "save-all";
     }
@@ -26,7 +26,7 @@ public class CommandSaveAll extends CommandBase
     /**
      * Gets the usage string for the command.
      */
-    public String getCommandUsage(ICommandSender sender)
+    public String getUsage(ICommandSender sender)
     {
         return "commands.save.usage";
     }
@@ -36,7 +36,7 @@ public class CommandSaveAll extends CommandBase
      */
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
     {
-        sender.addChatMessage(new TextComponentTranslation("commands.save.start", new Object[0]));
+        sender.sendMessage(new TextComponentTranslation("commands.save.start", new Object[0]));
 
         if (server.getPlayerList() != null)
         {
@@ -45,11 +45,11 @@ public class CommandSaveAll extends CommandBase
 
         try
         {
-            for (int i = 0; i < server.worldServers.length; ++i)
+            for (int i = 0; i < server.worlds.length; ++i)
             {
-                if (server.worldServers[i] != null)
+                if (server.worlds[i] != null)
                 {
-                    WorldServer worldserver = server.worldServers[i];
+                    WorldServer worldserver = server.worlds[i];
                     boolean flag = worldserver.disableLevelSaving;
                     worldserver.disableLevelSaving = false;
                     worldserver.saveAllChunks(true, (IProgressUpdate)null);
@@ -59,13 +59,13 @@ public class CommandSaveAll extends CommandBase
 
             if (args.length > 0 && "flush".equals(args[0]))
             {
-                sender.addChatMessage(new TextComponentTranslation("commands.save.flushStart", new Object[0]));
+                sender.sendMessage(new TextComponentTranslation("commands.save.flushStart", new Object[0]));
 
-                for (int j = 0; j < server.worldServers.length; ++j)
+                for (int j = 0; j < server.worlds.length; ++j)
                 {
-                    if (server.worldServers[j] != null)
+                    if (server.worlds[j] != null)
                     {
-                        WorldServer worldserver1 = server.worldServers[j];
+                        WorldServer worldserver1 = server.worlds[j];
                         boolean flag1 = worldserver1.disableLevelSaving;
                         worldserver1.disableLevelSaving = false;
                         worldserver1.saveChunkData();
@@ -73,7 +73,7 @@ public class CommandSaveAll extends CommandBase
                     }
                 }
 
-                sender.addChatMessage(new TextComponentTranslation("commands.save.flushEnd", new Object[0]));
+                sender.sendMessage(new TextComponentTranslation("commands.save.flushEnd", new Object[0]));
             }
         }
         catch (MinecraftException minecraftexception)
@@ -85,7 +85,7 @@ public class CommandSaveAll extends CommandBase
         notifyCommandListener(sender, this, "commands.save.success", new Object[0]);
     }
 
-    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
+    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
     {
         return args.length == 1 ? getListOfStringsMatchingLastWord(args, new String[] {"flush"}): Collections.<String>emptyList();
     }

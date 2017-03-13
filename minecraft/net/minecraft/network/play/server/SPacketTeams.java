@@ -84,27 +84,27 @@ public class SPacketTeams implements Packet<INetHandlerPlayClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.name = buf.readStringFromBuffer(16);
+        this.name = buf.readString(16);
         this.action = buf.readByte();
 
         if (this.action == 0 || this.action == 2)
         {
-            this.displayName = buf.readStringFromBuffer(32);
-            this.prefix = buf.readStringFromBuffer(16);
-            this.suffix = buf.readStringFromBuffer(16);
+            this.displayName = buf.readString(32);
+            this.prefix = buf.readString(16);
+            this.suffix = buf.readString(16);
             this.friendlyFlags = buf.readByte();
-            this.nameTagVisibility = buf.readStringFromBuffer(32);
-            this.collisionRule = buf.readStringFromBuffer(32);
+            this.nameTagVisibility = buf.readString(32);
+            this.collisionRule = buf.readString(32);
             this.color = buf.readByte();
         }
 
         if (this.action == 0 || this.action == 3 || this.action == 4)
         {
-            int i = buf.readVarIntFromBuffer();
+            int i = buf.readVarInt();
 
             for (int j = 0; j < i; ++j)
             {
-                this.players.add(buf.readStringFromBuffer(40));
+                this.players.add(buf.readString(40));
             }
         }
     }
@@ -130,7 +130,7 @@ public class SPacketTeams implements Packet<INetHandlerPlayClient>
 
         if (this.action == 0 || this.action == 3 || this.action == 4)
         {
-            buf.writeVarIntToBuffer(this.players.size());
+            buf.writeVarInt(this.players.size());
 
             for (String s : this.players)
             {

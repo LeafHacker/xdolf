@@ -32,7 +32,7 @@ public class CPacketUpdateSign implements Packet<INetHandlerPlayServer>
 
         for (int i = 0; i < 4; ++i)
         {
-            this.lines[i] = buf.readStringFromBuffer(384);
+            this.lines[i] = buf.readString(384);
         }
     }
 

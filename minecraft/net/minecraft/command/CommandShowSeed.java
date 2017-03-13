@@ -18,7 +18,7 @@ public class CommandShowSeed extends CommandBase
     /**
      * Gets the name of the command
      */
-    public String getCommandName()
+    public String getName()
     {
         return "seed";
     }
@@ -34,7 +34,7 @@ public class CommandShowSeed extends CommandBase
     /**
      * Gets the usage string for the command.
      */
-    public String getCommandUsage(ICommandSender sender)
+    public String getUsage(ICommandSender sender)
     {
         return "commands.seed.usage";
     }
@@ -45,6 +45,6 @@ public class CommandShowSeed extends CommandBase
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
     {
         World world = (World)(sender instanceof EntityPlayer ? ((EntityPlayer)sender).world : server.worldServerForDimension(0));
-        sender.addChatMessage(new TextComponentTranslation("commands.seed.success", new Object[] {Long.valueOf(world.getSeed())}));
+        sender.sendMessage(new TextComponentTranslation("commands.seed.success", new Object[] {Long.valueOf(world.getSeed())}));
     }
 }

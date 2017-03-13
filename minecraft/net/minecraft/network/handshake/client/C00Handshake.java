@@ -30,10 +30,10 @@ public class C00Handshake implements Packet<INetHandlerHandshakeServer>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.protocolVersion = buf.readVarIntFromBuffer();
-        this.ip = buf.readStringFromBuffer(255);
+        this.protocolVersion = buf.readVarInt();
+        this.ip = buf.readString(255);
         this.port = buf.readUnsignedShort();
-        this.requestedState = EnumConnectionState.getById(buf.readVarIntFromBuffer());
+        this.requestedState = EnumConnectionState.getById(buf.readVarInt());
     }
 
     /**
@@ -41,10 +41,10 @@ public class C00Handshake implements Packet<INetHandlerHandshakeServer>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeVarIntToBuffer(this.protocolVersion);
+        buf.writeVarInt(this.protocolVersion);
         buf.writeString(this.ip);
         buf.writeShort(this.port);
-        buf.writeVarIntToBuffer(this.requestedState.getId());
+        buf.writeVarInt(this.requestedState.getId());
     }
 
     /**

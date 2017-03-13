@@ -56,7 +56,7 @@ public class EntityTippedArrow extends EntityArrow
                 }
             }
 
-            this.func_190548_o();
+            this.refreshColor();
         }
         else if (stack.getItem() == Items.ARROW)
         {
@@ -66,7 +66,7 @@ public class EntityTippedArrow extends EntityArrow
         }
     }
 
-    void func_190548_o()
+    void refreshColor()
     {
         this.dataManager.set(COLOR, Integer.valueOf(PotionUtils.getPotionColorFromEffectList(PotionUtils.mergeEffects(this.potion, this.customPotionEffects))));
     }
@@ -188,7 +188,7 @@ public class EntityTippedArrow extends EntityArrow
         }
         else
         {
-            this.func_190548_o();
+            this.refreshColor();
         }
     }
 

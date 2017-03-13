@@ -16,7 +16,7 @@ import net.minecraft.util.datafix.walkers.ItemStackDataLists;
 public class TileEntityDispenser extends TileEntityLockableLoot
 {
     private static final Random RNG = new Random();
-    private NonNullList<ItemStack> stacks = NonNullList.<ItemStack>func_191197_a(9, ItemStack.field_190927_a);
+    private NonNullList<ItemStack> stacks = NonNullList.<ItemStack>withSize(9, ItemStack.EMPTY);
 
     /**
      * Returns the number of slots in the inventory.
@@ -26,11 +26,11 @@ public class TileEntityDispenser extends TileEntityLockableLoot
         return 9;
     }
 
-    public boolean func_191420_l()
+    public boolean isEmpty()
     {
         for (ItemStack itemstack : this.stacks)
         {
-            if (!itemstack.func_190926_b())
+            if (!itemstack.isEmpty())
             {
                 return false;
             }
@@ -47,7 +47,7 @@ public class TileEntityDispenser extends TileEntityLockableLoot
 
         for (int k = 0; k < this.stacks.size(); ++k)
         {
-            if (!((ItemStack)this.stacks.get(k)).func_190926_b() && RNG.nextInt(j++) == 0)
+            if (!((ItemStack)this.stacks.get(k)).isEmpty() && RNG.nextInt(j++) == 0)
             {
                 i = k;
             }
@@ -64,7 +64,7 @@ public class TileEntityDispenser extends TileEntityLockableLoot
     {
         for (int i = 0; i < this.stacks.size(); ++i)
         {
-            if (((ItemStack)this.stacks.get(i)).func_190926_b())
+            if (((ItemStack)this.stacks.get(i)).isEmpty())
             {
                 this.setInventorySlotContents(i, stack);
                 return i;
@@ -79,7 +79,7 @@ public class TileEntityDispenser extends TileEntityLockableLoot
      */
     public String getName()
     {
-        return this.hasCustomName() ? this.field_190577_o : "container.dispenser";
+        return this.hasCustomName() ? this.customName : "container.dispenser";
     }
 
     public static void registerFixes(DataFixer fixer)
@@ -90,16 +90,16 @@ public class TileEntityDispenser extends TileEntityLockableLoot
     public void readFromNBT(NBTTagCompound compound)
     {
         super.readFromNBT(compound);
-        this.stacks = NonNullList.<ItemStack>func_191197_a(this.getSizeInventory(), ItemStack.field_190927_a);
+        this.stacks = NonNullList.<ItemStack>withSize(this.getSizeInventory(), ItemStack.EMPTY);
 
         if (!this.checkLootAndRead(compound))
         {
-            ItemStackHelper.func_191283_b(compound, this.stacks);
+            ItemStackHelper.loadAllItems(compound, this.stacks);
         }
 
         if (compound.hasKey("CustomName", 8))
         {
-            this.field_190577_o = compound.getString("CustomName");
+            this.customName = compound.getString("CustomName");
         }
     }
 
@@ -109,12 +109,12 @@ public class TileEntityDispenser extends TileEntityLockableLoot
 
         if (!this.checkLootAndWrite(compound))
         {
-            ItemStackHelper.func_191282_a(compound, this.stacks);
+            ItemStackHelper.saveAllItems(compound, this.stacks);
         }
 
         if (this.hasCustomName())
         {
-            compound.setString("CustomName", this.field_190577_o);
+            compound.setString("CustomName", this.customName);
         }
 
         return compound;
@@ -139,7 +139,7 @@ public class TileEntityDispenser extends TileEntityLockableLoot
         return new ContainerDispenser(playerInventory, this);
     }
 
-    protected NonNullList<ItemStack> func_190576_q()
+    protected NonNullList<ItemStack> getItems()
     {
         return this.stacks;
     }

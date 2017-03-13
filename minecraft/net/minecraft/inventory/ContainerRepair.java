@@ -27,7 +27,7 @@ public class ContainerRepair extends Container
      * The 2slots where you put your items in that you want to merge and/or rename.
      */
     private final IInventory inputSlots;
-    private final World theWorld;
+    private final World world;
     private final BlockPos selfPosition;
 
     /** The maximum cost of repairing/renaming in the anvil. */
@@ -38,7 +38,7 @@ public class ContainerRepair extends Container
     private String repairedItemName;
 
     /** The player that has this container open. */
-    private final EntityPlayer thePlayer;
+    private final EntityPlayer player;
 
     public ContainerRepair(InventoryPlayer playerInventory, World worldIn, EntityPlayer player)
     {
@@ -57,8 +57,8 @@ public class ContainerRepair extends Container
             }
         };
         this.selfPosition = blockPosIn;
-        this.theWorld = worldIn;
-        this.thePlayer = player;
+        this.world = worldIn;
+        this.player = player;
         this.addSlotToContainer(new Slot(this.inputSlots, 0, 27, 47));
         this.addSlotToContainer(new Slot(this.inputSlots, 1, 76, 47));
         this.addSlotToContainer(new Slot(this.outputSlot, 2, 134, 47)
@@ -71,32 +71,32 @@ public class ContainerRepair extends Container
             {
                 return (playerIn.capabilities.isCreativeMode || playerIn.experienceLevel >= ContainerRepair.this.maximumCost) && ContainerRepair.this.maximumCost > 0 && this.getHasStack();
             }
-            public ItemStack func_190901_a(EntityPlayer p_190901_1_, ItemStack p_190901_2_)
+            public ItemStack onTake(EntityPlayer p_190901_1_, ItemStack p_190901_2_)
             {
                 if (!p_190901_1_.capabilities.isCreativeMode)
                 {
                     p_190901_1_.addExperienceLevel(-ContainerRepair.this.maximumCost);
                 }
 
-                ContainerRepair.this.inputSlots.setInventorySlotContents(0, ItemStack.field_190927_a);
+                ContainerRepair.this.inputSlots.setInventorySlotContents(0, ItemStack.EMPTY);
 
                 if (ContainerRepair.this.materialCost > 0)
                 {
                     ItemStack itemstack = ContainerRepair.this.inputSlots.getStackInSlot(1);
 
-                    if (!itemstack.func_190926_b() && itemstack.func_190916_E() > ContainerRepair.this.materialCost)
+                    if (!itemstack.isEmpty() && itemstack.getCount() > ContainerRepair.this.materialCost)
                     {
-                        itemstack.func_190918_g(ContainerRepair.this.materialCost);
+                        itemstack.shrink(ContainerRepair.this.materialCost);
                         ContainerRepair.this.inputSlots.setInventorySlotContents(1, itemstack);
                     }
                     else
                     {
-                        ContainerRepair.this.inputSlots.setInventorySlotContents(1, ItemStack.field_190927_a);
+                        ContainerRepair.this.inputSlots.setInventorySlotContents(1, ItemStack.EMPTY);
                     }
                 }
                 else
                 {
-                    ContainerRepair.this.inputSlots.setInventorySlotContents(1, ItemStack.field_190927_a);
+                    ContainerRepair.this.inputSlots.setInventorySlotContents(1, ItemStack.EMPTY);
                 }
 
                 ContainerRepair.this.maximumCost = 0;
@@ -165,9 +165,9 @@ public class ContainerRepair extends Container
         int j = 0;
         int k = 0;
 
-        if (itemstack.func_190926_b())
+        if (itemstack.isEmpty())
         {
-            this.outputSlot.setInventorySlotContents(0, ItemStack.field_190927_a);
+            this.outputSlot.setInventorySlotContents(0, ItemStack.EMPTY);
             this.maximumCost = 0;
         }
         else
@@ -175,10 +175,10 @@ public class ContainerRepair extends Container
             ItemStack itemstack1 = itemstack.copy();
             ItemStack itemstack2 = this.inputSlots.getStackInSlot(1);
             Map<Enchantment, Integer> map = EnchantmentHelper.getEnchantments(itemstack1);
-            j = j + itemstack.getRepairCost() + (itemstack2.func_190926_b() ? 0 : itemstack2.getRepairCost());
+            j = j + itemstack.getRepairCost() + (itemstack2.isEmpty() ? 0 : itemstack2.getRepairCost());
             this.materialCost = 0;
 
-            if (!itemstack2.func_190926_b())
+            if (!itemstack2.isEmpty())
             {
                 boolean flag = itemstack2.getItem() == Items.ENCHANTED_BOOK && !Items.ENCHANTED_BOOK.getEnchantments(itemstack2).hasNoTags();
 
@@ -188,14 +188,14 @@ public class ContainerRepair extends Container
 
                     if (j2 <= 0)
                     {
-                        this.outputSlot.setInventorySlotContents(0, ItemStack.field_190927_a);
+                        this.outputSlot.setInventorySlotContents(0, ItemStack.EMPTY);
                         this.maximumCost = 0;
                         return;
                     }
 
                     int k2;
 
-                    for (k2 = 0; j2 > 0 && k2 < itemstack2.func_190916_E(); ++k2)
+                    for (k2 = 0; j2 > 0 && k2 < itemstack2.getCount(); ++k2)
                     {
                         int l2 = itemstack1.getItemDamage() - j2;
                         itemstack1.setItemDamage(l2);
@@ -209,7 +209,7 @@ public class ContainerRepair extends Container
                 {
                     if (!flag && (itemstack1.getItem() != itemstack2.getItem() || !itemstack1.isItemStackDamageable()))
                     {
-                        this.outputSlot.setInventorySlotContents(0, ItemStack.field_190927_a);
+                        this.outputSlot.setInventorySlotContents(0, ItemStack.EMPTY);
                         this.maximumCost = 0;
                         return;
                     }
@@ -245,7 +245,7 @@ public class ContainerRepair extends Container
                             j3 = i3 == j3 ? j3 + 1 : Math.max(j3, i3);
                             boolean flag1 = enchantment1.canApply(itemstack);
 
-                            if (this.thePlayer.capabilities.isCreativeMode || itemstack.getItem() == Items.ENCHANTED_BOOK)
+                            if (this.player.capabilities.isCreativeMode || itemstack.getItem() == Items.ENCHANTED_BOOK)
                             {
                                 flag1 = true;
                             }
@@ -319,7 +319,7 @@ public class ContainerRepair extends Container
 
             if (i <= 0)
             {
-                itemstack1 = ItemStack.field_190927_a;
+                itemstack1 = ItemStack.EMPTY;
             }
 
             if (k == i && k > 0 && this.maximumCost >= 40)
@@ -327,16 +327,16 @@ public class ContainerRepair extends Container
                 this.maximumCost = 39;
             }
 
-            if (this.maximumCost >= 40 && !this.thePlayer.capabilities.isCreativeMode)
+            if (this.maximumCost >= 40 && !this.player.capabilities.isCreativeMode)
             {
-                itemstack1 = ItemStack.field_190927_a;
+                itemstack1 = ItemStack.EMPTY;
             }
 
-            if (!itemstack1.func_190926_b())
+            if (!itemstack1.isEmpty())
             {
                 int i2 = itemstack1.getRepairCost();
 
-                if (!itemstack2.func_190926_b() && i2 < itemstack2.getRepairCost())
+                if (!itemstack2.isEmpty() && i2 < itemstack2.getRepairCost())
                 {
                     i2 = itemstack2.getRepairCost();
                 }
@@ -376,13 +376,13 @@ public class ContainerRepair extends Container
     {
         super.onContainerClosed(playerIn);
 
-        if (!this.theWorld.isRemote)
+        if (!this.world.isRemote)
         {
             for (int i = 0; i < this.inputSlots.getSizeInventory(); ++i)
             {
                 ItemStack itemstack = this.inputSlots.removeStackFromSlot(i);
 
-                if (!itemstack.func_190926_b())
+                if (!itemstack.isEmpty())
                 {
                     playerIn.dropItem(itemstack, false);
                 }
@@ -395,7 +395,7 @@ public class ContainerRepair extends Container
      */
     public boolean canInteractWith(EntityPlayer playerIn)
     {
-        return this.theWorld.getBlockState(this.selfPosition).getBlock() != Blocks.ANVIL ? false : playerIn.getDistanceSq((double)this.selfPosition.getX() + 0.5D, (double)this.selfPosition.getY() + 0.5D, (double)this.selfPosition.getZ() + 0.5D) <= 64.0D;
+        return this.world.getBlockState(this.selfPosition).getBlock() != Blocks.ANVIL ? false : playerIn.getDistanceSq((double)this.selfPosition.getX() + 0.5D, (double)this.selfPosition.getY() + 0.5D, (double)this.selfPosition.getZ() + 0.5D) <= 64.0D;
     }
 
     /**
@@ -403,7 +403,7 @@ public class ContainerRepair extends Container
      */
     public ItemStack transferStackInSlot(EntityPlayer playerIn, int index)
     {
-        ItemStack itemstack = ItemStack.field_190927_a;
+        ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = (Slot)this.inventorySlots.get(index);
 
         if (slot != null && slot.getHasStack())
@@ -415,7 +415,7 @@ public class ContainerRepair extends Container
             {
                 if (!this.mergeItemStack(itemstack1, 3, 39, true))
                 {
-                    return ItemStack.field_190927_a;
+                    return ItemStack.EMPTY;
                 }
 
                 slot.onSlotChange(itemstack1, itemstack);
@@ -424,29 +424,29 @@ public class ContainerRepair extends Container
             {
                 if (index >= 3 && index < 39 && !this.mergeItemStack(itemstack1, 0, 2, false))
                 {
-                    return ItemStack.field_190927_a;
+                    return ItemStack.EMPTY;
                 }
             }
             else if (!this.mergeItemStack(itemstack1, 3, 39, false))
             {
-                return ItemStack.field_190927_a;
+                return ItemStack.EMPTY;
             }
 
-            if (itemstack1.func_190926_b())
+            if (itemstack1.isEmpty())
             {
-                slot.putStack(ItemStack.field_190927_a);
+                slot.putStack(ItemStack.EMPTY);
             }
             else
             {
                 slot.onSlotChanged();
             }
 
-            if (itemstack1.func_190916_E() == itemstack.func_190916_E())
+            if (itemstack1.getCount() == itemstack.getCount())
             {
-                return ItemStack.field_190927_a;
+                return ItemStack.EMPTY;
             }
 
-            slot.func_190901_a(playerIn, itemstack1);
+            slot.onTake(playerIn, itemstack1);
         }
 
         return itemstack;

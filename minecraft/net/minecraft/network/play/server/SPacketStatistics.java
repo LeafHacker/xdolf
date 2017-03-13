@@ -36,13 +36,13 @@ public class SPacketStatistics implements Packet<INetHandlerPlayClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        int i = buf.readVarIntFromBuffer();
+        int i = buf.readVarInt();
         this.statisticMap = Maps.<StatBase, Integer>newHashMap();
 
         for (int j = 0; j < i; ++j)
         {
-            StatBase statbase = StatList.getOneShotStat(buf.readStringFromBuffer(32767));
-            int k = buf.readVarIntFromBuffer();
+            StatBase statbase = StatList.getOneShotStat(buf.readString(32767));
+            int k = buf.readVarInt();
 
             if (statbase != null)
             {
@@ -56,12 +56,12 @@ public class SPacketStatistics implements Packet<INetHandlerPlayClient>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeVarIntToBuffer(this.statisticMap.size());
+        buf.writeVarInt(this.statisticMap.size());
 
         for (Entry<StatBase, Integer> entry : this.statisticMap.entrySet())
         {
             buf.writeString(((StatBase)entry.getKey()).statId);
-            buf.writeVarIntToBuffer(((Integer)entry.getValue()).intValue());
+            buf.writeVarInt(((Integer)entry.getValue()).intValue());
         }
     }
 

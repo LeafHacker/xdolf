@@ -14,17 +14,17 @@ public class RecipesMapCloning implements IRecipe
     public boolean matches(InventoryCrafting inv, World worldIn)
     {
         int i = 0;
-        ItemStack itemstack = ItemStack.field_190927_a;
+        ItemStack itemstack = ItemStack.EMPTY;
 
         for (int j = 0; j < inv.getSizeInventory(); ++j)
         {
             ItemStack itemstack1 = inv.getStackInSlot(j);
 
-            if (!itemstack1.func_190926_b())
+            if (!itemstack1.isEmpty())
             {
                 if (itemstack1.getItem() == Items.FILLED_MAP)
                 {
-                    if (!itemstack.func_190926_b())
+                    if (!itemstack.isEmpty())
                     {
                         return false;
                     }
@@ -43,7 +43,7 @@ public class RecipesMapCloning implements IRecipe
             }
         }
 
-        return !itemstack.func_190926_b() && i > 0;
+        return !itemstack.isEmpty() && i > 0;
     }
 
     /**
@@ -52,19 +52,19 @@ public class RecipesMapCloning implements IRecipe
     public ItemStack getCraftingResult(InventoryCrafting inv)
     {
         int i = 0;
-        ItemStack itemstack = ItemStack.field_190927_a;
+        ItemStack itemstack = ItemStack.EMPTY;
 
         for (int j = 0; j < inv.getSizeInventory(); ++j)
         {
             ItemStack itemstack1 = inv.getStackInSlot(j);
 
-            if (!itemstack1.func_190926_b())
+            if (!itemstack1.isEmpty())
             {
                 if (itemstack1.getItem() == Items.FILLED_MAP)
                 {
-                    if (!itemstack.func_190926_b())
+                    if (!itemstack.isEmpty())
                     {
-                        return ItemStack.field_190927_a;
+                        return ItemStack.EMPTY;
                     }
 
                     itemstack = itemstack1;
@@ -73,7 +73,7 @@ public class RecipesMapCloning implements IRecipe
                 {
                     if (itemstack1.getItem() != Items.MAP)
                     {
-                        return ItemStack.field_190927_a;
+                        return ItemStack.EMPTY;
                     }
 
                     ++i;
@@ -81,7 +81,7 @@ public class RecipesMapCloning implements IRecipe
             }
         }
 
-        if (!itemstack.func_190926_b() && i >= 1)
+        if (!itemstack.isEmpty() && i >= 1)
         {
             ItemStack itemstack2 = new ItemStack(Items.FILLED_MAP, i + 1, itemstack.getMetadata());
 
@@ -99,7 +99,7 @@ public class RecipesMapCloning implements IRecipe
         }
         else
         {
-            return ItemStack.field_190927_a;
+            return ItemStack.EMPTY;
         }
     }
 
@@ -113,12 +113,12 @@ public class RecipesMapCloning implements IRecipe
 
     public ItemStack getRecipeOutput()
     {
-        return ItemStack.field_190927_a;
+        return ItemStack.EMPTY;
     }
 
     public NonNullList<ItemStack> getRemainingItems(InventoryCrafting inv)
     {
-        NonNullList<ItemStack> nonnulllist = NonNullList.<ItemStack>func_191197_a(inv.getSizeInventory(), ItemStack.field_190927_a);
+        NonNullList<ItemStack> nonnulllist = NonNullList.<ItemStack>withSize(inv.getSizeInventory(), ItemStack.EMPTY);
 
         for (int i = 0; i < nonnulllist.size(); ++i)
         {

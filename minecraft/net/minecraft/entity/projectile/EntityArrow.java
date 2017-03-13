@@ -481,9 +481,9 @@ public abstract class EntityArrow extends Entity implements IProjectile
     /**
      * Tries to move the entity towards the specified location.
      */
-    public void moveEntity(MoverType x, double p_70091_2_, double p_70091_4_, double p_70091_6_)
+    public void move(MoverType x, double p_70091_2_, double p_70091_4_, double p_70091_6_)
     {
-        super.moveEntity(x, p_70091_2_, p_70091_4_, p_70091_6_);
+        super.move(x, p_70091_2_, p_70091_4_, p_70091_6_);
 
         if (this.inGround)
         {
@@ -687,7 +687,7 @@ public abstract class EntityArrow extends Entity implements IProjectile
         return (b0 & 1) != 0;
     }
 
-    public void func_190547_a(EntityLivingBase p_190547_1_, float p_190547_2_)
+    public void setEnchantmentEffectsFromEntity(EntityLivingBase p_190547_1_, float p_190547_2_)
     {
         int i = EnchantmentHelper.getMaxEnchantmentLevel(Enchantments.POWER, p_190547_1_);
         int j = EnchantmentHelper.getMaxEnchantmentLevel(Enchantments.PUNCH, p_190547_1_);

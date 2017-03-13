@@ -47,7 +47,7 @@ public class TileEntitySign extends TileEntity
 
     protected void setWorldCreate(World worldIn)
     {
-        this.setWorldObj(worldIn);
+        this.setWorld(worldIn);
     }
 
     public void readFromNBT(NBTTagCompound compound)
@@ -64,10 +64,10 @@ public class TileEntitySign extends TileEntity
             {
                 return new TextComponentString(this.getName());
             }
-            public void addChatMessage(ITextComponent component)
+            public void sendMessage(ITextComponent component)
             {
             }
-            public boolean canCommandSenderUseCommand(int permLevel, String commandName)
+            public boolean canUseCommand(int permLevel, String commandName)
             {
                 return true;
             }
@@ -174,10 +174,10 @@ public class TileEntitySign extends TileEntity
             {
                 return playerIn.getDisplayName();
             }
-            public void addChatMessage(ITextComponent component)
+            public void sendMessage(ITextComponent component)
             {
             }
-            public boolean canCommandSenderUseCommand(int permLevel, String commandName)
+            public boolean canUseCommand(int permLevel, String commandName)
             {
                 return permLevel <= 2;
             }

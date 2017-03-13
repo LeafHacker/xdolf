@@ -13,6 +13,8 @@ import net.minecraft.init.PotionTypes;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.src.Config;
+import net.minecraft.src.CustomColors;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Tuple;
 import net.minecraft.util.text.TextFormatting;
@@ -72,7 +74,7 @@ public class PotionUtils
         }
     }
 
-    public static int func_190932_c(ItemStack p_190932_0_)
+    public static int getColor(ItemStack p_190932_0_)
     {
         NBTTagCompound nbttagcompound = p_190932_0_.getTagCompound();
         return nbttagcompound != null && nbttagcompound.hasKey("CustomPotionColor", 99) ? nbttagcompound.getInteger("CustomPotionColor") : (getPotionFromItem(p_190932_0_) == PotionTypes.EMPTY ? 16253176 : getPotionColorFromEffectList(getEffectsFromStack(p_190932_0_)));
@@ -89,7 +91,7 @@ public class PotionUtils
 
         if (effects.isEmpty())
         {
-            return 3694022;
+            return Config.isCustomColors() ? CustomColors.getPotionColor((Potion)null, i) : 3694022;
         }
         else
         {
@@ -103,6 +105,12 @@ public class PotionUtils
                 if (potioneffect.doesShowParticles())
                 {
                     int k = potioneffect.getPotion().getLiquidColor();
+
+                    if (Config.isCustomColors())
+                    {
+                        k = CustomColors.getPotionColor(potioneffect.getPotion(), k);
+                    }
+
                     int l = potioneffect.getAmplifier() + 1;
                     f += (float)(l * (k >> 16 & 255)) / 255.0F;
                     f1 += (float)(l * (k >> 8 & 255)) / 255.0F;
@@ -211,7 +219,7 @@ public class PotionUtils
                     {
                         AttributeModifier attributemodifier = (AttributeModifier)entry.getValue();
                         AttributeModifier attributemodifier1 = new AttributeModifier(attributemodifier.getName(), potion.getAttributeModifierAmount(potioneffect.getAmplifier(), attributemodifier), attributemodifier.getOperation());
-                        list1.add(new Tuple(((IAttribute)entry.getKey()).getAttributeUnlocalizedName(), attributemodifier1));
+                        list1.add(new Tuple(((IAttribute)entry.getKey()).getName(), attributemodifier1));
                     }
                 }
 

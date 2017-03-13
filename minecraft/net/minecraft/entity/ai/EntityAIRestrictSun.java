@@ -18,7 +18,7 @@ public class EntityAIRestrictSun extends EntityAIBase
      */
     public boolean shouldExecute()
     {
-        return this.theEntity.world.isDaytime() && this.theEntity.getItemStackFromSlot(EntityEquipmentSlot.HEAD).func_190926_b();
+        return this.theEntity.world.isDaytime() && this.theEntity.getItemStackFromSlot(EntityEquipmentSlot.HEAD).isEmpty();
     }
 
     /**

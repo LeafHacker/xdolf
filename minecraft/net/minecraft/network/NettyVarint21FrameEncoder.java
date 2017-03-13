@@ -21,7 +21,7 @@ public class NettyVarint21FrameEncoder extends MessageToByteEncoder<ByteBuf>
         {
             PacketBuffer packetbuffer = new PacketBuffer(p_encode_3_);
             packetbuffer.ensureWritable(j + i);
-            packetbuffer.writeVarIntToBuffer(i);
+            packetbuffer.writeVarInt(i);
             packetbuffer.writeBytes(p_encode_2_, p_encode_2_.readerIndex(), i);
         }
     }

@@ -1,6 +1,8 @@
 package net.minecraft.client.renderer.texture;
 
 import net.minecraft.client.renderer.GlStateManager;
+import shadersmod.client.MultiTexID;
+import shadersmod.client.ShadersTex;
 
 public abstract class AbstractTexture implements ITextureObject
 {
@@ -9,6 +11,7 @@ public abstract class AbstractTexture implements ITextureObject
     protected boolean mipmap;
     protected boolean blurLast;
     protected boolean mipmapLast;
+    public MultiTexID multiTex;
 
     public void setBlurMipmapDirect(boolean blurIn, boolean mipmapIn)
     {
@@ -28,6 +31,7 @@ public abstract class AbstractTexture implements ITextureObject
             j = 9728;
         }
 
+        GlStateManager.bindTexture(this.getGlTextureId());
         GlStateManager.glTexParameteri(3553, 10241, i);
         GlStateManager.glTexParameteri(3553, 10240, j);
     }
@@ -56,10 +60,17 @@ public abstract class AbstractTexture implements ITextureObject
 
     public void deleteGlTexture()
     {
+        ShadersTex.deleteTextures(this, this.glTextureId);
+
         if (this.glTextureId != -1)
         {
             TextureUtil.deleteTexture(this.glTextureId);
             this.glTextureId = -1;
         }
+    }
+
+    public MultiTexID getMultiTexID()
+    {
+        return ShadersTex.getMultiTexID(this);
     }
 }

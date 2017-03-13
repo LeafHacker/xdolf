@@ -57,7 +57,7 @@ public class ItemFood extends Item
      */
     public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityLivingBase entityLiving)
     {
-        stack.func_190918_g(1);
+        stack.shrink(1);
 
         if (entityLiving instanceof EntityPlayer)
         {
@@ -95,13 +95,13 @@ public class ItemFood extends Item
         return EnumAction.EAT;
     }
 
-    public ActionResult<ItemStack> onItemRightClick(World itemStackIn, EntityPlayer worldIn, EnumHand playerIn)
+    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
     {
-        ItemStack itemstack = worldIn.getHeldItem(playerIn);
+        ItemStack itemstack = playerIn.getHeldItem(handIn);
 
-        if (worldIn.canEat(this.alwaysEdible))
+        if (playerIn.canEat(this.alwaysEdible))
         {
-            worldIn.setActiveHand(playerIn);
+            playerIn.setActiveHand(handIn);
             return new ActionResult(EnumActionResult.SUCCESS, itemstack);
         }
         else

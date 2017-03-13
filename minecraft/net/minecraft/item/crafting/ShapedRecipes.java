@@ -20,17 +20,17 @@ public class ShapedRecipes implements IRecipe
     private final ItemStack recipeOutput;
     private boolean copyIngredientNBT;
 
-    public ShapedRecipes(int width, int height, ItemStack[] p_i1917_3_, ItemStack output)
+    public ShapedRecipes(int width, int height, ItemStack[] ingredientsIn, ItemStack output)
     {
         this.recipeWidth = width;
         this.recipeHeight = height;
-        this.recipeItems = p_i1917_3_;
+        this.recipeItems = ingredientsIn;
 
         for (int i = 0; i < this.recipeItems.length; ++i)
         {
             if (this.recipeItems[i] == null)
             {
-                this.recipeItems[i] = ItemStack.field_190927_a;
+                this.recipeItems[i] = ItemStack.EMPTY;
             }
         }
 
@@ -44,7 +44,7 @@ public class ShapedRecipes implements IRecipe
 
     public NonNullList<ItemStack> getRemainingItems(InventoryCrafting inv)
     {
-        NonNullList<ItemStack> nonnulllist = NonNullList.<ItemStack>func_191197_a(inv.getSizeInventory(), ItemStack.field_190927_a);
+        NonNullList<ItemStack> nonnulllist = NonNullList.<ItemStack>withSize(inv.getSizeInventory(), ItemStack.EMPTY);
 
         for (int i = 0; i < nonnulllist.size(); ++i)
         {
@@ -94,7 +94,7 @@ public class ShapedRecipes implements IRecipe
             {
                 int k = i - p_77573_2_;
                 int l = j - p_77573_3_;
-                ItemStack itemstack = ItemStack.field_190927_a;
+                ItemStack itemstack = ItemStack.EMPTY;
 
                 if (k >= 0 && l >= 0 && k < this.recipeWidth && l < this.recipeHeight)
                 {
@@ -110,9 +110,9 @@ public class ShapedRecipes implements IRecipe
 
                 ItemStack itemstack1 = p_77573_1_.getStackInRowAndColumn(i, j);
 
-                if (!itemstack1.func_190926_b() || !itemstack.func_190926_b())
+                if (!itemstack1.isEmpty() || !itemstack.isEmpty())
                 {
-                    if (itemstack1.func_190926_b() != itemstack.func_190926_b())
+                    if (itemstack1.isEmpty() != itemstack.isEmpty())
                     {
                         return false;
                     }
@@ -146,7 +146,7 @@ public class ShapedRecipes implements IRecipe
             {
                 ItemStack itemstack1 = inv.getStackInSlot(i);
 
-                if (!itemstack1.func_190926_b() && itemstack1.hasTagCompound())
+                if (!itemstack1.isEmpty() && itemstack1.hasTagCompound())
                 {
                     itemstack.setTagCompound(itemstack1.getTagCompound().copy());
                 }

@@ -23,12 +23,12 @@ public interface ICommandSender
     /**
      * Send a chat message to the CommandSender
      */
-    void addChatMessage(ITextComponent component);
+    void sendMessage(ITextComponent component);
 
     /**
      * Returns {@code true} if the CommandSender is allowed to execute the command, {@code false} if not
      */
-    boolean canCommandSenderUseCommand(int permLevel, String commandName);
+    boolean canUseCommand(int permLevel, String commandName);
 
     /**
      * Get the position in the world. <b>{@code null} is not allowed!</b> If you are not an entity in the world, return

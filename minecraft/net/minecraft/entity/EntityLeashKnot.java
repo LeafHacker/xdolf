@@ -111,7 +111,7 @@ public class EntityLeashKnot extends EntityHanging
     {
     }
 
-    public boolean processInitialInteract(EntityPlayer player, EnumHand stack)
+    public boolean processInitialInteract(EntityPlayer player, EnumHand hand)
     {
         if (this.world.isRemote)
         {
@@ -163,7 +163,7 @@ public class EntityLeashKnot extends EntityHanging
     public static EntityLeashKnot createKnot(World worldIn, BlockPos fence)
     {
         EntityLeashKnot entityleashknot = new EntityLeashKnot(worldIn, fence);
-        worldIn.spawnEntityInWorld(entityleashknot);
+        worldIn.spawnEntity(entityleashknot);
         entityleashknot.playPlaceSound();
         return entityleashknot;
     }

@@ -10,14 +10,14 @@ public interface ICommand extends Comparable<ICommand>
     /**
      * Gets the name of the command
      */
-    String getCommandName();
+    String getName();
 
     /**
      * Gets the usage string for the command.
      */
-    String getCommandUsage(ICommandSender sender);
+    String getUsage(ICommandSender sender);
 
-    List<String> getCommandAliases();
+    List<String> getAliases();
 
     /**
      * Callback for when the command is executed
@@ -29,7 +29,7 @@ public interface ICommand extends Comparable<ICommand>
      */
     boolean checkPermission(MinecraftServer server, ICommandSender sender);
 
-    List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos);
+    List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos);
 
     /**
      * Return whether the specified command parameter index is a username parameter.

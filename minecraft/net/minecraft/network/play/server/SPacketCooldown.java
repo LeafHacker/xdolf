@@ -26,8 +26,8 @@ public class SPacketCooldown implements Packet<INetHandlerPlayClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.item = Item.getItemById(buf.readVarIntFromBuffer());
-        this.ticks = buf.readVarIntFromBuffer();
+        this.item = Item.getItemById(buf.readVarInt());
+        this.ticks = buf.readVarInt();
     }
 
     /**
@@ -35,8 +35,8 @@ public class SPacketCooldown implements Packet<INetHandlerPlayClient>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeVarIntToBuffer(Item.getIdFromItem(this.item));
-        buf.writeVarIntToBuffer(this.ticks);
+        buf.writeVarInt(Item.getIdFromItem(this.item));
+        buf.writeVarInt(this.ticks);
     }
 
     /**

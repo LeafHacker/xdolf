@@ -40,11 +40,11 @@ public class LootingEnchantBonus extends LootFunction
             }
 
             float f = (float)i * this.count.generateFloat(rand);
-            stack.func_190917_f(Math.round(f));
+            stack.grow(Math.round(f));
 
-            if (this.limit != 0 && stack.func_190916_E() > this.limit)
+            if (this.limit != 0 && stack.getCount() > this.limit)
             {
-                stack.func_190920_e(this.limit);
+                stack.setCount(this.limit);
             }
         }
 

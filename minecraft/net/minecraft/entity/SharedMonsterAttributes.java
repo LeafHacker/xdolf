@@ -48,7 +48,7 @@ public class SharedMonsterAttributes
     {
         NBTTagCompound nbttagcompound = new NBTTagCompound();
         IAttribute iattribute = instance.getAttribute();
-        nbttagcompound.setString("Name", iattribute.getAttributeUnlocalizedName());
+        nbttagcompound.setString("Name", iattribute.getName());
         nbttagcompound.setDouble("Base", instance.getBaseValue());
         Collection<AttributeModifier> collection = instance.getModifiers();
 

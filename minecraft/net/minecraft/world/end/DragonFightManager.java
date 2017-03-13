@@ -50,7 +50,7 @@ import org.apache.logging.log4j.Logger;
 public class DragonFightManager
 {
     private static final Logger LOGGER = LogManager.getLogger();
-    private static final Predicate<EntityPlayerMP> VALID_PLAYER = Predicates.<EntityPlayerMP>and(EntitySelectors.IS_ALIVE, EntitySelectors.<EntityPlayerMP>withinRange(0.0D, 128.0D, 0.0D, 192.0D));
+    private static final Predicate<EntityPlayerMP> VALID_PLAYER = Predicates.<EntityPlayerMP> and (EntitySelectors.IS_ALIVE, EntitySelectors.<EntityPlayerMP>withinRange(0.0D, 128.0D, 0.0D, 192.0D));
     private final BossInfoServer bossInfo = (BossInfoServer)(new BossInfoServer(new TextComponentTranslation("entity.EnderDragon.name", new Object[0]), BossInfo.Color.PINK, BossInfo.Overlay.PROGRESS)).setPlayEndBossMusic(true).setCreateFog(true);
     private final WorldServer world;
     private final List<Integer> gateways = Lists.<Integer>newArrayList();
@@ -440,7 +440,7 @@ public class DragonFightManager
         EntityDragon entitydragon = new EntityDragon(this.world);
         entitydragon.getPhaseManager().setPhase(PhaseList.HOLDING_PATTERN);
         entitydragon.setLocationAndAngles(0.0D, 128.0D, 0.0D, this.world.rand.nextFloat() * 360.0F, 0.0F);
-        this.world.spawnEntityInWorld(entitydragon);
+        this.world.spawnEntity(entitydragon);
         this.dragonUniqueId = entitydragon.getUniqueID();
     }
 

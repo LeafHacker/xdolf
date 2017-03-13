@@ -3,6 +3,7 @@ package net.minecraft.client.renderer.texture;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -11,10 +12,13 @@ import net.minecraft.client.resources.IResourceManagerReloadListener;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.crash.ICrashReportDetail;
+import net.minecraft.src.Config;
+import net.minecraft.src.RandomMobs;
 import net.minecraft.util.ReportedException;
 import net.minecraft.util.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import shadersmod.client.ShadersTex;
 
 public class TextureManager implements ITickable, IResourceManagerReloadListener
 {
@@ -31,6 +35,11 @@ public class TextureManager implements ITickable, IResourceManagerReloadListener
 
     public void bindTexture(ResourceLocation resource)
     {
+        if (Config.isRandomMobs())
+        {
+            resource = RandomMobs.getTextureLocation(resource);
+        }
+
         ITextureObject itextureobject = (ITextureObject)this.mapTextureObjects.get(resource);
 
         if (itextureobject == null)
@@ -39,7 +48,14 @@ public class TextureManager implements ITickable, IResourceManagerReloadListener
             this.loadTexture(resource, itextureobject);
         }
 
-        TextureUtil.bindTexture(itextureobject.getGlTextureId());
+        if (Config.isShaders())
+        {
+            ShadersTex.bindTexture(itextureobject);
+        }
+        else
+        {
+            TextureUtil.bindTexture(itextureobject.getGlTextureId());
+        }
     }
 
     public boolean loadTickableTexture(ResourceLocation textureLocation, ITickableTextureObject textureObj)
@@ -97,6 +113,11 @@ public class TextureManager implements ITickable, IResourceManagerReloadListener
 
     public ResourceLocation getDynamicTextureLocation(String name, DynamicTexture texture)
     {
+        if (name.equals("logo"))
+        {
+            texture = Config.getMojangLogoTexture(texture);
+        }
+
         Integer integer = (Integer)this.mapTextureCounters.get(name);
 
         if (integer == null)
@@ -134,6 +155,29 @@ public class TextureManager implements ITickable, IResourceManagerReloadListener
 
     public void onResourceManagerReload(IResourceManager resourceManager)
     {
+        Config.dbg("*** Reloading textures ***");
+        Config.log("Resource packs: " + Config.getResourcePackNames());
+        Iterator iterator = this.mapTextureObjects.keySet().iterator();
+
+        while (iterator.hasNext())
+        {
+            ResourceLocation resourcelocation = (ResourceLocation)iterator.next();
+            String s = resourcelocation.getResourcePath();
+
+            if (s.startsWith("mcpatcher/") || s.startsWith("optifine/"))
+            {
+                ITextureObject itextureobject = (ITextureObject)this.mapTextureObjects.get(resourcelocation);
+
+                if (itextureobject instanceof AbstractTexture)
+                {
+                    AbstractTexture abstracttexture = (AbstractTexture)itextureobject;
+                    abstracttexture.deleteGlTexture();
+                }
+
+                iterator.remove();
+            }
+        }
+
         for (Entry<ResourceLocation, ITextureObject> entry : this.mapTextureObjects.entrySet())
         {
             this.loadTexture((ResourceLocation)entry.getKey(), (ITextureObject)entry.getValue());

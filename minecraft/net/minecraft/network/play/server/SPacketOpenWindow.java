@@ -51,7 +51,7 @@ public class SPacketOpenWindow implements Packet<INetHandlerPlayClient>
     public void readPacketData(PacketBuffer buf) throws IOException
     {
         this.windowId = buf.readUnsignedByte();
-        this.inventoryType = buf.readStringFromBuffer(32);
+        this.inventoryType = buf.readString(32);
         this.windowTitle = buf.readTextComponent();
         this.slotCount = buf.readUnsignedByte();
 

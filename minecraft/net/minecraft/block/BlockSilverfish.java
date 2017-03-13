@@ -75,7 +75,7 @@ public class BlockSilverfish extends Block
         {
             EntitySilverfish entitysilverfish = new EntitySilverfish(worldIn);
             entitysilverfish.setLocationAndAngles((double)pos.getX() + 0.5D, (double)pos.getY(), (double)pos.getZ() + 0.5D, 0.0F, 0.0F);
-            worldIn.spawnEntityInWorld(entitysilverfish);
+            worldIn.spawnEntity(entitysilverfish);
             entitysilverfish.spawnExplosionParticle();
         }
     }

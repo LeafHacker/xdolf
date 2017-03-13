@@ -14,7 +14,7 @@ public class CommandWorldBorder extends CommandBase
     /**
      * Gets the name of the command
      */
-    public String getCommandName()
+    public String getName()
     {
         return "worldborder";
     }
@@ -30,7 +30,7 @@ public class CommandWorldBorder extends CommandBase
     /**
      * Gets the usage string for the command.
      */
-    public String getCommandUsage(ICommandSender sender)
+    public String getUsage(ICommandSender sender)
     {
         return "commands.worldborder.usage";
     }
@@ -194,17 +194,17 @@ public class CommandWorldBorder extends CommandBase
 
                 double d7 = worldborder.getDiameter();
                 sender.setCommandStat(CommandResultStats.Type.QUERY_RESULT, MathHelper.floor(d7 + 0.5D));
-                sender.addChatMessage(new TextComponentTranslation("commands.worldborder.get.success", new Object[] {String.format("%.0f", new Object[]{Double.valueOf(d7)})}));
+                sender.sendMessage(new TextComponentTranslation("commands.worldborder.get.success", new Object[] {String.format("%.0f", new Object[]{Double.valueOf(d7)})}));
             }
         }
     }
 
     protected WorldBorder getWorldBorder(MinecraftServer server)
     {
-        return server.worldServers[0].getWorldBorder();
+        return server.worlds[0].getWorldBorder();
     }
 
-    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
+    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
     {
         return args.length == 1 ? getListOfStringsMatchingLastWord(args, new String[] {"set", "center", "damage", "warning", "add", "get"}): (args.length == 2 && "damage".equals(args[0]) ? getListOfStringsMatchingLastWord(args, new String[] {"buffer", "amount"}): (args.length >= 2 && args.length <= 3 && "center".equals(args[0]) ? getTabCompletionCoordinateXZ(args, 1, pos) : (args.length == 2 && "warning".equals(args[0]) ? getListOfStringsMatchingLastWord(args, new String[] {"time", "distance"}): Collections.<String>emptyList())));
     }

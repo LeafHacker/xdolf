@@ -76,11 +76,11 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO
         return this.checkedReadChunkFromNBT(worldIn, x, z, nbttagcompound);
     }
 
-    public boolean func_191063_a(int p_191063_1_, int p_191063_2_)
+    public boolean isChunkGeneratedAt(int p_191063_1_, int p_191063_2_)
     {
         ChunkPos chunkpos = new ChunkPos(p_191063_1_, p_191063_2_);
         NBTTagCompound nbttagcompound = (NBTTagCompound)this.chunksToRemove.get(chunkpos);
-        return nbttagcompound != null ? true : RegionFileCache.func_191064_f(this.chunkSaveLocation, p_191063_1_, p_191063_2_);
+        return nbttagcompound != null ? true : RegionFileCache.chunkExists(this.chunkSaveLocation, p_191063_1_, p_191063_2_);
     }
 
     @Nullable
@@ -288,7 +288,7 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO
         compound.setLong("InhabitedTime", chunkIn.getInhabitedTime());
         ExtendedBlockStorage[] aextendedblockstorage = chunkIn.getBlockStorageArray();
         NBTTagList nbttaglist = new NBTTagList();
-        boolean flag = worldIn.provider.func_191066_m();
+        boolean flag = worldIn.provider.hasSkyLight();
 
         for (ExtendedBlockStorage extendedblockstorage : aextendedblockstorage)
         {
@@ -391,7 +391,7 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO
         NBTTagList nbttaglist = compound.getTagList("Sections", 10);
         int k = 16;
         ExtendedBlockStorage[] aextendedblockstorage = new ExtendedBlockStorage[16];
-        boolean flag = worldIn.provider.func_191066_m();
+        boolean flag = worldIn.provider.hasSkyLight();
 
         for (int l = 0; l < nbttaglist.tagCount(); ++l)
         {
@@ -512,7 +512,7 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO
         {
             entity.setLocationAndAngles(x, y, z, entity.rotationYaw, entity.rotationPitch);
 
-            if (attemptSpawn && !worldIn.spawnEntityInWorld(entity))
+            if (attemptSpawn && !worldIn.spawnEntity(entity))
             {
                 return null;
             }
@@ -553,7 +553,7 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO
 
     public static void spawnEntity(Entity entityIn, World worldIn)
     {
-        if (worldIn.spawnEntityInWorld(entityIn) && entityIn.isBeingRidden())
+        if (worldIn.spawnEntity(entityIn) && entityIn.isBeingRidden())
         {
             for (Entity entity : entityIn.getPassengers())
             {
@@ -571,7 +571,7 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO
         {
             return null;
         }
-        else if (p_186051_2_ && !worldIn.spawnEntityInWorld(entity))
+        else if (p_186051_2_ && !worldIn.spawnEntity(entity))
         {
             return null;
         }

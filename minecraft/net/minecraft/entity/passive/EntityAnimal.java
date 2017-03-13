@@ -158,7 +158,7 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals
     {
         ItemStack itemstack = player.getHeldItem(hand);
 
-        if (!itemstack.func_190926_b())
+        if (!itemstack.isEmpty())
         {
             if (this.isBreedingItem(itemstack) && this.getGrowingAge() == 0 && this.inLove <= 0)
             {
@@ -185,7 +185,7 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals
     {
         if (!player.capabilities.isCreativeMode)
         {
-            stack.func_190918_g(1);
+            stack.shrink(1);
         }
     }
 

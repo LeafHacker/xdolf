@@ -7,7 +7,7 @@ import net.minecraft.util.datafix.IFixableData;
 
 public class TileEntityId implements IFixableData
 {
-    private static final Map<String, String> field_191275_a = Maps.<String, String>newHashMap();
+    private static final Map<String, String> OLD_TO_NEW_ID_MAP = Maps.<String, String>newHashMap();
 
     public int getFixVersion()
     {
@@ -16,7 +16,7 @@ public class TileEntityId implements IFixableData
 
     public NBTTagCompound fixTagCompound(NBTTagCompound compound)
     {
-        String s = (String)field_191275_a.get(compound.getString("id"));
+        String s = (String)OLD_TO_NEW_ID_MAP.get(compound.getString("id"));
 
         if (s != null)
         {
@@ -28,28 +28,28 @@ public class TileEntityId implements IFixableData
 
     static
     {
-        field_191275_a.put("Airportal", "minecraft:end_portal");
-        field_191275_a.put("Banner", "minecraft:banner");
-        field_191275_a.put("Beacon", "minecraft:beacon");
-        field_191275_a.put("Cauldron", "minecraft:brewing_stand");
-        field_191275_a.put("Chest", "minecraft:chest");
-        field_191275_a.put("Comparator", "minecraft:comparator");
-        field_191275_a.put("Control", "minecraft:command_block");
-        field_191275_a.put("DLDetector", "minecraft:daylight_detector");
-        field_191275_a.put("Dropper", "minecraft:dropper");
-        field_191275_a.put("EnchantTable", "minecraft:enchanting_table");
-        field_191275_a.put("EndGateway", "minecraft:end_gateway");
-        field_191275_a.put("EnderChest", "minecraft:ender_chest");
-        field_191275_a.put("FlowerPot", "minecraft:flower_pot");
-        field_191275_a.put("Furnace", "minecraft:furnace");
-        field_191275_a.put("Hopper", "minecraft:hopper");
-        field_191275_a.put("MobSpawner", "minecraft:mob_spawner");
-        field_191275_a.put("Music", "minecraft:noteblock");
-        field_191275_a.put("Piston", "minecraft:piston");
-        field_191275_a.put("RecordPlayer", "minecraft:jukebox");
-        field_191275_a.put("Sign", "minecraft:sign");
-        field_191275_a.put("Skull", "minecraft:skull");
-        field_191275_a.put("Structure", "minecraft:structure_block");
-        field_191275_a.put("Trap", "minecraft:dispenser");
+        OLD_TO_NEW_ID_MAP.put("Airportal", "minecraft:end_portal");
+        OLD_TO_NEW_ID_MAP.put("Banner", "minecraft:banner");
+        OLD_TO_NEW_ID_MAP.put("Beacon", "minecraft:beacon");
+        OLD_TO_NEW_ID_MAP.put("Cauldron", "minecraft:brewing_stand");
+        OLD_TO_NEW_ID_MAP.put("Chest", "minecraft:chest");
+        OLD_TO_NEW_ID_MAP.put("Comparator", "minecraft:comparator");
+        OLD_TO_NEW_ID_MAP.put("Control", "minecraft:command_block");
+        OLD_TO_NEW_ID_MAP.put("DLDetector", "minecraft:daylight_detector");
+        OLD_TO_NEW_ID_MAP.put("Dropper", "minecraft:dropper");
+        OLD_TO_NEW_ID_MAP.put("EnchantTable", "minecraft:enchanting_table");
+        OLD_TO_NEW_ID_MAP.put("EndGateway", "minecraft:end_gateway");
+        OLD_TO_NEW_ID_MAP.put("EnderChest", "minecraft:ender_chest");
+        OLD_TO_NEW_ID_MAP.put("FlowerPot", "minecraft:flower_pot");
+        OLD_TO_NEW_ID_MAP.put("Furnace", "minecraft:furnace");
+        OLD_TO_NEW_ID_MAP.put("Hopper", "minecraft:hopper");
+        OLD_TO_NEW_ID_MAP.put("MobSpawner", "minecraft:mob_spawner");
+        OLD_TO_NEW_ID_MAP.put("Music", "minecraft:noteblock");
+        OLD_TO_NEW_ID_MAP.put("Piston", "minecraft:piston");
+        OLD_TO_NEW_ID_MAP.put("RecordPlayer", "minecraft:jukebox");
+        OLD_TO_NEW_ID_MAP.put("Sign", "minecraft:sign");
+        OLD_TO_NEW_ID_MAP.put("Skull", "minecraft:skull");
+        OLD_TO_NEW_ID_MAP.put("Structure", "minecraft:structure_block");
+        OLD_TO_NEW_ID_MAP.put("Trap", "minecraft:dispenser");
     }
 }

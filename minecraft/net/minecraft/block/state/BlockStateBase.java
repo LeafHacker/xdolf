@@ -2,6 +2,7 @@ package net.minecraft.block.state;
 
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
+import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Iterables;
 import java.util.Collection;
 import java.util.Iterator;
@@ -9,6 +10,7 @@ import java.util.Map.Entry;
 import javax.annotation.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
+import net.minecraft.util.ResourceLocation;
 
 public abstract class BlockStateBase implements IBlockState
 {
@@ -30,9 +32,58 @@ public abstract class BlockStateBase implements IBlockState
         }
         private <T extends Comparable<T>> String getPropertyName(IProperty<T> property, Comparable<?> entry)
         {
-            return property.getName((T)entry);
+            return property.getName((T) entry);
         }
     };
+    private int blockId = -1;
+    private int blockStateId = -1;
+    private int metadata = -1;
+    private ResourceLocation blockLocation = null;
+
+    public int getBlockId()
+    {
+        if (this.blockId < 0)
+        {
+            this.blockId = Block.getIdFromBlock(this.getBlock());
+        }
+
+        return this.blockId;
+    }
+
+    public int getBlockStateId()
+    {
+        if (this.blockStateId < 0)
+        {
+            this.blockStateId = Block.getStateId(this);
+        }
+
+        return this.blockStateId;
+    }
+
+    public int getMetadata()
+    {
+        if (this.metadata < 0)
+        {
+            this.metadata = this.getBlock().getMetaFromState(this);
+        }
+
+        return this.metadata;
+    }
+
+    public ResourceLocation getBlockLocation()
+    {
+        if (this.blockLocation == null)
+        {
+            this.blockLocation = (ResourceLocation)Block.REGISTRY.getNameForObject(this.getBlock());
+        }
+
+        return this.blockLocation;
+    }
+
+    public ImmutableTable < IProperty<?>, Comparable<?>, IBlockState > getPropertyValueTable()
+    {
+        return null;
+    }
 
     public <T extends Comparable<T>> IBlockState cycleProperty(IProperty<T> property)
     {

@@ -350,7 +350,7 @@ public class BlockRedstoneWire extends Block
      * change. Cases may include when redstone power is updated, cactus blocks popping off due to a neighboring solid
      * block, etc.
      */
-    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos p_189540_5_)
+    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos)
     {
         if (!worldIn.isRemote)
         {
@@ -459,7 +459,7 @@ public class BlockRedstoneWire extends Block
         }
         else
         {
-            return Blocks.field_190976_dk == blockState.getBlock() ? side == blockState.getValue(BlockObserver.FACING) : blockState.canProvidePower() && side != null;
+            return Blocks.OBSERVER == blockState.getBlock() ? side == blockState.getValue(BlockObserver.FACING) : blockState.canProvidePower() && side != null;
         }
     }
 

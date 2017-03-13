@@ -251,7 +251,7 @@ public class EntityPig extends EntityAnimal
                 entitypigzombie.setAlwaysRenderNameTag(this.getAlwaysRenderNameTag());
             }
 
-            this.world.spawnEntityInWorld(entitypigzombie);
+            this.world.spawnEntity(entitypigzombie);
             this.setDead();
         }
     }

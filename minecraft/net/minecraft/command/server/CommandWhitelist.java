@@ -18,7 +18,7 @@ public class CommandWhitelist extends CommandBase
     /**
      * Gets the name of the command
      */
-    public String getCommandName()
+    public String getName()
     {
         return "whitelist";
     }
@@ -34,7 +34,7 @@ public class CommandWhitelist extends CommandBase
     /**
      * Gets the usage string for the command.
      */
-    public String getCommandUsage(ICommandSender sender)
+    public String getUsage(ICommandSender sender)
     {
         return "commands.whitelist.usage";
     }
@@ -62,9 +62,9 @@ public class CommandWhitelist extends CommandBase
             }
             else if ("list".equals(args[0]))
             {
-                sender.addChatMessage(new TextComponentTranslation("commands.whitelist.list", new Object[] {Integer.valueOf(server.getPlayerList().getWhitelistedPlayerNames().length), Integer.valueOf(server.getPlayerList().getAvailablePlayerDat().length)}));
+                sender.sendMessage(new TextComponentTranslation("commands.whitelist.list", new Object[] {Integer.valueOf(server.getPlayerList().getWhitelistedPlayerNames().length), Integer.valueOf(server.getPlayerList().getAvailablePlayerDat().length)}));
                 String[] astring = server.getPlayerList().getWhitelistedPlayerNames();
-                sender.addChatMessage(new TextComponentString(joinNiceString(astring)));
+                sender.sendMessage(new TextComponentString(joinNiceString(astring)));
             }
             else if ("add".equals(args[0]))
             {
@@ -108,7 +108,7 @@ public class CommandWhitelist extends CommandBase
         }
     }
 
-    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
+    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
     {
         if (args.length == 1)
         {

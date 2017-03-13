@@ -467,7 +467,7 @@ public abstract class EntityMinecart extends Entity implements IWorldNameable
             this.motionZ *= 0.5D;
         }
 
-        this.moveEntity(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
+        this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
 
         if (!this.onGround)
         {
@@ -618,7 +618,7 @@ public abstract class EntityMinecart extends Entity implements IWorldNameable
         double d13 = this.getMaximumSpeed();
         d22 = MathHelper.clamp(d22, -d13, d13);
         d23 = MathHelper.clamp(d23, -d13, d13);
-        this.moveEntity(MoverType.SELF, d22, 0.0D, d23);
+        this.move(MoverType.SELF, d22, 0.0D, d23);
 
         if (aint[0][1] != 0 && MathHelper.floor(this.posX) - pos.getX() == aint[0][0] && MathHelper.floor(this.posZ) - pos.getZ() == aint[0][2])
         {

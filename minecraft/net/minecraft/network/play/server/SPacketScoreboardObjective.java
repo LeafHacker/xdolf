@@ -31,13 +31,13 @@ public class SPacketScoreboardObjective implements Packet<INetHandlerPlayClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.objectiveName = buf.readStringFromBuffer(16);
+        this.objectiveName = buf.readString(16);
         this.action = buf.readByte();
 
         if (this.action == 0 || this.action == 2)
         {
-            this.objectiveValue = buf.readStringFromBuffer(32);
-            this.type = IScoreCriteria.EnumRenderType.getByName(buf.readStringFromBuffer(16));
+            this.objectiveValue = buf.readString(32);
+            this.type = IScoreCriteria.EnumRenderType.getByName(buf.readString(16));
         }
     }
 

@@ -33,25 +33,25 @@ import net.minecraft.world.storage.loot.LootTableList;
 
 public class EntityVindicator extends EntityMob
 {
-    protected static final DataParameter<Byte> field_190642_a = EntityDataManager.<Byte>createKey(EntityVindicator.class, DataSerializers.BYTE);
-    private boolean field_190643_b;
-    private static final Predicate<Entity> field_190644_c = new Predicate<Entity>()
+    protected static final DataParameter<Byte> DATA_FLAGS_ID = EntityDataManager.<Byte>createKey(EntityVindicator.class, DataSerializers.BYTE);
+    private boolean johnny;
+    private static final Predicate<Entity> JOHNNY_SELECTOR = new Predicate<Entity>()
     {
         public boolean apply(@Nullable Entity p_apply_1_)
         {
-            return p_apply_1_ instanceof EntityLivingBase && ((EntityLivingBase)p_apply_1_).func_190631_cK();
+            return p_apply_1_ instanceof EntityLivingBase && ((EntityLivingBase)p_apply_1_).attackable();
         }
     };
 
-    public EntityVindicator(World p_i47279_1_)
+    public EntityVindicator(World worldIn)
     {
-        super(p_i47279_1_);
+        super(worldIn);
         this.setSize(0.6F, 1.95F);
     }
 
-    public static void func_190641_b(DataFixer p_190641_0_)
+    public static void registerFixesVindicator(DataFixer fixer)
     {
-        EntityLiving.registerFixesMob(p_190641_0_, EntityVindicator.class);
+        EntityLiving.registerFixesMob(fixer, EntityVindicator.class);
     }
 
     protected void initEntityAI()
@@ -81,7 +81,7 @@ public class EntityVindicator extends EntityMob
     protected void entityInit()
     {
         super.entityInit();
-        this.dataManager.register(field_190642_a, Byte.valueOf((byte)0));
+        this.dataManager.register(DATA_FLAGS_ID, Byte.valueOf((byte)0));
     }
 
     /**
@@ -94,18 +94,18 @@ public class EntityVindicator extends EntityMob
 
     protected ResourceLocation getLootTable()
     {
-        return LootTableList.field_191186_av;
+        return LootTableList.ENTITIES_VINDICATION_ILLAGER;
     }
 
-    private boolean func_190637_a(int p_190637_1_)
+    private boolean getVindicatorFlag(int p_190637_1_)
     {
-        int i = ((Byte)this.dataManager.get(field_190642_a)).byteValue();
+        int i = ((Byte)this.dataManager.get(DATA_FLAGS_ID)).byteValue();
         return (i & p_190637_1_) != 0;
     }
 
-    private void func_190638_a(int p_190638_1_, boolean p_190638_2_)
+    private void setVindicatorFlag(int p_190638_1_, boolean p_190638_2_)
     {
-        int i = ((Byte)this.dataManager.get(field_190642_a)).byteValue();
+        int i = ((Byte)this.dataManager.get(DATA_FLAGS_ID)).byteValue();
 
         if (p_190638_2_)
         {
@@ -116,19 +116,19 @@ public class EntityVindicator extends EntityMob
             i = i & ~p_190638_1_;
         }
 
-        this.dataManager.set(field_190642_a, Byte.valueOf((byte)(i & 255)));
+        this.dataManager.set(DATA_FLAGS_ID, Byte.valueOf((byte)(i & 255)));
     }
 
-    public boolean func_190639_o()
+    public boolean isAggressive()
     {
-        return this.func_190637_a(1);
+        return this.getVindicatorFlag(1);
     }
 
-    public void func_190636_a(boolean p_190636_1_)
+    public void setAggressive(boolean p_190636_1_)
     {
-        this.func_190638_a(1, p_190636_1_);
+        this.setVindicatorFlag(1, p_190636_1_);
 
-        if (this.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND) == ItemStack.field_190927_a)
+        if (this.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND) == ItemStack.EMPTY)
         {
             this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.IRON_AXE));
         }
@@ -141,7 +141,7 @@ public class EntityVindicator extends EntityMob
     {
         super.writeEntityToNBT(compound);
 
-        if (this.field_190643_b)
+        if (this.johnny)
         {
             compound.setBoolean("Johnny", true);
         }
@@ -156,7 +156,7 @@ public class EntityVindicator extends EntityMob
 
         if (compound.hasKey("Johnny", 99))
         {
-            this.field_190643_b = compound.getBoolean("Johnny");
+            this.johnny = compound.getBoolean("Johnny");
         }
     }
 
@@ -185,7 +185,7 @@ public class EntityVindicator extends EntityMob
     protected void updateAITasks()
     {
         super.updateAITasks();
-        this.func_190636_a(this.getAttackTarget() != null);
+        this.setAggressive(this.getAttackTarget() != null);
     }
 
     /**
@@ -203,37 +203,37 @@ public class EntityVindicator extends EntityMob
     {
         super.setCustomNameTag(name);
 
-        if (!this.field_190643_b && "Johnny".equals(name))
+        if (!this.johnny && "Johnny".equals(name))
         {
-            this.field_190643_b = true;
+            this.johnny = true;
         }
     }
 
     protected SoundEvent getAmbientSound()
     {
-        return SoundEvents.field_191268_hm;
+        return SoundEvents.VINDICATION_ILLAGER_AMBIENT;
     }
 
     protected SoundEvent getDeathSound()
     {
-        return SoundEvents.field_191269_hn;
+        return SoundEvents.VINDICATION_ILLAGER_DEATH;
     }
 
     protected SoundEvent getHurtSound()
     {
-        return SoundEvents.field_191270_ho;
+        return SoundEvents.ENTITY_VINDICATION_ILLAGER_HURT;
     }
 
     static class AIJohnnyAttack extends EntityAINearestAttackableTarget<EntityLivingBase>
     {
         public AIJohnnyAttack(EntityVindicator p_i47345_1_)
         {
-            super(p_i47345_1_, EntityLivingBase.class, 0, true, true, EntityVindicator.field_190644_c);
+            super(p_i47345_1_, EntityLivingBase.class, 0, true, true, EntityVindicator.JOHNNY_SELECTOR);
         }
 
         public boolean shouldExecute()
         {
-            return ((EntityVindicator)this.taskOwner).field_190643_b && super.shouldExecute();
+            return ((EntityVindicator)this.taskOwner).johnny && super.shouldExecute();
         }
     }
 }

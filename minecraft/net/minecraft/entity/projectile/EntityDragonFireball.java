@@ -70,7 +70,7 @@ public class EntityDragonFireball extends EntityFireball
                 }
 
                 this.world.playEvent(2006, new BlockPos(this.posX, this.posY, this.posZ), 0);
-                this.world.spawnEntityInWorld(entityareaeffectcloud);
+                this.world.spawnEntity(entityareaeffectcloud);
                 this.setDead();
             }
         }

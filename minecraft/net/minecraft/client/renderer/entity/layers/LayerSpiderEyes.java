@@ -4,7 +4,9 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.entity.RenderSpider;
 import net.minecraft.entity.monster.EntitySpider;
+import net.minecraft.src.Config;
 import net.minecraft.util.ResourceLocation;
+import shadersmod.client.Shaders;
 
 public class LayerSpiderEyes<T extends EntitySpider> implements LayerRenderer<T>
 {
@@ -37,6 +39,12 @@ public class LayerSpiderEyes<T extends EntitySpider> implements LayerRenderer<T>
         int k = i / 65536;
         OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)j, (float)k);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+
+        if (Config.isShaders())
+        {
+            Shaders.beginSpiderEyes();
+        }
+
         this.spiderRenderer.getMainModel().render(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
         i = entitylivingbaseIn.getBrightnessForRender(partialTicks);
         j = i % 65536;

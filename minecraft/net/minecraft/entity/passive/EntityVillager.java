@@ -90,7 +90,7 @@ import org.apache.logging.log4j.Logger;
 
 public class EntityVillager extends EntityAgeable implements INpc, IMerchant
 {
-    private static final Logger field_190674_bx = LogManager.getLogger();
+    private static final Logger LOGGER = LogManager.getLogger();
     private static final DataParameter<Integer> PROFESSION = EntityDataManager.<Integer>createKey(EntityVillager.class, DataSerializers.VARINT);
     private int randomTickDivider;
     private boolean isMating;
@@ -267,7 +267,7 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant
             itemstack.interactWithEntity(player, this, hand);
             return true;
         }
-        else if (!this.func_190669_a(itemstack, this.getClass()) && this.isEntityAlive() && !this.isTrading() && !this.isChild())
+        else if (!this.holdingSpawnEggOfClass(itemstack, this.getClass()) && this.isEntityAlive() && !this.isTrading() && !this.isChild())
         {
             if (this.buyingList == null)
             {
@@ -311,7 +311,7 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant
         {
             public NBTTagCompound process(IDataFixer fixer, NBTTagCompound compound, int versionIn)
             {
-                if (EntityList.func_191306_a(EntityVillager.class).equals(new ResourceLocation(compound.getString("id"))) && compound.hasKey("Offers", 10))
+                if (EntityList.getKey(EntityVillager.class).equals(new ResourceLocation(compound.getString("id"))) && compound.hasKey("Offers", 10))
                 {
                     NBTTagCompound nbttagcompound = compound.getCompoundTag("Offers");
 
@@ -358,7 +358,7 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant
         {
             ItemStack itemstack = this.villagerInventory.getStackInSlot(i);
 
-            if (!itemstack.func_190926_b())
+            if (!itemstack.isEmpty())
             {
                 nbttaglist.appendTag(itemstack.writeToNBT(new NBTTagCompound()));
             }
@@ -391,7 +391,7 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant
         {
             ItemStack itemstack = new ItemStack(nbttaglist.getCompoundTagAt(i));
 
-            if (!itemstack.func_190926_b())
+            if (!itemstack.isEmpty())
             {
                 this.villagerInventory.addItem(itemstack);
             }
@@ -427,7 +427,7 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant
     @Nullable
     protected ResourceLocation getLootTable()
     {
-        return LootTableList.field_191184_at;
+        return LootTableList.ENTITIES_VILLAGER;
     }
 
     public void setProfession(int professionId)
@@ -549,14 +549,14 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant
             {
                 ItemStack itemstack = this.villagerInventory.getStackInSlot(i);
 
-                if (!itemstack.func_190926_b())
+                if (!itemstack.isEmpty())
                 {
-                    if (itemstack.getItem() == Items.BREAD && itemstack.func_190916_E() >= 3)
+                    if (itemstack.getItem() == Items.BREAD && itemstack.getCount() >= 3)
                     {
                         flag = true;
                         this.villagerInventory.decrStackSize(i, 3);
                     }
-                    else if ((itemstack.getItem() == Items.POTATO || itemstack.getItem() == Items.CARROT) && itemstack.func_190916_E() >= 12)
+                    else if ((itemstack.getItem() == Items.POTATO || itemstack.getItem() == Items.CARROT) && itemstack.getCount() >= 12)
                     {
                         flag = true;
                         this.villagerInventory.decrStackSize(i, 12);
@@ -607,12 +607,12 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant
 
         if (recipe.getItemToBuy().getItem() == Items.EMERALD)
         {
-            this.wealth += recipe.getItemToBuy().func_190916_E();
+            this.wealth += recipe.getItemToBuy().getCount();
         }
 
         if (recipe.getRewardsExp())
         {
-            this.world.spawnEntityInWorld(new EntityXPOrb(this.world, this.posX, this.posY + 0.5D, this.posZ, i));
+            this.world.spawnEntity(new EntityXPOrb(this.world, this.posX, this.posY + 0.5D, this.posZ, i));
         }
     }
 
@@ -625,7 +625,7 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant
         if (!this.world.isRemote && this.livingSoundTime > -this.getTalkInterval() + 20)
         {
             this.livingSoundTime = -this.getTalkInterval();
-            this.playSound(stack.func_190926_b() ? SoundEvents.ENTITY_VILLAGER_NO : SoundEvents.ENTITY_VILLAGER_YES, this.getSoundVolume(), this.getSoundPitch());
+            this.playSound(stack.isEmpty() ? SoundEvents.ENTITY_VILLAGER_NO : SoundEvents.ENTITY_VILLAGER_YES, this.getSoundVolume(), this.getSoundPitch());
         }
     }
 
@@ -672,7 +672,7 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant
 
                 for (EntityVillager.ITradeList entityvillager$itradelist : aentityvillager$itradelist2)
                 {
-                    entityvillager$itradelist.func_190888_a(this, this.buyingList, this.rand);
+                    entityvillager$itradelist.addMerchantRecipe(this, this.buyingList, this.rand);
                 }
             }
         }
@@ -682,12 +682,12 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant
     {
     }
 
-    public World func_190670_t_()
+    public World getWorld()
     {
         return this.world;
     }
 
-    public BlockPos func_190671_u_()
+    public BlockPos getPos()
     {
         return new BlockPos(this);
     }
@@ -850,10 +850,10 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant
      */
     public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata)
     {
-        return this.func_190672_a(difficulty, livingdata, true);
+        return this.finalizeMobSpawn(difficulty, livingdata, true);
     }
 
-    public IEntityLivingData func_190672_a(DifficultyInstance p_190672_1_, @Nullable IEntityLivingData p_190672_2_, boolean p_190672_3_)
+    public IEntityLivingData finalizeMobSpawn(DifficultyInstance p_190672_1_, @Nullable IEntityLivingData p_190672_2_, boolean p_190672_3_)
     {
         p_190672_2_ = super.onInitialSpawn(p_190672_1_, p_190672_2_);
 
@@ -902,7 +902,7 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant
                 entitywitch.setAlwaysRenderNameTag(this.getAlwaysRenderNameTag());
             }
 
-            this.world.spawnEntityInWorld(entitywitch);
+            this.world.spawnEntity(entitywitch);
             this.setDead();
         }
     }
@@ -925,13 +925,13 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant
         {
             ItemStack itemstack1 = this.villagerInventory.addItem(itemstack);
 
-            if (itemstack1.func_190926_b())
+            if (itemstack1.isEmpty())
             {
                 itemEntity.setDead();
             }
             else
             {
-                itemstack.func_190920_e(itemstack1.func_190916_E());
+                itemstack.setCount(itemstack1.getCount());
             }
         }
     }
@@ -972,14 +972,14 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant
         {
             ItemStack itemstack = this.villagerInventory.getStackInSlot(i);
 
-            if (!itemstack.func_190926_b())
+            if (!itemstack.isEmpty())
             {
-                if (itemstack.getItem() == Items.BREAD && itemstack.func_190916_E() >= 3 * multiplier || itemstack.getItem() == Items.POTATO && itemstack.func_190916_E() >= 12 * multiplier || itemstack.getItem() == Items.CARROT && itemstack.func_190916_E() >= 12 * multiplier || itemstack.getItem() == Items.BEETROOT && itemstack.func_190916_E() >= 12 * multiplier)
+                if (itemstack.getItem() == Items.BREAD && itemstack.getCount() >= 3 * multiplier || itemstack.getItem() == Items.POTATO && itemstack.getCount() >= 12 * multiplier || itemstack.getItem() == Items.CARROT && itemstack.getCount() >= 12 * multiplier || itemstack.getItem() == Items.BEETROOT && itemstack.getCount() >= 12 * multiplier)
                 {
                     return true;
                 }
 
-                if (flag && itemstack.getItem() == Items.WHEAT && itemstack.func_190916_E() >= 9 * multiplier)
+                if (flag && itemstack.getItem() == Items.WHEAT && itemstack.getCount() >= 9 * multiplier)
                 {
                     return true;
                 }
@@ -998,7 +998,7 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant
         {
             ItemStack itemstack = this.villagerInventory.getStackInSlot(i);
 
-            if (!itemstack.func_190926_b() && (itemstack.getItem() == Items.WHEAT_SEEDS || itemstack.getItem() == Items.POTATO || itemstack.getItem() == Items.CARROT || itemstack.getItem() == Items.BEETROOT_SEEDS))
+            if (!itemstack.isEmpty() && (itemstack.getItem() == Items.WHEAT_SEEDS || itemstack.getItem() == Items.POTATO || itemstack.getItem() == Items.CARROT || itemstack.getItem() == Items.BEETROOT_SEEDS))
             {
                 return true;
             }
@@ -1040,7 +1040,7 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant
             this.price = priceIn;
         }
 
-        public void func_190888_a(IMerchant p_190888_1_, MerchantRecipeList p_190888_2_, Random p_190888_3_)
+        public void addMerchantRecipe(IMerchant p_190888_1_, MerchantRecipeList p_190888_2_, Random p_190888_3_)
         {
             int i = 1;
 
@@ -1055,7 +1055,7 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant
 
     interface ITradeList
     {
-        void func_190888_a(IMerchant p_190888_1_, MerchantRecipeList p_190888_2_, Random p_190888_3_);
+        void addMerchantRecipe(IMerchant p_190888_1_, MerchantRecipeList p_190888_2_, Random p_190888_3_);
     }
 
     static class ItemAndEmeraldToItem implements EntityVillager.ITradeList
@@ -1073,7 +1073,7 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant
             this.sellingPriceInfo = p_i45813_4_;
         }
 
-        public void func_190888_a(IMerchant p_190888_1_, MerchantRecipeList p_190888_2_, Random p_190888_3_)
+        public void addMerchantRecipe(IMerchant p_190888_1_, MerchantRecipeList p_190888_2_, Random p_190888_3_)
         {
             int i = this.buyingPriceInfo.getPrice(p_190888_3_);
             int j = this.sellingPriceInfo.getPrice(p_190888_3_);
@@ -1083,7 +1083,7 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant
 
     static class ListEnchantedBookForEmeralds implements EntityVillager.ITradeList
     {
-        public void func_190888_a(IMerchant p_190888_1_, MerchantRecipeList p_190888_2_, Random p_190888_3_)
+        public void addMerchantRecipe(IMerchant p_190888_1_, MerchantRecipeList p_190888_2_, Random p_190888_3_)
         {
             Enchantment enchantment = (Enchantment)Enchantment.REGISTRY.getRandomObject(p_190888_3_);
             int i = MathHelper.getInt(p_190888_3_, enchantment.getMinLevel(), enchantment.getMaxLevel());
@@ -1115,7 +1115,7 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant
             this.priceInfo = p_i45814_2_;
         }
 
-        public void func_190888_a(IMerchant p_190888_1_, MerchantRecipeList p_190888_2_, Random p_190888_3_)
+        public void addMerchantRecipe(IMerchant p_190888_1_, MerchantRecipeList p_190888_2_, Random p_190888_3_)
         {
             int i = 1;
 
@@ -1147,7 +1147,7 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant
             this.priceInfo = priceInfo;
         }
 
-        public void func_190888_a(IMerchant p_190888_1_, MerchantRecipeList p_190888_2_, Random p_190888_3_)
+        public void addMerchantRecipe(IMerchant p_190888_1_, MerchantRecipeList p_190888_2_, Random p_190888_3_)
         {
             int i = 1;
 
@@ -1182,7 +1182,7 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant
 
             if (p_i45810_2_ < p_i45810_1_)
             {
-                EntityVillager.field_190674_bx.warn("PriceRange({}, {}) invalid, {} smaller than {}", new Object[] {Integer.valueOf(p_i45810_1_), Integer.valueOf(p_i45810_2_), Integer.valueOf(p_i45810_2_), Integer.valueOf(p_i45810_1_)});
+                EntityVillager.LOGGER.warn("PriceRange({}, {}) invalid, {} smaller than {}", new Object[] {Integer.valueOf(p_i45810_1_), Integer.valueOf(p_i45810_2_), Integer.valueOf(p_i45810_2_), Integer.valueOf(p_i45810_1_)});
             }
         }
 
@@ -1194,29 +1194,29 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant
 
     static class TreasureMapForEmeralds implements EntityVillager.ITradeList
     {
-        public EntityVillager.PriceInfo field_190889_a;
-        public String field_190890_b;
-        public MapDecoration.Type field_190891_c;
+        public EntityVillager.PriceInfo value;
+        public String destination;
+        public MapDecoration.Type destinationType;
 
         public TreasureMapForEmeralds(EntityVillager.PriceInfo p_i47340_1_, String p_i47340_2_, MapDecoration.Type p_i47340_3_)
         {
-            this.field_190889_a = p_i47340_1_;
-            this.field_190890_b = p_i47340_2_;
-            this.field_190891_c = p_i47340_3_;
+            this.value = p_i47340_1_;
+            this.destination = p_i47340_2_;
+            this.destinationType = p_i47340_3_;
         }
 
-        public void func_190888_a(IMerchant p_190888_1_, MerchantRecipeList p_190888_2_, Random p_190888_3_)
+        public void addMerchantRecipe(IMerchant p_190888_1_, MerchantRecipeList p_190888_2_, Random p_190888_3_)
         {
-            int i = this.field_190889_a.getPrice(p_190888_3_);
-            World world = p_190888_1_.func_190670_t_();
-            BlockPos blockpos = world.func_190528_a(this.field_190890_b, p_190888_1_.func_190671_u_(), true);
+            int i = this.value.getPrice(p_190888_3_);
+            World world = p_190888_1_.getWorld();
+            BlockPos blockpos = world.findNearestStructure(this.destination, p_190888_1_.getPos(), true);
 
             if (blockpos != null)
             {
-                ItemStack itemstack = ItemMap.func_190906_a(world, (double)blockpos.getX(), (double)blockpos.getZ(), (byte)2, true, true);
-                ItemMap.func_190905_a(world, itemstack);
-                MapData.func_191094_a(itemstack, blockpos, "+", this.field_190891_c);
-                itemstack.func_190924_f("filled_map." + this.field_190890_b.toLowerCase(Locale.ROOT));
+                ItemStack itemstack = ItemMap.setupNewMap(world, (double)blockpos.getX(), (double)blockpos.getZ(), (byte)2, true, true);
+                ItemMap.renderBiomePreviewMap(world, itemstack);
+                MapData.addTargetDecoration(itemstack, blockpos, "+", this.destinationType);
+                itemstack.setTranslatableName("filled_map." + this.destination.toLowerCase(Locale.ROOT));
                 p_190888_2_.add(new MerchantRecipe(new ItemStack(Items.EMERALD, i), new ItemStack(Items.COMPASS), itemstack));
             }
         }

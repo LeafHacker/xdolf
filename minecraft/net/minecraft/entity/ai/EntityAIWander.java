@@ -45,7 +45,7 @@ public class EntityAIWander extends EntityAIBase
             }
         }
 
-        Vec3d vec3d = this.func_190864_f();
+        Vec3d vec3d = this.getPosition();
 
         if (vec3d == null)
         {
@@ -62,7 +62,7 @@ public class EntityAIWander extends EntityAIBase
     }
 
     @Nullable
-    protected Vec3d func_190864_f()
+    protected Vec3d getPosition()
     {
         return RandomPositionGenerator.findRandomTarget(this.entity, 10, 7);
     }

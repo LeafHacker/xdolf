@@ -34,12 +34,12 @@ public class TileEntityEndGatewayRenderer extends TileEntityEndPortalRenderer
         GlStateManager.enableFog();
     }
 
-    protected int func_191286_a(double p_191286_1_)
+    protected int getPasses(double p_191286_1_)
     {
-        return super.func_191286_a(p_191286_1_) + 1;
+        return super.getPasses(p_191286_1_) + 1;
     }
 
-    protected float func_191287_c()
+    protected float getOffset()
     {
         return 1.0F;
     }

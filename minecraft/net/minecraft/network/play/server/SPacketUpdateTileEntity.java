@@ -12,17 +12,17 @@ public class SPacketUpdateTileEntity implements Packet<INetHandlerPlayClient>
     private BlockPos blockPos;
 
     /** Used only for vanilla tile entities */
-    private int metadata;
+    private int tileEntityType;
     private NBTTagCompound nbt;
 
     public SPacketUpdateTileEntity()
     {
     }
 
-    public SPacketUpdateTileEntity(BlockPos blockPosIn, int metadataIn, NBTTagCompound compoundIn)
+    public SPacketUpdateTileEntity(BlockPos blockPosIn, int tileEntityTypeIn, NBTTagCompound compoundIn)
     {
         this.blockPos = blockPosIn;
-        this.metadata = metadataIn;
+        this.tileEntityType = tileEntityTypeIn;
         this.nbt = compoundIn;
     }
 
@@ -32,8 +32,8 @@ public class SPacketUpdateTileEntity implements Packet<INetHandlerPlayClient>
     public void readPacketData(PacketBuffer buf) throws IOException
     {
         this.blockPos = buf.readBlockPos();
-        this.metadata = buf.readUnsignedByte();
-        this.nbt = buf.readNBTTagCompoundFromBuffer();
+        this.tileEntityType = buf.readUnsignedByte();
+        this.nbt = buf.readCompoundTag();
     }
 
     /**
@@ -42,8 +42,8 @@ public class SPacketUpdateTileEntity implements Packet<INetHandlerPlayClient>
     public void writePacketData(PacketBuffer buf) throws IOException
     {
         buf.writeBlockPos(this.blockPos);
-        buf.writeByte((byte)this.metadata);
-        buf.writeNBTTagCompoundToBuffer(this.nbt);
+        buf.writeByte((byte)this.tileEntityType);
+        buf.writeCompoundTag(this.nbt);
     }
 
     /**
@@ -61,7 +61,7 @@ public class SPacketUpdateTileEntity implements Packet<INetHandlerPlayClient>
 
     public int getTileEntityType()
     {
-        return this.metadata;
+        return this.tileEntityType;
     }
 
     public NBTTagCompound getNbtCompound()

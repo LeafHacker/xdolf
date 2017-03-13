@@ -155,13 +155,13 @@ public class ModelBakery
     private void loadVariantItemModels()
     {
         this.variants.put(MODEL_MISSING, new VariantList(Lists.newArrayList(new Variant[] {new Variant(new ResourceLocation(MODEL_MISSING.getResourcePath()), ModelRotation.X0_Y0, false, 1)})));
-        this.func_191401_d();
+        this.loadStaticModels();
         this.loadVariantModels();
         this.loadMultipartVariantModels();
         this.loadItemModels();
     }
 
-    private void func_191401_d()
+    private void loadStaticModels()
     {
         ResourceLocation resourcelocation = new ResourceLocation("item_frame");
         ModelBlockDefinition modelblockdefinition = this.getModelBlockDefinition(resourcelocation);

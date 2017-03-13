@@ -133,7 +133,7 @@ public class ServerCommandManager extends CommandHandler implements ICommandList
 
         if (flag)
         {
-            for (EntityPlayer entityplayer : minecraftserver.getPlayerList().getPlayerList())
+            for (EntityPlayer entityplayer : minecraftserver.getPlayerList().getPlayers())
             {
                 if (entityplayer != sender && minecraftserver.getPlayerList().canSendCommands(entityplayer.getGameProfile()) && command.checkPermission(this.server, sender))
                 {
@@ -142,18 +142,18 @@ public class ServerCommandManager extends CommandHandler implements ICommandList
 
                     if (flag1 || flag2 || !(sender instanceof RConConsoleSource) && !(sender instanceof MinecraftServer))
                     {
-                        entityplayer.addChatMessage(itextcomponent);
+                        entityplayer.sendMessage(itextcomponent);
                     }
                 }
             }
         }
 
-        if (sender != minecraftserver && minecraftserver.worldServers[0].getGameRules().getBoolean("logAdminCommands"))
+        if (sender != minecraftserver && minecraftserver.worlds[0].getGameRules().getBoolean("logAdminCommands"))
         {
-            minecraftserver.addChatMessage(itextcomponent);
+            minecraftserver.sendMessage(itextcomponent);
         }
 
-        boolean flag3 = minecraftserver.worldServers[0].getGameRules().getBoolean("sendCommandFeedback");
+        boolean flag3 = minecraftserver.worlds[0].getGameRules().getBoolean("sendCommandFeedback");
 
         if (sender instanceof CommandBlockBaseLogic)
         {
@@ -162,7 +162,7 @@ public class ServerCommandManager extends CommandHandler implements ICommandList
 
         if ((flags & 1) != 1 && flag3 || sender instanceof MinecraftServer)
         {
-            sender.addChatMessage(new TextComponentTranslation(translationKey, translationArgs));
+            sender.sendMessage(new TextComponentTranslation(translationKey, translationArgs));
         }
     }
 

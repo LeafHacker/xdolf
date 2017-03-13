@@ -58,7 +58,7 @@ public enum HorseArmorType
 
     public static HorseArmorType getByItemStack(ItemStack stack)
     {
-        return stack.func_190926_b() ? NONE : getByItem(stack.getItem());
+        return stack.isEmpty() ? NONE : getByItem(stack.getItem());
     }
 
     public static HorseArmorType getByItem(Item itemIn)

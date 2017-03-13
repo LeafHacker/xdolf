@@ -63,15 +63,15 @@ public class TileEntityFlowerPot extends TileEntity
         return this.writeToNBT(new NBTTagCompound());
     }
 
-    public void func_190614_a(ItemStack p_190614_1_)
+    public void setItemStack(ItemStack stack)
     {
-        this.flowerPotItem = p_190614_1_.getItem();
-        this.flowerPotData = p_190614_1_.getMetadata();
+        this.flowerPotItem = stack.getItem();
+        this.flowerPotData = stack.getMetadata();
     }
 
     public ItemStack getFlowerItemStack()
     {
-        return this.flowerPotItem == null ? ItemStack.field_190927_a : new ItemStack(this.flowerPotItem, 1, this.flowerPotData);
+        return this.flowerPotItem == null ? ItemStack.EMPTY : new ItemStack(this.flowerPotItem, 1, this.flowerPotData);
     }
 
     @Nullable

@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import net.minecraft.client.renderer.StitcherException;
+import net.minecraft.src.MathUtils;
 import net.minecraft.util.math.MathHelper;
 
 public class Stitcher
@@ -53,14 +54,14 @@ public class Stitcher
 
     public void doStitch()
     {
-        Stitcher.Holder[] astitcher$holder = (Stitcher.Holder[])this.setStitchHolders.toArray(new Stitcher.Holder[this.setStitchHolders.size()]);
+        Stitcher.Holder[] astitcher$holder = (Stitcher.Holder[])((Stitcher.Holder[])this.setStitchHolders.toArray(new Stitcher.Holder[this.setStitchHolders.size()]));
         Arrays.sort((Object[])astitcher$holder);
 
         for (Stitcher.Holder stitcher$holder : astitcher$holder)
         {
             if (!this.allocateSlot(stitcher$holder))
             {
-                String s = String.format("Unable to fit: %s - size: %dx%d - Maybe try a lowerresolution resourcepack?", new Object[] {stitcher$holder.getAtlasSprite().getIconName(), Integer.valueOf(stitcher$holder.getAtlasSprite().getIconWidth()), Integer.valueOf(stitcher$holder.getAtlasSprite().getIconHeight())});
+                String s = String.format("Unable to fit: %s, size: %dx%d, atlas: %dx%d, atlasMax: %dx%d - Maybe try a lower resolution resourcepack?", new Object[] {stitcher$holder.getAtlasSprite().getIconName(), Integer.valueOf(stitcher$holder.getAtlasSprite().getIconWidth()), Integer.valueOf(stitcher$holder.getAtlasSprite().getIconHeight()), Integer.valueOf(this.currentWidth), Integer.valueOf(this.currentHeight), Integer.valueOf(this.maxWidth), Integer.valueOf(this.maxHeight)});
                 throw new StitcherException(stitcher$holder, s);
             }
         }
@@ -138,31 +139,26 @@ public class Stitcher
         int l = MathHelper.smallestEncompassingPowerOfTwo(this.currentHeight);
         int i1 = MathHelper.smallestEncompassingPowerOfTwo(this.currentWidth + i);
         int j1 = MathHelper.smallestEncompassingPowerOfTwo(this.currentHeight + i);
-        boolean flag1 = i1 <= this.maxWidth;
-        boolean flag2 = j1 <= this.maxHeight;
+        boolean flag = i1 <= this.maxWidth;
+        boolean flag1 = j1 <= this.maxHeight;
 
-        if (!flag1 && !flag2)
+        if (!flag && !flag1)
         {
             return false;
         }
         else
         {
-            boolean flag3 = flag1 && k != i1;
-            boolean flag4 = flag2 && l != j1;
-            boolean flag;
+            int k1 = MathUtils.roundDownToPowerOfTwo(this.currentHeight);
+            boolean flag2 = flag && i1 <= 2 * k1;
 
-            if (flag3 ^ flag4)
+            if (this.currentWidth == 0 && this.currentHeight == 0)
             {
-                flag = flag3;
-            }
-            else
-            {
-                flag = flag1 && k <= l;
+                flag2 = true;
             }
 
             Stitcher.Slot stitcher$slot;
 
-            if (flag)
+            if (flag2)
             {
                 if (p_94311_1_.getWidth() > p_94311_1_.getHeight())
                 {
@@ -244,7 +240,7 @@ public class Stitcher
 
         public String toString()
         {
-            return "Holder{width=" + this.width + ", height=" + this.height + '}';
+            return "Holder{width=" + this.width + ", height=" + this.height + ", name=" + this.theTexture.getIconName() + '}';
         }
 
         public int compareTo(Stitcher.Holder p_compareTo_1_)

@@ -48,69 +48,69 @@ public enum BannerPattern
     FLOWER("flower", "flo", new ItemStack(Blocks.RED_FLOWER, 1, BlockFlower.EnumFlowerType.OXEYE_DAISY.getMeta())),
     MOJANG("mojang", "moj", new ItemStack(Items.GOLDEN_APPLE, 1, 1));
 
-    private final String field_191014_N;
-    private final String field_191015_O;
-    private final String[] field_191016_P;
-    private ItemStack field_191017_Q;
+    private final String fileName;
+    private final String hashname;
+    private final String[] patterns;
+    private ItemStack patternItem;
 
     private BannerPattern(String p_i47245_3_, String p_i47245_4_)
     {
-        this.field_191016_P = new String[3];
-        this.field_191017_Q = ItemStack.field_190927_a;
-        this.field_191014_N = p_i47245_3_;
-        this.field_191015_O = p_i47245_4_;
+        this.patterns = new String[3];
+        this.patternItem = ItemStack.EMPTY;
+        this.fileName = p_i47245_3_;
+        this.hashname = p_i47245_4_;
     }
 
     private BannerPattern(String p_i47246_3_, String p_i47246_4_, ItemStack p_i47246_5_)
     {
         this(p_i47246_3_, p_i47246_4_);
-        this.field_191017_Q = p_i47246_5_;
+        this.patternItem = p_i47246_5_;
     }
 
     private BannerPattern(String p_i47247_3_, String p_i47247_4_, String p_i47247_5_, String p_i47247_6_, String p_i47247_7_)
     {
         this(p_i47247_3_, p_i47247_4_);
-        this.field_191016_P[0] = p_i47247_5_;
-        this.field_191016_P[1] = p_i47247_6_;
-        this.field_191016_P[2] = p_i47247_7_;
+        this.patterns[0] = p_i47247_5_;
+        this.patterns[1] = p_i47247_6_;
+        this.patterns[2] = p_i47247_7_;
     }
 
-    public String func_190997_a()
+    public String getFileName()
     {
-        return this.field_191014_N;
+        return this.fileName;
     }
 
-    public String func_190993_b()
+    public String getHashname()
     {
-        return this.field_191015_O;
+        return this.hashname;
     }
 
-    public String[] func_190996_c()
+    public String[] getPatterns()
     {
-        return this.field_191016_P;
+        return this.patterns;
     }
 
-    public boolean func_191000_d()
+    public boolean hasPattern()
     {
-        return !this.field_191017_Q.func_190926_b() || this.field_191016_P[0] != null;
+        return !this.patternItem.isEmpty() || this.patterns[0] != null;
     }
 
-    public boolean func_190999_e()
+    public boolean hasPatternItem()
     {
-        return !this.field_191017_Q.func_190926_b();
+        return !this.patternItem.isEmpty();
     }
 
-    public ItemStack func_190998_f()
+    public ItemStack getPatternItem()
     {
-        return this.field_191017_Q;
+        return this.patternItem;
     }
 
     @Nullable
-    public static BannerPattern func_190994_a(String p_190994_0_)
+    public static BannerPattern byHash(String hash)
     {
         for (BannerPattern bannerpattern : values())
         {
-            if (bannerpattern.field_191015_O.equals(p_190994_0_))
+            if (bannerpattern.hashname.equals(hash))
             {
                 return bannerpattern;
             }

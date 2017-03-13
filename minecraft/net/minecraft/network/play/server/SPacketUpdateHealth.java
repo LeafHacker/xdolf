@@ -28,7 +28,7 @@ public class SPacketUpdateHealth implements Packet<INetHandlerPlayClient>
     public void readPacketData(PacketBuffer buf) throws IOException
     {
         this.health = buf.readFloat();
-        this.foodLevel = buf.readVarIntFromBuffer();
+        this.foodLevel = buf.readVarInt();
         this.saturationLevel = buf.readFloat();
     }
 
@@ -38,7 +38,7 @@ public class SPacketUpdateHealth implements Packet<INetHandlerPlayClient>
     public void writePacketData(PacketBuffer buf) throws IOException
     {
         buf.writeFloat(this.health);
-        buf.writeVarIntToBuffer(this.foodLevel);
+        buf.writeVarInt(this.foodLevel);
         buf.writeFloat(this.saturationLevel);
     }
 

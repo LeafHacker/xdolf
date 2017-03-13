@@ -84,7 +84,7 @@ import org.apache.logging.log4j.Logger;
 public abstract class Entity implements ICommandSender
 {
     private static final Logger LOGGER = LogManager.getLogger();
-    private static final List<ItemStack> field_190535_b = Collections.<ItemStack>emptyList();
+    private static final List<ItemStack> EMPTY_EQUIPMENT = Collections.<ItemStack>emptyList();
     private static final AxisAlignedBB ZERO_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D);
     private static double renderDistanceWeight = 1.0D;
     private static int nextEntityID;
@@ -212,7 +212,7 @@ public abstract class Entity implements ICommandSender
 
     /** How many ticks has this entity had ran since being alive */
     public int ticksExisted;
-    private int field_190534_ay;
+    private int fire;
 
     /**
      * Whether this entity is currently inside of water (if it handles water movement that is)
@@ -288,7 +288,7 @@ public abstract class Entity implements ICommandSender
         this.height = 1.8F;
         this.nextStepDistance = 1;
         this.rand = new Random();
-        this.field_190534_ay = -this.func_190531_bD();
+        this.fire = -this.getFireImmuneTicks();
         this.firstUpdate = true;
         this.entityUniqueID = MathHelper.getRandomUUID(this.rand);
         this.cachedUniqueIdString = this.entityUniqueID.toString();
@@ -435,7 +435,7 @@ public abstract class Entity implements ICommandSender
 
             if (this.width > f && !this.firstUpdate && !this.world.isRemote)
             {
-                this.moveEntity(MoverType.SELF, (double)(f - this.width), 0.0D, (double)(f - this.width));
+                this.move(MoverType.SELF, (double)(f - this.width), 0.0D, (double)(f - this.width));
             }
         }
     }
@@ -466,7 +466,7 @@ public abstract class Entity implements ICommandSender
      * Adds 15% to the entity's yaw and subtracts 15% from the pitch. Clamps pitch from -90 to 90. Both arguments in
      * degrees.
      */
-    public void setAngles(float yaw, float pitch)
+    public void turn(float yaw, float pitch)
     {
         float f = this.rotationPitch;
         float f1 = this.rotationYaw;
@@ -579,25 +579,25 @@ public abstract class Entity implements ICommandSender
         {
             this.extinguish();
         }
-        else if (this.field_190534_ay > 0)
+        else if (this.fire > 0)
         {
             if (this.isImmuneToFire)
             {
-                this.field_190534_ay -= 4;
+                this.fire -= 4;
 
-                if (this.field_190534_ay < 0)
+                if (this.fire < 0)
                 {
                     this.extinguish();
                 }
             }
             else
             {
-                if (this.field_190534_ay % 20 == 0)
+                if (this.fire % 20 == 0)
                 {
-                    this.attackEntityFrom(DamageSource.onFire, 1.0F);
+                    this.attackEntityFrom(DamageSource.ON_FIRE, 1.0F);
                 }
 
-                --this.field_190534_ay;
+                --this.fire;
             }
         }
 
@@ -614,7 +614,7 @@ public abstract class Entity implements ICommandSender
 
         if (!this.world.isRemote)
         {
-            this.setFlag(0, this.field_190534_ay > 0);
+            this.setFlag(0, this.fire > 0);
         }
 
         this.firstUpdate = false;
@@ -647,7 +647,7 @@ public abstract class Entity implements ICommandSender
     {
         if (!this.isImmuneToFire)
         {
-            this.attackEntityFrom(DamageSource.lava, 4.0F);
+            this.attackEntityFrom(DamageSource.LAVA, 4.0F);
             this.setFire(15);
         }
     }
@@ -664,9 +664,9 @@ public abstract class Entity implements ICommandSender
             i = EnchantmentProtection.getFireTimeForEntity((EntityLivingBase)this, i);
         }
 
-        if (this.field_190534_ay < i)
+        if (this.fire < i)
         {
-            this.field_190534_ay = i;
+            this.fire = i;
         }
     }
 
@@ -675,7 +675,7 @@ public abstract class Entity implements ICommandSender
      */
     public void extinguish()
     {
-        this.field_190534_ay = 0;
+        this.fire = 0;
     }
 
     /**
@@ -706,7 +706,7 @@ public abstract class Entity implements ICommandSender
     /**
      * Tries to move the entity towards the specified location.
      */
-    public void moveEntity(MoverType x, double p_70091_2_, double p_70091_4_, double p_70091_6_)
+    public void move(MoverType x, double p_70091_2_, double p_70091_4_, double p_70091_6_)
     {
         if (this.noClip)
         {
@@ -1057,23 +1057,23 @@ public abstract class Entity implements ICommandSender
 
                 if (!flag2)
                 {
-                    ++this.field_190534_ay;
+                    ++this.fire;
 
-                    if (this.field_190534_ay == 0)
+                    if (this.fire == 0)
                     {
                         this.setFire(8);
                     }
                 }
             }
-            else if (this.field_190534_ay <= 0)
+            else if (this.fire <= 0)
             {
-                this.field_190534_ay = -this.func_190531_bD();
+                this.fire = -this.getFireImmuneTicks();
             }
 
             if (flag2 && this.isBurning())
             {
                 this.playSound(SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, 0.7F, 1.6F + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.4F);
-                this.field_190534_ay = -this.func_190531_bD();
+                this.fire = -this.getFireImmuneTicks();
             }
 
             this.world.theProfiler.endSection();
@@ -1232,7 +1232,7 @@ public abstract class Entity implements ICommandSender
     {
         if (!this.isImmuneToFire)
         {
-            this.attackEntityFrom(DamageSource.inFire, (float)amount);
+            this.attackEntityFrom(DamageSource.IN_FIRE, (float)amount);
         }
     }
 
@@ -1813,9 +1813,9 @@ public abstract class Entity implements ICommandSender
         }
     }
 
-    public static void func_190533_a(DataFixer p_190533_0_)
+    public static void registerFixes(DataFixer fixer)
     {
-        p_190533_0_.registerWalker(FixTypes.ENTITY, new IDataWalker()
+        fixer.registerWalker(FixTypes.ENTITY, new IDataWalker()
         {
             public NBTTagCompound process(IDataFixer fixer, NBTTagCompound compound, int versionIn)
             {
@@ -1842,7 +1842,7 @@ public abstract class Entity implements ICommandSender
             compound.setTag("Motion", this.newDoubleNBTList(new double[] {this.motionX, this.motionY, this.motionZ}));
             compound.setTag("Rotation", this.newFloatNBTList(new float[] {this.rotationYaw, this.rotationPitch}));
             compound.setFloat("FallDistance", this.fallDistance);
-            compound.setShort("Fire", (short)this.field_190534_ay);
+            compound.setShort("Fire", (short)this.fire);
             compound.setShort("Air", (short)this.getAir());
             compound.setBoolean("OnGround", this.onGround);
             compound.setInteger("Dimension", this.dimension);
@@ -1967,7 +1967,7 @@ public abstract class Entity implements ICommandSender
             this.setRotationYawHead(this.rotationYaw);
             this.setRenderYawOffset(this.rotationYaw);
             this.fallDistance = compound.getFloat("FallDistance");
-            this.field_190534_ay = compound.getShort("Fire");
+            this.fire = compound.getShort("Fire");
             this.setAir(compound.getShort("Air"));
             this.onGround = compound.getBoolean("OnGround");
 
@@ -2039,7 +2039,7 @@ public abstract class Entity implements ICommandSender
      */
     protected final String getEntityString()
     {
-        ResourceLocation resourcelocation = EntityList.func_191301_a(this);
+        ResourceLocation resourcelocation = EntityList.getKey(this);
         return resourcelocation == null ? null : resourcelocation.toString();
     }
 
@@ -2102,7 +2102,7 @@ public abstract class Entity implements ICommandSender
      */
     public EntityItem entityDropItem(ItemStack stack, float offsetY)
     {
-        if (stack.func_190926_b())
+        if (stack.isEmpty())
         {
             return null;
         }
@@ -2110,7 +2110,7 @@ public abstract class Entity implements ICommandSender
         {
             EntityItem entityitem = new EntityItem(this.world, this.posX, this.posY + (double)offsetY, this.posZ, stack);
             entityitem.setDefaultPickupDelay();
-            this.world.spawnEntityInWorld(entityitem);
+            this.world.spawnEntity(entityitem);
             return entityitem;
         }
     }
@@ -2146,7 +2146,7 @@ public abstract class Entity implements ICommandSender
                 {
                     blockpos$pooledmutableblockpos.setPos(k, j, l);
 
-                    if (this.world.getBlockState(blockpos$pooledmutableblockpos).func_191058_s())
+                    if (this.world.getBlockState(blockpos$pooledmutableblockpos).causesSuffocation())
                     {
                         blockpos$pooledmutableblockpos.release();
                         return true;
@@ -2159,7 +2159,7 @@ public abstract class Entity implements ICommandSender
         }
     }
 
-    public boolean processInitialInteract(EntityPlayer player, EnumHand stack)
+    public boolean processInitialInteract(EntityPlayer player, EnumHand hand)
     {
         return false;
     }
@@ -2418,12 +2418,12 @@ public abstract class Entity implements ICommandSender
 
     public Iterable<ItemStack> getHeldEquipment()
     {
-        return field_190535_b;
+        return EMPTY_EQUIPMENT;
     }
 
     public Iterable<ItemStack> getArmorInventoryList()
     {
-        return field_190535_b;
+        return EMPTY_EQUIPMENT;
     }
 
     public Iterable<ItemStack> getEquipmentAndArmor()
@@ -2441,7 +2441,7 @@ public abstract class Entity implements ICommandSender
     public boolean isBurning()
     {
         boolean flag = this.world != null && this.world.isRemote;
-        return !this.isImmuneToFire && (this.field_190534_ay > 0 || flag && this.getFlag(0));
+        return !this.isImmuneToFire && (this.fire > 0 || flag && this.getFlag(0));
     }
 
     public boolean isRiding()
@@ -2595,10 +2595,10 @@ public abstract class Entity implements ICommandSender
      */
     public void onStruckByLightning(EntityLightningBolt lightningBolt)
     {
-        this.attackEntityFrom(DamageSource.lightningBolt, 5.0F);
-        ++this.field_190534_ay;
+        this.attackEntityFrom(DamageSource.LIGHTNING_BOLT, 5.0F);
+        ++this.fire;
 
-        if (this.field_190534_ay == 0)
+        if (this.fire == 0)
         {
             this.setFire(8);
         }
@@ -2777,10 +2777,10 @@ public abstract class Entity implements ICommandSender
      */
     public boolean isEntityInvulnerable(DamageSource source)
     {
-        return this.invulnerable && source != DamageSource.outOfWorld && !source.isCreativePlayer();
+        return this.invulnerable && source != DamageSource.OUT_OF_WORLD && !source.isCreativePlayer();
     }
 
-    public boolean func_190530_aW()
+    public boolean getIsInvulnerable()
     {
         return this.invulnerable;
     }
@@ -2870,7 +2870,7 @@ public abstract class Entity implements ICommandSender
 
             worldserver.updateEntityWithOptionalForce(this, false);
             this.world.theProfiler.endStartSection("reloading");
-            Entity entity = EntityList.func_191304_a(this.getClass(), worldserver1);
+            Entity entity = EntityList.newEntity(this.getClass(), worldserver1);
 
             if (entity != null)
             {
@@ -2888,7 +2888,7 @@ public abstract class Entity implements ICommandSender
 
                 boolean flag = entity.forceSpawn;
                 entity.forceSpawn = true;
-                worldserver1.spawnEntityInWorld(entity);
+                worldserver1.spawnEntity(entity);
                 entity.forceSpawn = flag;
                 worldserver1.updateEntityWithOptionalForce(entity, false);
             }
@@ -2959,7 +2959,7 @@ public abstract class Entity implements ICommandSender
         {
             public String call() throws Exception
             {
-                return EntityList.func_191301_a(Entity.this) + " (" + Entity.this.getClass().getCanonicalName() + ")";
+                return EntityList.getKey(Entity.this) + " (" + Entity.this.getClass().getCanonicalName() + ")";
             }
         });
         category.addCrashSection("Entity ID", Integer.valueOf(this.entityId));
@@ -3112,7 +3112,7 @@ public abstract class Entity implements ICommandSender
     protected HoverEvent getHoverEvent()
     {
         NBTTagCompound nbttagcompound = new NBTTagCompound();
-        ResourceLocation resourcelocation = EntityList.func_191301_a(this);
+        ResourceLocation resourcelocation = EntityList.getKey(this);
         nbttagcompound.setString("id", this.getCachedUniqueIdString());
 
         if (resourcelocation != null)
@@ -3171,14 +3171,14 @@ public abstract class Entity implements ICommandSender
     /**
      * Send a chat message to the CommandSender
      */
-    public void addChatMessage(ITextComponent component)
+    public void sendMessage(ITextComponent component)
     {
     }
 
     /**
      * Returns {@code true} if the CommandSender is allowed to execute the command, {@code false} if not
      */
-    public boolean canCommandSenderUseCommand(int permLevel, String commandName)
+    public boolean canUseCommand(int permLevel, String commandName)
     {
         return true;
     }
@@ -3468,7 +3468,7 @@ public abstract class Entity implements ICommandSender
         return SoundCategory.NEUTRAL;
     }
 
-    protected int func_190531_bD()
+    protected int getFireImmuneTicks()
     {
         return 1;
     }

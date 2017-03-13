@@ -174,7 +174,7 @@ public class PlayerChunkMapEntry
         {
             if (this.changes == 0)
             {
-                this.playerChunkMap.addEntry(this);
+                this.playerChunkMap.entryChanged(this);
             }
 
             this.changedSectionFilter |= 1 << (y >> 4);

@@ -23,11 +23,11 @@ public class SPacketDestroyEntities implements Packet<INetHandlerPlayClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.entityIDs = new int[buf.readVarIntFromBuffer()];
+        this.entityIDs = new int[buf.readVarInt()];
 
         for (int i = 0; i < this.entityIDs.length; ++i)
         {
-            this.entityIDs[i] = buf.readVarIntFromBuffer();
+            this.entityIDs[i] = buf.readVarInt();
         }
     }
 
@@ -36,11 +36,11 @@ public class SPacketDestroyEntities implements Packet<INetHandlerPlayClient>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeVarIntToBuffer(this.entityIDs.length);
+        buf.writeVarInt(this.entityIDs.length);
 
         for (int i : this.entityIDs)
         {
-            buf.writeVarIntToBuffer(i);
+            buf.writeVarInt(i);
         }
     }
 

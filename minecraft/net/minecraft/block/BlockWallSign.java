@@ -49,7 +49,7 @@ public class BlockWallSign extends BlockSign
      * change. Cases may include when redstone power is updated, cactus blocks popping off due to a neighboring solid
      * block, etc.
      */
-    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos p_189540_5_)
+    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos)
     {
         EnumFacing enumfacing = (EnumFacing)state.getValue(FACING);
 
@@ -59,7 +59,7 @@ public class BlockWallSign extends BlockSign
             worldIn.setBlockToAir(pos);
         }
 
-        super.neighborChanged(state, worldIn, pos, blockIn, p_189540_5_);
+        super.neighborChanged(state, worldIn, pos, blockIn, fromPos);
     }
 
     /**

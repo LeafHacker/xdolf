@@ -16,11 +16,11 @@ public abstract class Filtered implements IDataWalker
     {
         if (Entity.class.isAssignableFrom(p_i47309_1_))
         {
-            this.key = EntityList.func_191306_a((Class <? extends Entity >)p_i47309_1_);
+            this.key = EntityList.getKey((Class <? extends Entity >)p_i47309_1_);
         }
         else if (TileEntity.class.isAssignableFrom(p_i47309_1_))
         {
-            this.key = TileEntity.func_190559_a((Class <? extends TileEntity >)p_i47309_1_);
+            this.key = TileEntity.getKey((Class <? extends TileEntity >)p_i47309_1_);
         }
         else
         {

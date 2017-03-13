@@ -36,11 +36,11 @@ public class SPacketMultiBlockChange implements Packet<INetHandlerPlayClient>
     public void readPacketData(PacketBuffer buf) throws IOException
     {
         this.chunkPos = new ChunkPos(buf.readInt(), buf.readInt());
-        this.changedBlocks = new SPacketMultiBlockChange.BlockUpdateData[buf.readVarIntFromBuffer()];
+        this.changedBlocks = new SPacketMultiBlockChange.BlockUpdateData[buf.readVarInt()];
 
         for (int i = 0; i < this.changedBlocks.length; ++i)
         {
-            this.changedBlocks[i] = new SPacketMultiBlockChange.BlockUpdateData(buf.readShort(), (IBlockState)Block.BLOCK_STATE_IDS.getByValue(buf.readVarIntFromBuffer()));
+            this.changedBlocks[i] = new SPacketMultiBlockChange.BlockUpdateData(buf.readShort(), (IBlockState)Block.BLOCK_STATE_IDS.getByValue(buf.readVarInt()));
         }
     }
 
@@ -51,12 +51,12 @@ public class SPacketMultiBlockChange implements Packet<INetHandlerPlayClient>
     {
         buf.writeInt(this.chunkPos.chunkXPos);
         buf.writeInt(this.chunkPos.chunkZPos);
-        buf.writeVarIntToBuffer(this.changedBlocks.length);
+        buf.writeVarInt(this.changedBlocks.length);
 
         for (SPacketMultiBlockChange.BlockUpdateData spacketmultiblockchange$blockupdatedata : this.changedBlocks)
         {
             buf.writeShort(spacketmultiblockchange$blockupdatedata.getOffset());
-            buf.writeVarIntToBuffer(Block.BLOCK_STATE_IDS.get(spacketmultiblockchange$blockupdatedata.getBlockState()));
+            buf.writeVarInt(Block.BLOCK_STATE_IDS.get(spacketmultiblockchange$blockupdatedata.getBlockState()));
         }
     }
 

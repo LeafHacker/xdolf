@@ -34,7 +34,7 @@ public class SPacketBlockAction implements Packet<INetHandlerPlayClient>
         this.blockPosition = buf.readBlockPos();
         this.instrument = buf.readUnsignedByte();
         this.pitch = buf.readUnsignedByte();
-        this.block = Block.getBlockById(buf.readVarIntFromBuffer() & 4095);
+        this.block = Block.getBlockById(buf.readVarInt() & 4095);
     }
 
     /**
@@ -45,7 +45,7 @@ public class SPacketBlockAction implements Packet<INetHandlerPlayClient>
         buf.writeBlockPos(this.blockPosition);
         buf.writeByte(this.instrument);
         buf.writeByte(this.pitch);
-        buf.writeVarIntToBuffer(Block.getIdFromBlock(this.block) & 4095);
+        buf.writeVarInt(Block.getIdFromBlock(this.block) & 4095);
     }
 
     /**

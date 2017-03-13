@@ -7,8 +7,8 @@ import net.minecraft.util.ResourceLocation;
 
 public class RenderEvokerFangs extends Render<EntityEvokerFangs>
 {
-    private static final ResourceLocation field_191329_a = new ResourceLocation("textures/entity/illager/fangs.png");
-    private final ModelEvokerFangs field_191330_f = new ModelEvokerFangs();
+    private static final ResourceLocation EVOKER_ILLAGER_FANGS = new ResourceLocation("textures/entity/illager/fangs.png");
+    private final ModelEvokerFangs model = new ModelEvokerFangs();
 
     public RenderEvokerFangs(RenderManager p_i47208_1_)
     {
@@ -20,7 +20,7 @@ public class RenderEvokerFangs extends Render<EntityEvokerFangs>
      */
     public void doRender(EntityEvokerFangs entity, double x, double y, double z, float entityYaw, float partialTicks)
     {
-        float f = entity.func_190550_a(partialTicks);
+        float f = entity.getAnimationProgress(partialTicks);
 
         if (f != 0.0F)
         {
@@ -40,7 +40,7 @@ public class RenderEvokerFangs extends Render<EntityEvokerFangs>
             GlStateManager.scale(-f1, -f1, f1);
             float f2 = 0.03125F;
             GlStateManager.translate(0.0F, -0.626F, 0.0F);
-            this.field_191330_f.render(entity, f, 0.0F, 0.0F, entity.rotationYaw, entity.rotationPitch, 0.03125F);
+            this.model.render(entity, f, 0.0F, 0.0F, entity.rotationYaw, entity.rotationPitch, 0.03125F);
             GlStateManager.popMatrix();
             GlStateManager.enableCull();
             super.doRender(entity, x, y, z, entityYaw, partialTicks);
@@ -52,6 +52,6 @@ public class RenderEvokerFangs extends Render<EntityEvokerFangs>
      */
     protected ResourceLocation getEntityTexture(EntityEvokerFangs entity)
     {
-        return field_191329_a;
+        return EVOKER_ILLAGER_FANGS;
     }
 }

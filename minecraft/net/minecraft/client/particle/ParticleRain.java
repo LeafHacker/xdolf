@@ -30,7 +30,7 @@ public class ParticleRain extends Particle
         this.prevPosY = this.posY;
         this.prevPosZ = this.posZ;
         this.motionY -= (double)this.particleGravity;
-        this.moveEntity(this.motionX, this.motionY, this.motionZ);
+        this.move(this.motionX, this.motionY, this.motionZ);
         this.motionX *= 0.9800000190734863D;
         this.motionY *= 0.9800000190734863D;
         this.motionZ *= 0.9800000190734863D;
@@ -40,7 +40,7 @@ public class ParticleRain extends Particle
             this.setExpired();
         }
 
-        if (this.isCollided)
+        if (this.onGround)
         {
             if (Math.random() < 0.5D)
             {
@@ -52,7 +52,7 @@ public class ParticleRain extends Particle
         }
 
         BlockPos blockpos = new BlockPos(this.posX, this.posY, this.posZ);
-        IBlockState iblockstate = this.worldObj.getBlockState(blockpos);
+        IBlockState iblockstate = this.world.getBlockState(blockpos);
         Material material = iblockstate.getMaterial();
 
         if (material.isLiquid() || material.isSolid())
@@ -65,7 +65,7 @@ public class ParticleRain extends Particle
             }
             else
             {
-                d0 = iblockstate.getBoundingBox(this.worldObj, blockpos).maxY;
+                d0 = iblockstate.getBoundingBox(this.world, blockpos).maxY;
             }
 
             double d1 = (double)MathHelper.floor(this.posY) + d0;

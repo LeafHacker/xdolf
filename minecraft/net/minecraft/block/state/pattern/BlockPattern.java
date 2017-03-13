@@ -166,15 +166,15 @@ public class BlockPattern
         private final int height;
         private final int depth;
 
-        public PatternHelper(BlockPos posIn, EnumFacing fingerIn, EnumFacing thumbIn, LoadingCache<BlockPos, BlockWorldState> lcacheIn, int p_i46378_5_, int p_i46378_6_, int p_i46378_7_)
+        public PatternHelper(BlockPos posIn, EnumFacing fingerIn, EnumFacing thumbIn, LoadingCache<BlockPos, BlockWorldState> lcacheIn, int widthIn, int heightIn, int depthIn)
         {
             this.frontTopLeft = posIn;
             this.forwards = fingerIn;
             this.up = thumbIn;
             this.lcache = lcacheIn;
-            this.width = p_i46378_5_;
-            this.height = p_i46378_6_;
-            this.depth = p_i46378_7_;
+            this.width = widthIn;
+            this.height = heightIn;
+            this.depth = depthIn;
         }
 
         public BlockPos getFrontTopLeft()

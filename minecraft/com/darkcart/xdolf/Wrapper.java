@@ -26,7 +26,7 @@ public class Wrapper {
 	}
 	
 	public static void addChatMessage(String s) {
-		getPlayer().addChatMessage(new TextComponentString(Client.wrap(String.format("[%s%s%s] %s", "\247e", Client.CLIENT_NAME, "\247f", s), 100)));
+		getPlayer().sendMessage(new TextComponentString(Client.wrap(String.format("[%s%s%s] %s", "\247e", Client.CLIENT_NAME, "\247f", s), 100)));
 	}
 	
 }

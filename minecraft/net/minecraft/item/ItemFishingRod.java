@@ -62,28 +62,28 @@ public class ItemFishingRod extends Item
         return true;
     }
 
-    public ActionResult<ItemStack> onItemRightClick(World itemStackIn, EntityPlayer worldIn, EnumHand playerIn)
+    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
     {
-        ItemStack itemstack = worldIn.getHeldItem(playerIn);
+        ItemStack itemstack = playerIn.getHeldItem(handIn);
 
-        if (worldIn.fishEntity != null)
+        if (playerIn.fishEntity != null)
         {
-            int i = worldIn.fishEntity.handleHookRetraction();
-            itemstack.damageItem(i, worldIn);
-            worldIn.swingArm(playerIn);
+            int i = playerIn.fishEntity.handleHookRetraction();
+            itemstack.damageItem(i, playerIn);
+            playerIn.swingArm(handIn);
         }
         else
         {
-            itemStackIn.playSound((EntityPlayer)null, worldIn.posX, worldIn.posY, worldIn.posZ, SoundEvents.ENTITY_BOBBER_THROW, SoundCategory.NEUTRAL, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+            worldIn.playSound((EntityPlayer)null, playerIn.posX, playerIn.posY, playerIn.posZ, SoundEvents.ENTITY_BOBBER_THROW, SoundCategory.NEUTRAL, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 
-            if (!itemStackIn.isRemote)
+            if (!worldIn.isRemote)
             {
-                EntityFishHook entityfishhook = new EntityFishHook(itemStackIn, worldIn);
-                itemStackIn.spawnEntityInWorld(entityfishhook);
+                EntityFishHook entityfishhook = new EntityFishHook(worldIn, playerIn);
+                worldIn.spawnEntity(entityfishhook);
             }
 
-            worldIn.swingArm(playerIn);
-            worldIn.addStat(StatList.getObjectUseStats(this));
+            playerIn.swingArm(handIn);
+            playerIn.addStat(StatList.getObjectUseStats(this));
         }
 
         return new ActionResult(EnumActionResult.SUCCESS, itemstack);

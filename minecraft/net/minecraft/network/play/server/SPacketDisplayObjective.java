@@ -35,7 +35,7 @@ public class SPacketDisplayObjective implements Packet<INetHandlerPlayClient>
     public void readPacketData(PacketBuffer buf) throws IOException
     {
         this.position = buf.readByte();
-        this.scoreName = buf.readStringFromBuffer(16);
+        this.scoreName = buf.readString(16);
     }
 
     /**

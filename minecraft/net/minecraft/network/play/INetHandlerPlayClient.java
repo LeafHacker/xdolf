@@ -375,7 +375,7 @@ public interface INetHandlerPlayClient extends INetHandler
 
     void handleResourcePack(SPacketResourcePackSend packetIn);
 
-    void handleUpdateEntityNBT(SPacketUpdateBossInfo packetIn);
+    void handleUpdateBossInfo(SPacketUpdateBossInfo packetIn);
 
     void handleCooldown(SPacketCooldown packetIn);
 

@@ -52,10 +52,10 @@ public class SPacketEntityEffect implements Packet<INetHandlerPlayClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.entityId = buf.readVarIntFromBuffer();
+        this.entityId = buf.readVarInt();
         this.effectId = buf.readByte();
         this.amplifier = buf.readByte();
-        this.duration = buf.readVarIntFromBuffer();
+        this.duration = buf.readVarInt();
         this.flags = buf.readByte();
     }
 
@@ -64,10 +64,10 @@ public class SPacketEntityEffect implements Packet<INetHandlerPlayClient>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeVarIntToBuffer(this.entityId);
+        buf.writeVarInt(this.entityId);
         buf.writeByte(this.effectId);
         buf.writeByte(this.amplifier);
-        buf.writeVarIntToBuffer(this.duration);
+        buf.writeVarInt(this.duration);
         buf.writeByte(this.flags);
     }
 

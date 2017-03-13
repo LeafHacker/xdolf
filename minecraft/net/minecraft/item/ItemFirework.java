@@ -18,17 +18,17 @@ public class ItemFirework extends Item
     /**
      * Called when a Block is right-clicked with this Item
      */
-    public EnumActionResult onItemUse(EntityPlayer stack, World playerIn, BlockPos worldIn, EnumHand pos, EnumFacing hand, float facing, float hitX, float hitY)
+    public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
     {
-        if (!playerIn.isRemote)
+        if (!worldIn.isRemote)
         {
-            ItemStack itemstack = stack.getHeldItem(pos);
-            EntityFireworkRocket entityfireworkrocket = new EntityFireworkRocket(playerIn, (double)((float)worldIn.getX() + facing), (double)((float)worldIn.getY() + hitX), (double)((float)worldIn.getZ() + hitY), itemstack);
-            playerIn.spawnEntityInWorld(entityfireworkrocket);
+            ItemStack itemstack = player.getHeldItem(hand);
+            EntityFireworkRocket entityfireworkrocket = new EntityFireworkRocket(worldIn, (double)((float)pos.getX() + hitX), (double)((float)pos.getY() + hitY), (double)((float)pos.getZ() + hitZ), itemstack);
+            worldIn.spawnEntity(entityfireworkrocket);
 
-            if (!stack.capabilities.isCreativeMode)
+            if (!player.capabilities.isCreativeMode)
             {
-                itemstack.func_190918_g(1);
+                itemstack.shrink(1);
             }
         }
 

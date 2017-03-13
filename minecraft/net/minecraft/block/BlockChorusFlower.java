@@ -37,7 +37,7 @@ public class BlockChorusFlower extends Block
      */
     public Item getItemDropped(IBlockState state, Random rand, int fortune)
     {
-        return Items.field_190931_a;
+        return Items.AIR;
     }
 
     public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
@@ -196,7 +196,7 @@ public class BlockChorusFlower extends Block
      * change. Cases may include when redstone power is updated, cactus blocks popping off due to a neighboring solid
      * block, etc.
      */
-    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos p_189540_5_)
+    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos)
     {
         if (!this.canSurvive(worldIn, pos))
         {
@@ -251,7 +251,7 @@ public class BlockChorusFlower extends Block
 
     protected ItemStack getSilkTouchDrop(IBlockState state)
     {
-        return ItemStack.field_190927_a;
+        return ItemStack.EMPTY;
     }
 
     public BlockRenderLayer getBlockLayer()

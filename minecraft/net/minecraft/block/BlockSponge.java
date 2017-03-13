@@ -62,10 +62,10 @@ public class BlockSponge extends Block
      * change. Cases may include when redstone power is updated, cactus blocks popping off due to a neighboring solid
      * block, etc.
      */
-    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos p_189540_5_)
+    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos)
     {
         this.tryAbsorb(worldIn, pos, state);
-        super.neighborChanged(state, worldIn, pos, blockIn, p_189540_5_);
+        super.neighborChanged(state, worldIn, pos, blockIn, fromPos);
     }
 
     protected void tryAbsorb(World worldIn, BlockPos pos, IBlockState state)

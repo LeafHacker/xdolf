@@ -18,31 +18,31 @@ import net.minecraft.world.World;
 
 public class EntityLlamaSpit extends Entity implements IProjectile
 {
-    public EntityLlama field_190539_a;
-    private NBTTagCompound field_190540_b;
+    public EntityLlama owner;
+    private NBTTagCompound ownerNbt;
 
-    public EntityLlamaSpit(World p_i47272_1_)
+    public EntityLlamaSpit(World worldIn)
     {
-        super(p_i47272_1_);
+        super(worldIn);
     }
 
-    public EntityLlamaSpit(World p_i47273_1_, EntityLlama p_i47273_2_)
+    public EntityLlamaSpit(World worldIn, EntityLlama p_i47273_2_)
     {
-        super(p_i47273_1_);
-        this.field_190539_a = p_i47273_2_;
+        super(worldIn);
+        this.owner = p_i47273_2_;
         this.setPosition(p_i47273_2_.posX - (double)(p_i47273_2_.width + 1.0F) * 0.5D * (double)MathHelper.sin(p_i47273_2_.renderYawOffset * 0.017453292F), p_i47273_2_.posY + (double)p_i47273_2_.getEyeHeight() - 0.10000000149011612D, p_i47273_2_.posZ + (double)(p_i47273_2_.width + 1.0F) * 0.5D * (double)MathHelper.cos(p_i47273_2_.renderYawOffset * 0.017453292F));
         this.setSize(0.25F, 0.25F);
     }
 
-    public EntityLlamaSpit(World p_i47274_1_, double p_i47274_2_, double p_i47274_4_, double p_i47274_6_, double p_i47274_8_, double p_i47274_10_, double p_i47274_12_)
+    public EntityLlamaSpit(World worldIn, double x, double y, double z, double p_i47274_8_, double p_i47274_10_, double p_i47274_12_)
     {
-        super(p_i47274_1_);
-        this.setPosition(p_i47274_2_, p_i47274_4_, p_i47274_6_);
+        super(worldIn);
+        this.setPosition(x, y, z);
 
         for (int i = 0; i < 7; ++i)
         {
             double d0 = 0.4D + 0.1D * (double)i;
-            p_i47274_1_.spawnParticle(EnumParticleTypes.SPIT, p_i47274_2_, p_i47274_4_, p_i47274_6_, p_i47274_8_ * d0, p_i47274_10_, p_i47274_12_ * d0, new int[0]);
+            worldIn.spawnParticle(EnumParticleTypes.SPIT, x, y, z, p_i47274_8_ * d0, p_i47274_10_, p_i47274_12_ * d0, new int[0]);
         }
 
         this.motionX = p_i47274_8_;
@@ -57,9 +57,9 @@ public class EntityLlamaSpit extends Entity implements IProjectile
     {
         super.onUpdate();
 
-        if (this.field_190540_b != null)
+        if (this.ownerNbt != null)
         {
-            this.func_190537_j();
+            this.restoreOwnerFromSave();
         }
 
         Vec3d vec3d = new Vec3d(this.posX, this.posY, this.posZ);
@@ -73,7 +73,7 @@ public class EntityLlamaSpit extends Entity implements IProjectile
             vec3d1 = new Vec3d(raytraceresult.hitVec.xCoord, raytraceresult.hitVec.yCoord, raytraceresult.hitVec.zCoord);
         }
 
-        Entity entity = this.func_190538_a(vec3d, vec3d1);
+        Entity entity = this.getHitEntity(vec3d, vec3d1);
 
         if (entity != null)
         {
@@ -82,7 +82,7 @@ public class EntityLlamaSpit extends Entity implements IProjectile
 
         if (raytraceresult != null)
         {
-            this.func_190536_a(raytraceresult);
+            this.onHit(raytraceresult);
         }
 
         this.posX += this.motionX;
@@ -160,7 +160,7 @@ public class EntityLlamaSpit extends Entity implements IProjectile
     }
 
     @Nullable
-    private Entity func_190538_a(Vec3d p_190538_1_, Vec3d p_190538_2_)
+    private Entity getHitEntity(Vec3d p_190538_1_, Vec3d p_190538_2_)
     {
         Entity entity = null;
         List<Entity> list = this.world.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().addCoord(this.motionX, this.motionY, this.motionZ).expandXyz(1.0D));
@@ -168,7 +168,7 @@ public class EntityLlamaSpit extends Entity implements IProjectile
 
         for (Entity entity1 : list)
         {
-            if (entity1 != this.field_190539_a)
+            if (entity1 != this.owner)
             {
                 AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().expandXyz(0.30000001192092896D);
                 RayTraceResult raytraceresult = axisalignedbb.calculateIntercept(p_190538_1_, p_190538_2_);
@@ -214,11 +214,11 @@ public class EntityLlamaSpit extends Entity implements IProjectile
         this.prevRotationPitch = this.rotationPitch;
     }
 
-    public void func_190536_a(RayTraceResult p_190536_1_)
+    public void onHit(RayTraceResult p_190536_1_)
     {
-        if (p_190536_1_.entityHit != null && this.field_190539_a != null)
+        if (p_190536_1_.entityHit != null && this.owner != null)
         {
-            p_190536_1_.entityHit.attackEntityFrom(DamageSource.causeIndirectDamage(this, this.field_190539_a).setProjectile(), 1.0F);
+            p_190536_1_.entityHit.attackEntityFrom(DamageSource.causeIndirectDamage(this, this.owner).setProjectile(), 1.0F);
         }
 
         if (!this.world.isRemote)
@@ -238,7 +238,7 @@ public class EntityLlamaSpit extends Entity implements IProjectile
     {
         if (compound.hasKey("Owner", 10))
         {
-            this.field_190540_b = compound.getCompoundTag("Owner");
+            this.ownerNbt = compound.getCompoundTag("Owner");
         }
     }
 
@@ -247,31 +247,31 @@ public class EntityLlamaSpit extends Entity implements IProjectile
      */
     protected void writeEntityToNBT(NBTTagCompound compound)
     {
-        if (this.field_190539_a != null)
+        if (this.owner != null)
         {
             NBTTagCompound nbttagcompound = new NBTTagCompound();
-            UUID uuid = this.field_190539_a.getUniqueID();
+            UUID uuid = this.owner.getUniqueID();
             nbttagcompound.setUniqueId("OwnerUUID", uuid);
             compound.setTag("Owner", nbttagcompound);
         }
     }
 
-    private void func_190537_j()
+    private void restoreOwnerFromSave()
     {
-        if (this.field_190540_b != null && this.field_190540_b.hasUniqueId("OwnerUUID"))
+        if (this.ownerNbt != null && this.ownerNbt.hasUniqueId("OwnerUUID"))
         {
-            UUID uuid = this.field_190540_b.getUniqueId("OwnerUUID");
+            UUID uuid = this.ownerNbt.getUniqueId("OwnerUUID");
 
             for (EntityLlama entityllama : this.world.getEntitiesWithinAABB(EntityLlama.class, this.getEntityBoundingBox().expandXyz(15.0D)))
             {
                 if (entityllama.getUniqueID().equals(uuid))
                 {
-                    this.field_190539_a = entityllama;
+                    this.owner = entityllama;
                     break;
                 }
             }
         }
 
-        this.field_190540_b = null;
+        this.ownerNbt = null;
     }
 }

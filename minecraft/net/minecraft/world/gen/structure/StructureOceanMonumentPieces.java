@@ -1654,7 +1654,7 @@ public class StructureOceanMonumentPieces
                 entityelderguardian.heal(entityelderguardian.getMaxHealth());
                 entityelderguardian.setLocationAndAngles((double)i + 0.5D, (double)j, (double)k + 0.5D, 0.0F, 0.0F);
                 entityelderguardian.onInitialSpawn(worldIn.getDifficultyForLocation(new BlockPos(entityelderguardian)), (IEntityLivingData)null);
-                worldIn.spawnEntityInWorld(entityelderguardian);
+                worldIn.spawnEntity(entityelderguardian);
                 return true;
             }
             else

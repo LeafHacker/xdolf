@@ -211,8 +211,6 @@ public class Template
 
     /**
      * This takes the data stored in this instance and puts them into the world.
-     *  
-     * @param flags The flags to use when placing blocks.
      */
     public void addBlocksToWorld(World worldIn, BlockPos pos, PlacementSettings placementIn, int flags)
     {
@@ -336,7 +334,7 @@ public class Template
                     float f = entity.getMirroredYaw(mirrorIn);
                     f = f + (entity.rotationYaw - entity.getRotatedYaw(rotationIn));
                     entity.setLocationAndAngles(vec3d1.xCoord, vec3d1.yCoord, vec3d1.zCoord, f, entity.rotationPitch);
-                    worldIn.spawnEntityInWorld(entity);
+                    worldIn.spawnEntity(entity);
                 }
             }
         }
@@ -431,10 +429,10 @@ public class Template
 
     public BlockPos getZeroPositionWithTransform(BlockPos p_189961_1_, Mirror p_189961_2_, Rotation p_189961_3_)
     {
-        return func_191157_a(p_189961_1_, p_189961_2_, p_189961_3_, this.getSize().getX(), this.getSize().getZ());
+        return getZeroPositionWithTransform(p_189961_1_, p_189961_2_, p_189961_3_, this.getSize().getX(), this.getSize().getZ());
     }
 
-    public static BlockPos func_191157_a(BlockPos p_191157_0_, Mirror p_191157_1_, Rotation p_191157_2_, int p_191157_3_, int p_191157_4_)
+    public static BlockPos getZeroPositionWithTransform(BlockPos p_191157_0_, Mirror p_191157_1_, Rotation p_191157_2_, int p_191157_3_, int p_191157_4_)
     {
         --p_191157_3_;
         --p_191157_4_;
@@ -463,9 +461,9 @@ public class Template
         return blockpos;
     }
 
-    public static void func_191158_a(DataFixer p_191158_0_)
+    public static void registerFixes(DataFixer fixer)
     {
-        p_191158_0_.registerWalker(FixTypes.STRUCTURE, new IDataWalker()
+        fixer.registerWalker(FixTypes.STRUCTURE, new IDataWalker()
         {
             public NBTTagCompound process(IDataFixer fixer, NBTTagCompound compound, int versionIn)
             {

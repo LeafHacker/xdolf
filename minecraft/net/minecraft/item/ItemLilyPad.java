@@ -23,10 +23,10 @@ public class ItemLilyPad extends ItemColored
         super(block, false);
     }
 
-    public ActionResult<ItemStack> onItemRightClick(World itemStackIn, EntityPlayer worldIn, EnumHand playerIn)
+    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
     {
-        ItemStack itemstack = worldIn.getHeldItem(playerIn);
-        RayTraceResult raytraceresult = this.rayTrace(itemStackIn, worldIn, true);
+        ItemStack itemstack = playerIn.getHeldItem(handIn);
+        RayTraceResult raytraceresult = this.rayTrace(worldIn, playerIn, true);
 
         if (raytraceresult == null)
         {
@@ -38,25 +38,25 @@ public class ItemLilyPad extends ItemColored
             {
                 BlockPos blockpos = raytraceresult.getBlockPos();
 
-                if (!itemStackIn.isBlockModifiable(worldIn, blockpos) || !worldIn.canPlayerEdit(blockpos.offset(raytraceresult.sideHit), raytraceresult.sideHit, itemstack))
+                if (!worldIn.isBlockModifiable(playerIn, blockpos) || !playerIn.canPlayerEdit(blockpos.offset(raytraceresult.sideHit), raytraceresult.sideHit, itemstack))
                 {
                     return new ActionResult(EnumActionResult.FAIL, itemstack);
                 }
 
                 BlockPos blockpos1 = blockpos.up();
-                IBlockState iblockstate = itemStackIn.getBlockState(blockpos);
+                IBlockState iblockstate = worldIn.getBlockState(blockpos);
 
-                if (iblockstate.getMaterial() == Material.WATER && ((Integer)iblockstate.getValue(BlockLiquid.LEVEL)).intValue() == 0 && itemStackIn.isAirBlock(blockpos1))
+                if (iblockstate.getMaterial() == Material.WATER && ((Integer)iblockstate.getValue(BlockLiquid.LEVEL)).intValue() == 0 && worldIn.isAirBlock(blockpos1))
                 {
-                    itemStackIn.setBlockState(blockpos1, Blocks.WATERLILY.getDefaultState(), 11);
+                    worldIn.setBlockState(blockpos1, Blocks.WATERLILY.getDefaultState(), 11);
 
-                    if (!worldIn.capabilities.isCreativeMode)
+                    if (!playerIn.capabilities.isCreativeMode)
                     {
-                        itemstack.func_190918_g(1);
+                        itemstack.shrink(1);
                     }
 
-                    worldIn.addStat(StatList.getObjectUseStats(this));
-                    itemStackIn.playSound(worldIn, blockpos, SoundEvents.BLOCK_WATERLILY_PLACE, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                    playerIn.addStat(StatList.getObjectUseStats(this));
+                    worldIn.playSound(playerIn, blockpos, SoundEvents.BLOCK_WATERLILY_PLACE, SoundCategory.BLOCKS, 1.0F, 1.0F);
                     return new ActionResult(EnumActionResult.SUCCESS, itemstack);
                 }
             }

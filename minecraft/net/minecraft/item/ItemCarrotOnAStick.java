@@ -36,19 +36,19 @@ public class ItemCarrotOnAStick extends Item
         return true;
     }
 
-    public ActionResult<ItemStack> onItemRightClick(World itemStackIn, EntityPlayer worldIn, EnumHand playerIn)
+    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
     {
-        ItemStack itemstack = worldIn.getHeldItem(playerIn);
+        ItemStack itemstack = playerIn.getHeldItem(handIn);
 
-        if (worldIn.isRiding() && worldIn.getRidingEntity() instanceof EntityPig)
+        if (playerIn.isRiding() && playerIn.getRidingEntity() instanceof EntityPig)
         {
-            EntityPig entitypig = (EntityPig)worldIn.getRidingEntity();
+            EntityPig entitypig = (EntityPig)playerIn.getRidingEntity();
 
             if (itemstack.getMaxDamage() - itemstack.getMetadata() >= 7 && entitypig.boost())
             {
-                itemstack.damageItem(7, worldIn);
+                itemstack.damageItem(7, playerIn);
 
-                if (itemstack.func_190926_b())
+                if (itemstack.isEmpty())
                 {
                     ItemStack itemstack1 = new ItemStack(Items.FISHING_ROD);
                     itemstack1.setTagCompound(itemstack.getTagCompound());
@@ -59,7 +59,7 @@ public class ItemCarrotOnAStick extends Item
             }
         }
 
-        worldIn.addStat(StatList.getObjectUseStats(this));
+        playerIn.addStat(StatList.getObjectUseStats(this));
         return new ActionResult(EnumActionResult.PASS, itemstack);
     }
 }

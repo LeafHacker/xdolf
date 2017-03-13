@@ -108,7 +108,7 @@ public class GameRules
     public String[] getRules()
     {
         Set<String> set = this.theGameRules.keySet();
-        return (String[])set.toArray(new String[set.size()]);
+        return (String[])((String[])set.toArray(new String[set.size()]));
     }
 
     /**
@@ -142,6 +142,22 @@ public class GameRules
         public void setValue(String value)
         {
             this.valueString = value;
+
+            if (value != null)
+            {
+                if (value.equals("false"))
+                {
+                    this.valueBoolean = false;
+                    return;
+                }
+
+                if (value.equals("true"))
+                {
+                    this.valueBoolean = true;
+                    return;
+                }
+            }
+
             this.valueBoolean = Boolean.parseBoolean(value);
             this.valueInteger = this.valueBoolean ? 1 : 0;
 

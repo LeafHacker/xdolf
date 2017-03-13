@@ -101,7 +101,7 @@ public class EntityWitherSkull extends EntityFireball
                 }
                 else
                 {
-                    result.entityHit.attackEntityFrom(DamageSource.magic, 5.0F);
+                    result.entityHit.attackEntityFrom(DamageSource.MAGIC, 5.0F);
                 }
 
                 if (result.entityHit instanceof EntityLivingBase)

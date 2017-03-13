@@ -23,7 +23,7 @@ public class SetCount extends LootFunction
 
     public ItemStack apply(ItemStack stack, Random rand, LootContext context)
     {
-        stack.func_190920_e(this.countRange.generateInt(rand));
+        stack.setCount(this.countRange.generateInt(rand));
         return stack;
     }
 

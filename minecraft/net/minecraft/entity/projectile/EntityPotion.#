@@ -1,0 +1,34 @@
+***************
+*** 52,58 ****
+     }
+  
+     protected void func_70088_a() {
+-       this.func_184212_Q().func_187214_a(field_184545_d, Optional.<T>absent());
+     }
+  
+     public ItemStack func_184543_l() {
+--- 52,58 ----
+     }
+  
+     protected void func_70088_a() {
++       this.func_184212_Q().func_187214_a(field_184545_d, Optional.<ItemStack>absent());
+     }
+  
+     public ItemStack func_184543_l() {
+***************
+*** 69,75 ****
+     }
+  
+     public void func_184541_a(@Nullable ItemStack p_184541_1_) {
+-       this.func_184212_Q().func_187227_b(field_184545_d, Optional.<T>fromNullable(p_184541_1_));
+        this.func_184212_Q().func_187217_b(field_184545_d);
+     }
+  
+--- 69,75 ----
+     }
+  
+     public void func_184541_a(@Nullable ItemStack p_184541_1_) {
++       this.func_184212_Q().func_187227_b(field_184545_d, Optional.fromNullable(p_184541_1_));
+        this.func_184212_Q().func_187217_b(field_184545_d);
+     }
+  

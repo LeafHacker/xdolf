@@ -88,11 +88,11 @@ public class BlockCauldron extends Block
         }
     }
 
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing heldItem, float side, float hitX, float hitY)
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
     {
         ItemStack itemstack = playerIn.getHeldItem(hand);
 
-        if (itemstack.func_190926_b())
+        if (itemstack.isEmpty())
         {
             return true;
         }
@@ -123,9 +123,9 @@ public class BlockCauldron extends Block
                 {
                     if (!playerIn.capabilities.isCreativeMode)
                     {
-                        itemstack.func_190918_g(1);
+                        itemstack.shrink(1);
 
-                        if (itemstack.func_190926_b())
+                        if (itemstack.isEmpty())
                         {
                             playerIn.setHeldItem(hand, new ItemStack(Items.WATER_BUCKET));
                         }
@@ -150,9 +150,9 @@ public class BlockCauldron extends Block
                     {
                         ItemStack itemstack3 = PotionUtils.addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.WATER);
                         playerIn.addStat(StatList.CAULDRON_USED);
-                        itemstack.func_190918_g(1);
+                        itemstack.shrink(1);
 
-                        if (itemstack.func_190926_b())
+                        if (itemstack.isEmpty())
                         {
                             playerIn.setHeldItem(hand, itemstack3);
                         }
@@ -188,7 +188,7 @@ public class BlockCauldron extends Block
                         }
                     }
 
-                    worldIn.playSound((EntityPlayer)null, pos, SoundEvents.field_191241_J, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                    worldIn.playSound((EntityPlayer)null, pos, SoundEvents.ITEM_BOTTLE_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
                     this.setWaterLevel(worldIn, pos, state, i + 1);
                 }
 
@@ -214,17 +214,17 @@ public class BlockCauldron extends Block
                     if (TileEntityBanner.getPatterns(itemstack) > 0 && !worldIn.isRemote)
                     {
                         ItemStack itemstack1 = itemstack.copy();
-                        itemstack1.func_190920_e(1);
+                        itemstack1.setCount(1);
                         TileEntityBanner.removeBannerData(itemstack1);
                         playerIn.addStat(StatList.BANNER_CLEANED);
 
                         if (!playerIn.capabilities.isCreativeMode)
                         {
-                            itemstack.func_190918_g(1);
+                            itemstack.shrink(1);
                             this.setWaterLevel(worldIn, pos, state, i - 1);
                         }
 
-                        if (itemstack.func_190926_b())
+                        if (itemstack.isEmpty())
                         {
                             playerIn.setHeldItem(hand, itemstack1);
                         }

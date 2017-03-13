@@ -60,11 +60,11 @@ public class SPacketWorldBorder implements Packet<INetHandlerPlayClient>
                 break;
 
             case SET_WARNING_BLOCKS:
-                this.warningDistance = buf.readVarIntFromBuffer();
+                this.warningDistance = buf.readVarInt();
                 break;
 
             case SET_WARNING_TIME:
-                this.warningTime = buf.readVarIntFromBuffer();
+                this.warningTime = buf.readVarInt();
                 break;
 
             case INITIALIZE:
@@ -73,9 +73,9 @@ public class SPacketWorldBorder implements Packet<INetHandlerPlayClient>
                 this.diameter = buf.readDouble();
                 this.targetSize = buf.readDouble();
                 this.timeUntilTarget = buf.readVarLong();
-                this.size = buf.readVarIntFromBuffer();
-                this.warningDistance = buf.readVarIntFromBuffer();
-                this.warningTime = buf.readVarIntFromBuffer();
+                this.size = buf.readVarInt();
+                this.warningDistance = buf.readVarInt();
+                this.warningTime = buf.readVarInt();
         }
     }
 
@@ -104,11 +104,11 @@ public class SPacketWorldBorder implements Packet<INetHandlerPlayClient>
                 break;
 
             case SET_WARNING_BLOCKS:
-                buf.writeVarIntToBuffer(this.warningDistance);
+                buf.writeVarInt(this.warningDistance);
                 break;
 
             case SET_WARNING_TIME:
-                buf.writeVarIntToBuffer(this.warningTime);
+                buf.writeVarInt(this.warningTime);
                 break;
 
             case INITIALIZE:
@@ -117,9 +117,9 @@ public class SPacketWorldBorder implements Packet<INetHandlerPlayClient>
                 buf.writeDouble(this.diameter);
                 buf.writeDouble(this.targetSize);
                 buf.writeVarLong(this.timeUntilTarget);
-                buf.writeVarIntToBuffer(this.size);
-                buf.writeVarIntToBuffer(this.warningDistance);
-                buf.writeVarIntToBuffer(this.warningTime);
+                buf.writeVarInt(this.size);
+                buf.writeVarInt(this.warningDistance);
+                buf.writeVarInt(this.warningTime);
         }
     }
 

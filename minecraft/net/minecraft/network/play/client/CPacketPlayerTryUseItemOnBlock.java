@@ -62,7 +62,7 @@ public class CPacketPlayerTryUseItemOnBlock implements Packet<INetHandlerPlaySer
      */
     public void processPacket(INetHandlerPlayServer handler)
     {
-        handler.processRightClickBlock(this);
+        handler.processTryUseItemOnBlock(this);
     }
 
     public BlockPos getPos()

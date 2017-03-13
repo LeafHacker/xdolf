@@ -13,7 +13,7 @@ public class CommandListPlayers extends CommandBase
     /**
      * Gets the name of the command
      */
-    public String getCommandName()
+    public String getName()
     {
         return "list";
     }
@@ -29,7 +29,7 @@ public class CommandListPlayers extends CommandBase
     /**
      * Gets the usage string for the command.
      */
-    public String getCommandUsage(ICommandSender sender)
+    public String getUsage(ICommandSender sender)
     {
         return "commands.players.usage";
     }
@@ -40,8 +40,8 @@ public class CommandListPlayers extends CommandBase
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
     {
         int i = server.getCurrentPlayerCount();
-        sender.addChatMessage(new TextComponentTranslation("commands.players.list", new Object[] {Integer.valueOf(i), Integer.valueOf(server.getMaxPlayers())}));
-        sender.addChatMessage(new TextComponentString(server.getPlayerList().getFormattedListOfPlayers(args.length > 0 && "uuids".equalsIgnoreCase(args[0]))));
+        sender.sendMessage(new TextComponentTranslation("commands.players.list", new Object[] {Integer.valueOf(i), Integer.valueOf(server.getMaxPlayers())}));
+        sender.sendMessage(new TextComponentString(server.getPlayerList().getFormattedListOfPlayers(args.length > 0 && "uuids".equalsIgnoreCase(args[0]))));
         sender.setCommandStat(CommandResultStats.Type.QUERY_RESULT, i);
     }
 }

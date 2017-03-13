@@ -11,19 +11,19 @@ import net.minecraft.util.ResourceLocation;
 
 public class LegacyV2Adapter implements IResourcePack
 {
-    private final IResourcePack field_191383_a;
+    private final IResourcePack pack;
 
     public LegacyV2Adapter(IResourcePack p_i47182_1_)
     {
-        this.field_191383_a = p_i47182_1_;
+        this.pack = p_i47182_1_;
     }
 
     public InputStream getInputStream(ResourceLocation location) throws IOException
     {
-        return this.field_191383_a.getInputStream(this.func_191382_c(location));
+        return this.pack.getInputStream(this.fudgePath(location));
     }
 
-    private ResourceLocation func_191382_c(ResourceLocation p_191382_1_)
+    private ResourceLocation fudgePath(ResourceLocation p_191382_1_)
     {
         String s = p_191382_1_.getResourcePath();
 
@@ -49,27 +49,27 @@ public class LegacyV2Adapter implements IResourcePack
 
     public boolean resourceExists(ResourceLocation location)
     {
-        return this.field_191383_a.resourceExists(this.func_191382_c(location));
+        return this.pack.resourceExists(this.fudgePath(location));
     }
 
     public Set<String> getResourceDomains()
     {
-        return this.field_191383_a.getResourceDomains();
+        return this.pack.getResourceDomains();
     }
 
     @Nullable
     public <T extends IMetadataSection> T getPackMetadata(MetadataSerializer metadataSerializer, String metadataSectionName) throws IOException
     {
-        return this.field_191383_a.getPackMetadata(metadataSerializer, metadataSectionName);
+        return this.pack.getPackMetadata(metadataSerializer, metadataSectionName);
     }
 
     public BufferedImage getPackImage() throws IOException
     {
-        return this.field_191383_a.getPackImage();
+        return this.pack.getPackImage();
     }
 
     public String getPackName()
     {
-        return this.field_191383_a.getPackName();
+        return this.pack.getPackName();
     }
 }

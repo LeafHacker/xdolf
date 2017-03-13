@@ -28,8 +28,8 @@ public class TileEntityEndPortalRenderer extends TileEntitySpecialRenderer<TileE
         GlStateManager.getFloat(2982, MODELVIEW);
         GlStateManager.getFloat(2983, PROJECTION);
         double d0 = x * x + y * y + z * z;
-        int i = this.func_191286_a(d0);
-        float f = this.func_191287_c();
+        int i = this.getPasses(d0);
+        float f = this.getOffset();
 
         for (int j = 0; j < i; ++j)
         {
@@ -144,7 +144,7 @@ public class TileEntityEndPortalRenderer extends TileEntitySpecialRenderer<TileE
         GlStateManager.enableLighting();
     }
 
-    protected int func_191286_a(double p_191286_1_)
+    protected int getPasses(double p_191286_1_)
     {
         int i;
 
@@ -188,7 +188,7 @@ public class TileEntityEndPortalRenderer extends TileEntitySpecialRenderer<TileE
         return i;
     }
 
-    protected float func_191287_c()
+    protected float getOffset()
     {
         return 0.75F;
     }

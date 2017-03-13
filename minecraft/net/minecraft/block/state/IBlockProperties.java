@@ -48,7 +48,7 @@ public interface IBlockProperties
 
     boolean isFullCube();
 
-    boolean func_191057_i();
+    boolean hasCustomBreakingProgress();
 
     EnumBlockRenderType getRenderType();
 
@@ -95,7 +95,7 @@ public interface IBlockProperties
 
     boolean isFullyOpaque();
 
-    Vec3d func_191059_e(IBlockAccess p_191059_1_, BlockPos p_191059_2_);
+    Vec3d getOffset(IBlockAccess p_191059_1_, BlockPos p_191059_2_);
 
-    boolean func_191058_s();
+    boolean causesSuffocation();
 }

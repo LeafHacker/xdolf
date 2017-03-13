@@ -22,7 +22,7 @@ public abstract class WorldProvider
     public static final float[] MOON_PHASE_FACTORS = new float[] {1.0F, 0.75F, 0.5F, 0.25F, 0.0F, 0.25F, 0.5F, 0.75F};
 
     /** world object being used */
-    protected World worldObj;
+    protected World world;
     private WorldType terrainType;
     private String generatorSettings;
 
@@ -32,13 +32,13 @@ public abstract class WorldProvider
     /**
      * States whether the Hell world provider is used(true) or if the normal world provider is used(false)
      */
-    protected boolean isHellWorld;
+    protected boolean doesWaterVaporize;
 
     /**
      * A boolean that tells if a world does not have a sky. Used in calculating weather and skylight
      */
     protected boolean hasNoSky;
-    protected boolean field_191067_f;
+    protected boolean hasSkyLight;
 
     /** Light to brightness conversion table */
     protected final float[] lightBrightnessTable = new float[16];
@@ -49,12 +49,12 @@ public abstract class WorldProvider
     /**
      * associate an existing world with a World provider, and setup its lightbrightness table
      */
-    public final void registerWorld(World worldIn)
+    public final void setWorld(World worldIn)
     {
-        this.worldObj = worldIn;
+        this.world = worldIn;
         this.terrainType = worldIn.getWorldInfo().getTerrainType();
         this.generatorSettings = worldIn.getWorldInfo().getGeneratorOptions();
-        this.createBiomeProvider();
+        this.init();
         this.generateLightBrightnessTable();
     }
 
@@ -75,14 +75,14 @@ public abstract class WorldProvider
     /**
      * creates a new world chunk manager for WorldProvider
      */
-    protected void createBiomeProvider()
+    protected void init()
     {
-        this.field_191067_f = true;
-        WorldType worldtype = this.worldObj.getWorldInfo().getTerrainType();
+        this.hasSkyLight = true;
+        WorldType worldtype = this.world.getWorldInfo().getTerrainType();
 
         if (worldtype == WorldType.FLAT)
         {
-            FlatGeneratorInfo flatgeneratorinfo = FlatGeneratorInfo.createFlatGeneratorFromString(this.worldObj.getWorldInfo().getGeneratorOptions());
+            FlatGeneratorInfo flatgeneratorinfo = FlatGeneratorInfo.createFlatGeneratorFromString(this.world.getWorldInfo().getGeneratorOptions());
             this.biomeProvider = new BiomeProviderSingle(Biome.getBiome(flatgeneratorinfo.getBiome(), Biomes.DEFAULT));
         }
         else if (worldtype == WorldType.DEBUG_WORLD)
@@ -91,13 +91,13 @@ public abstract class WorldProvider
         }
         else
         {
-            this.biomeProvider = new BiomeProvider(this.worldObj.getWorldInfo());
+            this.biomeProvider = new BiomeProvider(this.world.getWorldInfo());
         }
     }
 
     public IChunkGenerator createChunkGenerator()
     {
-        return (IChunkGenerator)(this.terrainType == WorldType.FLAT ? new ChunkProviderFlat(this.worldObj, this.worldObj.getSeed(), this.worldObj.getWorldInfo().isMapFeaturesEnabled(), this.generatorSettings) : (this.terrainType == WorldType.DEBUG_WORLD ? new ChunkProviderDebug(this.worldObj) : (this.terrainType == WorldType.CUSTOMIZED ? new ChunkProviderOverworld(this.worldObj, this.worldObj.getSeed(), this.worldObj.getWorldInfo().isMapFeaturesEnabled(), this.generatorSettings) : new ChunkProviderOverworld(this.worldObj, this.worldObj.getSeed(), this.worldObj.getWorldInfo().isMapFeaturesEnabled(), this.generatorSettings))));
+        return (IChunkGenerator)(this.terrainType == WorldType.FLAT ? new ChunkProviderFlat(this.world, this.world.getSeed(), this.world.getWorldInfo().isMapFeaturesEnabled(), this.generatorSettings) : (this.terrainType == WorldType.DEBUG_WORLD ? new ChunkProviderDebug(this.world) : (this.terrainType == WorldType.CUSTOMIZED ? new ChunkProviderOverworld(this.world, this.world.getSeed(), this.world.getWorldInfo().isMapFeaturesEnabled(), this.generatorSettings) : new ChunkProviderOverworld(this.world, this.world.getSeed(), this.world.getWorldInfo().isMapFeaturesEnabled(), this.generatorSettings))));
     }
 
     /**
@@ -106,7 +106,7 @@ public abstract class WorldProvider
     public boolean canCoordinateBeSpawn(int x, int z)
     {
         BlockPos blockpos = new BlockPos(x, 0, z);
-        return this.worldObj.getBiome(blockpos).ignorePlayerSpawnSuitability() ? true : this.worldObj.getGroundAboveSeaLevel(blockpos).getBlock() == Blocks.GRASS;
+        return this.world.getBiome(blockpos).ignorePlayerSpawnSuitability() ? true : this.world.getGroundAboveSeaLevel(blockpos).getBlock() == Blocks.GRASS;
     }
 
     /**
@@ -218,7 +218,7 @@ public abstract class WorldProvider
 
     public int getAverageGroundLevel()
     {
-        return this.terrainType == WorldType.FLAT ? 4 : this.worldObj.getSeaLevel() + 1;
+        return this.terrainType == WorldType.FLAT ? 4 : this.world.getSeaLevel() + 1;
     }
 
     /**
@@ -246,15 +246,15 @@ public abstract class WorldProvider
 
     public boolean doesWaterVaporize()
     {
-        return this.isHellWorld;
+        return this.doesWaterVaporize;
     }
 
-    public boolean func_191066_m()
+    public boolean hasSkyLight()
     {
-        return this.field_191067_f;
+        return this.hasSkyLight;
     }
 
-    public boolean getHasNoSky()
+    public boolean hasNoSky()
     {
         return this.hasNoSky;
     }

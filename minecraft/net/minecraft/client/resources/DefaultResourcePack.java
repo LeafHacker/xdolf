@@ -13,6 +13,7 @@ import javax.annotation.Nullable;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.resources.data.IMetadataSection;
 import net.minecraft.client.resources.data.MetadataSerializer;
+import net.minecraft.src.ReflectorForge;
 import net.minecraft.util.ResourceLocation;
 
 public class DefaultResourcePack implements IResourcePack
@@ -59,15 +60,25 @@ public class DefaultResourcePack implements IResourcePack
     private InputStream getResourceStream(ResourceLocation location)
     {
         String s = "/assets/" + location.getResourceDomain() + "/" + location.getResourcePath();
+        InputStream inputstream = ReflectorForge.getOptiFineResourceStream(s);
 
-        try
+        if (inputstream != null)
         {
-            URL url = DefaultResourcePack.class.getResource(s);
-            return url != null && FolderResourcePack.func_191384_a(new File(url.getFile()), s) ? DefaultResourcePack.class.getResourceAsStream(s) : null;
+            return inputstream;
         }
-        catch (IOException var4)
+        else
         {
-            return DefaultResourcePack.class.getResourceAsStream(s);
+            String s1 = "/assets/" + location.getResourceDomain() + "/" + location.getResourcePath();
+
+            try
+            {
+                URL url = DefaultResourcePack.class.getResource(s1);
+                return url != null && FolderResourcePack.validatePath(new File(url.getFile()), s1) ? DefaultResourcePack.class.getResourceAsStream(s1) : null;
+            }
+            catch (IOException var6)
+            {
+                return DefaultResourcePack.class.getResourceAsStream(s1);
+            }
         }
     }
 
@@ -91,11 +102,11 @@ public class DefaultResourcePack implements IResourcePack
         }
         catch (RuntimeException var4)
         {
-            return (T)null;
+            return (T)((IMetadataSection)null);
         }
         catch (FileNotFoundException var5)
         {
-            return (T)null;
+            return (T)((IMetadataSection)null);
         }
     }
 

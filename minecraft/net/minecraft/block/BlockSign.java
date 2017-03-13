@@ -42,7 +42,7 @@ public class BlockSign extends BlockContainer
         return false;
     }
 
-    public boolean func_190946_v(IBlockState p_190946_1_)
+    public boolean hasCustomBreakingProgress(IBlockState state)
     {
         return true;
     }
@@ -89,7 +89,7 @@ public class BlockSign extends BlockContainer
         return new ItemStack(Items.SIGN);
     }
 
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing heldItem, float side, float hitX, float hitY)
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
     {
         if (worldIn.isRemote)
         {

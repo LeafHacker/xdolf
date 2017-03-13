@@ -26,9 +26,9 @@ public class MerchantRecipe
 
     public MerchantRecipe(NBTTagCompound tagCompound)
     {
-        this.itemToBuy = ItemStack.field_190927_a;
-        this.secondItemToBuy = ItemStack.field_190927_a;
-        this.itemToSell = ItemStack.field_190927_a;
+        this.itemToBuy = ItemStack.EMPTY;
+        this.secondItemToBuy = ItemStack.EMPTY;
+        this.itemToSell = ItemStack.EMPTY;
         this.readFromTags(tagCompound);
     }
 
@@ -39,9 +39,9 @@ public class MerchantRecipe
 
     public MerchantRecipe(ItemStack buy1, ItemStack buy2, ItemStack sell, int toolUsesIn, int maxTradeUsesIn)
     {
-        this.itemToBuy = ItemStack.field_190927_a;
-        this.secondItemToBuy = ItemStack.field_190927_a;
-        this.itemToSell = ItemStack.field_190927_a;
+        this.itemToBuy = ItemStack.EMPTY;
+        this.secondItemToBuy = ItemStack.EMPTY;
+        this.itemToSell = ItemStack.EMPTY;
         this.itemToBuy = buy1;
         this.secondItemToBuy = buy2;
         this.itemToSell = sell;
@@ -52,7 +52,7 @@ public class MerchantRecipe
 
     public MerchantRecipe(ItemStack buy1, ItemStack sell)
     {
-        this(buy1, ItemStack.field_190927_a, sell);
+        this(buy1, ItemStack.EMPTY, sell);
     }
 
     public MerchantRecipe(ItemStack buy1, Item sellItem)
@@ -81,7 +81,7 @@ public class MerchantRecipe
      */
     public boolean hasSecondItemToBuy()
     {
-        return !this.secondItemToBuy.func_190926_b();
+        return !this.secondItemToBuy.isEmpty();
     }
 
     /**
@@ -173,7 +173,7 @@ public class MerchantRecipe
         nbttagcompound.setTag("buy", this.itemToBuy.writeToNBT(new NBTTagCompound()));
         nbttagcompound.setTag("sell", this.itemToSell.writeToNBT(new NBTTagCompound()));
 
-        if (!this.secondItemToBuy.func_190926_b())
+        if (!this.secondItemToBuy.isEmpty())
         {
             nbttagcompound.setTag("buyB", this.secondItemToBuy.writeToNBT(new NBTTagCompound()));
         }

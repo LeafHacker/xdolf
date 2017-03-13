@@ -324,7 +324,7 @@ public class EntityBoat extends Entity
                 this.world.sendPacketToServer(new CPacketSteerBoat(this.getPaddleState(0), this.getPaddleState(1)));
             }
 
-            this.moveEntity(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
+            this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
         }
         else
         {
@@ -470,7 +470,7 @@ public class EntityBoat extends Entity
 
                         if (iblockstate.getMaterial() == Material.WATER)
                         {
-                            f = Math.max(f, BlockLiquid.func_190973_f(iblockstate, this.world, blockpos$pooledmutableblockpos));
+                            f = Math.max(f, BlockLiquid.getBlockLiquidHeight(iblockstate, this.world, blockpos$pooledmutableblockpos));
                         }
 
                         if (f >= 1.0F)
@@ -575,7 +575,7 @@ public class EntityBoat extends Entity
 
                         if (iblockstate.getMaterial() == Material.WATER)
                         {
-                            float f = BlockLiquid.func_190972_g(iblockstate, this.world, blockpos$pooledmutableblockpos);
+                            float f = BlockLiquid.getLiquidHeight(iblockstate, this.world, blockpos$pooledmutableblockpos);
                             this.waterLevel = Math.max((double)f, this.waterLevel);
                             flag |= axisalignedbb.minY < (double)f;
                         }
@@ -620,7 +620,7 @@ public class EntityBoat extends Entity
                         blockpos$pooledmutableblockpos.setPos(k1, l1, i2);
                         IBlockState iblockstate = this.world.getBlockState(blockpos$pooledmutableblockpos);
 
-                        if (iblockstate.getMaterial() == Material.WATER && d0 < (double)BlockLiquid.func_190972_g(iblockstate, this.world, blockpos$pooledmutableblockpos))
+                        if (iblockstate.getMaterial() == Material.WATER && d0 < (double)BlockLiquid.getLiquidHeight(iblockstate, this.world, blockpos$pooledmutableblockpos))
                         {
                             if (((Integer)iblockstate.getValue(BlockLiquid.LEVEL)).intValue() != 0)
                             {
@@ -826,7 +826,7 @@ public class EntityBoat extends Entity
         }
     }
 
-    public boolean processInitialInteract(EntityPlayer player, EnumHand stack)
+    public boolean processInitialInteract(EntityPlayer player, EnumHand hand)
     {
         if (player.isSneaking())
         {

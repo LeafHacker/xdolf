@@ -95,7 +95,7 @@ public class EntityEnderPearl extends EntityThrowable
                         EntityEndermite entityendermite = new EntityEndermite(this.world);
                         entityendermite.setSpawnedByPlayer(true);
                         entityendermite.setLocationAndAngles(entitylivingbase.posX, entitylivingbase.posY, entitylivingbase.posZ, entitylivingbase.rotationYaw, entitylivingbase.rotationPitch);
-                        this.world.spawnEntityInWorld(entityendermite);
+                        this.world.spawnEntity(entityendermite);
                     }
 
                     if (entitylivingbase.isRiding())
@@ -105,7 +105,7 @@ public class EntityEnderPearl extends EntityThrowable
 
                     entitylivingbase.setPositionAndUpdate(this.posX, this.posY, this.posZ);
                     entitylivingbase.fallDistance = 0.0F;
-                    entitylivingbase.attackEntityFrom(DamageSource.fall, 5.0F);
+                    entitylivingbase.attackEntityFrom(DamageSource.FALL, 5.0F);
                 }
             }
             else if (entitylivingbase != null)

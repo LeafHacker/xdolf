@@ -1,6 +1,5 @@
 package net.minecraft.client.gui;
 
-import com.darkcart.xdolf.Client;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;

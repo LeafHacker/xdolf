@@ -198,7 +198,7 @@ public class MapGenCaves extends MapGenBase
                                                     if (flag1 && p_180702_5_.getBlockState(j3, j2 - 1, i2).getBlock() == Blocks.DIRT)
                                                     {
                                                         blockpos$mutableblockpos.setPos(j3 + p_180702_3_ * 16, 0, i2 + p_180702_4_ * 16);
-                                                        p_180702_5_.setBlockState(j3, j2 - 1, i2, this.worldObj.getBiome(blockpos$mutableblockpos).topBlock.getBlock().getDefaultState());
+                                                        p_180702_5_.setBlockState(j3, j2 - 1, i2, this.world.getBiome(blockpos$mutableblockpos).topBlock.getBlock().getDefaultState());
                                                     }
                                                 }
                                             }

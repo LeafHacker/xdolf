@@ -137,7 +137,7 @@ public class EntityBlaze extends EntityMob
     {
         if (this.isWet())
         {
-            this.attackEntityFrom(DamageSource.drown, 1.0F);
+            this.attackEntityFrom(DamageSource.DROWN, 1.0F);
         }
 
         --this.heightOffsetUpdateTime;
@@ -285,7 +285,7 @@ public class EntityBlaze extends EntityMob
                         {
                             EntitySmallFireball entitysmallfireball = new EntitySmallFireball(this.blaze.world, this.blaze, d1 + this.blaze.getRNG().nextGaussian() * (double)f, d2, d3 + this.blaze.getRNG().nextGaussian() * (double)f);
                             entitysmallfireball.posY = this.blaze.posY + (double)(this.blaze.height / 2.0F) + 0.5D;
-                            this.blaze.world.spawnEntityInWorld(entitysmallfireball);
+                            this.blaze.world.spawnEntity(entitysmallfireball);
                         }
                     }
                 }

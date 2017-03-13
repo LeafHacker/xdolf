@@ -180,11 +180,11 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener
     public EntityPlayerMP(MinecraftServer server, WorldServer worldIn, GameProfile profile, PlayerInteractionManager interactionManagerIn)
     {
         super(worldIn, profile);
-        interactionManagerIn.thisPlayerMP = this;
+        interactionManagerIn.player = this;
         this.interactionManager = interactionManagerIn;
         BlockPos blockpos = worldIn.getSpawnPoint();
 
-        if (worldIn.provider.func_191066_m() && worldIn.getWorldInfo().getGameType() != GameType.ADVENTURE)
+        if (worldIn.provider.hasSkyLight() && worldIn.getWorldInfo().getGameType() != GameType.ADVENTURE)
         {
             int i = Math.max(0, server.getSpawnRadius(worldIn));
             int j = MathHelper.floor(worldIn.getWorldBorder().getClosestDistance((double)blockpos.getX(), (double)blockpos.getZ()));
@@ -364,7 +364,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener
             {
                 ItemStack itemstack = this.inventory.getStackInSlot(i);
 
-                if (!itemstack.func_190926_b() && itemstack.getItem().isMap())
+                if (!itemstack.isEmpty() && itemstack.getItem().isMap())
                 {
                     Packet<?> packet = ((ItemMapBase)itemstack.getItem()).createMapDataPacket(itemstack, this.world, this);
 
@@ -520,13 +520,13 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener
             }
             else
             {
-                this.mcServer.getPlayerList().sendChatMsg(this.getCombatTracker().getDeathMessage());
+                this.mcServer.getPlayerList().sendMessage(this.getCombatTracker().getDeathMessage());
             }
         }
 
         if (!this.world.getGameRules().getBoolean("keepInventory") && !this.isSpectator())
         {
-            this.func_190776_cN();
+            this.destroyVanishingCursedItems();
             this.inventory.dropAllItems();
         }
 
@@ -540,7 +540,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener
 
         if (entitylivingbase != null)
         {
-            EntityList.EntityEggInfo entitylist$entityegginfo = (EntityList.EntityEggInfo)EntityList.ENTITY_EGGS.get(EntityList.func_191301_a(entitylivingbase));
+            EntityList.EntityEggInfo entitylist$entityegginfo = (EntityList.EntityEggInfo)EntityList.ENTITY_EGGS.get(EntityList.getKey(entitylivingbase));
 
             if (entitylist$entityegginfo != null)
             {
@@ -570,7 +570,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener
         {
             boolean flag = this.mcServer.isDedicatedServer() && this.canPlayersAttack() && "fall".equals(source.damageType);
 
-            if (!flag && this.respawnInvulnerabilityTicks > 0 && source != DamageSource.outOfWorld)
+            if (!flag && this.respawnInvulnerabilityTicks > 0 && source != DamageSource.OUT_OF_WORLD)
             {
                 return false;
             }
@@ -696,7 +696,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener
         {
             this.addStat(StatList.SLEEP_IN_BED);
             Packet<?> packet = new SPacketUseBed(this, bedLocation);
-            this.getServerWorld().getEntityTracker().sendToAllTrackingEntity(this, packet);
+            this.getServerWorld().getEntityTracker().sendToTracking(this, packet);
             this.connection.setPlayerLocation(this.posX, this.posY, this.posZ, this.rotationYaw, this.rotationPitch);
             this.connection.sendPacket(packet);
         }
@@ -820,7 +820,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener
     {
         if (guiOwner instanceof ILootContainer && ((ILootContainer)guiOwner).getLootTable() != null && this.isSpectator())
         {
-            this.addChatComponentMessage((new TextComponentTranslation("container.spectatorCantOpen", new Object[0])).setStyle((new Style()).setColor(TextFormatting.RED)), true);
+            this.sendStatusMessage((new TextComponentTranslation("container.spectatorCantOpen", new Object[0])).setStyle((new Style()).setColor(TextFormatting.RED)), true);
         }
         else
         {
@@ -839,7 +839,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener
     {
         if (chestInventory instanceof ILootContainer && ((ILootContainer)chestInventory).getLootTable() != null && this.isSpectator())
         {
-            this.addChatComponentMessage((new TextComponentTranslation("container.spectatorCantOpen", new Object[0])).setStyle((new Style()).setColor(TextFormatting.RED)), true);
+            this.sendStatusMessage((new TextComponentTranslation("container.spectatorCantOpen", new Object[0])).setStyle((new Style()).setColor(TextFormatting.RED)), true);
         }
         else
         {
@@ -1088,9 +1088,9 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener
         this.lastHealth = -1.0E8F;
     }
 
-    public void addChatComponentMessage(ITextComponent chatComponent, boolean p_146105_2_)
+    public void sendStatusMessage(ITextComponent chatComponent, boolean actionBar)
     {
-        this.connection.sendPacket(new SPacketChat(chatComponent, (byte)(p_146105_2_ ? 2 : 0)));
+        this.connection.sendPacket(new SPacketChat(chatComponent, (byte)(actionBar ? 2 : 0)));
     }
 
     /**
@@ -1098,7 +1098,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener
      */
     protected void onItemUseFinish()
     {
-        if (!this.activeItemStack.func_190926_b() && this.isHandActive())
+        if (!this.activeItemStack.isEmpty() && this.isHandActive())
         {
             this.connection.sendPacket(new SPacketEntityStatus(this, (byte)9));
             super.onItemUseFinish();
@@ -1211,7 +1211,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener
     /**
      * Send a chat message to the CommandSender
      */
-    public void addChatMessage(ITextComponent component)
+    public void sendMessage(ITextComponent component)
     {
         this.connection.sendPacket(new SPacketChat(component));
     }
@@ -1219,7 +1219,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener
     /**
      * Returns {@code true} if the CommandSender is allowed to execute the command, {@code false} if not
      */
-    public boolean canCommandSenderUseCommand(int permLevel, String commandName)
+    public boolean canUseCommand(int permLevel, String commandName)
     {
         if ("seed".equals(commandName) && !this.mcServer.isDedicatedServer())
         {

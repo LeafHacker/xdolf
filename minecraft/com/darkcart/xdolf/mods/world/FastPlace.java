@@ -4,6 +4,7 @@ import org.lwjgl.input.Keyboard;
 
 import com.darkcart.xdolf.Client;
 import com.darkcart.xdolf.Module;
+import com.darkcart.xdolf.Wrapper;
 
 public class FastPlace extends Module {
 
@@ -11,7 +12,7 @@ public class FastPlace extends Module {
 	public void tick() {
 		if(isToggled())
         {
-			Client.mc.rightClickDelayTimer = 0;
+			Wrapper.getMinecraft().rightClickDelayTimer = 0;
         }
 	}
 	

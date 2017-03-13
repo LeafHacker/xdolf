@@ -15,7 +15,7 @@ import net.minecraft.world.WorldServer;
 public class LootContext
 {
     private final float luck;
-    private final WorldServer worldObj;
+    private final WorldServer world;
     private final LootTableManager lootTableManager;
     @Nullable
     private final Entity lootedEntity;
@@ -28,7 +28,7 @@ public class LootContext
     public LootContext(float luckIn, WorldServer worldIn, LootTableManager lootTableManagerIn, @Nullable Entity lootedEntityIn, @Nullable EntityPlayer playerIn, @Nullable DamageSource damageSourceIn)
     {
         this.luck = luckIn;
-        this.worldObj = worldIn;
+        this.world = worldIn;
         this.lootTableManager = lootTableManagerIn;
         this.lootedEntity = lootedEntityIn;
         this.player = playerIn;
@@ -94,7 +94,7 @@ public class LootContext
 
     public static class Builder
     {
-        private final WorldServer worldObj;
+        private final WorldServer world;
         private float luck;
         private Entity lootedEntity;
         private EntityPlayer player;
@@ -102,7 +102,7 @@ public class LootContext
 
         public Builder(WorldServer worldIn)
         {
-            this.worldObj = worldIn;
+            this.world = worldIn;
         }
 
         public LootContext.Builder withLuck(float luckIn)
@@ -131,7 +131,7 @@ public class LootContext
 
         public LootContext build()
         {
-            return new LootContext(this.luck, this.worldObj, this.worldObj.getLootTableManager(), this.lootedEntity, this.player, this.damageSource);
+            return new LootContext(this.luck, this.world, this.world.getLootTableManager(), this.lootedEntity, this.player, this.damageSource);
         }
     }
 

@@ -126,7 +126,7 @@ public class GuiBeacon extends GuiContainer
             }
         }
 
-        this.beaconConfirmButton.enabled = !this.tileBeacon.getStackInSlot(0).func_190926_b() && potion != null;
+        this.beaconConfirmButton.enabled = !this.tileBeacon.getStackInSlot(0).isEmpty() && potion != null;
     }
 
     /**

@@ -69,7 +69,7 @@ public class WorldGenSpikes extends WorldGenerator
             entityendercrystal.setBeamTarget(this.beamTarget);
             entityendercrystal.setEntityInvulnerable(this.crystalInvulnerable);
             entityendercrystal.setLocationAndAngles((double)((float)position.getX() + 0.5F), (double)(this.spike.getHeight() + 1), (double)((float)position.getZ() + 0.5F), rand.nextFloat() * 360.0F, 0.0F);
-            worldIn.spawnEntityInWorld(entityendercrystal);
+            worldIn.spawnEntity(entityendercrystal);
             this.setBlockAndNotifyAdequately(worldIn, new BlockPos(position.getX(), this.spike.getHeight(), position.getZ()), Blocks.BEDROCK.getDefaultState());
             return true;
         }

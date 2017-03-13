@@ -39,7 +39,7 @@ public class EnchantmentBindingCurse extends Enchantment
         return true;
     }
 
-    public boolean func_190936_d()
+    public boolean isCurse()
     {
         return true;
     }

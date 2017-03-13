@@ -101,7 +101,7 @@ public class WorldGenMinable extends WorldGenerator
             if (p_apply_1_ != null && p_apply_1_.getBlock() == Blocks.STONE)
             {
                 BlockStone.EnumType blockstone$enumtype = (BlockStone.EnumType)p_apply_1_.getValue(BlockStone.VARIANT);
-                return blockstone$enumtype.func_190912_e();
+                return blockstone$enumtype.isNatural();
             }
             else
             {

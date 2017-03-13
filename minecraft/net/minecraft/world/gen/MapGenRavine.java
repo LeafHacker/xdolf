@@ -185,7 +185,7 @@ public class MapGenRavine extends MapGenBase
                                                     if (flag && p_180707_5_.getBlockState(j3, j2 - 1, i2).getBlock() == Blocks.DIRT)
                                                     {
                                                         blockpos$mutableblockpos.setPos(j3 + p_180707_3_ * 16, 0, i2 + p_180707_4_ * 16);
-                                                        p_180707_5_.setBlockState(j3, j2 - 1, i2, this.worldObj.getBiome(blockpos$mutableblockpos).topBlock);
+                                                        p_180707_5_.setBlockState(j3, j2 - 1, i2, this.world.getBiome(blockpos$mutableblockpos).topBlock);
                                                     }
                                                 }
                                             }

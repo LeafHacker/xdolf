@@ -50,7 +50,7 @@ public class GuiEnchantment extends GuiContainer
     public float flipA;
     public float open;
     public float oOpen;
-    private ItemStack last = ItemStack.field_190927_a;
+    private ItemStack last = ItemStack.EMPTY;
     private final IWorldNameable nameable;
 
     public GuiEnchantment(InventoryPlayer inventory, World worldIn, IWorldNameable nameable)

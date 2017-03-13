@@ -24,9 +24,9 @@ public class RenderIronGolem extends RenderLiving<EntityIronGolem>
         return IRON_GOLEM_TEXTURES;
     }
 
-    protected void rotateCorpse(EntityIronGolem entityLiving, float p_77043_2_, float p_77043_3_, float partialTicks)
+    protected void applyRotations(EntityIronGolem entityLiving, float p_77043_2_, float p_77043_3_, float partialTicks)
     {
-        super.rotateCorpse(entityLiving, p_77043_2_, p_77043_3_, partialTicks);
+        super.applyRotations(entityLiving, p_77043_2_, p_77043_3_, partialTicks);
 
         if ((double)entityLiving.limbSwingAmount >= 0.01D)
         {

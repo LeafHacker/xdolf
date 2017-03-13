@@ -7,10 +7,14 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.imageio.ImageIO;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.shader.Framebuffer;
+import net.minecraft.src.Config;
+import net.minecraft.src.Reflector;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
@@ -51,7 +55,33 @@ public class ScreenShotHelper
         {
             File file1 = new File(gameDirectory, "screenshots");
             file1.mkdir();
+            Minecraft minecraft = Minecraft.getMinecraft();
+            int i = Config.getGameSettings().guiScale;
+            ScaledResolution scaledresolution = new ScaledResolution(minecraft);
+            int j = scaledresolution.getScaleFactor();
+            int k = Config.getScreenshotSize();
+            boolean flag = OpenGlHelper.isFramebufferEnabled() && k > 1;
+
+            if (flag)
+            {
+                Config.getGameSettings().guiScale = j * k;
+                resize(width * k, height * k);
+                GlStateManager.pushMatrix();
+                GlStateManager.clear(16640);
+                minecraft.getFramebuffer().bindFramebuffer(true);
+                minecraft.entityRenderer.updateCameraAndRender(minecraft.getRenderPartialTicks(), System.nanoTime());
+            }
+
             BufferedImage bufferedimage = createScreenshot(width, height, buffer);
+
+            if (flag)
+            {
+                minecraft.getFramebuffer().unbindFramebuffer();
+                GlStateManager.popMatrix();
+                Config.getGameSettings().guiScale = i;
+                resize(width, height);
+            }
+
             File file2;
 
             if (screenshotName == null)
@@ -63,10 +93,36 @@ public class ScreenShotHelper
                 file2 = new File(file1, screenshotName);
             }
 
+            file2 = file2.getCanonicalFile();
+            Object object = null;
+
+            if (Reflector.ForgeHooksClient_onScreenshot.exists())
+            {
+                object = Reflector.call(Reflector.ForgeHooksClient_onScreenshot, new Object[] {bufferedimage, file2});
+
+                if (Reflector.callBoolean(object, Reflector.Event_isCanceled, new Object[0]))
+                {
+                    return (ITextComponent)Reflector.call(object, Reflector.ScreenshotEvent_getCancelMessage, new Object[0]);
+                }
+
+                file2 = (File)Reflector.call(object, Reflector.ScreenshotEvent_getScreenshotFile, new Object[0]);
+            }
+
             ImageIO.write(bufferedimage, "png", (File)file2);
             ITextComponent itextcomponent = new TextComponentString(file2.getName());
             itextcomponent.getStyle().setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, file2.getAbsolutePath()));
             itextcomponent.getStyle().setUnderlined(Boolean.valueOf(true));
+
+            if (object != null)
+            {
+                ITextComponent itextcomponent1 = (ITextComponent)Reflector.call(object, Reflector.ScreenshotEvent_getResultMessage, new Object[0]);
+
+                if (itextcomponent1 != null)
+                {
+                    return itextcomponent1;
+                }
+            }
+
             return new TextComponentTranslation("screenshot.success", new Object[] {itextcomponent});
         }
         catch (Exception exception)
@@ -153,6 +209,32 @@ public class ScreenShotHelper
             }
 
             ++i;
+        }
+    }
+
+    private static void resize(int p_resize_0_, int p_resize_1_)
+    {
+        Minecraft minecraft = Minecraft.getMinecraft();
+        minecraft.displayWidth = Math.max(1, p_resize_0_);
+        minecraft.displayHeight = Math.max(1, p_resize_1_);
+
+        if (minecraft.currentScreen != null)
+        {
+            ScaledResolution scaledresolution = new ScaledResolution(minecraft);
+            minecraft.currentScreen.onResize(minecraft, scaledresolution.getScaledWidth(), scaledresolution.getScaledHeight());
+        }
+
+        updateFramebufferSize();
+    }
+
+    private static void updateFramebufferSize()
+    {
+        Minecraft minecraft = Minecraft.getMinecraft();
+        minecraft.getFramebuffer().createBindFramebuffer(minecraft.displayWidth, minecraft.displayHeight);
+
+        if (minecraft.entityRenderer != null)
+        {
+            minecraft.entityRenderer.updateShaderGroupSize(minecraft.displayWidth, minecraft.displayHeight);
         }
     }
 }

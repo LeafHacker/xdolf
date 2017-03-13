@@ -25,7 +25,7 @@ public class ZombieProfToType implements IFixableData
                 {
                     try
                     {
-                        i = this.func_191277_a(compound.getInteger("VillagerProfession"));
+                        i = this.getVillagerProfession(compound.getInteger("VillagerProfession"));
                     }
                     catch (RuntimeException var4)
                     {
@@ -35,7 +35,7 @@ public class ZombieProfToType implements IFixableData
 
                 if (i == -1)
                 {
-                    i = this.func_191277_a(RANDOM.nextInt(6));
+                    i = this.getVillagerProfession(RANDOM.nextInt(6));
                 }
 
                 compound.setInteger("ZombieType", i);
@@ -47,7 +47,7 @@ public class ZombieProfToType implements IFixableData
         return compound;
     }
 
-    private int func_191277_a(int p_191277_1_)
+    private int getVillagerProfession(int p_191277_1_)
     {
         return p_191277_1_ >= 0 && p_191277_1_ < 6 ? p_191277_1_ : -1;
     }

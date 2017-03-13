@@ -71,7 +71,7 @@ public abstract class Enchantment
         {
             ItemStack itemstack = entityIn.getItemStackFromSlot(entityequipmentslot);
 
-            if (!itemstack.func_190926_b())
+            if (!itemstack.isEmpty())
             {
                 list.add(itemstack);
             }
@@ -170,7 +170,7 @@ public abstract class Enchantment
     {
         String s = I18n.translateToLocal(this.getName());
 
-        if (this.func_190936_d())
+        if (this.isCurse())
         {
             s = TextFormatting.RED + s;
         }
@@ -206,7 +206,7 @@ public abstract class Enchantment
         return false;
     }
 
-    public boolean func_190936_d()
+    public boolean isCurse()
     {
         return false;
     }

@@ -31,14 +31,14 @@ public abstract class AbstractAttributeMap
      */
     public IAttributeInstance registerAttribute(IAttribute attribute)
     {
-        if (this.attributesByName.containsKey(attribute.getAttributeUnlocalizedName()))
+        if (this.attributesByName.containsKey(attribute.getName()))
         {
             throw new IllegalArgumentException("Attribute is already registered!");
         }
         else
         {
             IAttributeInstance iattributeinstance = this.createInstance(attribute);
-            this.attributesByName.put(attribute.getAttributeUnlocalizedName(), iattributeinstance);
+            this.attributesByName.put(attribute.getName(), iattributeinstance);
             this.attributes.put(attribute, iattributeinstance);
 
             for (IAttribute iattribute = attribute.getParent(); iattribute != null; iattribute = iattribute.getParent())

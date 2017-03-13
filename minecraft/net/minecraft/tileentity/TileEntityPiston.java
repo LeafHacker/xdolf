@@ -28,7 +28,7 @@ public class TileEntityPiston extends TileEntity implements ITickable
     /** if this piston is extending or not */
     private boolean extending;
     private boolean shouldHeadBeRendered;
-    private static final ThreadLocal<Boolean> field_190613_i = new ThreadLocal<Boolean>()
+    private static final ThreadLocal<Boolean> MOVING_ENTITY = new ThreadLocal<Boolean>()
     {
         protected Boolean initialValue()
         {
@@ -127,11 +127,11 @@ public class TileEntityPiston extends TileEntity implements ITickable
     public AxisAlignedBB getAABB(IBlockAccess p_184319_1_, BlockPos p_184319_2_, float p_184319_3_)
     {
         p_184319_3_ = this.getExtendedProgress(p_184319_3_);
-        IBlockState iblockstate = this.func_190606_j();
+        IBlockState iblockstate = this.getCollisionRelatedBlockState();
         return iblockstate.getBoundingBox(p_184319_1_, p_184319_2_).offset((double)(p_184319_3_ * (float)this.pistonFacing.getFrontOffsetX()), (double)(p_184319_3_ * (float)this.pistonFacing.getFrontOffsetY()), (double)(p_184319_3_ * (float)this.pistonFacing.getFrontOffsetZ()));
     }
 
-    private IBlockState func_190606_j()
+    private IBlockState getCollisionRelatedBlockState()
     {
         return !this.isExtending() && this.shouldPistonHeadBeRendered() ? Blocks.PISTON_HEAD.getDefaultState().withProperty(BlockPistonExtension.TYPE, this.pistonState.getBlock() == Blocks.STICKY_PISTON ? BlockPistonExtension.EnumPistonType.STICKY : BlockPistonExtension.EnumPistonType.DEFAULT).withProperty(BlockPistonExtension.FACING, this.pistonState.getValue(BlockPistonBase.FACING)) : this.pistonState;
     }
@@ -141,12 +141,12 @@ public class TileEntityPiston extends TileEntity implements ITickable
         EnumFacing enumfacing = this.extending ? this.pistonFacing : this.pistonFacing.getOpposite();
         double d0 = (double)(p_184322_1_ - this.progress);
         List<AxisAlignedBB> list = Lists.<AxisAlignedBB>newArrayList();
-        this.func_190606_j().addCollisionBoxToList(this.world, BlockPos.ORIGIN, new AxisAlignedBB(BlockPos.ORIGIN), list, (Entity)null);
+        this.getCollisionRelatedBlockState().addCollisionBoxToList(this.world, BlockPos.ORIGIN, new AxisAlignedBB(BlockPos.ORIGIN), list, (Entity)null);
 
         if (!((List)list).isEmpty())
         {
-            AxisAlignedBB axisalignedbb = this.func_190607_a(new AxisAlignedBB(BlockPos.ORIGIN));
-            List<Entity> list1 = this.world.getEntitiesWithinAABBExcludingEntity((Entity)null, this.func_190610_a(axisalignedbb, enumfacing, d0).union(axisalignedbb));
+            AxisAlignedBB axisalignedbb = this.moveByPositionAndProgress(new AxisAlignedBB(BlockPos.ORIGIN));
+            List<Entity> list1 = this.world.getEntitiesWithinAABBExcludingEntity((Entity)null, this.getMovementArea(axisalignedbb, enumfacing, d0).union(axisalignedbb));
 
             if (!list1.isEmpty())
             {
@@ -179,12 +179,12 @@ public class TileEntityPiston extends TileEntity implements ITickable
 
                         for (int j = 0; j < ((List)list).size(); ++j)
                         {
-                            AxisAlignedBB axisalignedbb1 = this.func_190610_a(this.func_190607_a((AxisAlignedBB)list.get(j)), enumfacing, d0);
+                            AxisAlignedBB axisalignedbb1 = this.getMovementArea(this.moveByPositionAndProgress((AxisAlignedBB)list.get(j)), enumfacing, d0);
                             AxisAlignedBB axisalignedbb2 = entity.getEntityBoundingBox();
 
                             if (axisalignedbb1.intersectsWith(axisalignedbb2))
                             {
-                                d1 = Math.max(d1, this.func_190612_a(axisalignedbb1, enumfacing, axisalignedbb2));
+                                d1 = Math.max(d1, this.getMovement(axisalignedbb1, enumfacing, axisalignedbb2));
 
                                 if (d1 >= d0)
                                 {
@@ -196,13 +196,13 @@ public class TileEntityPiston extends TileEntity implements ITickable
                         if (d1 > 0.0D)
                         {
                             d1 = Math.min(d1, d0) + 0.01D;
-                            field_190613_i.set(Boolean.valueOf(true));
-                            entity.moveEntity(MoverType.PISTON, d1 * (double)enumfacing.getFrontOffsetX(), d1 * (double)enumfacing.getFrontOffsetY(), d1 * (double)enumfacing.getFrontOffsetZ());
-                            field_190613_i.set(Boolean.valueOf(false));
+                            MOVING_ENTITY.set(Boolean.valueOf(true));
+                            entity.move(MoverType.PISTON, d1 * (double)enumfacing.getFrontOffsetX(), d1 * (double)enumfacing.getFrontOffsetY(), d1 * (double)enumfacing.getFrontOffsetZ());
+                            MOVING_ENTITY.set(Boolean.valueOf(false));
 
                             if (!this.extending && this.shouldHeadBeRendered)
                             {
-                                this.func_190605_a(entity, enumfacing);
+                                this.fixEntityWithinPistonBase(entity, enumfacing);
                             }
                         }
                     }
@@ -211,29 +211,29 @@ public class TileEntityPiston extends TileEntity implements ITickable
         }
     }
 
-    private double func_190612_a(AxisAlignedBB p_190612_1_, EnumFacing p_190612_2_, AxisAlignedBB p_190612_3_)
+    private double getMovement(AxisAlignedBB p_190612_1_, EnumFacing p_190612_2_, AxisAlignedBB p_190612_3_)
     {
         switch (p_190612_2_.getAxis())
         {
             case X:
-                return func_190611_b(p_190612_1_, p_190612_2_, p_190612_3_);
+                return getDeltaX(p_190612_1_, p_190612_2_, p_190612_3_);
 
             case Y:
             default:
-                return func_190608_c(p_190612_1_, p_190612_2_, p_190612_3_);
+                return getDeltaY(p_190612_1_, p_190612_2_, p_190612_3_);
 
             case Z:
-                return func_190604_d(p_190612_1_, p_190612_2_, p_190612_3_);
+                return getDeltaZ(p_190612_1_, p_190612_2_, p_190612_3_);
         }
     }
 
-    private AxisAlignedBB func_190607_a(AxisAlignedBB p_190607_1_)
+    private AxisAlignedBB moveByPositionAndProgress(AxisAlignedBB p_190607_1_)
     {
         double d0 = (double)this.getExtendedProgress(this.progress);
         return p_190607_1_.offset((double)this.pos.getX() + d0 * (double)this.pistonFacing.getFrontOffsetX(), (double)this.pos.getY() + d0 * (double)this.pistonFacing.getFrontOffsetY(), (double)this.pos.getZ() + d0 * (double)this.pistonFacing.getFrontOffsetZ());
     }
 
-    private AxisAlignedBB func_190610_a(AxisAlignedBB p_190610_1_, EnumFacing p_190610_2_, double p_190610_3_)
+    private AxisAlignedBB getMovementArea(AxisAlignedBB p_190610_1_, EnumFacing p_190610_2_, double p_190610_3_)
     {
         double d0 = p_190610_3_ * (double)p_190610_2_.getAxisDirection().getOffset();
         double d1 = Math.min(d0, 0.0D);
@@ -262,7 +262,7 @@ public class TileEntityPiston extends TileEntity implements ITickable
         }
     }
 
-    private void func_190605_a(Entity p_190605_1_, EnumFacing p_190605_2_)
+    private void fixEntityWithinPistonBase(Entity p_190605_1_, EnumFacing p_190605_2_)
     {
         AxisAlignedBB axisalignedbb = p_190605_1_.getEntityBoundingBox();
         AxisAlignedBB axisalignedbb1 = Block.FULL_BLOCK_AABB.offset(this.pos);
@@ -270,29 +270,29 @@ public class TileEntityPiston extends TileEntity implements ITickable
         if (axisalignedbb.intersectsWith(axisalignedbb1))
         {
             EnumFacing enumfacing = p_190605_2_.getOpposite();
-            double d0 = this.func_190612_a(axisalignedbb1, enumfacing, axisalignedbb) + 0.01D;
-            double d1 = this.func_190612_a(axisalignedbb1, enumfacing, axisalignedbb.func_191500_a(axisalignedbb1)) + 0.01D;
+            double d0 = this.getMovement(axisalignedbb1, enumfacing, axisalignedbb) + 0.01D;
+            double d1 = this.getMovement(axisalignedbb1, enumfacing, axisalignedbb.intersect(axisalignedbb1)) + 0.01D;
 
             if (Math.abs(d0 - d1) < 0.01D)
             {
-                field_190613_i.set(Boolean.valueOf(true));
-                p_190605_1_.moveEntity(MoverType.PISTON, d0 * (double)enumfacing.getFrontOffsetX(), d0 * (double)enumfacing.getFrontOffsetY(), d0 * (double)enumfacing.getFrontOffsetZ());
-                field_190613_i.set(Boolean.valueOf(false));
+                MOVING_ENTITY.set(Boolean.valueOf(true));
+                p_190605_1_.move(MoverType.PISTON, d0 * (double)enumfacing.getFrontOffsetX(), d0 * (double)enumfacing.getFrontOffsetY(), d0 * (double)enumfacing.getFrontOffsetZ());
+                MOVING_ENTITY.set(Boolean.valueOf(false));
             }
         }
     }
 
-    private static double func_190611_b(AxisAlignedBB p_190611_0_, EnumFacing p_190611_1_, AxisAlignedBB p_190611_2_)
+    private static double getDeltaX(AxisAlignedBB p_190611_0_, EnumFacing p_190611_1_, AxisAlignedBB p_190611_2_)
     {
         return p_190611_1_.getAxisDirection() == EnumFacing.AxisDirection.POSITIVE ? p_190611_0_.maxX - p_190611_2_.minX : p_190611_2_.maxX - p_190611_0_.minX;
     }
 
-    private static double func_190608_c(AxisAlignedBB p_190608_0_, EnumFacing p_190608_1_, AxisAlignedBB p_190608_2_)
+    private static double getDeltaY(AxisAlignedBB p_190608_0_, EnumFacing p_190608_1_, AxisAlignedBB p_190608_2_)
     {
         return p_190608_1_.getAxisDirection() == EnumFacing.AxisDirection.POSITIVE ? p_190608_0_.maxY - p_190608_2_.minY : p_190608_2_.maxY - p_190608_0_.minY;
     }
 
-    private static double func_190604_d(AxisAlignedBB p_190604_0_, EnumFacing p_190604_1_, AxisAlignedBB p_190604_2_)
+    private static double getDeltaZ(AxisAlignedBB p_190604_0_, EnumFacing p_190604_1_, AxisAlignedBB p_190604_2_)
     {
         return p_190604_1_.getAxisDirection() == EnumFacing.AxisDirection.POSITIVE ? p_190604_0_.maxZ - p_190604_2_.minZ : p_190604_2_.maxZ - p_190604_0_.minZ;
     }
@@ -312,7 +312,7 @@ public class TileEntityPiston extends TileEntity implements ITickable
             if (this.world.getBlockState(this.pos).getBlock() == Blocks.PISTON_EXTENSION)
             {
                 this.world.setBlockState(this.pos, this.pistonState, 3);
-                this.world.func_190524_a(this.pos, this.pistonState.getBlock(), this.pos);
+                this.world.neighborChanged(this.pos, this.pistonState.getBlock(), this.pos);
             }
         }
     }
@@ -332,7 +332,7 @@ public class TileEntityPiston extends TileEntity implements ITickable
             if (this.world.getBlockState(this.pos).getBlock() == Blocks.PISTON_EXTENSION)
             {
                 this.world.setBlockState(this.pos, this.pistonState, 3);
-                this.world.func_190524_a(this.pos, this.pistonState.getBlock(), this.pos);
+                this.world.neighborChanged(this.pos, this.pistonState.getBlock(), this.pos);
             }
         }
         else
@@ -373,14 +373,14 @@ public class TileEntityPiston extends TileEntity implements ITickable
         return compound;
     }
 
-    public void func_190609_a(World p_190609_1_, BlockPos p_190609_2_, AxisAlignedBB p_190609_3_, List<AxisAlignedBB> p_190609_4_, @Nullable Entity p_190609_5_)
+    public void addCollissionAABBs(World p_190609_1_, BlockPos p_190609_2_, AxisAlignedBB p_190609_3_, List<AxisAlignedBB> p_190609_4_, @Nullable Entity p_190609_5_)
     {
         if (!this.isExtending() && this.shouldPistonHeadBeRendered())
         {
             this.pistonState.withProperty(BlockPistonBase.EXTENDED, Boolean.valueOf(true)).addCollisionBoxToList(p_190609_1_, p_190609_2_, p_190609_3_, p_190609_4_, p_190609_5_);
         }
 
-        if ((double)this.progress >= 1.0D || !((Boolean)field_190613_i.get()).booleanValue())
+        if ((double)this.progress >= 1.0D || !((Boolean)MOVING_ENTITY.get()).booleanValue())
         {
             int i = p_190609_4_.size();
             IBlockState iblockstate;

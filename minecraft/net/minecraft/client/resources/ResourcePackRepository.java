@@ -55,7 +55,7 @@ public class ResourcePackRepository
         }
     };
     private static final Pattern SHA1 = Pattern.compile("^[a-fA-F0-9]{40}$");
-    private static final ResourceLocation field_191400_f = new ResourceLocation("textures/misc/unknown_pack.png");
+    private static final ResourceLocation UNKNOWN_PACK_TEXTURE = new ResourceLocation("textures/misc/unknown_pack.png");
     private final File dirResourcepacks;
     public final IResourcePack rprDefaultResourcePack;
     private final File dirServerResourcepacks;
@@ -126,7 +126,7 @@ public class ResourcePackRepository
         return this.dirResourcepacks.isDirectory() ? Arrays.asList(this.dirResourcepacks.listFiles(RESOURCE_PACK_FILTER)) : Collections.<File>emptyList();
     }
 
-    private IResourcePack func_191399_b(File p_191399_1_)
+    private IResourcePack getResourcePack(File p_191399_1_)
     {
         IResourcePack iresourcepack;
 
@@ -431,7 +431,7 @@ public class ResourcePackRepository
 
         private Entry(File resourcePackFileIn)
         {
-            this((IResourcePack)ResourcePackRepository.this.func_191399_b(resourcePackFileIn));
+            this((IResourcePack)ResourcePackRepository.this.getResourcePack(resourcePackFileIn));
         }
 
         private Entry(IResourcePack reResourcePackIn)
@@ -462,7 +462,7 @@ public class ResourcePackRepository
             {
                 try
                 {
-                    bufferedimage = TextureUtil.readBufferedImage(Minecraft.getMinecraft().getResourceManager().getResource(ResourcePackRepository.field_191400_f).getInputStream());
+                    bufferedimage = TextureUtil.readBufferedImage(Minecraft.getMinecraft().getResourceManager().getResource(ResourcePackRepository.UNKNOWN_PACK_TEXTURE).getInputStream());
                 }
                 catch (IOException ioexception)
                 {

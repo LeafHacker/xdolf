@@ -26,7 +26,7 @@ import org.apache.commons.lang3.StringUtils;
 
 public class TileEntityItemStackRenderer
 {
-    private static final TileEntityShulkerBox[] field_191274_b = new TileEntityShulkerBox[16];
+    private static final TileEntityShulkerBox[] SHULKER_BOXES = new TileEntityShulkerBox[16];
     public static TileEntityItemStackRenderer instance;
     private final TileEntityChest chestBasic = new TileEntityChest(BlockChest.Type.BASIC);
     private final TileEntityChest chestTrap = new TileEntityChest(BlockChest.Type.TRAP);
@@ -101,7 +101,7 @@ public class TileEntityItemStackRenderer
         }
         else if (Block.getBlockFromItem(item) instanceof BlockShulkerBox)
         {
-            TileEntityRendererDispatcher.instance.renderTileEntityAt(field_191274_b[BlockShulkerBox.func_190955_b(item).getMetadata()], 0.0D, 0.0D, 0.0D, 0.0F);
+            TileEntityRendererDispatcher.instance.renderTileEntityAt(SHULKER_BOXES[BlockShulkerBox.getColorFromItem(item).getMetadata()], 0.0D, 0.0D, 0.0D, 0.0F);
         }
         else
         {
@@ -113,7 +113,7 @@ public class TileEntityItemStackRenderer
     {
         for (EnumDyeColor enumdyecolor : EnumDyeColor.values())
         {
-            field_191274_b[enumdyecolor.getMetadata()] = new TileEntityShulkerBox(enumdyecolor);
+            SHULKER_BOXES[enumdyecolor.getMetadata()] = new TileEntityShulkerBox(enumdyecolor);
         }
 
         instance = new TileEntityItemStackRenderer();

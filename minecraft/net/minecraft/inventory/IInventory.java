@@ -11,7 +11,7 @@ public interface IInventory extends IWorldNameable
      */
     int getSizeInventory();
 
-    boolean func_191420_l();
+    boolean isEmpty();
 
     /**
      * Returns the stack in the given slot.

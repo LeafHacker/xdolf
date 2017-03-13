@@ -28,7 +28,7 @@ public class CPacketChatMessage implements Packet<INetHandlerPlayServer>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.message = buf.readStringFromBuffer(256);
+        this.message = buf.readString(256);
     }
 
     /**

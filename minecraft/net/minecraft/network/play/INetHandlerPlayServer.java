@@ -137,12 +137,12 @@ public interface INetHandlerPlayServer extends INetHandler
 
     void processUpdateSign(CPacketUpdateSign packetIn);
 
-    void processRightClickBlock(CPacketPlayerTryUseItemOnBlock packetIn);
+    void processTryUseItemOnBlock(CPacketPlayerTryUseItemOnBlock packetIn);
 
     /**
-     * Processes block placement and block activation (anvil, furnace, etc.)
+     * Called when a client is using an item while not pointing at a block, but simply using an item
      */
-    void processPlayerBlockPlacement(CPacketPlayerTryUseItem packetIn);
+    void processTryUseItem(CPacketPlayerTryUseItem packetIn);
 
     void handleSpectate(CPacketSpectate packetIn);
 

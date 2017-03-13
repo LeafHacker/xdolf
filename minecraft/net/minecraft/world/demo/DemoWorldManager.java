@@ -27,13 +27,13 @@ public class DemoWorldManager extends PlayerInteractionManager
     {
         super.updateBlockRemoving();
         ++this.gameModeTicks;
-        long i = this.theWorld.getTotalWorldTime();
+        long i = this.world.getTotalWorldTime();
         long j = i / 24000L + 1L;
 
         if (!this.displayedIntro && this.gameModeTicks > 20)
         {
             this.displayedIntro = true;
-            this.thisPlayerMP.connection.sendPacket(new SPacketChangeGameState(5, 0.0F));
+            this.player.connection.sendPacket(new SPacketChangeGameState(5, 0.0F));
         }
 
         this.demoTimeExpired = i > 120500L;
@@ -47,27 +47,27 @@ public class DemoWorldManager extends PlayerInteractionManager
         {
             if (j <= 6L)
             {
-                this.thisPlayerMP.addChatMessage(new TextComponentTranslation("demo.day." + j, new Object[0]));
+                this.player.sendMessage(new TextComponentTranslation("demo.day." + j, new Object[0]));
             }
         }
         else if (j == 1L)
         {
             if (i == 100L)
             {
-                this.thisPlayerMP.connection.sendPacket(new SPacketChangeGameState(5, 101.0F));
+                this.player.connection.sendPacket(new SPacketChangeGameState(5, 101.0F));
             }
             else if (i == 175L)
             {
-                this.thisPlayerMP.connection.sendPacket(new SPacketChangeGameState(5, 102.0F));
+                this.player.connection.sendPacket(new SPacketChangeGameState(5, 102.0F));
             }
             else if (i == 250L)
             {
-                this.thisPlayerMP.connection.sendPacket(new SPacketChangeGameState(5, 103.0F));
+                this.player.connection.sendPacket(new SPacketChangeGameState(5, 103.0F));
             }
         }
         else if (j == 5L && i % 24000L == 22000L)
         {
-            this.thisPlayerMP.addChatMessage(new TextComponentTranslation("demo.day.warning", new Object[0]));
+            this.player.sendMessage(new TextComponentTranslation("demo.day.warning", new Object[0]));
         }
     }
 
@@ -78,7 +78,7 @@ public class DemoWorldManager extends PlayerInteractionManager
     {
         if (this.demoEndedReminder > 100)
         {
-            this.thisPlayerMP.addChatMessage(new TextComponentTranslation("demo.reminder", new Object[0]));
+            this.player.sendMessage(new TextComponentTranslation("demo.reminder", new Object[0]));
             this.demoEndedReminder = 0;
         }
     }

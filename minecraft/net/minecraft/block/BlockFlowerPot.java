@@ -77,7 +77,7 @@ public class BlockFlowerPot extends BlockContainer
         return false;
     }
 
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing heldItem, float side, float hitX, float hitY)
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
     {
         ItemStack itemstack = playerIn.getHeldItem(hand);
         TileEntityFlowerPot tileentityflowerpot = this.getTileEntity(worldIn, pos);
@@ -90,24 +90,24 @@ public class BlockFlowerPot extends BlockContainer
         {
             ItemStack itemstack1 = tileentityflowerpot.getFlowerItemStack();
 
-            if (itemstack1.func_190926_b())
+            if (itemstack1.isEmpty())
             {
-                if (!this.func_190951_a(itemstack))
+                if (!this.canBePotted(itemstack))
                 {
                     return false;
                 }
 
-                tileentityflowerpot.func_190614_a(itemstack);
+                tileentityflowerpot.setItemStack(itemstack);
                 playerIn.addStat(StatList.FLOWER_POTTED);
 
                 if (!playerIn.capabilities.isCreativeMode)
                 {
-                    itemstack.func_190918_g(1);
+                    itemstack.shrink(1);
                 }
             }
             else
             {
-                if (itemstack.func_190926_b())
+                if (itemstack.isEmpty())
                 {
                     playerIn.setHeldItem(hand, itemstack1);
                 }
@@ -116,7 +116,7 @@ public class BlockFlowerPot extends BlockContainer
                     playerIn.dropItem(itemstack1, false);
                 }
 
-                tileentityflowerpot.func_190614_a(ItemStack.field_190927_a);
+                tileentityflowerpot.setItemStack(ItemStack.EMPTY);
             }
 
             tileentityflowerpot.markDirty();
@@ -125,7 +125,7 @@ public class BlockFlowerPot extends BlockContainer
         }
     }
 
-    private boolean func_190951_a(ItemStack p_190951_1_)
+    private boolean canBePotted(ItemStack p_190951_1_)
     {
         Block block = Block.getBlockFromItem(p_190951_1_.getItem());
 
@@ -148,7 +148,7 @@ public class BlockFlowerPot extends BlockContainer
         {
             ItemStack itemstack = tileentityflowerpot.getFlowerItemStack();
 
-            if (!itemstack.func_190926_b())
+            if (!itemstack.isEmpty())
             {
                 return itemstack;
             }
@@ -167,7 +167,7 @@ public class BlockFlowerPot extends BlockContainer
      * change. Cases may include when redstone power is updated, cactus blocks popping off due to a neighboring solid
      * block, etc.
      */
-    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos p_189540_5_)
+    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos)
     {
         if (!worldIn.getBlockState(pos.down()).isFullyOpaque())
         {
@@ -201,7 +201,7 @@ public class BlockFlowerPot extends BlockContainer
 
             if (tileentityflowerpot != null)
             {
-                tileentityflowerpot.func_190614_a(ItemStack.field_190927_a);
+                tileentityflowerpot.setItemStack(ItemStack.EMPTY);
             }
         }
     }

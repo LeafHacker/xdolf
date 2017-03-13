@@ -109,7 +109,7 @@ public class PotionHelper
 
     public static ItemStack doReaction(ItemStack reagent, ItemStack potionIn)
     {
-        if (!potionIn.func_190926_b())
+        if (!potionIn.isEmpty())
         {
             PotionType potiontype = PotionUtils.getPotionFromItem(potionIn);
             Item item = potionIn.getItem();

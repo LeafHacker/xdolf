@@ -39,7 +39,7 @@ public class RegionFileCache
         }
     }
 
-    public static synchronized RegionFile func_191065_b(File p_191065_0_, int p_191065_1_, int p_191065_2_)
+    public static synchronized RegionFile getRegionFileIfExists(File p_191065_0_, int p_191065_1_, int p_191065_2_)
     {
         File file1 = new File(p_191065_0_, "region");
         File file2 = new File(file1, "r." + (p_191065_1_ >> 5) + "." + (p_191065_2_ >> 5) + ".mca");
@@ -107,9 +107,9 @@ public class RegionFileCache
         return regionfile.getChunkDataOutputStream(chunkX & 31, chunkZ & 31);
     }
 
-    public static boolean func_191064_f(File p_191064_0_, int p_191064_1_, int p_191064_2_)
+    public static boolean chunkExists(File p_191064_0_, int p_191064_1_, int p_191064_2_)
     {
-        RegionFile regionfile = func_191065_b(p_191064_0_, p_191064_1_, p_191064_2_);
+        RegionFile regionfile = getRegionFileIfExists(p_191064_0_, p_191064_1_, p_191064_2_);
         return regionfile != null ? regionfile.isChunkSaved(p_191064_1_ & 31, p_191064_2_ & 31) : false;
     }
 }

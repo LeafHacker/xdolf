@@ -240,9 +240,9 @@ public class EntityPigZombie extends EntityZombie
         this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.GOLDEN_SWORD));
     }
 
-    protected ItemStack func_190732_dj()
+    protected ItemStack getSkullDrop()
     {
-        return ItemStack.field_190927_a;
+        return ItemStack.EMPTY;
     }
 
     static class AIHurtByAggressor extends EntityAIHurtByTarget

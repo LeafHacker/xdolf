@@ -39,7 +39,7 @@ public class ItemArmor extends Item
         protected ItemStack dispenseStack(IBlockSource source, ItemStack stack)
         {
             ItemStack itemstack = ItemArmor.dispenseArmor(source, stack);
-            return itemstack.func_190926_b() ? super.dispenseStack(source, stack) : itemstack;
+            return itemstack.isEmpty() ? super.dispenseStack(source, stack) : itemstack;
         }
     };
 
@@ -64,11 +64,11 @@ public class ItemArmor extends Item
     public static ItemStack dispenseArmor(IBlockSource blockSource, ItemStack stack)
     {
         BlockPos blockpos = blockSource.getBlockPos().offset((EnumFacing)blockSource.getBlockState().getValue(BlockDispenser.FACING));
-        List<EntityLivingBase> list = blockSource.getWorld().<EntityLivingBase>getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(blockpos), Predicates.<EntityLivingBase>and(EntitySelectors.NOT_SPECTATING, new EntitySelectors.ArmoredMob(stack)));
+        List<EntityLivingBase> list = blockSource.getWorld().<EntityLivingBase>getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(blockpos), Predicates.<EntityLivingBase> and (EntitySelectors.NOT_SPECTATING, new EntitySelectors.ArmoredMob(stack)));
 
         if (list.isEmpty())
         {
-            return ItemStack.field_190927_a;
+            return ItemStack.EMPTY;
         }
         else
         {
@@ -225,16 +225,16 @@ public class ItemArmor extends Item
         return this.material.getRepairItem() == repair.getItem() ? true : super.getIsRepairable(toRepair, repair);
     }
 
-    public ActionResult<ItemStack> onItemRightClick(World itemStackIn, EntityPlayer worldIn, EnumHand playerIn)
+    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
     {
-        ItemStack itemstack = worldIn.getHeldItem(playerIn);
+        ItemStack itemstack = playerIn.getHeldItem(handIn);
         EntityEquipmentSlot entityequipmentslot = EntityLiving.getSlotForItemStack(itemstack);
-        ItemStack itemstack1 = worldIn.getItemStackFromSlot(entityequipmentslot);
+        ItemStack itemstack1 = playerIn.getItemStackFromSlot(entityequipmentslot);
 
-        if (itemstack1.func_190926_b())
+        if (itemstack1.isEmpty())
         {
-            worldIn.setItemStackToSlot(entityequipmentslot, itemstack.copy());
-            itemstack.func_190920_e(0);
+            playerIn.setItemStackToSlot(entityequipmentslot, itemstack.copy());
+            itemstack.setCount(0);
             return new ActionResult(EnumActionResult.SUCCESS, itemstack);
         }
         else
@@ -249,8 +249,8 @@ public class ItemArmor extends Item
 
         if (equipmentSlot == this.armorType)
         {
-            multimap.put(SharedMonsterAttributes.ARMOR.getAttributeUnlocalizedName(), new AttributeModifier(ARMOR_MODIFIERS[equipmentSlot.getIndex()], "Armor modifier", (double)this.damageReduceAmount, 0));
-            multimap.put(SharedMonsterAttributes.ARMOR_TOUGHNESS.getAttributeUnlocalizedName(), new AttributeModifier(ARMOR_MODIFIERS[equipmentSlot.getIndex()], "Armor toughness", (double)this.toughness, 0));
+            multimap.put(SharedMonsterAttributes.ARMOR.getName(), new AttributeModifier(ARMOR_MODIFIERS[equipmentSlot.getIndex()], "Armor modifier", (double)this.damageReduceAmount, 0));
+            multimap.put(SharedMonsterAttributes.ARMOR_TOUGHNESS.getName(), new AttributeModifier(ARMOR_MODIFIERS[equipmentSlot.getIndex()], "Armor toughness", (double)this.toughness, 0));
         }
 
         return multimap;

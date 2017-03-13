@@ -36,9 +36,9 @@ public class EntityMooshroom extends EntityCow
 
         if (itemstack.getItem() == Items.BOWL && this.getGrowingAge() >= 0 && !player.capabilities.isCreativeMode)
         {
-            itemstack.func_190918_g(1);
+            itemstack.shrink(1);
 
-            if (itemstack.func_190926_b())
+            if (itemstack.isEmpty())
             {
                 player.setHeldItem(hand, new ItemStack(Items.MUSHROOM_STEW));
             }
@@ -66,11 +66,11 @@ public class EntityMooshroom extends EntityCow
                     entitycow.setCustomNameTag(this.getCustomNameTag());
                 }
 
-                this.world.spawnEntityInWorld(entitycow);
+                this.world.spawnEntity(entitycow);
 
                 for (int i = 0; i < 5; ++i)
                 {
-                    this.world.spawnEntityInWorld(new EntityItem(this.world, this.posX, this.posY + (double)this.height, this.posZ, new ItemStack(Blocks.RED_MUSHROOM)));
+                    this.world.spawnEntity(new EntityItem(this.world, this.posX, this.posY + (double)this.height, this.posZ, new ItemStack(Blocks.RED_MUSHROOM)));
                 }
 
                 itemstack.damageItem(1, player);

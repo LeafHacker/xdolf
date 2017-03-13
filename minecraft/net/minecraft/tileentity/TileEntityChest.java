@@ -25,7 +25,7 @@ import net.minecraft.util.math.BlockPos;
 
 public class TileEntityChest extends TileEntityLockableLoot implements ITickable
 {
-    private NonNullList<ItemStack> chestContents = NonNullList.<ItemStack>func_191197_a(27, ItemStack.field_190927_a);
+    private NonNullList<ItemStack> chestContents = NonNullList.<ItemStack>withSize(27, ItemStack.EMPTY);
 
     /** Determines if the check for adjacent chests has taken place. */
     public boolean adjacentChestChecked;
@@ -72,11 +72,11 @@ public class TileEntityChest extends TileEntityLockableLoot implements ITickable
         return 27;
     }
 
-    public boolean func_191420_l()
+    public boolean isEmpty()
     {
         for (ItemStack itemstack : this.chestContents)
         {
-            if (!itemstack.func_190926_b())
+            if (!itemstack.isEmpty())
             {
                 return false;
             }
@@ -90,7 +90,7 @@ public class TileEntityChest extends TileEntityLockableLoot implements ITickable
      */
     public String getName()
     {
-        return this.hasCustomName() ? this.field_190577_o : "container.chest";
+        return this.hasCustomName() ? this.customName : "container.chest";
     }
 
     public static void registerFixesChest(DataFixer fixer)
@@ -101,16 +101,16 @@ public class TileEntityChest extends TileEntityLockableLoot implements ITickable
     public void readFromNBT(NBTTagCompound compound)
     {
         super.readFromNBT(compound);
-        this.chestContents = NonNullList.<ItemStack>func_191197_a(this.getSizeInventory(), ItemStack.field_190927_a);
+        this.chestContents = NonNullList.<ItemStack>withSize(this.getSizeInventory(), ItemStack.EMPTY);
 
         if (!this.checkLootAndRead(compound))
         {
-            ItemStackHelper.func_191283_b(compound, this.chestContents);
+            ItemStackHelper.loadAllItems(compound, this.chestContents);
         }
 
         if (compound.hasKey("CustomName", 8))
         {
-            this.field_190577_o = compound.getString("CustomName");
+            this.customName = compound.getString("CustomName");
         }
     }
 
@@ -120,12 +120,12 @@ public class TileEntityChest extends TileEntityLockableLoot implements ITickable
 
         if (!this.checkLootAndWrite(compound))
         {
-            ItemStackHelper.func_191282_a(compound, this.chestContents);
+            ItemStackHelper.saveAllItems(compound, this.chestContents);
         }
 
         if (this.hasCustomName())
         {
-            compound.setString("CustomName", this.field_190577_o);
+            compound.setString("CustomName", this.customName);
         }
 
         return compound;
@@ -417,7 +417,7 @@ public class TileEntityChest extends TileEntityLockableLoot implements ITickable
         return new ContainerChest(playerInventory, this, playerIn);
     }
 
-    protected NonNullList<ItemStack> func_190576_q()
+    protected NonNullList<ItemStack> getItems()
     {
         return this.chestContents;
     }

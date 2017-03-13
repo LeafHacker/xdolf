@@ -26,43 +26,43 @@ public class ItemBlockSpecial extends Item
     /**
      * Called when a Block is right-clicked with this Item
      */
-    public EnumActionResult onItemUse(EntityPlayer stack, World playerIn, BlockPos worldIn, EnumHand pos, EnumFacing hand, float facing, float hitX, float hitY)
+    public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
     {
-        IBlockState iblockstate = playerIn.getBlockState(worldIn);
+        IBlockState iblockstate = worldIn.getBlockState(pos);
         Block block = iblockstate.getBlock();
 
         if (block == Blocks.SNOW_LAYER && ((Integer)iblockstate.getValue(BlockSnow.LAYERS)).intValue() < 1)
         {
-            hand = EnumFacing.UP;
+            facing = EnumFacing.UP;
         }
-        else if (!block.isReplaceable(playerIn, worldIn))
+        else if (!block.isReplaceable(worldIn, pos))
         {
-            worldIn = worldIn.offset(hand);
+            pos = pos.offset(facing);
         }
 
-        ItemStack itemstack = stack.getHeldItem(pos);
+        ItemStack itemstack = player.getHeldItem(hand);
 
-        if (!itemstack.func_190926_b() && stack.canPlayerEdit(worldIn, hand, itemstack) && playerIn.func_190527_a(this.block, worldIn, false, hand, (Entity)null))
+        if (!itemstack.isEmpty() && player.canPlayerEdit(pos, facing, itemstack) && worldIn.mayPlace(this.block, pos, false, facing, (Entity)null))
         {
-            IBlockState iblockstate1 = this.block.onBlockPlaced(playerIn, worldIn, hand, facing, hitX, hitY, 0, stack);
+            IBlockState iblockstate1 = this.block.getStateForPlacement(worldIn, pos, facing, hitX, hitY, hitZ, 0, player);
 
-            if (!playerIn.setBlockState(worldIn, iblockstate1, 11))
+            if (!worldIn.setBlockState(pos, iblockstate1, 11))
             {
                 return EnumActionResult.FAIL;
             }
             else
             {
-                iblockstate1 = playerIn.getBlockState(worldIn);
+                iblockstate1 = worldIn.getBlockState(pos);
 
                 if (iblockstate1.getBlock() == this.block)
                 {
-                    ItemBlock.setTileEntityNBT(playerIn, stack, worldIn, itemstack);
-                    iblockstate1.getBlock().onBlockPlacedBy(playerIn, worldIn, iblockstate1, stack, itemstack);
+                    ItemBlock.setTileEntityNBT(worldIn, player, pos, itemstack);
+                    iblockstate1.getBlock().onBlockPlacedBy(worldIn, pos, iblockstate1, player, itemstack);
                 }
 
                 SoundType soundtype = this.block.getSoundType();
-                playerIn.playSound(stack, worldIn, soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
-                itemstack.func_190918_g(1);
+                worldIn.playSound(player, pos, soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
+                itemstack.shrink(1);
                 return EnumActionResult.SUCCESS;
             }
         }

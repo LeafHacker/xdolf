@@ -47,13 +47,13 @@ public class SPacketUpdateScore implements Packet<INetHandlerPlayClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.name = buf.readStringFromBuffer(40);
+        this.name = buf.readString(40);
         this.action = (SPacketUpdateScore.Action)buf.readEnumValue(SPacketUpdateScore.Action.class);
-        this.objective = buf.readStringFromBuffer(16);
+        this.objective = buf.readString(16);
 
         if (this.action != SPacketUpdateScore.Action.REMOVE)
         {
-            this.value = buf.readVarIntFromBuffer();
+            this.value = buf.readVarInt();
         }
     }
 
@@ -68,7 +68,7 @@ public class SPacketUpdateScore implements Packet<INetHandlerPlayClient>
 
         if (this.action != SPacketUpdateScore.Action.REMOVE)
         {
-            buf.writeVarIntToBuffer(this.value);
+            buf.writeVarInt(this.value);
         }
     }
 

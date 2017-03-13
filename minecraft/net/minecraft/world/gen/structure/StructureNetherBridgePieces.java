@@ -1380,7 +1380,7 @@ public class StructureNetherBridgePieces
 
                     if (tileentity instanceof TileEntityMobSpawner)
                     {
-                        ((TileEntityMobSpawner)tileentity).getSpawnerBaseLogic().func_190894_a(EntityList.func_191306_a(EntityBlaze.class));
+                        ((TileEntityMobSpawner)tileentity).getSpawnerBaseLogic().setEntityId(EntityList.getKey(EntityBlaze.class));
                     }
                 }
             }

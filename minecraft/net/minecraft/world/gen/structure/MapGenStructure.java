@@ -106,7 +106,7 @@ public abstract class MapGenStructure extends MapGenBase
 
     public boolean isInsideStructure(BlockPos pos)
     {
-        this.initializeStructureData(this.worldObj);
+        this.initializeStructureData(this.world);
         return this.getStructureAt(pos) != null;
     }
 
@@ -171,12 +171,12 @@ public abstract class MapGenStructure extends MapGenBase
     {
         if (this.structureData == null)
         {
-            this.structureData = (MapGenStructureData)worldIn.loadItemData(MapGenStructureData.class, this.getStructureName());
+            this.structureData = (MapGenStructureData)worldIn.loadData(MapGenStructureData.class, this.getStructureName());
 
             if (this.structureData == null)
             {
                 this.structureData = new MapGenStructureData(this.getStructureName());
-                worldIn.setItemData(this.getStructureName(), this.structureData);
+                worldIn.setData(this.getStructureName(), this.structureData);
             }
             else
             {
@@ -217,7 +217,7 @@ public abstract class MapGenStructure extends MapGenBase
 
     protected abstract StructureStart getStructureStart(int chunkX, int chunkZ);
 
-    protected static BlockPos func_191069_a(World p_191069_0_, MapGenStructure p_191069_1_, BlockPos p_191069_2_, int p_191069_3_, int p_191069_4_, int p_191069_5_, boolean p_191069_6_, int p_191069_7_, boolean p_191069_8_)
+    protected static BlockPos findNearestStructurePosBySpacing(World p_191069_0_, MapGenStructure p_191069_1_, BlockPos p_191069_2_, int p_191069_3_, int p_191069_4_, int p_191069_5_, boolean p_191069_6_, int p_191069_7_, boolean findUnexplored)
     {
         int i = p_191069_2_.getX() >> 4;
         int j = p_191069_2_.getZ() >> 4;
@@ -265,12 +265,12 @@ public abstract class MapGenStructure extends MapGenBase
                             i2 = i2 + random1.nextInt(p_191069_3_ - p_191069_4_);
                         }
 
-                        MapGenBase.func_191068_a(p_191069_0_.getSeed(), random, l1, i2);
+                        MapGenBase.setupChunkSeed(p_191069_0_.getSeed(), random, l1, i2);
                         random.nextInt();
 
                         if (p_191069_1_.canSpawnStructureAtCoords(l1, i2))
                         {
-                            if (!p_191069_8_ || !p_191069_0_.func_190526_b(l1, i2))
+                            if (!findUnexplored || !p_191069_0_.isChunkGeneratedAt(l1, i2))
                             {
                                 return new BlockPos((l1 << 4) + 8, 64, (i2 << 4) + 8);
                             }

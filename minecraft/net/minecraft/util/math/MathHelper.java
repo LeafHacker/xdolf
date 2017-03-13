@@ -6,6 +6,19 @@ import java.util.UUID;
 public class MathHelper
 {
     public static final float SQRT_2 = sqrt(2.0F);
+    private static final int SIN_BITS = 12;
+    private static final int SIN_MASK = 4095;
+    private static final int SIN_COUNT = 4096;
+    public static final float PI = (float)Math.PI;
+    public static final float PI2 = ((float)Math.PI * 2F);
+    public static final float PId2 = ((float)Math.PI / 2F);
+    private static final float radFull = ((float)Math.PI * 2F);
+    private static final float degFull = 360.0F;
+    private static final float radToIndex = 651.8986F;
+    private static final float degToIndex = 11.377778F;
+    public static final float deg2Rad = 0.017453292F;
+    private static final float[] SIN_TABLE_FAST = new float[4096];
+    public static boolean fastMath = false;
 
     /**
      * A table of sin values computed from 0 (inclusive) to 2*pi (exclusive), with steps of 2*PI / 65536.
@@ -30,7 +43,7 @@ public class MathHelper
      */
     public static float sin(float value)
     {
-        return SIN_TABLE[(int)(value * 10430.378F) & 65535];
+        return fastMath ? SIN_TABLE_FAST[(int)(value * 651.8986F) & 4095] : SIN_TABLE[(int)(value * 10430.378F) & 65535];
     }
 
     /**
@@ -38,7 +51,7 @@ public class MathHelper
      */
     public static float cos(float value)
     {
-        return SIN_TABLE[(int)(value * 10430.378F + 16384.0F) & 65535];
+        return fastMath ? SIN_TABLE_FAST[(int)((value + ((float)Math.PI / 2F)) * 651.8986F) & 4095] : SIN_TABLE[(int)(value * 10430.378F + 16384.0F) & 65535];
     }
 
     public static float sqrt(float value)
@@ -80,7 +93,7 @@ public class MathHelper
     /**
      * Long version of floor()
      */
-    public static long lFloor(double value)
+    public static long lfloor(double value)
     {
         long i = (long)value;
         return value < (double)i ? i - 1L : i;
@@ -212,9 +225,9 @@ public class MathHelper
         return (numerator % denominator + denominator) % denominator;
     }
 
-    public static double func_191273_b(double p_191273_0_, double p_191273_2_)
+    public static double positiveModulo(double numerator, double denominator)
     {
-        return (p_191273_0_ % p_191273_2_ + p_191273_2_) % p_191273_2_;
+        return (numerator % denominator + denominator) % denominator;
     }
 
     /**
@@ -403,9 +416,9 @@ public class MathHelper
      */
     public static int rgb(int rIn, int gIn, int bIn)
     {
-        int lvt_3_1_ = (rIn << 8) + gIn;
-        lvt_3_1_ = (lvt_3_1_ << 8) + bIn;
-        return lvt_3_1_;
+        int i = (rIn << 8) + gIn;
+        i = (i << 8) + bIn;
+        return i;
     }
 
     public static int multiplyColor(int p_180188_0_, int p_180188_1_)
@@ -612,17 +625,27 @@ public class MathHelper
             SIN_TABLE[i] = (float)Math.sin((double)i * Math.PI * 2.0D / 65536.0D);
         }
 
+        for (int j = 0; j < 4096; ++j)
+        {
+            SIN_TABLE_FAST[j] = (float)Math.sin((double)(((float)j + 0.5F) / 4096.0F * ((float)Math.PI * 2F)));
+        }
+
+        for (int k = 0; k < 360; k += 90)
+        {
+            SIN_TABLE_FAST[(int)((float)k * 11.377778F) & 4095] = (float)Math.sin((double)((float)k * 0.017453292F));
+        }
+
         MULTIPLY_DE_BRUIJN_BIT_POSITION = new int[] {0, 1, 28, 2, 29, 14, 24, 3, 30, 22, 20, 15, 25, 17, 4, 8, 31, 27, 13, 23, 21, 19, 16, 7, 26, 12, 18, 6, 11, 5, 10, 9};
         FRAC_BIAS = Double.longBitsToDouble(4805340802404319232L);
         ASINE_TAB = new double[257];
         COS_TAB = new double[257];
 
-        for (int j = 0; j < 257; ++j)
+        for (int l = 0; l < 257; ++l)
         {
-            double d0 = (double)j / 256.0D;
+            double d0 = (double)l / 256.0D;
             double d1 = Math.asin(d0);
-            COS_TAB[j] = Math.cos(d1);
-            ASINE_TAB[j] = d1;
+            COS_TAB[l] = Math.cos(d1);
+            ASINE_TAB[l] = d1;
         }
     }
 }

@@ -12,10 +12,10 @@ public class WorldProviderHell extends WorldProvider
     /**
      * creates a new world chunk manager for WorldProvider
      */
-    public void createBiomeProvider()
+    public void init()
     {
         this.biomeProvider = new BiomeProviderSingle(Biomes.HELL);
-        this.isHellWorld = true;
+        this.doesWaterVaporize = true;
         this.hasNoSky = true;
     }
 
@@ -43,7 +43,7 @@ public class WorldProviderHell extends WorldProvider
 
     public IChunkGenerator createChunkGenerator()
     {
-        return new ChunkProviderHell(this.worldObj, this.worldObj.getWorldInfo().isMapFeaturesEnabled(), this.worldObj.getSeed());
+        return new ChunkProviderHell(this.world, this.world.getWorldInfo().isMapFeaturesEnabled(), this.world.getSeed());
     }
 
     /**

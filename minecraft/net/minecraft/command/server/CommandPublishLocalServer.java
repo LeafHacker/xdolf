@@ -11,7 +11,7 @@ public class CommandPublishLocalServer extends CommandBase
     /**
      * Gets the name of the command
      */
-    public String getCommandName()
+    public String getName()
     {
         return "publish";
     }
@@ -19,7 +19,7 @@ public class CommandPublishLocalServer extends CommandBase
     /**
      * Gets the usage string for the command.
      */
-    public String getCommandUsage(ICommandSender sender)
+    public String getUsage(ICommandSender sender)
     {
         return "commands.publish.usage";
     }

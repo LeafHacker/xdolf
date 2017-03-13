@@ -118,6 +118,6 @@ public class MapGenStructureIO
         ComponentScatteredFeaturePieces.registerScatteredFeaturePieces();
         StructureOceanMonumentPieces.registerOceanMonumentPieces();
         StructureEndCityPieces.registerPieces();
-        WoodlandMansionPieces.func_191153_a();
+        WoodlandMansionPieces.registerWoodlandMansionPieces();
     }
 }

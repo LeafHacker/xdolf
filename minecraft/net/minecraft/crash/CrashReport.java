@@ -11,6 +11,8 @@ import java.lang.management.RuntimeMXBean;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import net.minecraft.src.CrashReporter;
+import net.minecraft.src.Reflector;
 import net.minecraft.util.ReportedException;
 import net.minecraft.world.gen.layer.IntCache;
 import org.apache.commons.io.IOUtils;
@@ -38,6 +40,7 @@ public class CrashReport
     /** Is true when the current category is the first in the crash report */
     private boolean firstCategoryInCrashReport = true;
     private StackTraceElement[] stacktrace = new StackTraceElement[0];
+    private boolean reported = false;
 
     public CrashReport(String descriptionIn, Throwable causeThrowable)
     {
@@ -126,6 +129,12 @@ public class CrashReport
                 return IntCache.getCacheSizes();
             }
         });
+
+        if (Reflector.FMLCommonHandler_enhanceCrashReport.exists())
+        {
+            Object object = Reflector.call(Reflector.FMLCommonHandler_instance, new Object[0]);
+            Reflector.callString(object, Reflector.FMLCommonHandler_enhanceCrashReport, new Object[] {this, this.theReportCategory});
+        }
     }
 
     /**
@@ -151,7 +160,7 @@ public class CrashReport
     {
         if ((this.stacktrace == null || this.stacktrace.length <= 0) && !this.crashReportSections.isEmpty())
         {
-            this.stacktrace = (StackTraceElement[])ArrayUtils.subarray(((CrashReportCategory)this.crashReportSections.get(0)).getStackTrace(), 0, 1);
+            this.stacktrace = (StackTraceElement[])((StackTraceElement[])ArrayUtils.subarray(((CrashReportCategory)this.crashReportSections.get(0)).getStackTrace(), 0, 1));
         }
 
         if (this.stacktrace != null && this.stacktrace.length > 0)
@@ -228,8 +237,16 @@ public class CrashReport
      */
     public String getCompleteReport()
     {
+        if (!this.reported)
+        {
+            this.reported = true;
+            CrashReporter.onCrashReport(this, this.theReportCategory);
+        }
+
         StringBuilder stringbuilder = new StringBuilder();
         stringbuilder.append("---- Minecraft Crash Report ----\n");
+        Reflector.call(Reflector.BlamingTransformer_onCrash, new Object[] {stringbuilder});
+        Reflector.call(Reflector.CoreModManager_onCrash, new Object[] {stringbuilder});
         stringbuilder.append("// ");
         stringbuilder.append(getWittyComment());
         stringbuilder.append("\n\n");
@@ -277,27 +294,28 @@ public class CrashReport
             }
 
             FileWriter filewriter = null;
-            boolean flag1;
+            boolean flag;
 
             try
             {
                 filewriter = new FileWriter(toFile);
                 filewriter.write(this.getCompleteReport());
                 this.crashReportFile = toFile;
-                boolean lvt_3_1_ = true;
-                return lvt_3_1_;
+                boolean flag1 = true;
+                boolean flag2 = flag1;
+                return flag2;
             }
             catch (Throwable throwable)
             {
                 LOGGER.error("Could not save crash report to {}", new Object[] {toFile, throwable});
-                flag1 = false;
+                flag = false;
             }
             finally
             {
                 IOUtils.closeQuietly((Writer)filewriter);
             }
 
-            return flag1;
+            return flag;
         }
     }
 

@@ -23,11 +23,11 @@ public class SPacketTabComplete implements Packet<INetHandlerPlayClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.matches = new String[buf.readVarIntFromBuffer()];
+        this.matches = new String[buf.readVarInt()];
 
         for (int i = 0; i < this.matches.length; ++i)
         {
-            this.matches[i] = buf.readStringFromBuffer(32767);
+            this.matches[i] = buf.readString(32767);
         }
     }
 
@@ -36,7 +36,7 @@ public class SPacketTabComplete implements Packet<INetHandlerPlayClient>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeVarIntToBuffer(this.matches.length);
+        buf.writeVarInt(this.matches.length);
 
         for (String s : this.matches)
         {

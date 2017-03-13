@@ -48,11 +48,11 @@ public class CommandResultStats
                 {
                     return sender.getDisplayName();
                 }
-                public void addChatMessage(ITextComponent component)
+                public void sendMessage(ITextComponent component)
                 {
-                    sender.addChatMessage(component);
+                    sender.sendMessage(component);
                 }
-                public boolean canCommandSenderUseCommand(int permLevel, String commandName)
+                public boolean canUseCommand(int permLevel, String commandName)
                 {
                     return true;
                 }

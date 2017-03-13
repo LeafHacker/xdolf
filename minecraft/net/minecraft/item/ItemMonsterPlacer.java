@@ -44,7 +44,7 @@ public class ItemMonsterPlacer extends Item
     public String getItemStackDisplayName(ItemStack stack)
     {
         String s = ("" + I18n.translateToLocal(this.getUnlocalizedName() + ".name")).trim();
-        String s1 = EntityList.func_191302_a(func_190908_h(stack));
+        String s1 = EntityList.getTranslationName(getNamedIdFrom(stack));
 
         if (s1 != null)
         {
@@ -57,46 +57,46 @@ public class ItemMonsterPlacer extends Item
     /**
      * Called when a Block is right-clicked with this Item
      */
-    public EnumActionResult onItemUse(EntityPlayer stack, World playerIn, BlockPos worldIn, EnumHand pos, EnumFacing hand, float facing, float hitX, float hitY)
+    public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
     {
-        ItemStack itemstack = stack.getHeldItem(pos);
+        ItemStack itemstack = player.getHeldItem(hand);
 
-        if (playerIn.isRemote)
+        if (worldIn.isRemote)
         {
             return EnumActionResult.SUCCESS;
         }
-        else if (!stack.canPlayerEdit(worldIn.offset(hand), hand, itemstack))
+        else if (!player.canPlayerEdit(pos.offset(facing), facing, itemstack))
         {
             return EnumActionResult.FAIL;
         }
         else
         {
-            IBlockState iblockstate = playerIn.getBlockState(worldIn);
+            IBlockState iblockstate = worldIn.getBlockState(pos);
             Block block = iblockstate.getBlock();
 
             if (block == Blocks.MOB_SPAWNER)
             {
-                TileEntity tileentity = playerIn.getTileEntity(worldIn);
+                TileEntity tileentity = worldIn.getTileEntity(pos);
 
                 if (tileentity instanceof TileEntityMobSpawner)
                 {
                     MobSpawnerBaseLogic mobspawnerbaselogic = ((TileEntityMobSpawner)tileentity).getSpawnerBaseLogic();
-                    mobspawnerbaselogic.func_190894_a(func_190908_h(itemstack));
+                    mobspawnerbaselogic.setEntityId(getNamedIdFrom(itemstack));
                     tileentity.markDirty();
-                    playerIn.notifyBlockUpdate(worldIn, iblockstate, iblockstate, 3);
+                    worldIn.notifyBlockUpdate(pos, iblockstate, iblockstate, 3);
 
-                    if (!stack.capabilities.isCreativeMode)
+                    if (!player.capabilities.isCreativeMode)
                     {
-                        itemstack.func_190918_g(1);
+                        itemstack.shrink(1);
                     }
 
                     return EnumActionResult.SUCCESS;
                 }
             }
 
-            BlockPos blockpos = worldIn.offset(hand);
-            double d0 = this.func_190909_a(playerIn, blockpos);
-            Entity entity = spawnCreature(playerIn, func_190908_h(itemstack), (double)blockpos.getX() + 0.5D, (double)blockpos.getY() + d0, (double)blockpos.getZ() + 0.5D);
+            BlockPos blockpos = pos.offset(facing);
+            double d0 = this.getYOffset(worldIn, blockpos);
+            Entity entity = spawnCreature(worldIn, getNamedIdFrom(itemstack), (double)blockpos.getX() + 0.5D, (double)blockpos.getY() + d0, (double)blockpos.getZ() + 0.5D);
 
             if (entity != null)
             {
@@ -105,11 +105,11 @@ public class ItemMonsterPlacer extends Item
                     entity.setCustomNameTag(itemstack.getDisplayName());
                 }
 
-                applyItemEntityDataToEntity(playerIn, stack, itemstack, entity);
+                applyItemEntityDataToEntity(worldIn, player, itemstack, entity);
 
-                if (!stack.capabilities.isCreativeMode)
+                if (!player.capabilities.isCreativeMode)
                 {
-                    itemstack.func_190918_g(1);
+                    itemstack.shrink(1);
                 }
             }
 
@@ -117,7 +117,7 @@ public class ItemMonsterPlacer extends Item
         }
     }
 
-    protected double func_190909_a(World p_190909_1_, BlockPos p_190909_2_)
+    protected double getYOffset(World p_190909_1_, BlockPos p_190909_2_)
     {
         AxisAlignedBB axisalignedbb = (new AxisAlignedBB(p_190909_2_)).addCoord(0.0D, -1.0D, 0.0D);
         List<AxisAlignedBB> list = p_190909_1_.getCollisionBoxes((Entity)null, axisalignedbb);
@@ -166,29 +166,29 @@ public class ItemMonsterPlacer extends Item
         }
     }
 
-    public ActionResult<ItemStack> onItemRightClick(World itemStackIn, EntityPlayer worldIn, EnumHand playerIn)
+    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
     {
-        ItemStack itemstack = worldIn.getHeldItem(playerIn);
+        ItemStack itemstack = playerIn.getHeldItem(handIn);
 
-        if (itemStackIn.isRemote)
+        if (worldIn.isRemote)
         {
             return new ActionResult(EnumActionResult.PASS, itemstack);
         }
         else
         {
-            RayTraceResult raytraceresult = this.rayTrace(itemStackIn, worldIn, true);
+            RayTraceResult raytraceresult = this.rayTrace(worldIn, playerIn, true);
 
             if (raytraceresult != null && raytraceresult.typeOfHit == RayTraceResult.Type.BLOCK)
             {
                 BlockPos blockpos = raytraceresult.getBlockPos();
 
-                if (!(itemStackIn.getBlockState(blockpos).getBlock() instanceof BlockLiquid))
+                if (!(worldIn.getBlockState(blockpos).getBlock() instanceof BlockLiquid))
                 {
                     return new ActionResult(EnumActionResult.PASS, itemstack);
                 }
-                else if (itemStackIn.isBlockModifiable(worldIn, blockpos) && worldIn.canPlayerEdit(blockpos, raytraceresult.sideHit, itemstack))
+                else if (worldIn.isBlockModifiable(playerIn, blockpos) && playerIn.canPlayerEdit(blockpos, raytraceresult.sideHit, itemstack))
                 {
-                    Entity entity = spawnCreature(itemStackIn, func_190908_h(itemstack), (double)blockpos.getX() + 0.5D, (double)blockpos.getY() + 0.5D, (double)blockpos.getZ() + 0.5D);
+                    Entity entity = spawnCreature(worldIn, getNamedIdFrom(itemstack), (double)blockpos.getX() + 0.5D, (double)blockpos.getY() + 0.5D, (double)blockpos.getZ() + 0.5D);
 
                     if (entity == null)
                     {
@@ -201,14 +201,14 @@ public class ItemMonsterPlacer extends Item
                             entity.setCustomNameTag(itemstack.getDisplayName());
                         }
 
-                        applyItemEntityDataToEntity(itemStackIn, worldIn, itemstack, entity);
+                        applyItemEntityDataToEntity(worldIn, playerIn, itemstack, entity);
 
-                        if (!worldIn.capabilities.isCreativeMode)
+                        if (!playerIn.capabilities.isCreativeMode)
                         {
-                            itemstack.func_190918_g(1);
+                            itemstack.shrink(1);
                         }
 
-                        worldIn.addStat(StatList.getObjectUseStats(this));
+                        playerIn.addStat(StatList.getObjectUseStats(this));
                         return new ActionResult(EnumActionResult.SUCCESS, itemstack);
                     }
                 }
@@ -247,7 +247,7 @@ public class ItemMonsterPlacer extends Item
                     entityliving.rotationYawHead = entityliving.rotationYaw;
                     entityliving.renderYawOffset = entityliving.rotationYaw;
                     entityliving.onInitialSpawn(worldIn.getDifficultyForLocation(new BlockPos(entityliving)), (IEntityLivingData)null);
-                    worldIn.spawnEntityInWorld(entity);
+                    worldIn.spawnEntity(entity);
                     entityliving.playLivingSound();
                 }
             }
@@ -286,7 +286,7 @@ public class ItemMonsterPlacer extends Item
     }
 
     @Nullable
-    public static ResourceLocation func_190908_h(ItemStack p_190908_0_)
+    public static ResourceLocation getNamedIdFrom(ItemStack p_190908_0_)
     {
         NBTTagCompound nbttagcompound = p_190908_0_.getTagCompound();
 

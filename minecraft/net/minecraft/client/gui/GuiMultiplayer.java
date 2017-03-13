@@ -1,16 +1,10 @@
 package net.minecraft.client.gui;
 
-import java.io.IOException;
-import java.util.List;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.lwjgl.input.Keyboard;
-
 import com.darkcart.xdolf.gui.GuiScreenProtocol;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
-
+import java.io.IOException;
+import java.util.List;
 import net.minecraft.client.multiplayer.GuiConnecting;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.multiplayer.ServerList;
@@ -18,6 +12,9 @@ import net.minecraft.client.network.LanServerDetector;
 import net.minecraft.client.network.LanServerInfo;
 import net.minecraft.client.network.ServerPinger;
 import net.minecraft.client.resources.I18n;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.lwjgl.input.Keyboard;
 
 public class GuiMultiplayer extends GuiScreen
 {
@@ -103,7 +100,6 @@ public class GuiMultiplayer extends GuiScreen
         this.buttonList.add(new GuiButton(3, this.width / 2 + 4 + 50, this.height - 52, 100, 20, I18n.format("selectServer.add", new Object[0])));
         this.buttonList.add(new GuiButton(8, this.width / 2 + 4, this.height - 28, 70, 20, I18n.format("selectServer.refresh", new Object[0])));
         this.buttonList.add(new GuiButton(0, this.width / 2 + 4 + 76, this.height - 28, 75, 20, I18n.format("gui.cancel", new Object[0])));
-        // TODO: Marker
         this.buttonList.add(new GuiButton(69, 0, 0, 75, 20, "Protocol"));
         this.selectServer(this.serverListSelector.getSelected());
     }
@@ -196,7 +192,9 @@ public class GuiMultiplayer extends GuiScreen
             else if (button.id == 8)
             {
                 this.refreshServerList();
-            } else if (button.id == 69) {
+            } 
+            else if (button.id == 69) 
+            {
             	this.mc.displayGuiScreen(new GuiScreenProtocol(this));
             }
         }

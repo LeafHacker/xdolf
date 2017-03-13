@@ -164,15 +164,21 @@ public class GuiTextField extends Gui
         {
             this.text = s;
             this.moveCursorBy(i - this.selectionEnd + l);
-            this.func_190516_a(this.id, this.text);
+            this.setResponderEntryValue(this.id, this.text);
         }
     }
 
-    public void func_190516_a(int p_190516_1_, String p_190516_2_)
+    /**
+     * Notifies this text box's {@linkplain GuiPageButtonList.GuiResponder responder} that the text has changed.
+     *  
+     * @param idIn The ID of the text box being updated (should usually be the value of {@link #getId()})
+     * @param textIn The new text of the text box (should usually be the value of {@link #getText()})
+     */
+    public void setResponderEntryValue(int idIn, String textIn)
     {
         if (this.guiResponder != null)
         {
-            this.guiResponder.setEntryValue(p_190516_1_, p_190516_2_);
+            this.guiResponder.setEntryValue(idIn, textIn);
         }
     }
 
@@ -233,7 +239,7 @@ public class GuiTextField extends Gui
                         this.moveCursorBy(num);
                     }
 
-                    this.func_190516_a(this.id, this.text);
+                    this.setResponderEntryValue(this.id, this.text);
                 }
             }
         }
@@ -595,15 +601,15 @@ public class GuiTextField extends Gui
             if (k != j)
             {
                 int l1 = l + this.fontRendererInstance.getStringWidth(s.substring(0, k));
-                this.drawCursorVertical(k1, i1 - 1, l1 - 1, i1 + 1 + this.fontRendererInstance.FONT_HEIGHT);
+                this.drawSelectionBox(k1, i1 - 1, l1 - 1, i1 + 1 + this.fontRendererInstance.FONT_HEIGHT);
             }
         }
     }
 
     /**
-     * Draws the current selection and a vertical line cursor in the text box.
+     * Draws the blue selection box.
      */
-    private void drawCursorVertical(int startX, int startY, int endX, int endY)
+    private void drawSelectionBox(int startX, int startY, int endX, int endY)
     {
         if (startX < endX)
         {

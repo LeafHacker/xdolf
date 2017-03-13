@@ -140,7 +140,7 @@ public abstract class BlockLiquid extends Block
      */
     public Item getItemDropped(IBlockState state, Random rand, int fortune)
     {
-        return Items.field_190931_a;
+        return Items.AIR;
     }
 
     /**
@@ -218,7 +218,7 @@ public abstract class BlockLiquid extends Block
      */
     public int tickRate(World worldIn)
     {
-        return this.blockMaterial == Material.WATER ? 5 : (this.blockMaterial == Material.LAVA ? (worldIn.provider.getHasNoSky() ? 10 : 30) : 0);
+        return this.blockMaterial == Material.WATER ? 5 : (this.blockMaterial == Material.LAVA ? (worldIn.provider.hasNoSky() ? 10 : 30) : 0);
     }
 
     public int getPackedLightmapCoords(IBlockState state, IBlockAccess source, BlockPos pos)
@@ -318,7 +318,7 @@ public abstract class BlockLiquid extends Block
      * change. Cases may include when redstone power is updated, cactus blocks popping off due to a neighboring solid
      * block, etc.
      */
-    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos p_189540_5_)
+    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos)
     {
         this.checkForMixing(worldIn, pos, state);
     }
@@ -427,14 +427,14 @@ public abstract class BlockLiquid extends Block
         }
     }
 
-    public static float func_190973_f(IBlockState p_190973_0_, IBlockAccess p_190973_1_, BlockPos p_190973_2_)
+    public static float getBlockLiquidHeight(IBlockState p_190973_0_, IBlockAccess p_190973_1_, BlockPos p_190973_2_)
     {
         int i = ((Integer)p_190973_0_.getValue(LEVEL)).intValue();
         return (i & 7) == 0 && p_190973_1_.getBlockState(p_190973_2_.up()).getMaterial() == Material.WATER ? 1.0F : 1.0F - getLiquidHeightPercent(i);
     }
 
-    public static float func_190972_g(IBlockState p_190972_0_, IBlockAccess p_190972_1_, BlockPos p_190972_2_)
+    public static float getLiquidHeight(IBlockState p_190972_0_, IBlockAccess p_190972_1_, BlockPos p_190972_2_)
     {
-        return (float)p_190972_2_.getY() + func_190973_f(p_190972_0_, p_190972_1_, p_190972_2_);
+        return (float)p_190972_2_.getY() + getBlockLiquidHeight(p_190972_0_, p_190972_1_, p_190972_2_);
     }
 }

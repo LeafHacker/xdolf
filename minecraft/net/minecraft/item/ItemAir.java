@@ -6,11 +6,11 @@ import net.minecraft.entity.player.EntityPlayer;
 
 public class ItemAir extends Item
 {
-    private final Block field_190904_a;
+    private final Block block;
 
-    public ItemAir(Block p_i47264_1_)
+    public ItemAir(Block blockIn)
     {
-        this.field_190904_a = p_i47264_1_;
+        this.block = blockIn;
     }
 
     /**
@@ -19,7 +19,7 @@ public class ItemAir extends Item
      */
     public String getUnlocalizedName(ItemStack stack)
     {
-        return this.field_190904_a.getUnlocalizedName();
+        return this.block.getUnlocalizedName();
     }
 
     /**
@@ -27,7 +27,7 @@ public class ItemAir extends Item
      */
     public String getUnlocalizedName()
     {
-        return this.field_190904_a.getUnlocalizedName();
+        return this.block.getUnlocalizedName();
     }
 
     /**
@@ -36,6 +36,6 @@ public class ItemAir extends Item
     public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced)
     {
         super.addInformation(stack, playerIn, tooltip, advanced);
-        this.field_190904_a.func_190948_a(stack, playerIn, tooltip, advanced);
+        this.block.addInformation(stack, playerIn, tooltip, advanced);
     }
 }

@@ -85,7 +85,7 @@ public class StatisticsManagerServer extends StatisticsManager
 
             if (this.mcServer.isAnnouncingPlayerAchievements())
             {
-                this.mcServer.getPlayerList().sendChatMsg(new TextComponentTranslation("chat.type.achievement", new Object[] {playerIn.getDisplayName(), statIn.createChatComponent()}));
+                this.mcServer.getPlayerList().sendMessage(new TextComponentTranslation("chat.type.achievement", new Object[] {playerIn.getDisplayName(), statIn.createChatComponent()}));
             }
         }
 
@@ -95,7 +95,7 @@ public class StatisticsManagerServer extends StatisticsManager
 
             if (this.mcServer.isAnnouncingPlayerAchievements())
             {
-                this.mcServer.getPlayerList().sendChatMsg(new TextComponentTranslation("chat.type.achievement.taken", new Object[] {playerIn.getDisplayName(), statIn.createChatComponent()}));
+                this.mcServer.getPlayerList().sendMessage(new TextComponentTranslation("chat.type.achievement.taken", new Object[] {playerIn.getDisplayName(), statIn.createChatComponent()}));
             }
         }
     }

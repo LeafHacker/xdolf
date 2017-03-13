@@ -49,7 +49,7 @@ public class SPacketPlayerListItem implements Packet<INetHandlerPlayClient>
     public void readPacketData(PacketBuffer buf) throws IOException
     {
         this.action = (SPacketPlayerListItem.Action)buf.readEnumValue(SPacketPlayerListItem.Action.class);
-        int i = buf.readVarIntFromBuffer();
+        int i = buf.readVarInt();
 
         for (int j = 0; j < i; ++j)
         {
@@ -61,18 +61,18 @@ public class SPacketPlayerListItem implements Packet<INetHandlerPlayClient>
             switch (this.action)
             {
                 case ADD_PLAYER:
-                    gameprofile = new GameProfile(buf.readUuid(), buf.readStringFromBuffer(16));
-                    int l = buf.readVarIntFromBuffer();
+                    gameprofile = new GameProfile(buf.readUniqueId(), buf.readString(16));
+                    int l = buf.readVarInt();
                     int i1 = 0;
 
                     for (; i1 < l; ++i1)
                     {
-                        String s = buf.readStringFromBuffer(32767);
-                        String s1 = buf.readStringFromBuffer(32767);
+                        String s = buf.readString(32767);
+                        String s1 = buf.readString(32767);
 
                         if (buf.readBoolean())
                         {
-                            gameprofile.getProperties().put(s, new Property(s, s1, buf.readStringFromBuffer(32767)));
+                            gameprofile.getProperties().put(s, new Property(s, s1, buf.readString(32767)));
                         }
                         else
                         {
@@ -80,8 +80,8 @@ public class SPacketPlayerListItem implements Packet<INetHandlerPlayClient>
                         }
                     }
 
-                    gametype = GameType.getByID(buf.readVarIntFromBuffer());
-                    k = buf.readVarIntFromBuffer();
+                    gametype = GameType.getByID(buf.readVarInt());
+                    k = buf.readVarInt();
 
                     if (buf.readBoolean())
                     {
@@ -91,17 +91,17 @@ public class SPacketPlayerListItem implements Packet<INetHandlerPlayClient>
                     break;
 
                 case UPDATE_GAME_MODE:
-                    gameprofile = new GameProfile(buf.readUuid(), (String)null);
-                    gametype = GameType.getByID(buf.readVarIntFromBuffer());
+                    gameprofile = new GameProfile(buf.readUniqueId(), (String)null);
+                    gametype = GameType.getByID(buf.readVarInt());
                     break;
 
                 case UPDATE_LATENCY:
-                    gameprofile = new GameProfile(buf.readUuid(), (String)null);
-                    k = buf.readVarIntFromBuffer();
+                    gameprofile = new GameProfile(buf.readUniqueId(), (String)null);
+                    k = buf.readVarInt();
                     break;
 
                 case UPDATE_DISPLAY_NAME:
-                    gameprofile = new GameProfile(buf.readUuid(), (String)null);
+                    gameprofile = new GameProfile(buf.readUniqueId(), (String)null);
 
                     if (buf.readBoolean())
                     {
@@ -111,7 +111,7 @@ public class SPacketPlayerListItem implements Packet<INetHandlerPlayClient>
                     break;
 
                 case REMOVE_PLAYER:
-                    gameprofile = new GameProfile(buf.readUuid(), (String)null);
+                    gameprofile = new GameProfile(buf.readUniqueId(), (String)null);
             }
 
             this.players.add(new SPacketPlayerListItem.AddPlayerData(gameprofile, k, gametype, itextcomponent));
@@ -124,16 +124,16 @@ public class SPacketPlayerListItem implements Packet<INetHandlerPlayClient>
     public void writePacketData(PacketBuffer buf) throws IOException
     {
         buf.writeEnumValue(this.action);
-        buf.writeVarIntToBuffer(this.players.size());
+        buf.writeVarInt(this.players.size());
 
         for (SPacketPlayerListItem.AddPlayerData spacketplayerlistitem$addplayerdata : this.players)
         {
             switch (this.action)
             {
                 case ADD_PLAYER:
-                    buf.writeUuid(spacketplayerlistitem$addplayerdata.getProfile().getId());
+                    buf.writeUniqueId(spacketplayerlistitem$addplayerdata.getProfile().getId());
                     buf.writeString(spacketplayerlistitem$addplayerdata.getProfile().getName());
-                    buf.writeVarIntToBuffer(spacketplayerlistitem$addplayerdata.getProfile().getProperties().size());
+                    buf.writeVarInt(spacketplayerlistitem$addplayerdata.getProfile().getProperties().size());
 
                     for (Property property : spacketplayerlistitem$addplayerdata.getProfile().getProperties().values())
                     {
@@ -151,8 +151,8 @@ public class SPacketPlayerListItem implements Packet<INetHandlerPlayClient>
                         }
                     }
 
-                    buf.writeVarIntToBuffer(spacketplayerlistitem$addplayerdata.getGameMode().getID());
-                    buf.writeVarIntToBuffer(spacketplayerlistitem$addplayerdata.getPing());
+                    buf.writeVarInt(spacketplayerlistitem$addplayerdata.getGameMode().getID());
+                    buf.writeVarInt(spacketplayerlistitem$addplayerdata.getPing());
 
                     if (spacketplayerlistitem$addplayerdata.getDisplayName() == null)
                     {
@@ -167,17 +167,17 @@ public class SPacketPlayerListItem implements Packet<INetHandlerPlayClient>
                     break;
 
                 case UPDATE_GAME_MODE:
-                    buf.writeUuid(spacketplayerlistitem$addplayerdata.getProfile().getId());
-                    buf.writeVarIntToBuffer(spacketplayerlistitem$addplayerdata.getGameMode().getID());
+                    buf.writeUniqueId(spacketplayerlistitem$addplayerdata.getProfile().getId());
+                    buf.writeVarInt(spacketplayerlistitem$addplayerdata.getGameMode().getID());
                     break;
 
                 case UPDATE_LATENCY:
-                    buf.writeUuid(spacketplayerlistitem$addplayerdata.getProfile().getId());
-                    buf.writeVarIntToBuffer(spacketplayerlistitem$addplayerdata.getPing());
+                    buf.writeUniqueId(spacketplayerlistitem$addplayerdata.getProfile().getId());
+                    buf.writeVarInt(spacketplayerlistitem$addplayerdata.getPing());
                     break;
 
                 case UPDATE_DISPLAY_NAME:
-                    buf.writeUuid(spacketplayerlistitem$addplayerdata.getProfile().getId());
+                    buf.writeUniqueId(spacketplayerlistitem$addplayerdata.getProfile().getId());
 
                     if (spacketplayerlistitem$addplayerdata.getDisplayName() == null)
                     {
@@ -192,7 +192,7 @@ public class SPacketPlayerListItem implements Packet<INetHandlerPlayClient>
                     break;
 
                 case REMOVE_PLAYER:
-                    buf.writeUuid(spacketplayerlistitem$addplayerdata.getProfile().getId());
+                    buf.writeUniqueId(spacketplayerlistitem$addplayerdata.getProfile().getId());
             }
         }
     }

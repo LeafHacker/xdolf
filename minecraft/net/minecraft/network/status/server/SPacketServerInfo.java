@@ -31,7 +31,7 @@ public class SPacketServerInfo implements Packet<INetHandlerStatusClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.response = (ServerStatusResponse)JsonUtils.gsonDeserialize(GSON, buf.readStringFromBuffer(32767), ServerStatusResponse.class);
+        this.response = (ServerStatusResponse)JsonUtils.gsonDeserialize(GSON, buf.readString(32767), ServerStatusResponse.class);
     }
 
     /**

@@ -66,9 +66,9 @@ public class LootTable
                 return;
             }
 
-            if (itemstack.func_190926_b())
+            if (itemstack.isEmpty())
             {
-                inventory.setInventorySlotContents(((Integer)list1.remove(list1.size() - 1)).intValue(), ItemStack.field_190927_a);
+                inventory.setInventorySlotContents(((Integer)list1.remove(list1.size() - 1)).intValue(), ItemStack.EMPTY);
             }
             else
             {
@@ -89,11 +89,11 @@ public class LootTable
         {
             ItemStack itemstack = (ItemStack)iterator.next();
 
-            if (itemstack.func_190926_b())
+            if (itemstack.isEmpty())
             {
                 iterator.remove();
             }
-            else if (itemstack.func_190916_E() > 1)
+            else if (itemstack.getCount() > 1)
             {
                 list.add(itemstack);
                 iterator.remove();
@@ -105,10 +105,10 @@ public class LootTable
         while (p_186463_2_ > 0 && ((List)list).size() > 0)
         {
             ItemStack itemstack2 = (ItemStack)list.remove(MathHelper.getInt(rand, 0, list.size() - 1));
-            int i = MathHelper.getInt(rand, 1, itemstack2.func_190916_E() / 2);
+            int i = MathHelper.getInt(rand, 1, itemstack2.getCount() / 2);
             ItemStack itemstack1 = itemstack2.splitStack(i);
 
-            if (itemstack2.func_190916_E() > 1 && rand.nextBoolean())
+            if (itemstack2.getCount() > 1 && rand.nextBoolean())
             {
                 list.add(itemstack2);
             }
@@ -117,7 +117,7 @@ public class LootTable
                 stacks.add(itemstack2);
             }
 
-            if (itemstack1.func_190916_E() > 1 && rand.nextBoolean())
+            if (itemstack1.getCount() > 1 && rand.nextBoolean())
             {
                 list.add(itemstack1);
             }
@@ -137,7 +137,7 @@ public class LootTable
 
         for (int i = 0; i < inventory.getSizeInventory(); ++i)
         {
-            if (inventory.getStackInSlot(i).func_190926_b())
+            if (inventory.getStackInSlot(i).isEmpty())
             {
                 list.add(Integer.valueOf(i));
             }

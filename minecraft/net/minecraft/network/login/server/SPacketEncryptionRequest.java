@@ -29,7 +29,7 @@ public class SPacketEncryptionRequest implements Packet<INetHandlerLoginClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.hashedServerId = buf.readStringFromBuffer(20);
+        this.hashedServerId = buf.readString(20);
         this.publicKey = CryptManager.decodePublicKey(buf.readByteArray());
         this.verifyToken = buf.readByteArray();
     }

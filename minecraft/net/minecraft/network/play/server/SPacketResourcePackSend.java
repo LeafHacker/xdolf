@@ -30,8 +30,8 @@ public class SPacketResourcePackSend implements Packet<INetHandlerPlayClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.url = buf.readStringFromBuffer(32767);
-        this.hash = buf.readStringFromBuffer(40);
+        this.url = buf.readString(32767);
+        this.hash = buf.readString(40);
     }
 
     /**

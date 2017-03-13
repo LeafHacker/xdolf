@@ -60,7 +60,7 @@ public class BlockFarmland extends Block
             }
             else if (!this.hasCrops(worldIn, pos))
             {
-                this.func_190970_b(worldIn, pos);
+                this.turnToDirt(worldIn, pos);
             }
         }
         else if (i < 7)
@@ -76,13 +76,13 @@ public class BlockFarmland extends Block
     {
         if (!worldIn.isRemote && worldIn.rand.nextFloat() < fallDistance - 0.5F && entityIn instanceof EntityLivingBase && (entityIn instanceof EntityPlayer || worldIn.getGameRules().getBoolean("mobGriefing")) && entityIn.width * entityIn.width * entityIn.height > 0.512F)
         {
-            this.func_190970_b(worldIn, pos);
+            this.turnToDirt(worldIn, pos);
         }
 
         super.onFallenUpon(worldIn, pos, entityIn, fallDistance);
     }
 
-    private void func_190970_b(World p_190970_1_, BlockPos p_190970_2_)
+    private void turnToDirt(World p_190970_1_, BlockPos p_190970_2_)
     {
         IBlockState iblockstate = Blocks.DIRT.getDefaultState();
         p_190970_1_.setBlockState(p_190970_2_, iblockstate);
@@ -118,13 +118,13 @@ public class BlockFarmland extends Block
      * change. Cases may include when redstone power is updated, cactus blocks popping off due to a neighboring solid
      * block, etc.
      */
-    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos p_189540_5_)
+    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos)
     {
-        super.neighborChanged(state, worldIn, pos, blockIn, p_189540_5_);
+        super.neighborChanged(state, worldIn, pos, blockIn, fromPos);
 
         if (worldIn.getBlockState(pos.up()).getMaterial().isSolid())
         {
-            this.func_190970_b(worldIn, pos);
+            this.turnToDirt(worldIn, pos);
         }
     }
 

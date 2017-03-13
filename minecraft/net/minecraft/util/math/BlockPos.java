@@ -196,7 +196,7 @@ public class BlockPos extends Vec3i
         return n == 0 ? this : new BlockPos(this.getX() + facing.getFrontOffsetX() * n, this.getY() + facing.getFrontOffsetY() * n, this.getZ() + facing.getFrontOffsetZ() * n);
     }
 
-    public BlockPos func_190942_a(Rotation p_190942_1_)
+    public BlockPos rotate(Rotation p_190942_1_)
     {
         switch (p_190942_1_)
         {
@@ -400,9 +400,9 @@ public class BlockPos extends Vec3i
             return super.offset(facing, n).toImmutable();
         }
 
-        public BlockPos func_190942_a(Rotation p_190942_1_)
+        public BlockPos rotate(Rotation p_190942_1_)
         {
-            return super.func_190942_a(p_190942_1_).toImmutable();
+            return super.rotate(p_190942_1_).toImmutable();
         }
 
         public int getX()

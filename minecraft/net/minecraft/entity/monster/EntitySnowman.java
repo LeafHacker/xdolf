@@ -106,12 +106,12 @@ public class EntitySnowman extends EntityGolem implements IRangedAttackMob
 
             if (this.isWet())
             {
-                this.attackEntityFrom(DamageSource.drown, 1.0F);
+                this.attackEntityFrom(DamageSource.DROWN, 1.0F);
             }
 
             if (this.world.getBiome(new BlockPos(i, 0, k)).getFloatTemperature(new BlockPos(i, j, k)) > 1.0F)
             {
-                this.attackEntityFrom(DamageSource.onFire, 1.0F);
+                this.attackEntityFrom(DamageSource.ON_FIRE, 1.0F);
             }
 
             if (!this.world.getGameRules().getBoolean("mobGriefing"))
@@ -142,8 +142,6 @@ public class EntitySnowman extends EntityGolem implements IRangedAttackMob
 
     /**
      * Attack the specified entity using a ranged attack.
-     *  
-     * @param distanceFactor How far the target is, normalized and clamped between 0.1 and 1.0
      */
     public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor)
     {
@@ -155,7 +153,7 @@ public class EntitySnowman extends EntityGolem implements IRangedAttackMob
         float f = MathHelper.sqrt(d1 * d1 + d3 * d3) * 0.2F;
         entitysnowball.setThrowableHeading(d1, d2 + (double)f, d3, 1.6F, 12.0F);
         this.playSound(SoundEvents.ENTITY_SNOWMAN_SHOOT, 1.0F, 1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
-        this.world.spawnEntityInWorld(entitysnowball);
+        this.world.spawnEntity(entitysnowball);
     }
 
     public float getEyeHeight()

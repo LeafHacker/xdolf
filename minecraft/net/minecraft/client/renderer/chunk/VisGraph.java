@@ -1,9 +1,8 @@
 package net.minecraft.client.renderer.chunk;
 
-import com.google.common.collect.Queues;
+import java.util.ArrayDeque;
 import java.util.BitSet;
 import java.util.EnumSet;
-import java.util.Queue;
 import java.util.Set;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IntegerCache;
@@ -68,23 +67,23 @@ public class VisGraph
     private Set<EnumFacing> floodFill(int p_178604_1_)
     {
         Set<EnumFacing> set = EnumSet.<EnumFacing>noneOf(EnumFacing.class);
-        Queue<Integer> queue = Queues.<Integer>newArrayDeque();
-        queue.add(IntegerCache.getInteger(p_178604_1_));
+        ArrayDeque arraydeque = new ArrayDeque(384);
+        arraydeque.add(IntegerCache.getInteger(p_178604_1_));
         this.bitSet.set(p_178604_1_, true);
 
-        while (!((Queue)queue).isEmpty())
+        while (!arraydeque.isEmpty())
         {
-            int i = ((Integer)queue.poll()).intValue();
+            int i = ((Integer)arraydeque.poll()).intValue();
             this.addEdges(i, set);
 
-            for (EnumFacing enumfacing : EnumFacing.values())
+            for (EnumFacing enumfacing : EnumFacing.VALUES)
             {
                 int j = this.getNeighborIndexAtFace(i, enumfacing);
 
                 if (j >= 0 && !this.bitSet.get(j))
                 {
                     this.bitSet.set(j, true);
-                    queue.add(IntegerCache.getInteger(j));
+                    arraydeque.add(IntegerCache.getInteger(j));
                 }
             }
         }

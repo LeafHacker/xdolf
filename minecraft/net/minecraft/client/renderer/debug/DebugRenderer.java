@@ -12,12 +12,12 @@ public class DebugRenderer
     public final DebugRenderer.IDebugRenderer debugRendererWater;
     public final DebugRenderer.IDebugRenderer debugRendererChunkBorder;
     public final DebugRenderer.IDebugRenderer debugRendererHeightMap;
-    public final DebugRenderer.IDebugRenderer field_191325_e;
+    public final DebugRenderer.IDebugRenderer collisionBoxRenderer;
     private boolean chunkBordersEnabled;
     private boolean pathfindingEnabled;
     private boolean waterEnabled;
     private boolean heightmapEnabled;
-    private boolean field_191326_j;
+    private boolean renderCollision;
 
     public DebugRenderer(Minecraft clientIn)
     {
@@ -25,12 +25,12 @@ public class DebugRenderer
         this.debugRendererWater = new DebugRendererWater(clientIn);
         this.debugRendererChunkBorder = new DebugRendererChunkBorder(clientIn);
         this.debugRendererHeightMap = new DebugRendererHeightMap(clientIn);
-        this.field_191325_e = new DebugRendererCollisionBox(clientIn);
+        this.collisionBoxRenderer = new DebugRendererCollisionBox(clientIn);
     }
 
     public boolean shouldRender()
     {
-        return this.chunkBordersEnabled || this.pathfindingEnabled || this.waterEnabled || this.heightmapEnabled || this.field_191326_j;
+        return this.chunkBordersEnabled || this.pathfindingEnabled || this.waterEnabled || this.heightmapEnabled || this.renderCollision;
     }
 
     /**
@@ -64,9 +64,9 @@ public class DebugRenderer
             this.debugRendererHeightMap.render(partialTicks, finishTimeNano);
         }
 
-        if (this.field_191326_j)
+        if (this.renderCollision)
         {
-            this.field_191325_e.render(partialTicks, finishTimeNano);
+            this.collisionBoxRenderer.render(partialTicks, finishTimeNano);
         }
     }
 

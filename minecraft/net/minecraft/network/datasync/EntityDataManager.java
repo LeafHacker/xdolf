@@ -264,7 +264,7 @@ public class EntityDataManager
         else
         {
             buf.writeByte(dataparameter.getId());
-            buf.writeVarIntToBuffer(i);
+            buf.writeVarInt(i);
             dataparameter.getSerializer().write(buf, entry.getValue());
         }
     }
@@ -282,7 +282,7 @@ public class EntityDataManager
                 list = Lists. < EntityDataManager.DataEntry<? >> newArrayList();
             }
 
-            int j = buf.readVarIntFromBuffer();
+            int j = buf.readVarInt();
             DataSerializer<?> dataserializer = DataSerializers.getSerializer(j);
 
             if (dataserializer == null)

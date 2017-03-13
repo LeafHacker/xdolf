@@ -86,7 +86,7 @@ public class EntityMinecartCommandBlock extends EntityMinecart
         {
             public NBTTagCompound process(IDataFixer fixer, NBTTagCompound compound, int versionIn)
             {
-                if (TileEntity.func_190559_a(TileEntityCommandBlock.class).equals(new ResourceLocation(compound.getString("id"))))
+                if (TileEntity.getKey(TileEntityCommandBlock.class).equals(new ResourceLocation(compound.getString("id"))))
                 {
                     compound.setString("id", "Control");
                     fixer.process(FixTypes.BLOCK_ENTITY, compound, versionIn);
@@ -152,7 +152,7 @@ public class EntityMinecartCommandBlock extends EntityMinecart
         }
     }
 
-    public boolean processInitialInteract(EntityPlayer player, EnumHand stack)
+    public boolean processInitialInteract(EntityPlayer player, EnumHand hand)
     {
         this.commandBlockLogic.tryOpenEditCommandBlock(player);
         return false;

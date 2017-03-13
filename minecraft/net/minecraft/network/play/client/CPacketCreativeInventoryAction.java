@@ -9,7 +9,7 @@ import net.minecraft.network.play.INetHandlerPlayServer;
 public class CPacketCreativeInventoryAction implements Packet<INetHandlerPlayServer>
 {
     private int slotId;
-    private ItemStack stack = ItemStack.field_190927_a;
+    private ItemStack stack = ItemStack.EMPTY;
 
     public CPacketCreativeInventoryAction()
     {
@@ -18,7 +18,7 @@ public class CPacketCreativeInventoryAction implements Packet<INetHandlerPlaySer
     public CPacketCreativeInventoryAction(int slotIdIn, ItemStack stackIn)
     {
         this.slotId = slotIdIn;
-        this.stack = stackIn.func_190926_b() ? ItemStack.field_190927_a : stackIn.copy();
+        this.stack = stackIn.isEmpty() ? ItemStack.EMPTY : stackIn.copy();
     }
 
     /**
@@ -35,7 +35,7 @@ public class CPacketCreativeInventoryAction implements Packet<INetHandlerPlaySer
     public void readPacketData(PacketBuffer buf) throws IOException
     {
         this.slotId = buf.readShort();
-        this.stack = buf.readItemStackFromBuffer();
+        this.stack = buf.readItemStack();
     }
 
     /**
@@ -44,7 +44,7 @@ public class CPacketCreativeInventoryAction implements Packet<INetHandlerPlaySer
     public void writePacketData(PacketBuffer buf) throws IOException
     {
         buf.writeShort(this.slotId);
-        buf.writeItemStackToBuffer(this.stack);
+        buf.writeItemStack(this.stack);
     }
 
     public int getSlotId()

@@ -45,18 +45,18 @@ public abstract class MobSpawnerBaseLogic
     private int spawnRange = 4;
 
     @Nullable
-    private ResourceLocation func_190895_g()
+    private ResourceLocation getEntityId()
     {
         String s = this.randomEntity.getNbt().getString("id");
         ResourceLocation resourcelocation = new ResourceLocation(s);
         return !StringUtils.isNullOrEmpty(s) && org.apache.commons.lang3.StringUtils.equals(s, resourcelocation.toString()) ? resourcelocation : null;
     }
 
-    public void func_190894_a(@Nullable ResourceLocation p_190894_1_)
+    public void setEntityId(@Nullable ResourceLocation id)
     {
-        if (p_190894_1_ != null)
+        if (id != null)
         {
-            this.randomEntity.getNbt().setString("id", p_190894_1_.toString());
+            this.randomEntity.getNbt().setString("id", id.toString());
         }
     }
 
@@ -234,7 +234,7 @@ public abstract class MobSpawnerBaseLogic
 
     public NBTTagCompound writeToNBT(NBTTagCompound p_189530_1_)
     {
-        ResourceLocation resourcelocation = this.func_190895_g();
+        ResourceLocation resourcelocation = this.getEntityId();
 
         if (resourcelocation == null)
         {

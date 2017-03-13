@@ -40,7 +40,7 @@ public class CommandScoreboard extends CommandBase
     /**
      * Gets the name of the command
      */
-    public String getCommandName()
+    public String getName()
     {
         return "scoreboard";
     }
@@ -56,7 +56,7 @@ public class CommandScoreboard extends CommandBase
     /**
      * Gets the usage string for the command.
      */
-    public String getCommandUsage(ICommandSender sender)
+    public String getUsage(ICommandSender sender)
     {
         return "commands.scoreboard.usage";
     }
@@ -337,7 +337,7 @@ public class CommandScoreboard extends CommandBase
                 {
                     TextComponentTranslation textcomponenttranslation = new TextComponentTranslation(commandexception.getMessage(), commandexception.getErrorObjects());
                     textcomponenttranslation.getStyle().setColor(TextFormatting.RED);
-                    sender.addChatMessage(textcomponenttranslation);
+                    sender.sendMessage(textcomponenttranslation);
                 }
             }
 
@@ -642,8 +642,8 @@ public class CommandScoreboard extends CommandBase
 
             TextComponentTranslation textcomponenttranslation = new TextComponentTranslation("commands.scoreboard.teams.list.player.count", new Object[] {Integer.valueOf(collection.size()), scoreplayerteam.getRegisteredName()});
             textcomponenttranslation.getStyle().setColor(TextFormatting.DARK_GREEN);
-            sender.addChatMessage(textcomponenttranslation);
-            sender.addChatMessage(new TextComponentString(joinNiceString(collection.toArray())));
+            sender.sendMessage(textcomponenttranslation);
+            sender.sendMessage(new TextComponentString(joinNiceString(collection.toArray())));
         }
         else
         {
@@ -657,11 +657,11 @@ public class CommandScoreboard extends CommandBase
 
             TextComponentTranslation textcomponenttranslation1 = new TextComponentTranslation("commands.scoreboard.teams.list.count", new Object[] {Integer.valueOf(collection1.size())});
             textcomponenttranslation1.getStyle().setColor(TextFormatting.DARK_GREEN);
-            sender.addChatMessage(textcomponenttranslation1);
+            sender.sendMessage(textcomponenttranslation1);
 
             for (ScorePlayerTeam scoreplayerteam1 : collection1)
             {
-                sender.addChatMessage(new TextComponentTranslation("commands.scoreboard.teams.list.entry", new Object[] {scoreplayerteam1.getRegisteredName(), scoreplayerteam1.getTeamName(), Integer.valueOf(scoreplayerteam1.getMembershipCollection().size())}));
+                sender.sendMessage(new TextComponentTranslation("commands.scoreboard.teams.list.entry", new Object[] {scoreplayerteam1.getRegisteredName(), scoreplayerteam1.getTeamName(), Integer.valueOf(scoreplayerteam1.getMembershipCollection().size())}));
             }
         }
     }
@@ -852,11 +852,11 @@ public class CommandScoreboard extends CommandBase
         {
             TextComponentTranslation textcomponenttranslation = new TextComponentTranslation("commands.scoreboard.objectives.list.count", new Object[] {Integer.valueOf(collection.size())});
             textcomponenttranslation.getStyle().setColor(TextFormatting.DARK_GREEN);
-            sender.addChatMessage(textcomponenttranslation);
+            sender.sendMessage(textcomponenttranslation);
 
             for (ScoreObjective scoreobjective : collection)
             {
-                sender.addChatMessage(new TextComponentTranslation("commands.scoreboard.objectives.list.entry", new Object[] {scoreobjective.getName(), scoreobjective.getDisplayName(), scoreobjective.getCriteria().getName()}));
+                sender.sendMessage(new TextComponentTranslation("commands.scoreboard.objectives.list.entry", new Object[] {scoreobjective.getName(), scoreobjective.getDisplayName(), scoreobjective.getCriteria().getName()}));
             }
         }
     }
@@ -909,11 +909,11 @@ public class CommandScoreboard extends CommandBase
 
             TextComponentTranslation textcomponenttranslation = new TextComponentTranslation("commands.scoreboard.players.list.player.count", new Object[] {Integer.valueOf(map.size()), s});
             textcomponenttranslation.getStyle().setColor(TextFormatting.DARK_GREEN);
-            sender.addChatMessage(textcomponenttranslation);
+            sender.sendMessage(textcomponenttranslation);
 
             for (Score score : map.values())
             {
-                sender.addChatMessage(new TextComponentTranslation("commands.scoreboard.players.list.player.entry", new Object[] {Integer.valueOf(score.getScorePoints()), score.getObjective().getDisplayName(), score.getObjective().getName()}));
+                sender.sendMessage(new TextComponentTranslation("commands.scoreboard.players.list.player.entry", new Object[] {Integer.valueOf(score.getScorePoints()), score.getObjective().getDisplayName(), score.getObjective().getName()}));
             }
         }
         else
@@ -928,8 +928,8 @@ public class CommandScoreboard extends CommandBase
 
             TextComponentTranslation textcomponenttranslation1 = new TextComponentTranslation("commands.scoreboard.players.list.count", new Object[] {Integer.valueOf(collection.size())});
             textcomponenttranslation1.getStyle().setColor(TextFormatting.DARK_GREEN);
-            sender.addChatMessage(textcomponenttranslation1);
-            sender.addChatMessage(new TextComponentString(joinNiceString(collection.toArray())));
+            sender.sendMessage(textcomponenttranslation1);
+            sender.sendMessage(new TextComponentString(joinNiceString(collection.toArray())));
         }
     }
 
@@ -1165,8 +1165,8 @@ public class CommandScoreboard extends CommandBase
             {
                 TextComponentTranslation textcomponenttranslation = new TextComponentTranslation("commands.scoreboard.players.tag.list", new Object[] {s});
                 textcomponenttranslation.getStyle().setColor(TextFormatting.DARK_GREEN);
-                sender.addChatMessage(textcomponenttranslation);
-                sender.addChatMessage(new TextComponentString(joinNiceString(set.toArray())));
+                sender.sendMessage(textcomponenttranslation);
+                sender.sendMessage(new TextComponentString(joinNiceString(set.toArray())));
             }
 
             sender.setCommandStat(CommandResultStats.Type.QUERY_RESULT, set.size());
@@ -1223,7 +1223,7 @@ public class CommandScoreboard extends CommandBase
         }
     }
 
-    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
+    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
     {
         if (args.length == 1)
         {
@@ -1279,7 +1279,7 @@ public class CommandScoreboard extends CommandBase
                     {
                         if (args.length == 3)
                         {
-                            return getListOfStringsMatchingLastWord(args, server.getAllUsernames());
+                            return getListOfStringsMatchingLastWord(args, server.getOnlinePlayerNames());
                         }
 
                         if (args.length == 4)
@@ -1308,7 +1308,7 @@ public class CommandScoreboard extends CommandBase
 
                             if (args.length == 6)
                             {
-                                return getListOfStringsMatchingLastWord(args, server.getAllUsernames());
+                                return getListOfStringsMatchingLastWord(args, server.getOnlinePlayerNames());
                             }
 
                             if (args.length == 7)
@@ -1346,7 +1346,7 @@ public class CommandScoreboard extends CommandBase
                 {
                     if (args.length == 3)
                     {
-                        return getListOfStringsMatchingLastWord(args, server.getAllUsernames());
+                        return getListOfStringsMatchingLastWord(args, server.getOnlinePlayerNames());
                     }
 
                     if (args.length == 4)
@@ -1371,14 +1371,14 @@ public class CommandScoreboard extends CommandBase
 
                     if (args.length >= 4)
                     {
-                        return getListOfStringsMatchingLastWord(args, server.getAllUsernames());
+                        return getListOfStringsMatchingLastWord(args, server.getOnlinePlayerNames());
                     }
                 }
                 else
                 {
                     if ("leave".equalsIgnoreCase(args[1]))
                     {
-                        return getListOfStringsMatchingLastWord(args, server.getAllUsernames());
+                        return getListOfStringsMatchingLastWord(args, server.getOnlinePlayerNames());
                     }
 
                     if (!"empty".equalsIgnoreCase(args[1]) && !"list".equalsIgnoreCase(args[1]) && !"remove".equalsIgnoreCase(args[1]))

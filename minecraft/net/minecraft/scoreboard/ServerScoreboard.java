@@ -213,7 +213,7 @@ public class ServerScoreboard extends Scoreboard
     {
         List < Packet<? >> list = this.getCreatePackets(objective);
 
-        for (EntityPlayerMP entityplayermp : this.scoreboardMCServer.getPlayerList().getPlayerList())
+        for (EntityPlayerMP entityplayermp : this.scoreboardMCServer.getPlayerList().getPlayers())
         {
             for (Packet<?> packet : list)
             {
@@ -244,7 +244,7 @@ public class ServerScoreboard extends Scoreboard
     {
         List < Packet<? >> list = this.getDestroyPackets(p_96546_1_);
 
-        for (EntityPlayerMP entityplayermp : this.scoreboardMCServer.getPlayerList().getPlayerList())
+        for (EntityPlayerMP entityplayermp : this.scoreboardMCServer.getPlayerList().getPlayers())
         {
             for (Packet<?> packet : list)
             {

@@ -38,15 +38,15 @@ import net.minecraft.world.World;
 
 public class BlockShulkerBox extends BlockContainer
 {
-    public static final PropertyEnum<EnumFacing> field_190957_a = PropertyDirection.create("facing");
-    private final EnumDyeColor field_190958_b;
+    public static final PropertyEnum<EnumFacing> FACING = PropertyDirection.create("facing");
+    private final EnumDyeColor color;
 
-    public BlockShulkerBox(EnumDyeColor p_i47248_1_)
+    public BlockShulkerBox(EnumDyeColor colorIn)
     {
         super(Material.ROCK, MapColor.AIR);
-        this.field_190958_b = p_i47248_1_;
+        this.color = colorIn;
         this.setCreativeTab(CreativeTabs.DECORATIONS);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(field_190957_a, EnumFacing.UP));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.UP));
     }
 
     /**
@@ -54,7 +54,7 @@ public class BlockShulkerBox extends BlockContainer
      */
     public TileEntity createNewTileEntity(World worldIn, int meta)
     {
-        return new TileEntityShulkerBox(this.field_190958_b);
+        return new TileEntityShulkerBox(this.color);
     }
 
     /**
@@ -65,7 +65,7 @@ public class BlockShulkerBox extends BlockContainer
         return false;
     }
 
-    public boolean causesSuffocation(IBlockState p_176214_1_)
+    public boolean causesSuffocation(IBlockState state)
     {
         return true;
     }
@@ -75,7 +75,7 @@ public class BlockShulkerBox extends BlockContainer
         return false;
     }
 
-    public boolean func_190946_v(IBlockState p_190946_1_)
+    public boolean hasCustomBreakingProgress(IBlockState state)
     {
         return true;
     }
@@ -89,7 +89,7 @@ public class BlockShulkerBox extends BlockContainer
         return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;
     }
 
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing heldItem, float side, float hitX, float hitY)
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
     {
         if (worldIn.isRemote)
         {
@@ -105,12 +105,12 @@ public class BlockShulkerBox extends BlockContainer
 
             if (tileentity instanceof TileEntityShulkerBox)
             {
-                EnumFacing enumfacing = (EnumFacing)state.getValue(field_190957_a);
+                EnumFacing enumfacing = (EnumFacing)state.getValue(FACING);
                 boolean flag;
 
-                if (((TileEntityShulkerBox)tileentity).func_190591_p() == TileEntityShulkerBox.AnimationStatus.CLOSED)
+                if (((TileEntityShulkerBox)tileentity).getAnimationStatus() == TileEntityShulkerBox.AnimationStatus.CLOSED)
                 {
-                    AxisAlignedBB axisalignedbb = FULL_BLOCK_AABB.addCoord((double)(0.5F * (float)enumfacing.getFrontOffsetX()), (double)(0.5F * (float)enumfacing.getFrontOffsetY()), (double)(0.5F * (float)enumfacing.getFrontOffsetZ())).func_191195_a((double)enumfacing.getFrontOffsetX(), (double)enumfacing.getFrontOffsetY(), (double)enumfacing.getFrontOffsetZ());
+                    AxisAlignedBB axisalignedbb = FULL_BLOCK_AABB.addCoord((double)(0.5F * (float)enumfacing.getFrontOffsetX()), (double)(0.5F * (float)enumfacing.getFrontOffsetY()), (double)(0.5F * (float)enumfacing.getFrontOffsetZ())).contract((double)enumfacing.getFrontOffsetX(), (double)enumfacing.getFrontOffsetY(), (double)enumfacing.getFrontOffsetZ());
                     flag = !worldIn.collidesWithAnyBlock(axisalignedbb.offset(pos.offset(enumfacing)));
                 }
                 else
@@ -120,7 +120,7 @@ public class BlockShulkerBox extends BlockContainer
 
                 if (flag)
                 {
-                    playerIn.addStat(StatList.field_191272_ae);
+                    playerIn.addStat(StatList.OPEN_SHULKER_BOX);
                     playerIn.displayGUIChest((IInventory)tileentity);
                 }
 
@@ -137,14 +137,14 @@ public class BlockShulkerBox extends BlockContainer
      * Called by ItemBlocks just before a block is actually set in the world, to allow for adjustments to the
      * IBlockstate
      */
-    public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
+    public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
     {
-        return this.getDefaultState().withProperty(field_190957_a, facing);
+        return this.getDefaultState().withProperty(FACING, facing);
     }
 
     protected BlockStateContainer createBlockState()
     {
-        return new BlockStateContainer(this, new IProperty[] {field_190957_a});
+        return new BlockStateContainer(this, new IProperty[] {FACING});
     }
 
     /**
@@ -152,7 +152,7 @@ public class BlockShulkerBox extends BlockContainer
      */
     public int getMetaFromState(IBlockState state)
     {
-        return ((EnumFacing)state.getValue(field_190957_a)).getIndex();
+        return ((EnumFacing)state.getValue(FACING)).getIndex();
     }
 
     /**
@@ -161,13 +161,13 @@ public class BlockShulkerBox extends BlockContainer
     public IBlockState getStateFromMeta(int meta)
     {
         EnumFacing enumfacing = EnumFacing.getFront(meta);
-        return this.getDefaultState().withProperty(field_190957_a, enumfacing);
+        return this.getDefaultState().withProperty(FACING, enumfacing);
     }
 
     public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player)
     {
         TileEntityShulkerBox tileentityshulkerbox = (TileEntityShulkerBox)worldIn.getTileEntity(pos);
-        tileentityshulkerbox.func_190579_a(player.capabilities.isCreativeMode);
+        tileentityshulkerbox.setDestroyedByCreativePlayer(player.capabilities.isCreativeMode);
         tileentityshulkerbox.fillWithLoot(player);
     }
 
@@ -189,7 +189,7 @@ public class BlockShulkerBox extends BlockContainer
 
             if (tileentity instanceof TileEntityShulkerBox)
             {
-                ((TileEntityShulkerBox)tileentity).func_190575_a(stack.getDisplayName());
+                ((TileEntityShulkerBox)tileentity).setCustomName(stack.getDisplayName());
             }
         }
     }
@@ -205,18 +205,18 @@ public class BlockShulkerBox extends BlockContainer
         {
             TileEntityShulkerBox tileentityshulkerbox = (TileEntityShulkerBox)tileentity;
 
-            if (!tileentityshulkerbox.func_190590_r() && tileentityshulkerbox.func_190582_F())
+            if (!tileentityshulkerbox.isCleared() && tileentityshulkerbox.shouldDrop())
             {
                 ItemStack itemstack = new ItemStack(Item.getItemFromBlock(this));
                 NBTTagCompound nbttagcompound = new NBTTagCompound();
                 NBTTagCompound nbttagcompound1 = new NBTTagCompound();
-                nbttagcompound.setTag("BlockEntityTag", ((TileEntityShulkerBox)tileentity).func_190580_f(nbttagcompound1));
+                nbttagcompound.setTag("BlockEntityTag", ((TileEntityShulkerBox)tileentity).saveToNbt(nbttagcompound1));
                 itemstack.setTagCompound(nbttagcompound);
 
                 if (tileentityshulkerbox.hasCustomName())
                 {
                     itemstack.setStackDisplayName(tileentityshulkerbox.getName());
-                    tileentityshulkerbox.func_190575_a("");
+                    tileentityshulkerbox.setCustomName("");
                 }
 
                 spawnAsEntity(worldIn, pos, itemstack);
@@ -228,10 +228,10 @@ public class BlockShulkerBox extends BlockContainer
         super.breakBlock(worldIn, pos, state);
     }
 
-    public void func_190948_a(ItemStack p_190948_1_, EntityPlayer p_190948_2_, List<String> p_190948_3_, boolean p_190948_4_)
+    public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltip, boolean advanced)
     {
-        super.func_190948_a(p_190948_1_, p_190948_2_, p_190948_3_, p_190948_4_);
-        NBTTagCompound nbttagcompound = p_190948_1_.getTagCompound();
+        super.addInformation(stack, player, tooltip, advanced);
+        NBTTagCompound nbttagcompound = stack.getTagCompound();
 
         if (nbttagcompound != null && nbttagcompound.hasKey("BlockEntityTag", 10))
         {
@@ -239,33 +239,33 @@ public class BlockShulkerBox extends BlockContainer
 
             if (nbttagcompound1.hasKey("LootTable", 8))
             {
-                p_190948_3_.add("???????");
+                tooltip.add("???????");
             }
 
             if (nbttagcompound1.hasKey("Items", 9))
             {
-                NonNullList<ItemStack> nonnulllist = NonNullList.<ItemStack>func_191197_a(27, ItemStack.field_190927_a);
-                ItemStackHelper.func_191283_b(nbttagcompound1, nonnulllist);
+                NonNullList<ItemStack> nonnulllist = NonNullList.<ItemStack>withSize(27, ItemStack.EMPTY);
+                ItemStackHelper.loadAllItems(nbttagcompound1, nonnulllist);
                 int i = 0;
                 int j = 0;
 
                 for (ItemStack itemstack : nonnulllist)
                 {
-                    if (!itemstack.func_190926_b())
+                    if (!itemstack.isEmpty())
                     {
                         ++j;
 
                         if (i <= 4)
                         {
                             ++i;
-                            p_190948_3_.add(String.format("%s x%d", new Object[] {itemstack.getDisplayName(), Integer.valueOf(itemstack.func_190916_E())}));
+                            tooltip.add(String.format("%s x%d", new Object[] {itemstack.getDisplayName(), Integer.valueOf(itemstack.getCount())}));
                         }
                     }
                 }
 
                 if (j - i > 0)
                 {
-                    p_190948_3_.add(String.format(TextFormatting.ITALIC + I18n.translateToLocal("container.shulkerBox.more"), new Object[] {Integer.valueOf(j - i)}));
+                    tooltip.add(String.format(TextFormatting.ITALIC + I18n.translateToLocal("container.shulkerBox.more"), new Object[] {Integer.valueOf(j - i)}));
                 }
             }
         }
@@ -279,7 +279,7 @@ public class BlockShulkerBox extends BlockContainer
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
     {
         TileEntity tileentity = source.getTileEntity(pos);
-        return tileentity instanceof TileEntityShulkerBox ? ((TileEntityShulkerBox)tileentity).func_190584_a(state) : FULL_BLOCK_AABB;
+        return tileentity instanceof TileEntityShulkerBox ? ((TileEntityShulkerBox)tileentity).getBoundingBox(state) : FULL_BLOCK_AABB;
     }
 
     public boolean hasComparatorInputOverride(IBlockState state)
@@ -296,7 +296,7 @@ public class BlockShulkerBox extends BlockContainer
     {
         ItemStack itemstack = super.getItem(worldIn, pos, state);
         TileEntityShulkerBox tileentityshulkerbox = (TileEntityShulkerBox)worldIn.getTileEntity(pos);
-        NBTTagCompound nbttagcompound = tileentityshulkerbox.func_190580_f(new NBTTagCompound());
+        NBTTagCompound nbttagcompound = tileentityshulkerbox.saveToNbt(new NBTTagCompound());
 
         if (!nbttagcompound.hasNoTags())
         {
@@ -306,79 +306,79 @@ public class BlockShulkerBox extends BlockContainer
         return itemstack;
     }
 
-    public static EnumDyeColor func_190955_b(Item p_190955_0_)
+    public static EnumDyeColor getColorFromItem(Item itemIn)
     {
-        return func_190954_c(Block.getBlockFromItem(p_190955_0_));
+        return getColorFromBlock(Block.getBlockFromItem(itemIn));
     }
 
-    public static EnumDyeColor func_190954_c(Block p_190954_0_)
+    public static EnumDyeColor getColorFromBlock(Block p_190954_0_)
     {
-        return p_190954_0_ instanceof BlockShulkerBox ? ((BlockShulkerBox)p_190954_0_).func_190956_e() : EnumDyeColor.PURPLE;
+        return p_190954_0_ instanceof BlockShulkerBox ? ((BlockShulkerBox)p_190954_0_).getColor() : EnumDyeColor.PURPLE;
     }
 
-    public static Block func_190952_a(EnumDyeColor p_190952_0_)
+    public static Block getBlockByColor(EnumDyeColor colorIn)
     {
-        switch (p_190952_0_)
+        switch (colorIn)
         {
             case WHITE:
-                return Blocks.field_190977_dl;
+                return Blocks.WHITE_SHULKER_BOX;
 
             case ORANGE:
-                return Blocks.field_190978_dm;
+                return Blocks.ORANGE_SHULKER_BOX;
 
             case MAGENTA:
-                return Blocks.field_190979_dn;
+                return Blocks.MAGENTA_SHULKER_BOX;
 
             case LIGHT_BLUE:
-                return Blocks.field_190980_do;
+                return Blocks.LIGHT_BLUE_SHULKER_BOX;
 
             case YELLOW:
-                return Blocks.field_190981_dp;
+                return Blocks.YELLOW_SHULKER_BOX;
 
             case LIME:
-                return Blocks.field_190982_dq;
+                return Blocks.LIME_SHULKER_BOX;
 
             case PINK:
-                return Blocks.field_190983_dr;
+                return Blocks.PINK_SHULKER_BOX;
 
             case GRAY:
-                return Blocks.field_190984_ds;
+                return Blocks.GRAY_SHULKER_BOX;
 
             case SILVER:
-                return Blocks.field_190985_dt;
+                return Blocks.SILVER_SHULKER_BOX;
 
             case CYAN:
-                return Blocks.field_190986_du;
+                return Blocks.CYAN_SHULKER_BOX;
 
             case PURPLE:
             default:
-                return Blocks.field_190987_dv;
+                return Blocks.PURPLE_SHULKER_BOX;
 
             case BLUE:
-                return Blocks.field_190988_dw;
+                return Blocks.BLUE_SHULKER_BOX;
 
             case BROWN:
-                return Blocks.field_190989_dx;
+                return Blocks.BROWN_SHULKER_BOX;
 
             case GREEN:
-                return Blocks.field_190990_dy;
+                return Blocks.GREEN_SHULKER_BOX;
 
             case RED:
-                return Blocks.field_190991_dz;
+                return Blocks.RED_SHULKER_BOX;
 
             case BLACK:
-                return Blocks.field_190975_dA;
+                return Blocks.BLACK_SHULKER_BOX;
         }
     }
 
-    public EnumDyeColor func_190956_e()
+    public EnumDyeColor getColor()
     {
-        return this.field_190958_b;
+        return this.color;
     }
 
-    public static ItemStack func_190953_b(EnumDyeColor p_190953_0_)
+    public static ItemStack getColoredItemStack(EnumDyeColor colorIn)
     {
-        return new ItemStack(func_190952_a(p_190953_0_));
+        return new ItemStack(getBlockByColor(colorIn));
     }
 
     /**
@@ -387,7 +387,7 @@ public class BlockShulkerBox extends BlockContainer
      */
     public IBlockState withRotation(IBlockState state, Rotation rot)
     {
-        return state.withProperty(field_190957_a, rot.rotate((EnumFacing)state.getValue(field_190957_a)));
+        return state.withProperty(FACING, rot.rotate((EnumFacing)state.getValue(FACING)));
     }
 
     /**
@@ -396,6 +396,6 @@ public class BlockShulkerBox extends BlockContainer
      */
     public IBlockState withMirror(IBlockState state, Mirror mirrorIn)
     {
-        return state.withRotation(mirrorIn.toRotation((EnumFacing)state.getValue(field_190957_a)));
+        return state.withRotation(mirrorIn.toRotation((EnumFacing)state.getValue(FACING)));
     }
 }

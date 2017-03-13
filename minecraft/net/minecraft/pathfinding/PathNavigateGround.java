@@ -45,11 +45,11 @@ public class PathNavigateGround extends PathNavigate
      */
     public Path getPathToPos(BlockPos pos)
     {
-        if (this.worldObj.getBlockState(pos).getMaterial() == Material.AIR)
+        if (this.world.getBlockState(pos).getMaterial() == Material.AIR)
         {
             BlockPos blockpos;
 
-            for (blockpos = pos.down(); blockpos.getY() > 0 && this.worldObj.getBlockState(blockpos).getMaterial() == Material.AIR; blockpos = blockpos.down())
+            for (blockpos = pos.down(); blockpos.getY() > 0 && this.world.getBlockState(blockpos).getMaterial() == Material.AIR; blockpos = blockpos.down())
             {
                 ;
             }
@@ -59,7 +59,7 @@ public class PathNavigateGround extends PathNavigate
                 return super.getPathToPos(blockpos.up());
             }
 
-            while (blockpos.getY() < this.worldObj.getHeight() && this.worldObj.getBlockState(blockpos).getMaterial() == Material.AIR)
+            while (blockpos.getY() < this.world.getHeight() && this.world.getBlockState(blockpos).getMaterial() == Material.AIR)
             {
                 blockpos = blockpos.up();
             }
@@ -67,7 +67,7 @@ public class PathNavigateGround extends PathNavigate
             pos = blockpos;
         }
 
-        if (!this.worldObj.getBlockState(pos).getMaterial().isSolid())
+        if (!this.world.getBlockState(pos).getMaterial().isSolid())
         {
             return super.getPathToPos(pos);
         }
@@ -75,7 +75,7 @@ public class PathNavigateGround extends PathNavigate
         {
             BlockPos blockpos1;
 
-            for (blockpos1 = pos.up(); blockpos1.getY() < this.worldObj.getHeight() && this.worldObj.getBlockState(blockpos1).getMaterial().isSolid(); blockpos1 = blockpos1.up())
+            for (blockpos1 = pos.up(); blockpos1.getY() < this.world.getHeight() && this.world.getBlockState(blockpos1).getMaterial().isSolid(); blockpos1 = blockpos1.up())
             {
                 ;
             }
@@ -100,13 +100,13 @@ public class PathNavigateGround extends PathNavigate
         if (this.theEntity.isInWater() && this.getCanSwim())
         {
             int i = (int)this.theEntity.getEntityBoundingBox().minY;
-            Block block = this.worldObj.getBlockState(new BlockPos(MathHelper.floor(this.theEntity.posX), i, MathHelper.floor(this.theEntity.posZ))).getBlock();
+            Block block = this.world.getBlockState(new BlockPos(MathHelper.floor(this.theEntity.posX), i, MathHelper.floor(this.theEntity.posZ))).getBlock();
             int j = 0;
 
             while (block == Blocks.FLOWING_WATER || block == Blocks.WATER)
             {
                 ++i;
-                block = this.worldObj.getBlockState(new BlockPos(MathHelper.floor(this.theEntity.posX), i, MathHelper.floor(this.theEntity.posZ))).getBlock();
+                block = this.world.getBlockState(new BlockPos(MathHelper.floor(this.theEntity.posX), i, MathHelper.floor(this.theEntity.posZ))).getBlock();
                 ++j;
 
                 if (j > 16)
@@ -134,7 +134,7 @@ public class PathNavigateGround extends PathNavigate
         {
             PathPoint pathpoint = this.currentPath.getPathPointFromIndex(i);
             PathPoint pathpoint1 = i + 1 < this.currentPath.getCurrentPathLength() ? this.currentPath.getPathPointFromIndex(i + 1) : null;
-            IBlockState iblockstate = this.worldObj.getBlockState(new BlockPos(pathpoint.xCoord, pathpoint.yCoord, pathpoint.zCoord));
+            IBlockState iblockstate = this.world.getBlockState(new BlockPos(pathpoint.xCoord, pathpoint.yCoord, pathpoint.zCoord));
             Block block = iblockstate.getBlock();
 
             if (block == Blocks.CAULDRON)
@@ -150,7 +150,7 @@ public class PathNavigateGround extends PathNavigate
 
         if (this.shouldAvoidSun)
         {
-            if (this.worldObj.canSeeSky(new BlockPos(MathHelper.floor(this.theEntity.posX), (int)(this.theEntity.getEntityBoundingBox().minY + 0.5D), MathHelper.floor(this.theEntity.posZ))))
+            if (this.world.canSeeSky(new BlockPos(MathHelper.floor(this.theEntity.posX), (int)(this.theEntity.getEntityBoundingBox().minY + 0.5D), MathHelper.floor(this.theEntity.posZ))))
             {
                 return;
             }
@@ -159,7 +159,7 @@ public class PathNavigateGround extends PathNavigate
             {
                 PathPoint pathpoint2 = this.currentPath.getPathPointFromIndex(j);
 
-                if (this.worldObj.canSeeSky(new BlockPos(pathpoint2.xCoord, pathpoint2.yCoord, pathpoint2.zCoord)))
+                if (this.world.canSeeSky(new BlockPos(pathpoint2.xCoord, pathpoint2.yCoord, pathpoint2.zCoord)))
                 {
                     this.currentPath.setCurrentPathLength(j - 1);
                     return;
@@ -272,7 +272,7 @@ public class PathNavigateGround extends PathNavigate
 
                     if (d0 * p_179683_8_ + d1 * p_179683_10_ >= 0.0D)
                     {
-                        PathNodeType pathnodetype = this.nodeProcessor.getPathNodeType(this.worldObj, k, y - 1, l, this.theEntity, sizeX, sizeY, sizeZ, true, true);
+                        PathNodeType pathnodetype = this.nodeProcessor.getPathNodeType(this.world, k, y - 1, l, this.theEntity, sizeX, sizeY, sizeZ, true, true);
 
                         if (pathnodetype == PathNodeType.WATER)
                         {
@@ -289,7 +289,7 @@ public class PathNavigateGround extends PathNavigate
                             return false;
                         }
 
-                        pathnodetype = this.nodeProcessor.getPathNodeType(this.worldObj, k, y, l, this.theEntity, sizeX, sizeY, sizeZ, true, true);
+                        pathnodetype = this.nodeProcessor.getPathNodeType(this.world, k, y, l, this.theEntity, sizeX, sizeY, sizeZ, true, true);
                         float f = this.theEntity.getPathPriority(pathnodetype);
 
                         if (f < 0.0F || f >= 8.0F)
@@ -321,9 +321,9 @@ public class PathNavigateGround extends PathNavigate
 
             if (d0 * p_179692_8_ + d1 * p_179692_10_ >= 0.0D)
             {
-                Block block = this.worldObj.getBlockState(blockpos).getBlock();
+                Block block = this.world.getBlockState(blockpos).getBlock();
 
-                if (!block.isPassable(this.worldObj, blockpos))
+                if (!block.isPassable(this.world, blockpos))
                 {
                     return false;
                 }

@@ -7,6 +7,8 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.item.EntityXPOrb;
+import net.minecraft.src.Config;
+import net.minecraft.src.CustomColors;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 
@@ -45,23 +47,45 @@ public class RenderXPOrb extends Render<EntityXPOrb>
             int l = j / 65536;
             OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)k, (float)l);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            float f8 = 255.0F;
-            float f9 = ((float)entity.xpColor + partialTicks) / 2.0F;
-            l = (int)((MathHelper.sin(f9 + 0.0F) + 1.0F) * 0.5F * 255.0F);
+            float f7 = 255.0F;
+            float f8 = ((float)entity.xpColor + partialTicks) / 2.0F;
+
+            if (Config.isCustomColors())
+            {
+                f8 = CustomColors.getXpOrbTimer(f8);
+            }
+
+            l = (int)((MathHelper.sin(f8 + 0.0F) + 1.0F) * 0.5F * 255.0F);
             int i1 = 255;
-            int j1 = (int)((MathHelper.sin(f9 + 4.1887903F) + 1.0F) * 0.1F * 255.0F);
+            int j1 = (int)((MathHelper.sin(f8 + 4.1887903F) + 1.0F) * 0.1F * 255.0F);
             GlStateManager.translate(0.0F, 0.1F, 0.0F);
             GlStateManager.rotate(180.0F - this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
             GlStateManager.rotate((float)(this.renderManager.options.thirdPersonView == 2 ? -1 : 1) * -this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
-            float f7 = 0.3F;
+            float f9 = 0.3F;
             GlStateManager.scale(0.3F, 0.3F, 0.3F);
             Tessellator tessellator = Tessellator.getInstance();
             VertexBuffer vertexbuffer = tessellator.getBuffer();
             vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR_NORMAL);
-            vertexbuffer.pos(-0.5D, -0.25D, 0.0D).tex((double)f, (double)f3).color(l, 255, j1, 128).normal(0.0F, 1.0F, 0.0F).endVertex();
-            vertexbuffer.pos(0.5D, -0.25D, 0.0D).tex((double)f1, (double)f3).color(l, 255, j1, 128).normal(0.0F, 1.0F, 0.0F).endVertex();
-            vertexbuffer.pos(0.5D, 0.75D, 0.0D).tex((double)f1, (double)f2).color(l, 255, j1, 128).normal(0.0F, 1.0F, 0.0F).endVertex();
-            vertexbuffer.pos(-0.5D, 0.75D, 0.0D).tex((double)f, (double)f2).color(l, 255, j1, 128).normal(0.0F, 1.0F, 0.0F).endVertex();
+            int k1 = l;
+            int l1 = 255;
+            int i2 = j1;
+
+            if (Config.isCustomColors())
+            {
+                int j2 = CustomColors.getXpOrbColor(f8);
+
+                if (j2 >= 0)
+                {
+                    k1 = j2 >> 16 & 255;
+                    l1 = j2 >> 8 & 255;
+                    i2 = j2 >> 0 & 255;
+                }
+            }
+
+            vertexbuffer.pos(-0.5D, -0.25D, 0.0D).tex((double)f, (double)f3).color(k1, l1, i2, 128).normal(0.0F, 1.0F, 0.0F).endVertex();
+            vertexbuffer.pos(0.5D, -0.25D, 0.0D).tex((double)f1, (double)f3).color(k1, l1, i2, 128).normal(0.0F, 1.0F, 0.0F).endVertex();
+            vertexbuffer.pos(0.5D, 0.75D, 0.0D).tex((double)f1, (double)f2).color(k1, l1, i2, 128).normal(0.0F, 1.0F, 0.0F).endVertex();
+            vertexbuffer.pos(-0.5D, 0.75D, 0.0D).tex((double)f, (double)f2).color(k1, l1, i2, 128).normal(0.0F, 1.0F, 0.0F).endVertex();
             tessellator.draw();
             GlStateManager.disableBlend();
             GlStateManager.disableRescaleNormal();

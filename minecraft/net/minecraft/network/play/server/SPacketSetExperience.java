@@ -28,8 +28,8 @@ public class SPacketSetExperience implements Packet<INetHandlerPlayClient>
     public void readPacketData(PacketBuffer buf) throws IOException
     {
         this.experienceBar = buf.readFloat();
-        this.level = buf.readVarIntFromBuffer();
-        this.totalExperience = buf.readVarIntFromBuffer();
+        this.level = buf.readVarInt();
+        this.totalExperience = buf.readVarInt();
     }
 
     /**
@@ -38,8 +38,8 @@ public class SPacketSetExperience implements Packet<INetHandlerPlayClient>
     public void writePacketData(PacketBuffer buf) throws IOException
     {
         buf.writeFloat(this.experienceBar);
-        buf.writeVarIntToBuffer(this.level);
-        buf.writeVarIntToBuffer(this.totalExperience);
+        buf.writeVarInt(this.level);
+        buf.writeVarInt(this.totalExperience);
     }
 
     /**

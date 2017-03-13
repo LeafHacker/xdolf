@@ -11,7 +11,7 @@ public class CommandSaveOn extends CommandBase
     /**
      * Gets the name of the command
      */
-    public String getCommandName()
+    public String getName()
     {
         return "save-on";
     }
@@ -19,7 +19,7 @@ public class CommandSaveOn extends CommandBase
     /**
      * Gets the usage string for the command.
      */
-    public String getCommandUsage(ICommandSender sender)
+    public String getUsage(ICommandSender sender)
     {
         return "commands.save-on.usage";
     }
@@ -31,11 +31,11 @@ public class CommandSaveOn extends CommandBase
     {
         boolean flag = false;
 
-        for (int i = 0; i < server.worldServers.length; ++i)
+        for (int i = 0; i < server.worlds.length; ++i)
         {
-            if (server.worldServers[i] != null)
+            if (server.worlds[i] != null)
             {
-                WorldServer worldserver = server.worldServers[i];
+                WorldServer worldserver = server.worlds[i];
 
                 if (worldserver.disableLevelSaving)
                 {

@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 public abstract class PathNavigate
 {
     protected EntityLiving theEntity;
-    protected World worldObj;
+    protected World world;
     @Nullable
 
     /** The PathEntity being followed. */
@@ -53,7 +53,7 @@ public abstract class PathNavigate
     public PathNavigate(EntityLiving entitylivingIn, World worldIn)
     {
         this.theEntity = entitylivingIn;
-        this.worldObj = worldIn;
+        this.world = worldIn;
         this.pathSearchRange = entitylivingIn.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE);
         this.pathFinder = this.getPathFinder();
     }
@@ -87,13 +87,13 @@ public abstract class PathNavigate
 
     public void updatePath()
     {
-        if (this.worldObj.getTotalWorldTime() - this.lastTimeUpdated > 20L)
+        if (this.world.getTotalWorldTime() - this.lastTimeUpdated > 20L)
         {
             if (this.targetPos != null)
             {
                 this.currentPath = null;
                 this.currentPath = this.getPathToPos(this.targetPos);
-                this.lastTimeUpdated = this.worldObj.getTotalWorldTime();
+                this.lastTimeUpdated = this.world.getTotalWorldTime();
                 this.tryUpdatePath = false;
             }
         }
@@ -132,12 +132,12 @@ public abstract class PathNavigate
         {
             this.targetPos = pos;
             float f = this.getPathSearchRange();
-            this.worldObj.theProfiler.startSection("pathfind");
+            this.world.theProfiler.startSection("pathfind");
             BlockPos blockpos = new BlockPos(this.theEntity);
             int i = (int)(f + 8.0F);
-            ChunkCache chunkcache = new ChunkCache(this.worldObj, blockpos.add(-i, -i, -i), blockpos.add(i, i, i), 0);
+            ChunkCache chunkcache = new ChunkCache(this.world, blockpos.add(-i, -i, -i), blockpos.add(i, i, i), 0);
             Path path = this.pathFinder.findPath(chunkcache, this.theEntity, this.targetPos, f);
-            this.worldObj.theProfiler.endSection();
+            this.world.theProfiler.endSection();
             return path;
         }
     }
@@ -165,12 +165,12 @@ public abstract class PathNavigate
             {
                 this.targetPos = blockpos;
                 float f = this.getPathSearchRange();
-                this.worldObj.theProfiler.startSection("pathfind");
+                this.world.theProfiler.startSection("pathfind");
                 BlockPos blockpos1 = (new BlockPos(this.theEntity)).up();
                 int i = (int)(f + 16.0F);
-                ChunkCache chunkcache = new ChunkCache(this.worldObj, blockpos1.add(-i, -i, -i), blockpos1.add(i, i, i), 0);
+                ChunkCache chunkcache = new ChunkCache(this.world, blockpos1.add(-i, -i, -i), blockpos1.add(i, i, i), 0);
                 Path path = this.pathFinder.findPath(chunkcache, this.theEntity, entityIn, f);
-                this.worldObj.theProfiler.endSection();
+                this.world.theProfiler.endSection();
                 return path;
             }
         }
@@ -271,7 +271,7 @@ public abstract class PathNavigate
                 if (vec3d2 != null)
                 {
                     BlockPos blockpos = (new BlockPos(vec3d2)).down();
-                    AxisAlignedBB axisalignedbb = this.worldObj.getBlockState(blockpos).getBoundingBox(this.worldObj, blockpos);
+                    AxisAlignedBB axisalignedbb = this.world.getBlockState(blockpos).getBoundingBox(this.world, blockpos);
                     vec3d2 = vec3d2.subtract(0.0D, 1.0D - axisalignedbb.maxY, 0.0D);
                     this.theEntity.getMoveHelper().setMoveTo(vec3d2.xCoord, vec3d2.yCoord, vec3d2.zCoord, this.speed);
                 }
@@ -406,7 +406,7 @@ public abstract class PathNavigate
 
     public boolean canEntityStandOnPos(BlockPos pos)
     {
-        return this.worldObj.getBlockState(pos.down()).isFullBlock();
+        return this.world.getBlockState(pos.down()).isFullBlock();
     }
 
     public NodeProcessor getNodeProcessor()
