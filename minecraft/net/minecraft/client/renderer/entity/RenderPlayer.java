@@ -1,5 +1,12 @@
 package net.minecraft.client.renderer.entity;
 
+import org.lwjgl.opengl.GL11;
+
+import com.darkcart.xdolf.Client;
+import com.darkcart.xdolf.Wrapper;
+import com.darkcart.xdolf.mods.render.Chams;
+import com.darkcart.xdolf.mods.render.NoHurtCam;
+
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.model.ModelBiped;
@@ -67,7 +74,19 @@ public class RenderPlayer extends RenderLivingBase<AbstractClientPlayer>
 
             this.setModelVisibilities(entity);
             GlStateManager.enableBlendProfile(GlStateManager.Profile.PLAYER_SKIN);
-            super.doRender(entity, x, d0, z, entityYaw, partialTicks);
+            
+            if (Client.findMod(Chams.class).isToggled()) {
+            	GL11.glEnable(GL11.GL_POLYGON_OFFSET_FILL);
+            	GlStateManager.enablePolygonOffset();
+            	GlStateManager.doPolygonOffset(1.0F, -1000000);
+            	super.doRender(entity, x, d0, z, entityYaw, partialTicks);
+            	GL11.glDisable(GL11.GL_POLYGON_OFFSET_FILL);
+            	GlStateManager.doPolygonOffset(1.0F, 1000000);
+            	GlStateManager.disablePolygonOffset();
+            }else{
+            	super.doRender(entity, x, d0, z, entityYaw, partialTicks);
+            }
+            
             GlStateManager.disableBlendProfile(GlStateManager.Profile.PLAYER_SKIN);
         }
     }
