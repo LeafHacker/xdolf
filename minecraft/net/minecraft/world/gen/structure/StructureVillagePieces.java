@@ -37,7 +37,6 @@ import net.minecraft.world.biome.BiomeTaiga;
 import net.minecraft.world.gen.structure.template.TemplateManager;
 import net.minecraft.world.storage.loot.LootTableList;
 
-@SuppressWarnings("incomplete-switch")
 public class StructureVillagePieces
 {
     public static void registerVillagePieces()

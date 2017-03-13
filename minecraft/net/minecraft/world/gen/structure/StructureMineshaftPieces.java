@@ -25,7 +25,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.template.TemplateManager;
 import net.minecraft.world.storage.loot.LootTableList;
 
-@SuppressWarnings("incomplete-switch")
 public class StructureMineshaftPieces
 {
     public static void registerStructurePieces()

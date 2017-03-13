@@ -1361,7 +1361,8 @@ public class CustomColors
         return p_getWorldFogColor_0_;
     }
 
-    public static Vec3d getWorldSkyColor(Vec3d p_getWorldSkyColor_0_, World p_getWorldSkyColor_1_, Entity p_getWorldSkyColor_2_, float p_getWorldSkyColor_3_)
+    @SuppressWarnings("incomplete-switch")
+	public static Vec3d getWorldSkyColor(Vec3d p_getWorldSkyColor_0_, World p_getWorldSkyColor_1_, Entity p_getWorldSkyColor_2_, float p_getWorldSkyColor_3_)
     {
         DimensionType dimensiontype = p_getWorldSkyColor_1_.provider.getDimensionType();
 

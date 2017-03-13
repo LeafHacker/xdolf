@@ -232,11 +232,6 @@ public class FontRenderer implements IResourceManagerReloadListener
                 }
             }
 
-            if (i1 == 65)
-            {
-                i1 = i1;
-            }
-
             if (i1 == 32)
             {
                 if (charW <= 8)
@@ -935,7 +930,7 @@ public class FontRenderer implements IResourceManagerReloadListener
     /**
      * Inserts newline and formatting into a string to wrap it within the specified width.
      */
-    String wrapFormattedStringToWidth(String str, int wrapWidth)
+    protected String wrapFormattedStringToWidth(String str, int wrapWidth)
     {
         int i = this.sizeStringToWidth(str, wrapWidth);
 

@@ -94,7 +94,8 @@ public class GuiShaders extends GuiScreen
     /**
      * Called by the controls from the buttonList when activated. (Mouse pressed for buttons)
      */
-    protected void actionPerformed(GuiButton button)
+    @SuppressWarnings("incomplete-switch")
+	protected void actionPerformed(GuiButton button)
     {
         if (button.enabled)
         {
