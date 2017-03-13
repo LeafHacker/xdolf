@@ -18,6 +18,7 @@ import com.darkcart.xdolf.mods.player.Flight;
 import com.darkcart.xdolf.mods.player.NoFall;
 import com.darkcart.xdolf.mods.player.Spammer;
 import com.darkcart.xdolf.mods.player.Step;
+import com.darkcart.xdolf.mods.render.Chams;
 import com.darkcart.xdolf.mods.render.EntityESP;
 import com.darkcart.xdolf.mods.render.NoHurtCam;
 import com.darkcart.xdolf.mods.render.NoPumpkinBlur;
@@ -62,6 +63,7 @@ public class Client {
 		modules.add(new CrystalAura());
 		modules.add(new AutoWalk());
 		modules.add(new Freecam());
+		modules.add(new Chams());
 	}
 
 	// ANY CODE BELOW THIS SHOULD NOT CHANGE

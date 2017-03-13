@@ -16,6 +16,7 @@ import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.util.EnumBlockRenderType;
@@ -376,7 +377,7 @@ public abstract class Render<T extends Entity>
             boolean flag1 = this.renderManager.options.thirdPersonView == 2;
             float f2 = entityIn.height + 0.5F - (flag ? 0.25F : 0.0F);
             int i = "deadmau5".equals(str) ? -10 : 0;
-            EntityPlayer entity = ((EntityPlayer) entityIn);
+            EntityLivingBase entity = ((EntityLivingBase) entityIn);
             str = str + " \247a" + ((double)Math.round((entity.getHealth() * 100) / 100) / 2);
             EntityRenderer.drawNameplate(this.getFontRendererFromRenderManager(), str, (float)x, (float)y + f2, (float)z, i, f, f1, flag1, flag);
         }
