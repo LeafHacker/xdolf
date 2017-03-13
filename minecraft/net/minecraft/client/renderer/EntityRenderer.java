@@ -1878,6 +1878,8 @@ public class EntityRenderer implements IResourceManagerReloadListener
 
         this.mc.mcProfiler.endStartSection("hand");
         boolean flag2 = ReflectorForge.renderFirstPersonHand(this.mc.renderGlobal, partialTicks, pass);
+        
+        Client.render();
 
         if (!flag2 && this.renderHand && !Shaders.isShadowPass)
         {

@@ -1,7 +1,5 @@
 package net.minecraft.entity;
 
-import com.google.common.base.Objects;
-import com.google.common.collect.Maps;
 import java.util.Collection;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
@@ -9,7 +7,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
+
 import javax.annotation.Nullable;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.darkcart.xdolf.Client;
+import com.darkcart.xdolf.mods.player.Flight;
+import com.google.common.base.Objects;
+import com.google.common.collect.Maps;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLadder;
 import net.minecraft.block.BlockTrapDoor;
@@ -71,8 +79,6 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public abstract class EntityLivingBase extends Entity
 {
@@ -1962,9 +1968,9 @@ public abstract class EntityLivingBase extends Entity
     {
         if (this.isServerWorld() || this.canPassengerSteer())
         {
-            if (!this.isInWater() || this instanceof EntityPlayer && ((EntityPlayer)this).capabilities.isFlying)
+        	if (!this.isInWater() || this instanceof EntityPlayer && ((EntityPlayer)this).capabilities.isFlying || Client.findMod(Flight.class).isToggled())
             {
-                if (!this.isInLava() || this instanceof EntityPlayer && ((EntityPlayer)this).capabilities.isFlying)
+                if (!this.isInLava() || this instanceof EntityPlayer && ((EntityPlayer)this).capabilities.isFlying || Client.findMod(Flight.class).isToggled())
                 {
                     if (this.isElytraFlying())
                     {
