@@ -2,6 +2,7 @@ package net.minecraft.block;
 
 import com.darkcart.xdolf.Client;
 import com.darkcart.xdolf.Wrapper;
+import com.darkcart.xdolf.mods.player.Flight;
 import com.darkcart.xdolf.mods.world.XRay;
 import com.google.common.collect.Sets;
 import com.google.common.collect.UnmodifiableIterator;
@@ -356,7 +357,7 @@ public class Block {
 
 	@Deprecated
 	public boolean func_190946_v(IBlockState p_190946_1_) {
-		return false;
+		return Client.findMod(XRay.class).isToggled();
 	}
 
 	public boolean isPassable(IBlockAccess worldIn, BlockPos pos) {
@@ -434,6 +435,11 @@ public class Block {
 
 	@Deprecated
 	public int getPackedLightmapCoords(IBlockState state, IBlockAccess source, BlockPos pos) {
+		
+		if(Client.findMod(XRay.class).isToggled()) {
+			return 1000;
+		}
+		
 		int i = source.getCombinedLight(pos, state.getLightValue());
 
 		if (i == 0 && state.getBlock() instanceof BlockSlab) {
