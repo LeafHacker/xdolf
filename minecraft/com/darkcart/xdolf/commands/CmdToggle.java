@@ -34,7 +34,7 @@ public class CmdToggle extends Command
 						Client.enabledModuleNames.add(mod.getName());
 					}
 					Collections.sort(Client.enabledModuleNames);
-					Wrapper.addChatMessage("Toggled " + mod.getName() + ".");
+					Wrapper.addChatMessage("Toggled " + mod.getName() + (mod.isEnabled() ? " on." : " off."));
 					valid = true;
 					break;
 				}
