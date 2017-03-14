@@ -9,6 +9,7 @@ import java.util.HashMap;
 
 import org.lwjgl.input.Keyboard;
 
+import com.darkcart.xdolf.clickgui.XdolfGuiClick;
 import com.darkcart.xdolf.fonts.Fonts;
 import com.darkcart.xdolf.mods.Hacks;
 import com.darkcart.xdolf.mods.aura.AutoArmor;
@@ -60,8 +61,7 @@ public class Client {
 
 			Fonts.loadFonts();
 			
-			//AdolfWrapper.clickGui = new AdolfGuiClick();
-
+			Wrapper.clickGui = new XdolfGuiClick();
 			Wrapper.friendManager = new FriendManager();
 			Wrapper.fileManager = new FileManager();
 			
@@ -79,27 +79,6 @@ public class Client {
 			Wrapper.getFileManager().writeCrash(logString);
 		}
 	}
-	
-	/*public Client() {
-		modules.add(new Fullbright());
-		modules.add(new Tracers());
-		modules.add(new StorageESP());
-		modules.add(new EntityESP());
-		modules.add(new NoHurtCam());
-		modules.add(new AntiKnockback());
-		modules.add(new Step());
-		modules.add(new Flight());
-		modules.add(new Spammer());
-		modules.add(new Timer());
-		modules.add(new NoPumpkinBlur());
-		modules.add(new XRay());
-		modules.add(new KillAura());
-		modules.add(new AutoRespawn());
-		modules.add(new AutoArmor());
-		modules.add(new CrystalAura());
-		modules.add(new AutoWalk());
-		modules.add(new Chams());
-	}*/
 
 	public static String downloadString(String uri) {
 		try {

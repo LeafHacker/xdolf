@@ -14,6 +14,7 @@ import com.darkcart.xdolf.Wrapper;
 import com.darkcart.xdolf.mods.Hacks;
 import com.darkcart.xdolf.util.Category;
 import com.darkcart.xdolf.util.EntityUtils;
+import com.darkcart.xdolf.util.Value;
 
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
@@ -28,8 +29,11 @@ import net.minecraft.util.math.MathHelper;
 
 public class KillAura extends Module {
 	
+	public static Value auraSpeed = new Value("Aura Speed");
+	public static Value auraRange = new Value("Aura Range");
+	
 	public KillAura() {
-		super("KillAura", "What do you fucking think?", Keyboard.KEY_R, 0xFFFFFF, Category.AURA);
+		super("KillAura", "Automatically attacks players or mobs.", Keyboard.KEY_R, 0xFFFFFF, Category.AURA);
 	}
 	
 	private float yaw, pitch, yawHead;
@@ -48,10 +52,14 @@ public class KillAura extends Module {
 	
 	@Override
 	public void onUpdate(EntityPlayerSP player) {
+		if(auraRange.getValue() < 3)
+		{
+			auraRange.setValue(4F);
+		}
 		if(isEnabled())
 		{
 			currentMS = System.nanoTime() / 1000000;
-			if(hasDelayRun((long)(1000 / 8)))
+			if(hasDelayRun((long)(1000 / auraSpeed.getValue())))
 			{
 				for(Object o: Wrapper.getWorld().loadedEntityList)
 				{
@@ -62,7 +70,7 @@ public class KillAura extends Module {
 							if(Hacks.findMod(AuraPlayer.class).isEnabled())
 							{
 								Entity e = (Entity) o;
-								boolean checks = !Wrapper.getFriends().isFriend((e).getName()) && !(e instanceof EntityPlayerSP) && (e instanceof EntityPlayer) && player.getDistanceToEntity(e) <= 4 && player.canEntityBeSeen(e) && !e.isDead;
+								boolean checks = !Wrapper.getFriends().isFriend((e).getName()) && !(e instanceof EntityPlayerSP) && (e instanceof EntityPlayer) && player.getDistanceToEntity(e) <= auraRange.getValue() && player.canEntityBeSeen(e) && !e.isDead;
 								if(checks) 
 								{
 									player.setSprinting(false);
@@ -78,7 +86,7 @@ public class KillAura extends Module {
 							if(Hacks.findMod(AuraMob.class).isEnabled())
 							{
 								Entity e = (Entity) o;
-								boolean checks = !(e instanceof EntityPlayerSP) && !(e instanceof EntityPlayer) && (e instanceof EntityLivingBase) && player.getDistanceToEntity(e) <= 4 && player.canEntityBeSeen(e) && !e.isDead;
+								boolean checks = !(e instanceof EntityPlayerSP) && !(e instanceof EntityPlayer) && (e instanceof EntityLivingBase) && player.getDistanceToEntity(e) <= auraRange.getValue() && player.canEntityBeSeen(e) && !e.isDead;
 								if(checks) 
 								{
 									player.setSprinting(false);
@@ -94,7 +102,7 @@ public class KillAura extends Module {
 						if(Hacks.findMod(AuraPlayer.class).isEnabled() && Hacks.findMod(AuraMob.class).isEnabled())
 						{
 							Entity e = (Entity) o;
-							boolean checks = !(e instanceof EntityPlayerSP) && (e instanceof EntityLivingBase) && player.getDistanceToEntity(e) <= 4 && player.canEntityBeSeen(e) && !e.isDead;
+							boolean checks = !(e instanceof EntityPlayerSP) && (e instanceof EntityLivingBase) && player.getDistanceToEntity(e) <= auraRange.getValue() && player.canEntityBeSeen(e) && !e.isDead;
 			
 							if(e instanceof EntityPlayer) 
 							{

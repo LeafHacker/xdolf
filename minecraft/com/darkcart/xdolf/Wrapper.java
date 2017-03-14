@@ -4,6 +4,7 @@ import java.io.File;
 
 import org.lwjgl.input.Keyboard;
 
+import com.darkcart.xdolf.clickgui.XdolfGuiClick;
 import com.darkcart.xdolf.mods.Hacks;
 import com.darkcart.xdolf.util.FileManager;
 import com.darkcart.xdolf.util.FriendManager;
@@ -19,6 +20,7 @@ public class Wrapper {
 	public static Hacks hacks;
 	public static FileManager fileManager;
 	public static FriendManager friendManager;
+	public static XdolfGuiClick clickGui;
 	
 	public static final Minecraft getMinecraft() {
 		return Minecraft.getMinecraft();
@@ -59,6 +61,13 @@ public class Wrapper {
 		if(friendManager == null) friendManager = new FriendManager();
 		
 		return friendManager;
+	}
+	
+	public static XdolfGuiClick getClickGui()
+	{
+		if(clickGui == null) clickGui = new XdolfGuiClick();
+		
+		return clickGui;
 	}
 	
     /**

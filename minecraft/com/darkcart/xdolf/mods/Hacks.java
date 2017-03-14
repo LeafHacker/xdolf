@@ -52,6 +52,7 @@ public class Hacks
 			new Chams(),
 			new AuraMob(),
 			new AuraPlayer(),
+			new GUI(),
 	});
 
 	public static Module[] getEnabledHacks()

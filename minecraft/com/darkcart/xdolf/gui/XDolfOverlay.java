@@ -8,6 +8,8 @@ import org.lwjgl.opengl.GL11;
 import com.darkcart.xdolf.Client;
 import com.darkcart.xdolf.Module;
 import com.darkcart.xdolf.Wrapper;
+import com.darkcart.xdolf.clickgui.XdolfGuiClick;
+import com.darkcart.xdolf.clickgui.elements.XdolfWindow;
 import com.darkcart.xdolf.fonts.Fonts;
 import com.darkcart.xdolf.mods.Hacks;
 import com.google.common.collect.Ordering;
@@ -47,7 +49,7 @@ public class XDolfOverlay extends GuiIngame {
 		int width = Client.gameResolution.getScaledWidth();
 		int height = Client.gameResolution.getScaledHeight();
 
-		Fonts.roboto18.drawStringWithShadow("Xdolf\247f | FPS: " + Wrapper.getMinecraft().getDebugFPS(), 2, 0, 0x55FF55);
+		Fonts.roboto18.drawStringWithShadow("Xdolf", 2, 0, 0x55FF55);
 		int count = 0;
 		try {
 			for(Module mod: Hacks.display) {
@@ -99,6 +101,14 @@ public class XDolfOverlay extends GuiIngame {
 				var14 = width - Fonts.roboto18.getStringWidth(var11) - 2;
 				Fonts.roboto18.drawStringWithShadow(var11, (var16) - 8,
 						height + 10 - (count2 * 20), 8355711);
+			}
+		}
+		
+		for(XdolfWindow window: XdolfGuiClick.windows) {
+			if(!(Wrapper.getMinecraft().currentScreen instanceof XdolfGuiClick)) {
+				if(window.isPinned()) {
+					window.draw(0, 0);
+				}
 			}
 		}
 	}

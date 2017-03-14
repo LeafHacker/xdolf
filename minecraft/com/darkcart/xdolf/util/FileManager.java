@@ -19,6 +19,8 @@ import org.lwjgl.input.Keyboard;
 
 import com.darkcart.xdolf.Module;
 import com.darkcart.xdolf.Wrapper;
+import com.darkcart.xdolf.clickgui.XdolfGuiClick;
+import com.darkcart.xdolf.clickgui.elements.XdolfWindow;
 import com.darkcart.xdolf.mods.Hacks;
 
 public class FileManager
@@ -33,7 +35,7 @@ public class FileManager
 			xdolfDir.mkdirs();
 		}
 		loadKeybinds();
-		//loadGuiSettings();
+		loadGuiSettings();
 		//loadXrayList();
 		loadHacks();
 		loadFriends();
@@ -99,13 +101,13 @@ public class FileManager
 		}
 	}
 	
-	/*public void saveGuiSettings()
+	public void saveGuiSettings()
 	{
 		try
 		{
 			File file = new File(xdolfDir.getAbsolutePath(), "gui.txt");
 			BufferedWriter out = new BufferedWriter(new FileWriter(file));
-			for(AdolfWindow window: AdolfGuiClick.windows)
+			for(XdolfWindow window: XdolfGuiClick.windows)
 			{
 				out.write(window.getTitle().replace(" ", "") + ":" + window.dragX + ":" + window.dragY + ":" + window.isExtended() + ":" + window.isOpen() + ":" + window.isPinned());
 				out.write("\r\n");
@@ -133,7 +135,7 @@ public class FileManager
 				boolean isExtended = Boolean.parseBoolean(args[3]);
 				boolean isOpen = Boolean.parseBoolean(args[4]);
 				boolean isPinned = Boolean.parseBoolean(args[5]);
-				for(AdolfWindow window: AdolfGuiClick.windows)
+				for(XdolfWindow window: XdolfGuiClick.windows)
 				{
 					if(window.getTitle().replace(" ", "").equalsIgnoreCase(title))
 					{
@@ -151,7 +153,7 @@ public class FileManager
 			e.printStackTrace();
 			saveGuiSettings();
 		}
-	}*/
+	}
 	
 	/*public void saveXrayList()
 	{
