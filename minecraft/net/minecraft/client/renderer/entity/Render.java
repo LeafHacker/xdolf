@@ -3,6 +3,7 @@ package net.minecraft.client.renderer.entity;
 import javax.annotation.Nullable;
 
 import com.darkcart.xdolf.Wrapper;
+import com.darkcart.xdolf.util.Friend;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -391,6 +392,9 @@ public abstract class Render<T extends Entity> implements IEntityRenderer
             float f2 = entityIn.height + 0.5F - (flag ? 0.25F : 0.0F);
             int i = "deadmau5".equals(str) ? -10 : 0;
             EntityLivingBase entity = ((EntityLivingBase) entityIn);
+            for(Friend friend: Wrapper.getFriends().friendsList) {
+            	str.replace(friend.getName(), friend.getAlias());
+            }
             if(Wrapper.getFriends().isFriend(str)) {
             	str = "\2479" + str;
             }
