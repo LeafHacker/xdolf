@@ -251,7 +251,7 @@ public class FileManager
 		}
 	}
 	
-	public void saveFriends2()
+	public void saveFriends()
 	{
 		try
 		{

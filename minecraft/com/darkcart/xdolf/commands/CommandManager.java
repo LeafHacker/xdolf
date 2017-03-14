@@ -30,6 +30,8 @@ public class CommandManager
 		commands.add(new CmdSpam());
 		commands.add(new CmdRotation());
 		commands.add(new CmdView());
+		commands.add(new CmdBind());
+		commands.add(new CmdFriend());
 	}
 	
 	public void runCommands(String s)

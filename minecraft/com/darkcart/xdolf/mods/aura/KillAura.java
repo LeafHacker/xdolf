@@ -46,32 +46,34 @@ public class KillAura extends Module {
 	
 	@Override
 	public void onUpdate(EntityPlayerSP player) {
-		try {
-			currentMS = System.nanoTime() / 1000000;
-			if(hasDelayRun((long)(1000 / 8)))
-			{
-				for(Object o: Wrapper.getWorld().loadedEntityList)
+		if(isEnabled()) {
+			try {
+				currentMS = System.nanoTime() / 1000000;
+				if(hasDelayRun((long)(1000 / 8)))
 				{
-					Entity e = (Entity) o;
-					boolean checks = !(e instanceof EntityPlayerSP) && (e instanceof EntityLivingBase) && player.getDistanceToEntity(e) <= 4 && player.canEntityBeSeen(e) && !e.isDead;
-		
-					if(e instanceof EntityPlayer) 
+					for(Object o: Wrapper.getWorld().loadedEntityList)
 					{
-						EntityPlayer ep = (EntityPlayer) o;
-					}
-					
-					if(checks) 
-					{
-						player.setSprinting(false);
-						faceEntity(e);
-						player.swingArm(EnumHand.MAIN_HAND);
-						Wrapper.getMinecraft().playerController.attackEntity(Wrapper.getPlayer(), e);
-						lastMS = System.nanoTime() / 1000000;
-						break;
+						Entity e = (Entity) o;
+						boolean checks = !(e instanceof EntityPlayerSP) && (e instanceof EntityLivingBase) && player.getDistanceToEntity(e) <= 4 && player.canEntityBeSeen(e) && !e.isDead;
+			
+						if(e instanceof EntityPlayer) 
+						{
+							EntityPlayer ep = (EntityPlayer) o;
+						}
+						
+						if(checks) 
+						{
+							player.setSprinting(false);
+							faceEntity(e);
+							player.swingArm(EnumHand.MAIN_HAND);
+							Wrapper.getMinecraft().playerController.attackEntity(Wrapper.getPlayer(), e);
+							lastMS = System.nanoTime() / 1000000;
+							break;
+						}
 					}
 				}
-			}
-		}catch(Exception ex){}
+			}catch(Exception ex){}
+		}
 	}
 	
 	@Override
