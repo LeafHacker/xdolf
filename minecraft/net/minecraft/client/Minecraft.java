@@ -2027,7 +2027,8 @@ public class Minecraft implements IThreadListener, ISnooperInfo
                 }
 
                 boolean flag1 = false;
-
+                
+                Wrapper.onKeyPressed();
                 if (this.currentScreen == null)
                 {
                     if (i == 1)

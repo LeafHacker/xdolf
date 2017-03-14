@@ -12,7 +12,7 @@ import net.minecraft.client.entity.EntityPlayerSP;
 public class Flight extends Module {
 	
 	public Flight() {
-		super("Flight", "Flying mode.", Keyboard.KEY_F, 0xFFFFFF, Category.PLAYER);
+		super("Flight", "Flying mode.", Keyboard.KEY_V, 0xFFFFFF, Category.PLAYER);
 	}
 
 	@Override

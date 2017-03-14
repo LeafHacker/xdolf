@@ -69,60 +69,9 @@ public class GuiDirectLogin extends GuiScreen
             if (auth.login()) {
                 Client.mc.session = auth.getSession();
             }
-        	/*if (usernameBox.getText().length() > 0) {
-        		if (passwordBox.getText().length() > 0) {
-        			new Thread() {
-        				@Override
-        				public void run() {
-        					String[] login = LoginUtils.loginToMinecraft(usernameBox.getText(), passwordBox.getText());
-        					// If the return code was OK, we'll swap accounts.
-        					if (login.length >= 5) {
-        						AdolfWrapper.getMinecraft().session = new Session(login[2].trim(), login[4].trim(), login[3].trim());
-        						Manager.altScreen.dispErrorString = "Sucessfully logged into: " + login[2].trim();
-        						//prevScreen.setLastLoginStatus(EnumChatFormatting.GRAY + "Success" + EnumChatFormatting.RESET);
-        					} else {
-        						Manager.altScreen.dispErrorString = login[0];
-        						//prevScreen.setLastLoginStatus(EnumChatFormatting.GRAY + login[0] + EnumChatFormatting.RESET);
-        					}
-        				}
-        			}.start();
-        		} else {
-        			AdolfWrapper.getMinecraft().session = new Session(usernameBox.getText(), "hue", "hue");
-        			Manager.altScreen.dispErrorString = "Changed name to: " + usernameBox.getText();
-        			//prevScreen.setLastLoginStatus(EnumChatFormatting.GRAY + "Success" + EnumChatFormatting.RESET);
-        		}
-        	}*/
         } else if (button.id == 2) {
             Client.mc.displayGuiScreen(parent);
         }
-        
-		/*if(button.id == 1)
-		{
-			if(!usernameBox.getText().trim().isEmpty() && !passwordBox.getText().trim().isEmpty())
-			{
-				try
-				{
-					String post = (new StringBuilder("user=")).append(URLEncoder.encode(usernameBox.getText().trim(), "UTF-8")).append("&password=").append(URLEncoder.encode(passwordBox.getText().trim(), "UTF-8")).append("&version=").append(13).toString();
-					String returnInf = Manager.excutePost("https://login.minecraft.net/", post);
-					String[] parsedInfo = returnInf.split(":");
-					AdolfWrapper.getMinecraft().session = new Session(parsedInfo[2].trim(), parsedInfo[4].trim(), parsedInfo[3].trim());
-	                System.out.println(parsedInfo[2].trim() + " " + parsedInfo[4].trim() + " " + parsedInfo[3].trim());
-					Manager.altScreen.dispErrorString = "";
-				}catch(Exception error)
-				{
-					Manager.altScreen.dispErrorString = "".concat("\247cBad Login \2477(").concat(usernameBox.getText()).concat(")");
-				}
-			}else if(!usernameBox.getText().trim().isEmpty() && passwordBox.getText().trim().isEmpty())
-			{
-				AdolfWrapper.getMinecraft().session.username = usernameBox.getText().trim();
-			}
-            
-			AdolfWrapper.getMinecraft().displayGuiScreen(parent);
-		}else
-		if(button.id == 2)
-		{
-			AdolfWrapper.getMinecraft().displayGuiScreen(parent);
-		}*/
 	}
 	
 	public static String excutePost(String s, String s1)

@@ -2,6 +2,8 @@ package com.darkcart.xdolf;
 
 import java.io.File;
 
+import org.lwjgl.input.Keyboard;
+
 import com.darkcart.xdolf.mods.Hacks;
 import com.darkcart.xdolf.util.FileManager;
 import com.darkcart.xdolf.util.FriendManager;
@@ -103,4 +105,11 @@ public class Wrapper {
         String var0 = System.getProperty("os.name").toLowerCase();
         return var0.contains("win") ? EnumOS.WINDOWS : (var0.contains("mac") ? EnumOS.OSX : (var0.contains("solaris") ? EnumOS.SOLARIS : (var0.contains("sunos") ? EnumOS.SOLARIS : (var0.contains("linux") ? EnumOS.LINUX : (var0.contains("unix") ? EnumOS.LINUX : EnumOS.UNKNOWN)))));
     }
+    
+	public static void onKeyPressed() {
+		int key = Keyboard.getEventKey();
+		for(Module mod : Hacks.hackList) {
+			mod.onKeyPressed(key);
+		}
+	}
 }

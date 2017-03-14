@@ -23,14 +23,14 @@ import com.darkcart.xdolf.mods.Hacks;
 
 public class FileManager
 {
-	public File adolfDir;
+	public File xdolfDir;
 	
 	public FileManager()
 	{
-		adolfDir = new File(Wrapper.getAppDir("minecraft") + File.separator + "Adolf");
-		if(!adolfDir.exists())
+		xdolfDir = new File(Wrapper.getAppDir("minecraft") + File.separator + "Xdolf");
+		if(!xdolfDir.exists())
 		{
-			adolfDir.mkdirs();
+			xdolfDir.mkdirs();
 		}
 		loadKeybinds();
 		//loadGuiSettings();
@@ -42,7 +42,7 @@ public class FileManager
 	
 	public void saveKeybinds() {
 		try {
-			File file = new File(adolfDir.getAbsolutePath(), "keys.txt");
+			File file = new File(xdolfDir.getAbsolutePath(), "keys.txt");
 			BufferedWriter out = new BufferedWriter(new FileWriter(file));
 			for(Module mod: Hacks.hackList) {
 				int getKey = mod.getKey();
@@ -62,7 +62,7 @@ public class FileManager
 	{
 		try
 		{
-			File file = new File(adolfDir.getAbsolutePath(), "keys.txt");
+			File file = new File(xdolfDir.getAbsolutePath(), "keys.txt");
 			FileInputStream fstream = new FileInputStream(file.getAbsolutePath());
 			DataInputStream in = new DataInputStream(fstream);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
@@ -103,7 +103,7 @@ public class FileManager
 	{
 		try
 		{
-			File file = new File(adolfDir.getAbsolutePath(), "gui.txt");
+			File file = new File(xdolfDir.getAbsolutePath(), "gui.txt");
 			BufferedWriter out = new BufferedWriter(new FileWriter(file));
 			for(AdolfWindow window: AdolfGuiClick.windows)
 			{
@@ -118,7 +118,7 @@ public class FileManager
 	{
 		try
 		{
-			File file = new File(adolfDir.getAbsolutePath(), "gui.txt");
+			File file = new File(xdolfDir.getAbsolutePath(), "gui.txt");
 			FileInputStream fstream = new FileInputStream(file.getAbsolutePath());
 			DataInputStream in = new DataInputStream(fstream);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
@@ -157,7 +157,7 @@ public class FileManager
 	{
 		try
 		{
-			File file = new File(adolfDir.getAbsolutePath(), "xray.txt");
+			File file = new File(xdolfDir.getAbsolutePath(), "xray.txt");
 			BufferedWriter out = new BufferedWriter(new FileWriter(file));
 			for(int i: Xray.blocks)
 			{
@@ -171,7 +171,7 @@ public class FileManager
 	{
 		try
 		{
-			File file = new File(adolfDir.getAbsolutePath(), "xray.txt");
+			File file = new File(xdolfDir.getAbsolutePath(), "xray.txt");
 			FileInputStream fstream = new FileInputStream(file.getAbsolutePath());
 			DataInputStream in = new DataInputStream(fstream);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
@@ -194,7 +194,7 @@ public class FileManager
 	{
 		try
 		{
-			File file = new File(adolfDir.getAbsolutePath(), "hacks.txt");
+			File file = new File(xdolfDir.getAbsolutePath(), "hacks.txt");
 			BufferedWriter out = new BufferedWriter(new FileWriter(file));
 			for(Module mod: Hacks.hackList)
 			{
@@ -212,7 +212,7 @@ public class FileManager
 		try {
 			DateFormat format = new SimpleDateFormat("MM_dd_yyyy-HH_mm_ss");
 			Date date = new Date();
-			File file = new File(adolfDir.getAbsolutePath(), "crashlog-".concat(format.format(date)).concat(".xen"));
+			File file = new File(xdolfDir.getAbsolutePath(), "crashlog-".concat(format.format(date)).concat(".xen"));
 			BufferedWriter outWrite = new BufferedWriter(new FileWriter(file));
 			outWrite.write(alah);
 			outWrite.close();
@@ -225,7 +225,7 @@ public class FileManager
 	{
 		try
 		{
-			File file = new File(adolfDir.getAbsolutePath(), "hacks.txt");
+			File file = new File(xdolfDir.getAbsolutePath(), "hacks.txt");
 			FileInputStream fstream = new FileInputStream(file.getAbsolutePath());
 			DataInputStream in = new DataInputStream(fstream);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
@@ -255,7 +255,7 @@ public class FileManager
 	{
 		try
 		{
-			File file = new File(adolfDir.getAbsolutePath(), "friends.txt");
+			File file = new File(xdolfDir.getAbsolutePath(), "friends.txt");
 			BufferedWriter out = new BufferedWriter(new FileWriter(file));
 			for(Friend friend: Wrapper.getFriends().friendsList)
 			{
@@ -270,7 +270,7 @@ public class FileManager
 	{
 		try
 		{
-			File file = new File(adolfDir.getAbsolutePath(), "friends.txt");
+			File file = new File(xdolfDir.getAbsolutePath(), "friends.txt");
 			FileInputStream fstream = new FileInputStream(file.getAbsolutePath());
 			DataInputStream in = new DataInputStream(fstream);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
@@ -293,7 +293,7 @@ public class FileManager
 	{
 		try
 		{
-			File file = new File(adolfDir.getAbsolutePath(), "waypoints.txt");
+			File file = new File(xdolfDir.getAbsolutePath(), "waypoints.txt");
 			BufferedWriter out = new BufferedWriter(new FileWriter(file));
 			for(Waypoint wayPoint : Waypoint.wayPoints)
 			{
@@ -308,7 +308,7 @@ public class FileManager
 	{
 		try
 		{
-			File file = new File(adolfDir.getAbsolutePath(), "waypoints.txt");
+			File file = new File(xdolfDir.getAbsolutePath(), "waypoints.txt");
 			FileInputStream fstream = new FileInputStream(file.getAbsolutePath());
 			DataInputStream in = new DataInputStream(fstream);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
