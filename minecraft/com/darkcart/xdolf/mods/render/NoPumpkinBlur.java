@@ -8,7 +8,7 @@ import com.darkcart.xdolf.util.Category;
 public class NoPumpkinBlur extends Module {
 	
 	public NoPumpkinBlur() {
-		super("NoPumpkinBlur", "Removes the pumpkin overlay.", Keyboard.KEYBOARD_SIZE, Category.ESP);
+		super("NoPumpkinBlur", "Removes the pumpkin overlay.", Keyboard.KEYBOARD_SIZE, 0xFFFFFF, Category.ESP);
 	}
 	
 	// NOTE: Code is in GuiIngame, line 160.

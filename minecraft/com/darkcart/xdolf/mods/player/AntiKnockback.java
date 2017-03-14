@@ -9,6 +9,6 @@ import com.darkcart.xdolf.util.Category;
 public class AntiKnockback extends Module {
 	
 	public AntiKnockback() {
-		super("AntiKnockback", "Blocks velocity.", Keyboard.KEY_L, 0xCC66FF, Category.AURA);
+		super("AntiKnockback", "Blocks velocity.", Keyboard.KEY_L, 0xFFFFFF, Category.AURA);
 	}
 }

@@ -8,6 +8,6 @@ import com.darkcart.xdolf.util.Category;
 public class NoHurtCam extends Module {
 
 	public NoHurtCam() {
-		super("NoHurtcam", "Disables the HurtCam animation when damage is taken.", Keyboard.KEYBOARD_SIZE, Category.ESP);
+		super("NoHurtcam", "Disables the HurtCam animation when damage is taken.", Keyboard.KEYBOARD_SIZE, 0xFFFFFF, Category.ESP);
 	}
 }

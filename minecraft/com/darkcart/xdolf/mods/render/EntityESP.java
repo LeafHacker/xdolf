@@ -14,7 +14,7 @@ import net.minecraft.entity.Entity;
 public class EntityESP extends Module {
 
 	public EntityESP() {
-		super("EntityESP", "Creates an ESP box around entities.", Keyboard.KEY_B, Category.ESP);
+		super("EntityESP", "Creates an ESP box around entities.", Keyboard.KEY_B, 0xFFFFFF, Category.ESP);
 	}
 	
 	@Override

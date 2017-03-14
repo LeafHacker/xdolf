@@ -15,7 +15,7 @@ public class XRay extends Module {
 	
 	public XRay()
 	{
-		super("Xray", "Find ores easier.", Keyboard.KEY_X, Category.WORLD);
+		super("Xray", "Find ores easier.", Keyboard.KEY_X, 0xFFFFFF, Category.WORLD);
 	}
 	
 	public static ArrayList<Block> xrayBlocks = new ArrayList<Block>();

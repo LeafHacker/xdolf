@@ -27,7 +27,7 @@ import net.minecraft.util.math.MathHelper;
 public class KillAura extends Module {
 	
 	public KillAura() {
-		super("KillAura", "What do you fucking think?", Keyboard.KEY_R, Category.AURA);
+		super("KillAura", "What do you fucking think?", Keyboard.KEY_R, 0xFFFFFF, Category.AURA);
 	}
 	
 	private float yaw, pitch, yawHead;

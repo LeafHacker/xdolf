@@ -19,7 +19,7 @@ import net.minecraft.util.math.Vec3d;
 public class Tracers extends Module {
 
 	public Tracers() {
-		super("Tracers", "Draws a line to entities within render distance.", Keyboard.KEYBOARD_SIZE, Category.ESP);
+		super("Tracers", "Draws a line to entities within render distance.", Keyboard.KEYBOARD_SIZE, 0xFFFFFF, Category.ESP);
 	}
 
 	@Override

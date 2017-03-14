@@ -11,6 +11,7 @@ public class Module {
 	private String description;
 	public Object[] original;
 	private int keyBind;
+	private int arrayColor;
 
 	private boolean isEnabled;
 	private boolean isVisible;
@@ -27,7 +28,8 @@ public class Module {
 		System.out.println("[Xdolf] " + name + " instantiated.");
 	}
 
-	public Module(String name, String description, int keyBind, Category category) {
+	public Module(String name, String description, int keyBind, Category category)
+	{
 		this.name = name;
 		this.setDescription(description);
 		this.keyBind = keyBind;
@@ -37,10 +39,12 @@ public class Module {
 		System.out.println("[Xdolf] " + name + " instantiated.");
 	}
 
-	public Module(String name, String description, int keyBind, int arrayColor, Category category) {
+	public Module(String name, String description, int keyBind, int arrayColor, Category category)
+	{
 		this.name = name;
 		this.setDescription(description);
 		this.keyBind = keyBind;
+		this.arrayColor = arrayColor;
 		this.isVisible = true;
 		this.category = category;
 		this.original = new Object[] { name, arrayColor };
@@ -72,6 +76,11 @@ public class Module {
 
 	public int getKey() {
 		return keyBind;
+	}
+	
+	public int getColor()
+	{
+		return arrayColor;
 	}
 
 	public boolean isEnabled() {

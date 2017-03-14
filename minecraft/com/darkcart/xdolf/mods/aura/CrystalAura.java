@@ -19,7 +19,7 @@ import net.minecraft.util.EnumHand;
 public class CrystalAura extends Module {
 
 	public CrystalAura() {
-		super("CrystalAura", "Automatically end crystal bombs people.", Keyboard.KEYBOARD_SIZE, Category.AURA);
+		super("CrystalAura", "Automatically end crystal bombs people.", Keyboard.KEYBOARD_SIZE, 0xFFFFFF, Category.AURA);
 	}
 	
 	@Override
