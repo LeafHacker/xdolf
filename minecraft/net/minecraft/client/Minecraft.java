@@ -1774,6 +1774,7 @@ public class Minecraft implements IThreadListener, ISnooperInfo
      */
     public void runTick() throws IOException
     {
+    	Client.gameResolution = new ScaledResolution(Wrapper.getMinecraft());
         if (this.rightClickDelayTimer > 0)
         {
             --this.rightClickDelayTimer;

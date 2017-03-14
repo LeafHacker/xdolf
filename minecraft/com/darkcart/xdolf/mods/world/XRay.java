@@ -13,14 +13,12 @@ import net.minecraft.init.Blocks;
 
 public class XRay extends Module {
 	
+public static ArrayList<Block> xrayBlocks = new ArrayList<Block>();
+	
 	public XRay()
 	{
 		super("Xray", "Find ores easier.", Keyboard.KEY_X, 0xFFFFFF, Category.WORLD);
-	}
-	
-	public static ArrayList<Block> xrayBlocks = new ArrayList<Block>();
-	
-	public void XRay() {
+
 		xrayBlocks.add(Blocks.DIAMOND_ORE);
 		xrayBlocks.add(Blocks.GOLD_ORE);
 		xrayBlocks.add(Blocks.EMERALD_ORE);
