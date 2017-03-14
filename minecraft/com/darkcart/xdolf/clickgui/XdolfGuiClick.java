@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import com.darkcart.xdolf.Wrapper;
 import com.darkcart.xdolf.clickgui.elements.XdolfWindow;
 import com.darkcart.xdolf.clickgui.windows.WindowInfo;
+import com.darkcart.xdolf.clickgui.windows.WindowPlayer;
 import com.darkcart.xdolf.clickgui.windows.WindowRadar;
+import com.darkcart.xdolf.clickgui.windows.WindowRender;
 import com.darkcart.xdolf.clickgui.windows.WindowValues;
 
 import net.minecraft.client.gui.GuiScreen;
@@ -18,6 +20,8 @@ public class XdolfGuiClick extends GuiScreen
 	public XdolfWindow values = new WindowValues().init();
 	public XdolfWindow info = new WindowInfo();
 	public XdolfWindow radar = new WindowRadar();
+	public XdolfWindow player = new WindowPlayer().init();
+	public XdolfWindow render = new WindowRender().init();
 	
 	public void initGui()
 	{

@@ -58,12 +58,11 @@ public class Client {
 			vTable.put("minecraft", "Minecraft 1.11");
 			
 			Wrapper.hacks = new Hacks();
-
 			Fonts.loadFonts();
 			
-			Wrapper.clickGui = new XdolfGuiClick();
 			Wrapper.friendManager = new FriendManager();
 			Wrapper.fileManager = new FileManager();
+			Wrapper.clickGui = new XdolfGuiClick();
 			
 			System.out.println("[Xdolf] Initialised Xdolf.");
 		} catch(Exception err) {

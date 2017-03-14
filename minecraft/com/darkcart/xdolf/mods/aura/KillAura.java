@@ -58,12 +58,11 @@ public class KillAura extends Module {
 		}
 		if(isEnabled())
 		{
-			currentMS = System.nanoTime() / 1000000;
-			if(hasDelayRun((long)(1000 / auraSpeed.getValue())))
-			{
-				for(Object o: Wrapper.getWorld().loadedEntityList)
+			try {
+				currentMS = System.nanoTime() / 1000000;
+				if(hasDelayRun((long)(1000 / auraSpeed.getValue())))
 				{
-					try
+					for(Object o: Wrapper.getWorld().loadedEntityList)
 					{
 						if(!Hacks.findMod(AuraPlayer.class).isEnabled() || !Hacks.findMod(AuraMob.class).isEnabled())
 						{
@@ -76,7 +75,7 @@ public class KillAura extends Module {
 									player.setSprinting(false);
 									faceEntity(e);
 									player.swingArm(EnumHand.MAIN_HAND);
-
+	
 									Wrapper.getMinecraft().playerController.attackEntity(player, e);
 									player.setSprinting(false);
 									lastMS = System.nanoTime() / 1000000;
@@ -90,7 +89,6 @@ public class KillAura extends Module {
 								if(checks) 
 								{
 									player.setSprinting(false);
-									//getBestWeapon();
 									faceEntity(e);
 									player.swingArm(EnumHand.MAIN_HAND);
 									Wrapper.getMinecraft().playerController.attackEntity(player, e);
@@ -103,7 +101,7 @@ public class KillAura extends Module {
 						{
 							Entity e = (Entity) o;
 							boolean checks = !(e instanceof EntityPlayerSP) && (e instanceof EntityLivingBase) && player.getDistanceToEntity(e) <= auraRange.getValue() && player.canEntityBeSeen(e) && !e.isDead;
-			
+				
 							if(e instanceof EntityPlayer) 
 							{
 								EntityPlayer ep = (EntityPlayer) o;
@@ -113,7 +111,6 @@ public class KillAura extends Module {
 							if(checks) 
 							{
 								player.setSprinting(false);
-								//getBestWeapon();
 								faceEntity(e);
 								player.swingArm(EnumHand.MAIN_HAND);
 								Wrapper.getMinecraft().playerController.attackEntity(player, e);
@@ -121,9 +118,9 @@ public class KillAura extends Module {
 								break;
 							}
 						}
-					}catch(Exception e) {}
+					}
 				}
-			}
+			}catch(Exception ex){}
 		}
 	}
 	

@@ -10,6 +10,7 @@ import com.darkcart.xdolf.util.RenderUtils;
 import com.ibm.icu.impl.duration.impl.Utils;
 
 public class XdolfButton {
+	
 	private XdolfWindow window;
 	private Module mod;
 	private int xPos;
@@ -25,12 +26,13 @@ public class XdolfButton {
 	}
 	
 	public void draw() {
-		RenderUtils.drawBorderedRect(getX() + window.dragX, getY() + window.dragY, getX() + 86 + window.dragX, getY() + 10 + window.dragY, 0.5F, 0xFF000000, mod.isEnabled() ? isOverButton ? 0xFF44AAFF : 0xFF3399FF : isOverButton ? 0xFF888888 : 0xFF33363d);
+		RenderUtils.drawBorderedRect(getX() + window.dragX, getY() + window.dragY, getX() + 86 + window.dragX, getY() + 10 + window.dragY, 0.5F, 0xFF000000, mod.isEnabled() ? isOverButton ? 0xFF44AAFF : 0xFFFF0000 : isOverButton ? 0xFF888888 : 0xFF33363d);
+		RenderUtils.drawBorderedRect(getX() + window.dragX, getY() + window.dragY, getX() + 86 + window.dragX, getY() + 10 + window.dragY, 0.5F, 0xFF000000, 0x00000000);
 		
 		if(isOverButton) {
 			drawTooltip(mod.getDescription(), getX() + window.dragX + 89, getY() + window.dragY);
 		}
-		drawCenteredTTFString(mod.getName(), getX() + 3 + 40 + window.dragX, (getY() - 2) + window.dragY, mod.isEnabled() ? 0xFFFFFF : 0xBBBBBB);
+		drawCenteredTTFString(mod.getName(), getX() + 3 + 40 + window.dragX, (getY() - 1) + window.dragY, mod.isEnabled() ? 0xFFFFFF : 0xBBBBBB);
 		
 	}
 	
@@ -42,7 +44,7 @@ public class XdolfButton {
 	public void mouseClicked(int x, int y, int button) {
 		if(x >= getX() + window.dragX && y >= getY() + window.dragY && x <= getX() + 85.5 + window.dragX && y <= getY() + 9 + window.dragY && button == 0 && window.isOpen() && window.isExtended()) {
 			XdolfGuiClick.sendPanelToFront(window);
-			//AdolfWrapper.getMinecraft().sndManager.playSoundFX("random.click", 1.0F, 1.0F);
+			Wrapper.addChatMessage("test");
 			mod.toggle();
 		}
 	}
