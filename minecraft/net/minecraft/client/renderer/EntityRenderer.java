@@ -2862,10 +2862,6 @@ public class EntityRenderer implements IResourceManagerReloadListener
         vertexbuffer.pos((double)(i + 1), (double)(-1 + verticalShift), 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
         tessellator.draw();
         GlStateManager.enableTexture2D();
-        
-        if(Wrapper.getFriends().isFriend(str)) {
-        	str = "\247e" + str;
-        }
 
         if (!isSneaking)
         {
