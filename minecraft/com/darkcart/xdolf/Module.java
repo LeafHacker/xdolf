@@ -1,46 +1,124 @@
 package com.darkcart.xdolf;
 
-public abstract class Module {
+import com.darkcart.xdolf.util.Category;
 
-	boolean toggled = false;
+import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.gui.GuiScreen;
 
-	public void enable() {
-	}
+public class Module {
 
-	public void disable() {
-	}
+	private String name;
+	private String description;
+	public Object[] original;
+	private int keyBind;
 
-	public void tick() {
-	}
+	private boolean isEnabled;
+	private boolean isVisible;
+
+	private Category category;
 	
-	public void beforeUpdate() {
-	}
-	
-	public void afterUpdate() {
+	public Module(String name, String description, Category category) {
+		this.name = name;
+		this.setDescription(description);
+		this.isVisible = false;
+		this.category = category;
+		this.original = new Object[] { name };
+		this.keyBind = 0;
+		System.out.println("[Xdolf] " + name + " instantiated.");
 	}
 
-	public void toggle() {
-		toggled = !toggled;
-		if (toggled) {
-			enable();
-		} else {
-			disable();
+	public Module(String name, String description, int keyBind, Category category) {
+		this.name = name;
+		this.setDescription(description);
+		this.keyBind = keyBind;
+		this.isVisible = false;
+		this.category = category;
+		this.original = new Object[] { name };
+		System.out.println("[Xdolf] " + name + " instantiated.");
+	}
+
+	public Module(String name, String description, int keyBind, int arrayColor, Category category) {
+		this.name = name;
+		this.setDescription(description);
+		this.keyBind = keyBind;
+		this.isVisible = true;
+		this.category = category;
+		this.original = new Object[] { name, arrayColor };
+		System.out.println("[Xdolf] " + name + " instantiated.");
+	}
+
+	public void onEnable() {}
+	public void onDisable() {}
+	public void onToggled() {}
+	public void beforeUpdate(EntityPlayerSP player) {}
+	public void onUpdate(EntityPlayerSP player) {}
+	public void afterUpdate(EntityPlayerSP player) {}
+	public void runTick() {}
+	public void onRender() {}
+	
+	public GuiScreen onDisplayGuiScreen(GuiScreen guiScreen) { 
+		return guiScreen; 
+	}
+
+	public void onKeyPressed(int key) {
+		if(key == keyBind) {
+			toggle();
 		}
 	}
 
-	public boolean isToggled() {
-		return toggled;
+	public String getName() {
+		return name;
 	}
 
-	public int getKeyCode() {
-		return 0;
+	public int getKey() {
+		return keyBind;
 	}
-	
-	public abstract String getName();
-	
-	public abstract String getDescription();
 
-	public void render() {
-		
+	public boolean isEnabled() {
+		return isEnabled;
 	}
+
+	public boolean getVisible() {
+		return isVisible;
+	}
+	
+	public Category getCategory() {
+		return category;
+	}
+
+	public final void setState(boolean flag) {
+		isEnabled = flag;
+		if(isEnabled()) {
+			onEnable();
+			if(isVisible) {
+				Wrapper.getHacks().display.add(this);
+			}
+		}else{
+			onDisable();
+			Wrapper.getHacks().display.remove(this);
+		}
+	}
+
+	public void setName(String s) {
+		name = s;
+	}
+
+	public void setKey(int i) {
+		keyBind = i;
+	}
+
+	public final void toggle() {
+		setState(!isEnabled);
+		onToggled();
+		Wrapper.getFileManager().saveHacks();
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
 }

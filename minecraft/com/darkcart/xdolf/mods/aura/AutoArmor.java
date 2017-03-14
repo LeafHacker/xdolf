@@ -4,7 +4,9 @@ import org.lwjgl.input.Keyboard;
 
 import com.darkcart.xdolf.Client;
 import com.darkcart.xdolf.Module;
+import com.darkcart.xdolf.util.Category;
 
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.InventoryEffectRenderer;
 import net.minecraft.init.Blocks;
@@ -16,17 +18,23 @@ import net.minecraft.util.text.TextComponentString;
 
 public class AutoArmor extends Module {
 	
+	public AutoArmor() {
+		super("AutoArmor", "Automatically equips armour detected in inventory.", Keyboard.KEYBOARD_SIZE, Category.AURA);
+	}
+	
 	private int timer;
 	private final Item NULL_ITEM = Item.getItemFromBlock(Blocks.AIR);
 
 	@Override
-	public void enable() {
+	public void onEnable() {
 		timer = 0; 
 	}
 
 	@Override
-	public void tick() {
-		equip();
+	public void onUpdate(EntityPlayerSP player) {
+		if(isEnabled()) {
+			equip();
+		}
 	}
 	
 	private void equip() {

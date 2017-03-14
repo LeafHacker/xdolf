@@ -5,6 +5,7 @@ import java.util.Collections;
 import com.darkcart.xdolf.Client;
 import com.darkcart.xdolf.Module;
 import com.darkcart.xdolf.Wrapper;
+import com.darkcart.xdolf.mods.Hacks;
 
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
@@ -22,7 +23,7 @@ public class CmdToggle extends Command
 		try
 		{
 			boolean valid = false;
-			for(Module mod: Client.modules)
+			for(Module mod: Hacks.hackList)
 			{
 				if(mod.getName().trim().toLowerCase().equalsIgnoreCase(s.substring(7)))
 				{

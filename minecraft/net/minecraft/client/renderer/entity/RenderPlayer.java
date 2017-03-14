@@ -3,6 +3,7 @@ package net.minecraft.client.renderer.entity;
 import org.lwjgl.opengl.GL11;
 
 import com.darkcart.xdolf.Client;
+import com.darkcart.xdolf.mods.Hacks;
 import com.darkcart.xdolf.mods.render.Chams;
 
 import net.minecraft.client.entity.AbstractClientPlayer;
@@ -73,7 +74,7 @@ public class RenderPlayer extends RenderLivingBase<AbstractClientPlayer>
             this.setModelVisibilities(entity);
             GlStateManager.enableBlendProfile(GlStateManager.Profile.PLAYER_SKIN);
             
-            if (Client.findMod(Chams.class).isToggled()) {
+            if (Hacks.findMod(Chams.class).isEnabled()) {
             	GL11.glEnable(GL11.GL_POLYGON_OFFSET_FILL);
             	GlStateManager.enablePolygonOffset();
             	GlStateManager.doPolygonOffset(1.0F, -1000000);

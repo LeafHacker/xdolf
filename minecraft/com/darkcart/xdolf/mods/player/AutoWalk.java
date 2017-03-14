@@ -4,29 +4,26 @@ import org.lwjgl.input.Keyboard;
 
 import com.darkcart.xdolf.Module;
 import com.darkcart.xdolf.Wrapper;
+import com.darkcart.xdolf.util.Category;
+
+import net.minecraft.client.entity.EntityPlayerSP;
 
 public class AutoWalk extends Module {
+	
+	public AutoWalk() {
+		super("AutoWalk", "Automatically walks for you.", Keyboard.KEYBOARD_SIZE, Category.PLAYER);
+	}
 
 	@Override
-	public void tick() {
-		Wrapper.getMinecraft().gameSettings.keyBindForward.pressed = true;
+	public void onUpdate(EntityPlayerSP player) {
+		if(isEnabled()) {
+			Wrapper.getMinecraft().gameSettings.keyBindForward.pressed = true;
+		}
 	}
 	
 	@Override
-	public void disable() {
+	public void onDisable() {
 		Wrapper.getMinecraft().gameSettings.keyBindForward.pressed = 
 				Keyboard.isKeyDown(Wrapper.getMinecraft().gameSettings.keyBindForward.getKeyCode());
 	}
-
-	@Override
-	public String getName() {
-		return "AutoWalk";
-	}
-
-	@Override
-	public String getDescription() {
-		return "Automatically walks in the direction you're facing.";
-	}
-
-
 }

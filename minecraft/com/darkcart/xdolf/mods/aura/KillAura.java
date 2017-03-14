@@ -11,6 +11,7 @@ import org.lwjgl.input.Keyboard;
 import com.darkcart.xdolf.Client;
 import com.darkcart.xdolf.Module;
 import com.darkcart.xdolf.Wrapper;
+import com.darkcart.xdolf.util.Category;
 import com.darkcart.xdolf.util.EntityUtils;
 
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -25,22 +26,26 @@ import net.minecraft.util.math.MathHelper;
 
 public class KillAura extends Module {
 	
+	public KillAura() {
+		super("KillAura", "What do you fucking think?", Keyboard.KEY_R, Category.AURA);
+	}
+	
 	private float yaw, pitch, yawHead;
 
 	private long currentMS = 0L;
 	private long lastMS = -1L;
 	
 	@Override
-	public void beforeUpdate() {
+	public void beforeUpdate(EntityPlayerSP player) {
 		try {
-			this.yaw = Wrapper.getPlayer().rotationYaw;
-			this.pitch = Wrapper.getPlayer().rotationPitch;
-			this.yawHead = Wrapper.getPlayer().rotationYawHead;
+			this.yaw = player.rotationYaw;
+			this.pitch = player.rotationPitch;
+			this.yawHead = player.rotationYawHead;
 		}catch(Exception ex){ /* stop crash when leaving server with aura on */ }
 	}
 	
 	@Override
-	public void tick() {
+	public void onUpdate(EntityPlayerSP player) {
 		try {
 			currentMS = System.nanoTime() / 1000000;
 			if(hasDelayRun((long)(1000 / 8)))
@@ -48,7 +53,7 @@ public class KillAura extends Module {
 				for(Object o: Wrapper.getWorld().loadedEntityList)
 				{
 					Entity e = (Entity) o;
-					boolean checks = !(e instanceof EntityPlayerSP) && (e instanceof EntityLivingBase) && Wrapper.getPlayer().getDistanceToEntity(e) <= 4 && Wrapper.getPlayer().canEntityBeSeen(e) && !e.isDead;
+					boolean checks = !(e instanceof EntityPlayerSP) && (e instanceof EntityLivingBase) && player.getDistanceToEntity(e) <= 4 && player.canEntityBeSeen(e) && !e.isDead;
 		
 					if(e instanceof EntityPlayer) 
 					{
@@ -57,9 +62,9 @@ public class KillAura extends Module {
 					
 					if(checks) 
 					{
-						Wrapper.getPlayer().setSprinting(false);
+						player.setSprinting(false);
 						faceEntity(e);
-						Wrapper.getPlayer().swingArm(EnumHand.MAIN_HAND);
+						player.swingArm(EnumHand.MAIN_HAND);
 						Wrapper.getMinecraft().playerController.attackEntity(Wrapper.getPlayer(), e);
 						lastMS = System.nanoTime() / 1000000;
 						break;
@@ -70,11 +75,11 @@ public class KillAura extends Module {
 	}
 	
 	@Override
-	public void afterUpdate() {
+	public void afterUpdate(EntityPlayerSP player) {
 		try {
-			Wrapper.getPlayer().rotationYaw = this.yaw;
-			Wrapper.getPlayer().rotationPitch = this.pitch;
-			Wrapper.getPlayer().rotationYawHead = this.yawHead;
+			player.rotationYaw = this.yaw;
+			player.rotationPitch = this.pitch;
+			player.rotationYawHead = this.yawHead;
 		}catch(Exception ex){}
 	}
 	
@@ -99,20 +104,4 @@ public class KillAura extends Module {
 		Wrapper.getPlayer().rotationPitch = newPitch;
 		Wrapper.getPlayer().rotationYawHead = newPitch;
     }
-
-
-	@Override
-	public int getKeyCode() {
-		return Keyboard.KEY_R;
-	}
-
-	@Override
-	public String getName() {
-		return "KillAura";
-	}
-
-	@Override
-	public String getDescription() {
-		return "what do you fucking think?";
-	}
 }

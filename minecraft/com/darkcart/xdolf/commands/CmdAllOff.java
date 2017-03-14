@@ -3,6 +3,7 @@ package com.darkcart.xdolf.commands;
 import com.darkcart.xdolf.Client;
 import com.darkcart.xdolf.Module;
 import com.darkcart.xdolf.Wrapper;
+import com.darkcart.xdolf.mods.Hacks;
 
 import net.minecraft.util.text.TextComponentString;
 
@@ -17,9 +18,9 @@ public class CmdAllOff extends Command
 	public void runCommand(String s, String[] args)
 	{
 		int count = 0;
-		for(Module mod: Client.modules)
+		for(Module mod: Hacks.hackList)
 		{
-			if(mod.isToggled())
+			if(mod.isEnabled() && !mod.getName().equalsIgnoreCase("ttf chat"))
 			{
 				mod.toggle();
 				count++;

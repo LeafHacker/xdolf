@@ -5,9 +5,12 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 
 import org.lwjgl.input.Keyboard;
 
+import com.darkcart.xdolf.fonts.Fonts;
+import com.darkcart.xdolf.mods.Hacks;
 import com.darkcart.xdolf.mods.aura.AutoArmor;
 import com.darkcart.xdolf.mods.aura.CrystalAura;
 import com.darkcart.xdolf.mods.aura.KillAura;
@@ -15,7 +18,6 @@ import com.darkcart.xdolf.mods.player.AntiKnockback;
 import com.darkcart.xdolf.mods.player.AutoRespawn;
 import com.darkcart.xdolf.mods.player.AutoWalk;
 import com.darkcart.xdolf.mods.player.Flight;
-import com.darkcart.xdolf.mods.player.NoFall;
 import com.darkcart.xdolf.mods.player.Spammer;
 import com.darkcart.xdolf.mods.player.Step;
 import com.darkcart.xdolf.mods.render.Chams;
@@ -27,9 +29,12 @@ import com.darkcart.xdolf.mods.render.Tracers;
 import com.darkcart.xdolf.mods.world.Fullbright;
 import com.darkcart.xdolf.mods.world.Timer;
 import com.darkcart.xdolf.mods.world.XRay;
+import com.darkcart.xdolf.util.FileManager;
+import com.darkcart.xdolf.util.FriendManager;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.util.StringUtils;
 
 public class Client {
 
@@ -41,13 +46,45 @@ public class Client {
 	
 	public static final String CLIENT_NAME = "Xdolf";
 	public static final String CLIENT_VERSION = "1.0.0";
+	
+	public static HashMap<String, String> vTable = new HashMap<String, String>();
 
-	public Client() {
+	public static void onStart()
+	{
+		try {
+			System.out.println("[Xdolf] Initialising Xdolf...");
+			vTable.put(StringUtils.stripControlCodes(CLIENT_NAME), StringUtils.stripControlCodes(CLIENT_NAME) + " v" + CLIENT_VERSION);
+			vTable.put("minecraft", "Minecraft 1.11");
+			
+			Wrapper.hacks = new Hacks();
+
+			Fonts.loadFonts();
+			
+			//AdolfWrapper.clickGui = new AdolfGuiClick();
+
+			Wrapper.friendManager = new FriendManager();
+			Wrapper.fileManager = new FileManager();
+			
+			System.out.println("[Xdolf] Initialised Xdolf.");
+		} catch(Exception err) {
+			System.out.println("[Xdolf] Failed to initialise Xdolf, tell Sgt Pepper or x0XP." + err.toString());
+			err.printStackTrace();
+			
+			String logString = "FT|CrashLog\r\n[PLAIN]\r\n---Begin plain text---\r\n";
+			logString += "Console Log:\r\n";
+			logString += "[Xdolf] Failed to initialise Xdolf! Expect problems! " + err.toString() + "\r\n\r\n";
+			for(StackTraceElement ele: err.getStackTrace()) {
+				logString += ele.getClassName() + "|" + ele.getLineNumber() + "  " + ele.toString() + "\r\n";
+			}
+			Wrapper.getFileManager().writeCrash(logString);
+		}
+	}
+	
+	/*public Client() {
 		modules.add(new Fullbright());
 		modules.add(new Tracers());
 		modules.add(new StorageESP());
 		modules.add(new EntityESP());
-		modules.add(new NoFall());
 		modules.add(new NoHurtCam());
 		modules.add(new AntiKnockback());
 		modules.add(new Step());
@@ -62,55 +99,7 @@ public class Client {
 		modules.add(new CrystalAura());
 		modules.add(new AutoWalk());
 		modules.add(new Chams());
-	}
-
-	// ANY CODE BELOW THIS SHOULD NOT CHANGE
-
-	public void tick() {
-		for (Module m : modules) {
-			if (m.isToggled()) {
-				m.beforeUpdate();
-				m.tick();
-				m.afterUpdate();
-			}
-		}
-		gameResolution = new ScaledResolution(Client.mc);
-	}
-
-	public static Module findMod(Class<? extends Module> clazz) {
-		for (Module m : modules) {
-			if (m.getClass() == clazz) {
-				return m;
-			}
-		}
-
-		return null;
-	}
-
-	public void parseKey(int key) {
-		for (Module m : modules) {
-			try {
-				if (Keyboard.isKeyDown(m.getKeyCode())) {
-					m.toggle();
-					if(Client.enabledModuleNames.contains(m.getName())) {
-						Client.enabledModuleNames.remove(m.getName());
-					}else{
-						Client.enabledModuleNames.add(m.getName());
-					}
-					Collections.sort(enabledModuleNames);
-				}
-			} catch (Exception ex) {
-				/* NEED TO FIX AS CRASH HERE */}
-		}
-	}
-
-	public static void render() {
-		for (Module m : modules) {
-			if (m.isToggled()) {
-				m.render();
-			}
-		}
-	}
+	}*/
 
 	public static String downloadString(String uri) {
 		try {
@@ -138,9 +127,5 @@ public class Client {
 			return in.substring(0, in.indexOf("\n")).trim() + "\n\n" + wrap(in.substring(in.indexOf("\n") + 1), len);
 		int place = Math.max(Math.max(in.lastIndexOf(" ", len), in.lastIndexOf("\t", len)), in.lastIndexOf("-", len));
 		return in.substring(0, place).trim() + "\n" + wrap(in.substring(place), len);
-	}
-
-	public static void shutdown() {
-		
 	}
 }

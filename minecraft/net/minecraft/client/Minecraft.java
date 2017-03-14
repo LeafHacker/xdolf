@@ -1,8 +1,11 @@
 package net.minecraft.client;
 
 import com.darkcart.xdolf.Client;
+import com.darkcart.xdolf.Module;
+import com.darkcart.xdolf.Wrapper;
 import com.darkcart.xdolf.fonts.Fonts;
 import com.darkcart.xdolf.gui.XDolfOverlay;
+import com.darkcart.xdolf.mods.Hacks;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Queues;
 import com.google.common.collect.Sets;
@@ -449,7 +452,19 @@ public class Minecraft implements IThreadListener, ISnooperInfo
                     {
                         try
                         {
-                        	c.tick();
+                        	for(Module aMod: Hacks.hackList)
+                			{
+                				aMod.beforeUpdate(Wrapper.getPlayer());
+                			}
+                			for(Module aMod: Hacks.hackList)
+                			{
+                				aMod.onUpdate(Wrapper.getPlayer());
+                			}
+                			//this.sendMotionUpdates();
+                			for(Module aMod: Hacks.hackList)
+                			{
+                				aMod.afterUpdate(Wrapper.getPlayer());
+                			}
                             this.runGameLoop();
                         }
                         catch (OutOfMemoryError var10)
@@ -629,9 +644,7 @@ public class Minecraft implements IThreadListener, ISnooperInfo
 
         this.renderGlobal.makeEntityOutlineShader();
         
-        c = new Client();
-        
-        Fonts.loadFonts();
+        c.onStart();
     }
 
     private void registerMetadataSerializers()
@@ -1966,13 +1979,16 @@ public class Minecraft implements IThreadListener, ISnooperInfo
 
         this.mcProfiler.endSection();
         this.systemTime = getSystemTime();
+        
+        for(Module mod : Hacks.hackList) {
+        	mod.runTick();
+        }
     }
 
     private void runTickKeyboard() throws IOException
     {
         while (Keyboard.next())
         {
-        	c.parseKey(Keyboard.getEventKey());
             int i = Keyboard.getEventKey() == 0 ? Keyboard.getEventCharacter() + 256 : Keyboard.getEventKey();
 
             if (this.debugCrashKeyPressTime > 0L)

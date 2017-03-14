@@ -5,31 +5,21 @@ import org.lwjgl.input.Keyboard;
 import com.darkcart.xdolf.Client;
 import com.darkcart.xdolf.Module;
 import com.darkcart.xdolf.Wrapper;
+import com.darkcart.xdolf.util.Category;
+
+import net.minecraft.client.entity.EntityPlayerSP;
 
 public class FastPlace extends Module {
+	
+	public FastPlace() {
+		super("FastPlace", "Allows you to quickly place blocks.", Keyboard.KEYBOARD_SIZE, Category.WORLD);
+	}
 
 	@Override
-	public void tick() {
-		if(isToggled())
+	public void onUpdate(EntityPlayerSP player) {
+		if(isEnabled())
         {
 			Wrapper.getMinecraft().rightClickDelayTimer = 0;
         }
 	}
-	
-
-	@Override
-	public int getKeyCode() {
-		return Keyboard.KEYBOARD_SIZE;
-	}
-
-	@Override
-	public String getName() {
-		return "FastPlace";
-	}
-
-	@Override
-	public String getDescription() {
-		return "Allows you to quickly place blocks.";
-	}
-
 }

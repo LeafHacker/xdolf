@@ -1,6 +1,7 @@
 package net.minecraft.block;
 
 import com.darkcart.xdolf.Client;
+import com.darkcart.xdolf.mods.Hacks;
 import com.darkcart.xdolf.mods.world.XRay;
 import com.google.common.collect.Sets;
 import com.google.common.collect.UnmodifiableIterator;
@@ -386,7 +387,7 @@ public class Block
     @Deprecated
     public boolean hasCustomBreakingProgress(IBlockState state)
     {
-        return Client.findMod(XRay.class).isToggled();
+        return Hacks.findMod(XRay.class).isEnabled();
     }
 
     public boolean isPassable(IBlockAccess worldIn, BlockPos pos)
@@ -472,7 +473,7 @@ public class Block
     @Deprecated
     public int getPackedLightmapCoords(IBlockState state, IBlockAccess source, BlockPos pos)
     {
-    	if(Client.findMod(XRay.class).isToggled()) {
+    	if(Hacks.findMod(XRay.class).isEnabled()) {
 			return 1000;
 		}
     	
@@ -545,7 +546,7 @@ public class Block
         }
         
         // TODO: Fix bug where ores are dark????
-     	if (Client.findMod(XRay.class).isToggled()) {
+     	if (Hacks.findMod(XRay.class).isEnabled()) {
      		return XRay.xrayBlocks.contains(this);
      	}
 

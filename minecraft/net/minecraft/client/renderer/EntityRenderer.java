@@ -1,6 +1,8 @@
 package net.minecraft.client.renderer;
 
 import com.darkcart.xdolf.Client;
+import com.darkcart.xdolf.Module;
+import com.darkcart.xdolf.mods.Hacks;
 import com.darkcart.xdolf.mods.render.NoHurtCam;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
@@ -658,7 +660,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
 
     private void hurtCameraEffect(float partialTicks)
     {
-    	if (!Client.findMod(NoHurtCam.class).isToggled()) {
+    	if (!Hacks.findMod(NoHurtCam.class).isEnabled()) {
 	        if (this.mc.getRenderViewEntity() instanceof EntityLivingBase)
 	        {
 	            EntityLivingBase entitylivingbase = (EntityLivingBase)this.mc.getRenderViewEntity();
@@ -1878,8 +1880,6 @@ public class EntityRenderer implements IResourceManagerReloadListener
 
         this.mc.mcProfiler.endStartSection("hand");
         boolean flag2 = ReflectorForge.renderFirstPersonHand(this.mc.renderGlobal, partialTicks, pass);
-        
-        Client.render();
 
         if (!flag2 && this.renderHand && !Shaders.isShadowPass)
         {
@@ -1890,6 +1890,10 @@ public class EntityRenderer implements IResourceManagerReloadListener
             }
 
             GlStateManager.clear(256);
+            
+            for(Module mod : Hacks.hackList) {
+            	mod.onRender();
+            }
 
             if (flag)
             {

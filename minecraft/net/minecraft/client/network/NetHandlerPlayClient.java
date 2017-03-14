@@ -1,6 +1,7 @@
 package net.minecraft.client.network;
 
 import com.darkcart.xdolf.Client;
+import com.darkcart.xdolf.mods.Hacks;
 import com.darkcart.xdolf.mods.player.AntiKnockback;
 import com.google.common.base.Charsets;
 import com.google.common.collect.Maps;
@@ -564,7 +565,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
         PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
         Entity entity = this.clientWorldController.getEntityByID(packetIn.getEntityID());
 
-        if (entity != null && !Client.findMod(AntiKnockback.class).isToggled())
+        if (entity != null && !Hacks.findMod(AntiKnockback.class).isEnabled())
         {
             entity.setVelocity((double)packetIn.getMotionX() / 8000.0D, (double)packetIn.getMotionY() / 8000.0D, (double)packetIn.getMotionZ() / 8000.0D);
         }

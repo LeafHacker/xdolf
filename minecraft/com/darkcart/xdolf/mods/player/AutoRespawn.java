@@ -4,25 +4,22 @@ import org.lwjgl.input.Keyboard;
 
 import com.darkcart.xdolf.Client;
 import com.darkcart.xdolf.Module;
+import com.darkcart.xdolf.util.Category;
+
+import net.minecraft.client.entity.EntityPlayerSP;
 
 public class AutoRespawn extends Module {
-
+	
+	public AutoRespawn() {
+		super("AutoRespawn", "Automatically respawns for you.", Keyboard.KEYBOARD_SIZE, Category.PLAYER);
+	}
+	
 	@Override
-	public void tick() {
-		if(Client.mc.player.getHealth() <= 0)
+	public void onUpdate(EntityPlayerSP player) 
+	{
+		if(isEnabled() && player.getHealth() <= 0)
         {
-			Client.mc.player.respawnPlayer();
+			player.respawnPlayer();
         }
 	}
-
-	@Override
-	public String getName() {
-		return "AutoRespawn";
-	}
-
-	@Override
-	public String getDescription() {
-		return "Respawns the player for you upon death.";
-	}
-
 }

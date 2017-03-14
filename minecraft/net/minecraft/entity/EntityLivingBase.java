@@ -14,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.darkcart.xdolf.Client;
+import com.darkcart.xdolf.mods.Hacks;
 import com.darkcart.xdolf.mods.player.Flight;
 import com.google.common.base.Objects;
 import com.google.common.collect.Maps;
@@ -1968,9 +1969,9 @@ public abstract class EntityLivingBase extends Entity
     {
         if (this.isServerWorld() || this.canPassengerSteer())
         {
-        	if (!this.isInWater() || this instanceof EntityPlayer && ((EntityPlayer)this).capabilities.isFlying || Client.findMod(Flight.class).isToggled())
+        	if (!this.isInWater() || this instanceof EntityPlayer && ((EntityPlayer)this).capabilities.isFlying || Hacks.findMod(Flight.class).isEnabled())
             {
-                if (!this.isInLava() || this instanceof EntityPlayer && ((EntityPlayer)this).capabilities.isFlying || Client.findMod(Flight.class).isToggled())
+                if (!this.isInLava() || this instanceof EntityPlayer && ((EntityPlayer)this).capabilities.isFlying || Hacks.findMod(Flight.class).isEnabled())
                 {
                     if (this.isElytraFlying())
                     {

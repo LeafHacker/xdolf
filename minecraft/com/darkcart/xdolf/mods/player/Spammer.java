@@ -12,8 +12,13 @@ import org.lwjgl.input.Keyboard;
 
 import com.darkcart.xdolf.Module;
 import com.darkcart.xdolf.Wrapper;
+import com.darkcart.xdolf.util.Category;
 
 public class Spammer extends Module {
+	
+	public Spammer() {
+		super("Spammer", "Spams the server with chat messages.", Keyboard.KEYBOARD_SIZE, Category.PLAYER);
+	}
 
 	public static int mode = 1;
 	public static int delay = 1000;
@@ -22,7 +27,7 @@ public class Spammer extends Module {
 	public static String file = "";
 
 	@Override
-	public void enable() {
+	public void onEnable() {
 		if (mode == 0) {
 			mode0 = new Timer(delay, new ActionListener() {
 				@Override
@@ -64,31 +69,18 @@ public class Spammer extends Module {
 	}
 
 	@Override
-	public void disable() {
-		if (mode == 0) {
-			mode0.stop();
-		}
-		if (mode == 1) {
-			mode1.stop();
-		}
-		if (mode == 2) {
-			mode2.stop();
-		}
-	}
-
-	@Override
-	public int getKeyCode() {
-		return Keyboard.KEY_N;
-	}
-
-	@Override
-	public String getName() {
-		return "Spammer";
-	}
-
-	@Override
-	public String getDescription() {
-		return "Sends messages in chat";
+	public void onDisable() {
+		try {
+			if (mode == 0) {
+				mode0.stop();
+			}
+			if (mode == 1) {
+				mode1.stop();
+			}
+			if (mode == 2) {
+				mode2.stop();
+			}
+		}catch(Exception ex){}
 	}
 
 	private String getRandomCharacters() {

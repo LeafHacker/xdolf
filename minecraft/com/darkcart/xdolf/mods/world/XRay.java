@@ -6,15 +6,21 @@ import org.lwjgl.input.Keyboard;
 
 import com.darkcart.xdolf.Client;
 import com.darkcart.xdolf.Module;
+import com.darkcart.xdolf.util.Category;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 
 public class XRay extends Module {
 	
+	public XRay()
+	{
+		super("Xray", "Find ores easier.", Keyboard.KEY_X, Category.WORLD);
+	}
+	
 	public static ArrayList<Block> xrayBlocks = new ArrayList<Block>();
 	
-	public XRay() {
+	public void XRay() {
 		xrayBlocks.add(Blocks.DIAMOND_ORE);
 		xrayBlocks.add(Blocks.GOLD_ORE);
 		xrayBlocks.add(Blocks.EMERALD_ORE);
@@ -24,28 +30,12 @@ public class XRay extends Module {
 	}
 
 	@Override
-	public void enable() {
+	public void onEnable() {
 		Client.mc.renderGlobal.loadRenderers();
 	}
 
 	@Override
-	public void disable() {
+	public void onDisable() {
 		Client.mc.renderGlobal.loadRenderers();
 	}
-
-	@Override
-	public int getKeyCode() {
-		return Keyboard.KEY_X;
-	}
-
-	@Override
-	public String getName() {
-		return "XRay";
-	}
-
-	@Override
-	public String getDescription() {
-		return "Find ores easier";
-	}
-
 }

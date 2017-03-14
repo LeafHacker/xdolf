@@ -5,7 +5,9 @@ import org.lwjgl.input.Keyboard;
 import com.darkcart.xdolf.Client;
 import com.darkcart.xdolf.Module;
 import com.darkcart.xdolf.Wrapper;
+import com.darkcart.xdolf.util.Category;
 
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.inventory.ClickType;
@@ -16,25 +18,31 @@ import net.minecraft.util.EnumHand;
 
 public class CrystalAura extends Module {
 
+	public CrystalAura() {
+		super("CrystalAura", "Automatically end crystal bombs people.", Keyboard.KEYBOARD_SIZE, Category.AURA);
+	}
+	
 	@Override
-	public void disable() {
+	public void onDisable() {
 		Wrapper.getMinecraft().gameSettings.keyBindUseItem.pressed = Keyboard
 				.isKeyDown(Wrapper.getMinecraft().gameSettings.keyBindUseItem.getKeyCode());
 	}
 
 	@Override
-	public void tick() {
-		for (Entity e : Wrapper.getWorld().loadedEntityList) {
-			if (Wrapper.getPlayer().getDistanceToEntity(e) > 5 && e != Wrapper.getPlayer()
-					&& Wrapper.getPlayer().canEntityBeSeen(e)) {
-				placeCrystal();
-				if (e instanceof EntityEnderCrystal) { // attack crystal
-					Client.mc.playerController.attackEntity(Client.mc.player, e);
-					Wrapper.getPlayer().swingArm(EnumHand.MAIN_HAND);
+	public void onUpdate(EntityPlayerSP player) {
+		if(isEnabled()) {
+			for (Entity e : Wrapper.getWorld().loadedEntityList) {
+				if (player.getDistanceToEntity(e) > 5 && e != player
+						&& player.canEntityBeSeen(e)) {
+					placeCrystal();
+					if (e instanceof EntityEnderCrystal) { // attack crystal
+						Wrapper.getMinecraft().playerController.attackEntity(player, e);
+						player.swingArm(EnumHand.MAIN_HAND);
+					}
+					Wrapper.getMinecraft().gameSettings.keyBindUseItem.pressed = Keyboard
+							.isKeyDown(Wrapper.getMinecraft().gameSettings.keyBindUseItem.getKeyCode());
+					;
 				}
-				Wrapper.getMinecraft().gameSettings.keyBindUseItem.pressed = Keyboard
-						.isKeyDown(Wrapper.getMinecraft().gameSettings.keyBindUseItem.getKeyCode());
-				;
 			}
 		}
 	}
@@ -66,15 +74,4 @@ public class CrystalAura extends Module {
 			}
 		}
 	}
-
-	@Override
-	public String getName() {
-		return "CrystalAura";
-	}
-
-	@Override
-	public String getDescription() {
-		return "Automatically end crystal bombs people";
-	}
-
 }
