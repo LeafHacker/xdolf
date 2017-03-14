@@ -392,7 +392,7 @@ public abstract class Render<T extends Entity> implements IEntityRenderer
             int i = "deadmau5".equals(str) ? -10 : 0;
             EntityLivingBase entity = ((EntityLivingBase) entityIn);
             if(Wrapper.getFriends().isFriend(str)) {
-            	str = "\247e" + str;
+            	str = "\2479" + str;
             }
             str = str + " \247a" + ((double)Math.round((entity.getHealth() * 100) / 100) / 2);
             EntityRenderer.drawNameplate(this.getFontRendererFromRenderManager(), str, (float)x, (float)y + f2, (float)z, i, f, f1, flag1, flag);
