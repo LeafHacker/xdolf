@@ -9,6 +9,7 @@ import com.darkcart.xdolf.Client;
 import com.darkcart.xdolf.Module;
 import com.darkcart.xdolf.Wrapper;
 import com.darkcart.xdolf.fonts.Fonts;
+import com.darkcart.xdolf.mods.Hacks;
 import com.google.common.collect.Ordering;
 
 import net.minecraft.client.Minecraft;
@@ -49,10 +50,10 @@ public class XDolfOverlay extends GuiIngame {
 		Fonts.roboto18.drawStringWithShadow("Xdolf\247f | FPS: " + Wrapper.getMinecraft().getDebugFPS(), 2, 0, 0x55FF55);
 		int count = 0;
 		try {
-			for (String s : Client.enabledModuleNames) {
-				int x2 = width - (Fonts.roboto18.getStringWidth(s));
+			for(Module mod: Hacks.display) {
+				int x2 = width - (Fonts.roboto18.getStringWidth(mod.getName()));
 				int y = (10 * count);
-				Fonts.roboto18.drawStringWithShadow(s, x2 - 2, y, 0xffffff);
+				Fonts.roboto18.drawStringWithShadow(mod.getName(), x2 - 2, y, 0xffffff);
 				count++;
 			}
 		} catch (Exception ex) {}

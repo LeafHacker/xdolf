@@ -2,6 +2,10 @@ package net.minecraft.client.entity;
 
 import java.util.List;
 import javax.annotation.Nullable;
+
+import com.darkcart.xdolf.Module;
+import com.darkcart.xdolf.mods.Hacks;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ElytraSound;
@@ -226,7 +230,21 @@ public class EntityPlayerSP extends AbstractClientPlayer
     {
         if (this.world.isBlockLoaded(new BlockPos(this.posX, 0.0D, this.posZ)))
         {
-            super.onUpdate();
+			super.onUpdate();
+			for(Module aMod: Hacks.hackList)
+			{
+				aMod.beforeUpdate(this);
+			}
+			for(Module aMod: Hacks.hackList)
+			{
+				aMod.onUpdate(this);
+			}
+			//this.sendMotionUpdates();
+			for(Module aMod: Hacks.hackList)
+			{
+				aMod.afterUpdate(this);
+			}
+            //super.onUpdate();
 
             if (this.isRiding())
             {
