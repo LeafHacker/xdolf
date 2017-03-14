@@ -32,7 +32,7 @@ public class AutoArmor extends Module {
 
 	@Override
 	public void onUpdate(EntityPlayerSP player) {
-		if(isEnabled()) {
+		if(isEnabled() && player != null) {
 			equip();
 		}
 	}

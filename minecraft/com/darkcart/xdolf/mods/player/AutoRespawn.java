@@ -15,10 +15,8 @@ public class AutoRespawn extends Module {
 	}
 	
 	@Override
-	public void onUpdate(EntityPlayerSP player) 
-	{
-		if(isEnabled() && player.getHealth() <= 0)
-        {
+	public void onUpdate(EntityPlayerSP player) {
+		if(isEnabled() && player != null && player.getHealth() <= 0) {
 			player.respawnPlayer();
         }
 	}

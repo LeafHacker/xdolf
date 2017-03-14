@@ -32,8 +32,7 @@ public class CrystalAura extends Module {
 	public void onUpdate(EntityPlayerSP player) {
 		if(isEnabled()) {
 			for (Entity e : Wrapper.getWorld().loadedEntityList) {
-				if (player.getDistanceToEntity(e) > 5 && e != player
-						&& player.canEntityBeSeen(e)) {
+				if (player.getDistanceToEntity(e) > 5 && e != player && player.canEntityBeSeen(e) && !Wrapper.getFriends().isFriend((e).getName())) {
 					placeCrystal();
 					if (e instanceof EntityEnderCrystal) { // attack crystal
 						Wrapper.getMinecraft().playerController.attackEntity(player, e);
