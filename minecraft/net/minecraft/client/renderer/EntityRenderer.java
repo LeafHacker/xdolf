@@ -2,8 +2,10 @@ package net.minecraft.client.renderer;
 
 import com.darkcart.xdolf.Client;
 import com.darkcart.xdolf.Module;
+import com.darkcart.xdolf.Wrapper;
 import com.darkcart.xdolf.mods.Hacks;
 import com.darkcart.xdolf.mods.render.NoHurtCam;
+import com.darkcart.xdolf.mods.render.Tracers;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.gson.JsonSyntaxException;
@@ -899,7 +901,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
 
         this.hurtCameraEffect(partialTicks);
 
-        if (this.mc.gameSettings.viewBobbing)
+        if (this.mc.gameSettings.viewBobbing && !Hacks.findMod(Tracers.class).isEnabled())
         {
             this.applyBobbing(partialTicks);
         }
@@ -2860,15 +2862,19 @@ public class EntityRenderer implements IResourceManagerReloadListener
         vertexbuffer.pos((double)(i + 1), (double)(-1 + verticalShift), 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
         tessellator.draw();
         GlStateManager.enableTexture2D();
+        
+        if(Wrapper.getFriends().isFriend(str)) {
+        	str = "\247e" + str;
+        }
 
         if (!isSneaking)
         {
-            fontRendererIn.drawString(str, -fontRendererIn.getStringWidth(str) / 2, verticalShift, 553648127);
+            fontRendererIn.drawString(str, -fontRendererIn.getStringWidth(str) / 2, verticalShift, -1);
             GlStateManager.enableDepth();
         }
 
         GlStateManager.depthMask(true);
-        fontRendererIn.drawString(str, -fontRendererIn.getStringWidth(str) / 2, verticalShift, isSneaking ? 553648127 : -1);
+        fontRendererIn.drawString(str, -fontRendererIn.getStringWidth(str) / 2, verticalShift, -1);
         GlStateManager.enableLighting();
         GlStateManager.disableBlend();
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
