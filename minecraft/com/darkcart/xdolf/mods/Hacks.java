@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.darkcart.xdolf.Module;
+import com.darkcart.xdolf.mods.aura.AuraMob;
+import com.darkcart.xdolf.mods.aura.AuraPlayer;
 import com.darkcart.xdolf.mods.aura.AutoArmor;
 import com.darkcart.xdolf.mods.aura.CrystalAura;
 import com.darkcart.xdolf.mods.aura.KillAura;
@@ -48,6 +50,8 @@ public class Hacks
 			new CrystalAura(),
 			new AutoWalk(),
 			new Chams(),
+			new AuraMob(),
+			new AuraPlayer(),
 	});
 
 	public static Module[] getEnabledHacks()

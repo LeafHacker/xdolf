@@ -11,11 +11,13 @@ import org.lwjgl.input.Keyboard;
 import com.darkcart.xdolf.Client;
 import com.darkcart.xdolf.Module;
 import com.darkcart.xdolf.Wrapper;
+import com.darkcart.xdolf.mods.Hacks;
 import com.darkcart.xdolf.util.Category;
 import com.darkcart.xdolf.util.EntityUtils;
 
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -46,33 +48,74 @@ public class KillAura extends Module {
 	
 	@Override
 	public void onUpdate(EntityPlayerSP player) {
-		if(isEnabled()) {
-			try {
-				currentMS = System.nanoTime() / 1000000;
-				if(hasDelayRun((long)(1000 / 8)))
+		if(isEnabled())
+		{
+			currentMS = System.nanoTime() / 1000000;
+			if(hasDelayRun((long)(1000 / 8)))
+			{
+				for(Object o: Wrapper.getWorld().loadedEntityList)
 				{
-					for(Object o: Wrapper.getWorld().loadedEntityList)
+					try
 					{
-						Entity e = (Entity) o;
-						boolean checks = !(e instanceof EntityPlayerSP) && (e instanceof EntityLivingBase) && player.getDistanceToEntity(e) <= 4 && player.canEntityBeSeen(e) && !e.isDead;
+						if(!Hacks.findMod(AuraPlayer.class).isEnabled() || !Hacks.findMod(AuraMob.class).isEnabled())
+						{
+							if(Hacks.findMod(AuraPlayer.class).isEnabled())
+							{
+								Entity e = (Entity) o;
+								boolean checks = !Wrapper.getFriends().isFriend((e).getName()) && !(e instanceof EntityPlayerSP) && (e instanceof EntityPlayer) && player.getDistanceToEntity(e) <= 4 && player.canEntityBeSeen(e) && !e.isDead;
+								if(checks) 
+								{
+									player.setSprinting(false);
+									faceEntity(e);
+									player.swingArm(EnumHand.MAIN_HAND);
+
+									Wrapper.getMinecraft().playerController.attackEntity(player, e);
+									player.setSprinting(false);
+									lastMS = System.nanoTime() / 1000000;
+									break;
+								}
+							}else
+							if(Hacks.findMod(AuraMob.class).isEnabled())
+							{
+								Entity e = (Entity) o;
+								boolean checks = !(e instanceof EntityPlayerSP) && !(e instanceof EntityPlayer) && (e instanceof EntityLivingBase) && player.getDistanceToEntity(e) <= 4 && player.canEntityBeSeen(e) && !e.isDead;
+								if(checks) 
+								{
+									player.setSprinting(false);
+									//getBestWeapon();
+									faceEntity(e);
+									player.swingArm(EnumHand.MAIN_HAND);
+									Wrapper.getMinecraft().playerController.attackEntity(player, e);
+									lastMS = System.nanoTime() / 1000000;
+									break;
+								}
+							}
+						}else
+						if(Hacks.findMod(AuraPlayer.class).isEnabled() && Hacks.findMod(AuraMob.class).isEnabled())
+						{
+							Entity e = (Entity) o;
+							boolean checks = !(e instanceof EntityPlayerSP) && (e instanceof EntityLivingBase) && player.getDistanceToEntity(e) <= 4 && player.canEntityBeSeen(e) && !e.isDead;
 			
-						if(e instanceof EntityPlayer) 
-						{
-							EntityPlayer ep = (EntityPlayer) o;
+							if(e instanceof EntityPlayer) 
+							{
+								EntityPlayer ep = (EntityPlayer) o;
+								checks = checks && !Wrapper.getFriends().isFriend(ep.getName());
+								checks = checks && !ep.isPotionActive(Potion.getPotionById(14));
+							}
+							if(checks) 
+							{
+								player.setSprinting(false);
+								//getBestWeapon();
+								faceEntity(e);
+								player.swingArm(EnumHand.MAIN_HAND);
+								Wrapper.getMinecraft().playerController.attackEntity(player, e);
+								lastMS = System.nanoTime() / 1000000;
+								break;
+							}
 						}
-						
-						if(checks) 
-						{
-							player.setSprinting(false);
-							faceEntity(e);
-							player.swingArm(EnumHand.MAIN_HAND);
-							Wrapper.getMinecraft().playerController.attackEntity(Wrapper.getPlayer(), e);
-							lastMS = System.nanoTime() / 1000000;
-							break;
-						}
-					}
+					}catch(Exception e) {}
 				}
-			}catch(Exception ex){}
+			}
 		}
 	}
 	
