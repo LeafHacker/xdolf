@@ -104,7 +104,7 @@ public class XDolfOverlay extends GuiIngame {
 			}
 		}
 		
-		for(XdolfWindow window: XdolfGuiClick.windows) {
+		for(XdolfWindow window: XdolfGuiClick.windowList) {
 			if(!(Wrapper.getMinecraft().currentScreen instanceof XdolfGuiClick)) {
 				if(window.isPinned()) {
 					window.draw(0, 0);

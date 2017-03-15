@@ -1,237 +1,187 @@
 package com.darkcart.xdolf.clickgui.elements;
 
+import java.awt.Cursor;
+import java.io.IOException;
 import java.util.ArrayList;
 
-import org.lwjgl.opengl.GL11;
+import org.lwjgl.input.Mouse;
 
 import com.darkcart.xdolf.Module;
 import com.darkcart.xdolf.Wrapper;
 import com.darkcart.xdolf.clickgui.XdolfGuiClick;
 import com.darkcart.xdolf.fonts.Fonts;
-import com.darkcart.xdolf.util.Friend;
+import com.darkcart.xdolf.mods.Hacks;
+import com.darkcart.xdolf.util.Category;
 import com.darkcart.xdolf.util.RenderUtils;
 import com.darkcart.xdolf.util.Value;
 
-import net.minecraft.entity.player.EntityPlayer;
-
-public class XdolfWindow
-{
-	protected String title;
-	protected int xPos;
-	protected int yPos;
-	
-	protected boolean isOpen;
-	protected boolean isExtended;
-	protected boolean isPinned;
-	
+public class XdolfWindow {
+	private String title;
+	private int x, y;
 	public int dragX;
 	public int dragY;
-	public int lastDragX;
-	public int lastDragY;
+	private int lastDragX;
+	private int lastDragY;
+	private boolean isOpen, isPinned;
 	protected boolean dragging;
 	
-	public ArrayList<XdolfButton> buttons = new ArrayList<XdolfButton>();
-	public ArrayList<XdolfSlider> sliders = new ArrayList<XdolfSlider>();
+	private ArrayList<XdolfButton> buttonList = new ArrayList<XdolfButton>();
+	private ArrayList<XdolfSlider> sliderList = new ArrayList<XdolfSlider>();
 	
-	public XdolfWindow(String title, int x, int y)
-	{
-		this.title = title;
-		this.xPos = x;
-		this.yPos = y;
-		XdolfGuiClick.windows.add(this);
-		XdolfGuiClick.unFocusedWindows.add(this);
-	}
-	
-	public void windowDragged(int x, int y) {
+	public void drag(int x, int y) {
 		dragX = x - lastDragX;
 		dragY = y - lastDragY;
 	}
 	
-	private int buttonCount = 0, sliderCount = 0;
-	
-	public void addButton(Module mod) {
-		buttons.add(new XdolfButton(this, mod, xPos + 2, yPos + (11 * buttons.size()) + 16));
+	public XdolfWindow(String title, int x, int y) {
+		this.title = title;
+		this.x = x;
+		this.y = y;
+		XdolfGuiClick.windowList.add(this);
 	}
 	
-	public XdolfSlider addSlider(Value value)
-	{
-		return addSlider(value, 10.0F);
-	}
-	
-	public XdolfSlider addSlider(Value value, float maxValue)
-	{
-		return addSlider(value, 0.0F, maxValue, false);
-	}
-	
-	public XdolfSlider addSlider(Value value, float minValue, float maxValue, boolean shouldRound)
-	{
-		XdolfSlider slider = new XdolfSlider(this, value, xPos + 2, yPos + (19 * sliderCount) + 16, minValue, maxValue, shouldRound);
-		sliders.add(slider);
-		sliderCount++;
-		
-		return slider;
-	}
-	
-	public void draw(int x, int y)
-	{
-		if(dragging)
-		{
-			windowDragged(x, y);
+	public void draw(int x, int y) {
+		int toAdd = 0;
+		if(dragging) {
+			drag(x, y);
 		}
+		
+		RenderUtils.drawBorderedRect(getXAndDrag(), getYAndDrag(), getXAndDrag() + 100, getYAndDrag() + 13 + (isOpen ? (12 * buttonList.size() + 0.5F) + (20 * sliderList.size() + (sliderList.size() != 0 ? 2.5F : 0)) : 0) + toAdd, 0.5F, 0xFF000000, 0x80000000);
+		Fonts.roboto18.drawStringWithShadow(title, getXAndDrag() + 3, getYAndDrag()  + 1, 0xFFFFFF);
 
-		if(isExtended)
-		{
-			RenderUtils.drawBetterBorderedRect(xPos + dragX, yPos + dragY, xPos + 90 + dragX, yPos + (11 * buttons.size() + 17) + (19 * sliders.size()) + dragY, 0.5F, 0xFF000000, 0x60000000);
-				
-			for(XdolfButton button: buttons)
-			{
-				button.draw();
-				if(x >= button.getX() + dragX && y >= button.getY() + 1 + dragY && x <= button.getX() + 85.5 + dragX && y <= button.getY() + 10 + dragY)
-				{
-					button.isOverButton = true;
-				}else{
-					button.isOverButton = false;
+		RenderUtils.drawBorderedRect(getXAndDrag() + 79, getYAndDrag() + 2, getXAndDrag() + 88, getYAndDrag() + 11, 0.5F, 0xFF000000, isPinned ? 0xFFFF0000 : 0xFF383b42);
+		RenderUtils.drawBorderedRect(getXAndDrag() + 89, getYAndDrag() + 2, getXAndDrag() + 98, getYAndDrag() + 11, 0.5F, 0xFF000000, isOpen ? 0xFFFF0000 : 0xFF383b42);
+
+		
+		if(isOpen) {
+			for(XdolfButton b : buttonList) {
+				b.draw();
+				if(x >= b.getX() + dragX && y >= b.getY() + dragY && x <= b.getX() + 96 + dragX && y <= b.getY() + 11 + dragY) {
+					b.overButton = true;
+				} else {
+					b.overButton = false;
 				}
 			}
-				
-			for(XdolfSlider slider: sliders)
-			{
-				slider.draw(x);
-			}
-			Fonts.roboto18.drawStringWithShadow(title, xPos + 3 + dragX, yPos + dragY + 1, 0xFFFFFFFF);
-				
-			RenderUtils.drawBetterBorderedRect(xPos + 70 + dragX, yPos + 3 + dragY, xPos + 78 + dragX, yPos + 11 + dragY, 0.5F, 0xFF000000, isPinned ? 0xFFFF0000 : 0xFF383b42);
-			RenderUtils.drawBetterBorderedRect(xPos + 80 + dragX, yPos + 3 + dragY, xPos + 88 + dragX, yPos + 11 + dragY, 0.5F, 0xFF000000, isExtended ? 0xFFFF0000 : 0xFF383b42);
-				
-		}else{
-			RenderUtils.drawBetterBorderedRect(xPos + dragX, yPos + dragY, xPos + 90 + dragX, yPos + 14 + dragY, 0.5F, 0xff000000, 0x60000000);
-			Fonts.roboto18.drawStringWithShadow(title, xPos + 3 + dragX, yPos + dragY + 1, 0xFFFFFFFF);
-				
-			RenderUtils.drawBetterBorderedRect(xPos + 70 + dragX, yPos + 3 + dragY, xPos + 78 + dragX, yPos + 11 + dragY, 0.5F, 0xFF000000, isPinned ? 0xFFFF0000 : 0xFF383b42);
-			RenderUtils.drawBetterBorderedRect(xPos + 80 + dragX, yPos + 3 + dragY, xPos + 88 + dragX, yPos + 11 + dragY, 0.5F, 0xFF000000, isExtended ? 0xFFFF0000 : 0xFF383b42);
-				
+			for(XdolfSlider s : sliderList) {
+				s.draw(x);
+			} 
 		}
 	}
 	
-	public void drawCenteredTTFString(String s, int x, int y, int color)
-    {
-		Fonts.roboto18.drawCenteredString(s, x, y, color, true);
-    }
-	
-	public void mouseClicked(int x, int y, int button)
-	{
-		for(XdolfButton xButton: buttons)
-		{
-			xButton.mouseClicked(x, y, button);
+	public void mouseClicked(int x, int y, int button) throws IOException {
+		for(XdolfButton b : buttonList) {
+			b.mouseClicked(x, y, button);
+		}
+		for(XdolfSlider s : sliderList) {
+			s.mouseClicked(x, y, button);
 		}
 		
-		for(XdolfSlider slider: sliders)
-		{
-			slider.mouseClicked(x, y, button);
-		}
-		
-		if(x >= xPos + 80 + dragX && y >= yPos + 3 + dragY && x <= xPos + 88 + dragX && y <= yPos + 11 + dragY)
-		{
-			//AdolfWrapper.getMinecraft().playSoundFX("random.click", 1.0F, 1.0F);
-			isExtended = !isExtended;
-		}
-		if(x >= xPos + 70 + dragX && y >= yPos + 3 + dragY && x <= xPos + 78 + dragX && y <= yPos + 11 + dragY)
-		{
-			//AdolfWrapper.getMinecraft().sndManager.playSoundFX("random.click", 1.0F, 1.0F);
-			isPinned = !isPinned;
-		}
-		if(x >= xPos + dragX && y >= yPos + dragY && x <= xPos + 69 + dragX && y <= yPos + 12 + dragY)
-		{
-			XdolfGuiClick.sendPanelToFront(this);
+		if(x >= getXAndDrag() && y >= getYAndDrag() && x <= getXAndDrag() + 80 && y <= getYAndDrag() + 11) {
 			dragging = true;
 			lastDragX = x - dragX;
 			lastDragY = y - dragY;
 		}
-		if(this.title.equalsIgnoreCase("Radar"))
-		{
-			int count = 0;
-			for(Object o: Wrapper.getWorld().playerEntities)
-			{
-				EntityPlayer e = (EntityPlayer) o;
-				if(e != Wrapper.getPlayer() && !e.isDead)
-				{
-					int x2 = 26;
-					if(x >= xPos + dragX && y >= yPos + dragY + (10 * count) + 2 && x <= xPos + dragX + 90 && y <= yPos + dragY + (10 * count) + 13 + 2)
-					{
-						for(Friend friend: Wrapper.getFriends().friendsList)
-						{
-							if(Wrapper.getFriends().isFriend(e.getName()))
-							{
-								Wrapper.getFriends().removeFriend(e.getName());
-								Wrapper.addChatMessage("Removed " + e.getName() + " from friends.");
-								Wrapper.getFileManager().saveFriends();
-							}else{
-								Wrapper.getFriends().addFriend(e.getName(), e.getName());
-								Wrapper.addChatMessage("Protected " + e.getName() + " as " + e.getName() + ".");
-								Wrapper.getFileManager().saveFriends();
-							}
-						}
-						Wrapper.getFileManager().saveFriends();
-					}
-				}
-				count++;
-			}
+		if(x >= getXAndDrag() + 89 && y >= getYAndDrag() + 2 && x <= getXAndDrag() + 98 && y <= getYAndDrag() + 11) {
+			isOpen = !isOpen;
+		}
+		if(x >= getXAndDrag() + 79 && y >= getYAndDrag() + 2 && x <= getXAndDrag() + 88 && y <= getYAndDrag() + 11) {
+			isPinned = !isPinned;
 		}
 	}
 	
-	public void mouseReleased(int x, int y, int b)
-	{
-		for(XdolfSlider slider: sliders)
-		{
-			slider.mouseReleased(x, y, b);
+	public void mouseReleased(int x, int y, int state) {
+		for(XdolfSlider s : sliderList) {
+			s.mouseReleased(x, y, state);
 		}
-		if(b == 0) {
+		if(state == 0) {
 			dragging = false;
 		}
 	}
 	
-	public final String getTitle()
-	{
-		return this.title;
+	public void addButton(Module module) {
+		buttonList.add(new XdolfButton(this, module, x + 2, y + 12 + (12 * buttonList.size())));
 	}
 	
-	public int getX()
-	{
-		return this.xPos;
+	public XdolfSlider addSlider(Value value, float minValue, float maxValue, boolean shouldRound) {
+		XdolfSlider slider = new XdolfSlider(this, value, getX() + 2, getY() + (19 * sliderList.size()) + 16, minValue, maxValue, shouldRound);
+		sliderList.add(slider);
+		
+		return slider;
 	}
 	
-	public int getY()
-	{
-		return this.yPos;
+	protected void loadButtonsFromCategory(Category category) {
+		for(Module m : Hacks.hackList) {
+			if(m.getCategory() == category) {
+				addButton(m);
+			}
+		}
 	}
 	
-	public boolean isExtended()
-	{
-		return isExtended;
+	public String getTitle() {
+		return title;
 	}
 	
-	public boolean isOpen()
-	{
+	public int getX() {
+		return x;
+	}
+	
+	public int getY() {
+		return y;
+	}
+	
+	public int getDragX() {
+		return dragX;
+	}
+	
+	public int getDragY() {
+		return dragY;
+	}
+	
+	public int getXAndDrag() {
+		return x + dragX;
+	}
+	
+	public int getYAndDrag() {
+		return y + dragY;
+	}
+	
+	public void setTitle(String s) {
+		this.title = s;
+	}
+	
+	public void setX(int x) {
+		this.x = x;
+	}
+	
+	public void setY(int y) {
+		this.y = y;
+	}
+	
+	public boolean isOpen() {
 		return isOpen;
 	}
 	
-	public boolean isPinned()
-	{
+	public boolean isPinned() {
 		return isPinned;
 	}
 	
-	public void setOpen(boolean flag)
-	{
-		this.isOpen = flag;
+	public void setOpen(boolean b) {
+		this.isOpen = b;
 	}
 	
-	public void setExtended(boolean flag)
-	{
-		this.isExtended = flag;
+	public void setPinned(boolean b) {
+		this.isPinned = b;
 	}
 	
-	public void setPinned(boolean flag)
-	{
-		this.isPinned = flag;
+	public void setDragX(int x) {
+		this.dragX = x;
+	}
+	
+	public void setDragY(int y) {
+		this.dragY = y;
+	}
+	
+	public ArrayList<XdolfButton> getButtonList() {
+		return buttonList;
 	}
 }

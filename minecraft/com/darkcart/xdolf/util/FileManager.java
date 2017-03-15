@@ -101,55 +101,41 @@ public class FileManager
 		}
 	}
 	
-	public void saveGuiSettings()
-	{
-		try
-		{
-			File file = new File(xdolfDir.getAbsolutePath(), "gui.txt");
+	public void saveGuiSettings() {
+		try {
+			File file = new File(xdolfDir, "gui.txt");
 			BufferedWriter out = new BufferedWriter(new FileWriter(file));
-			for(XdolfWindow window: XdolfGuiClick.windows)
-			{
-				out.write(window.getTitle().replace(" ", "") + ":" + window.dragX + ":" + window.dragY + ":" + window.isExtended() + ":" + window.isOpen() + ":" + window.isPinned());
-				out.write("\r\n");
+			for(XdolfWindow w : XdolfGuiClick.windowList) {
+				out.write(w.getTitle().toLowerCase() + " = " + w.getDragX() + " = " + w.getDragY() + " = " + w.isOpen() + " = " + w.isPinned());
+				out.newLine();
 			}
 			out.close();
-		}catch(Exception e) {}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
-	public void loadGuiSettings()
-	{
-		try
-		{
+	public void loadGuiSettings() {
+		try {
 			File file = new File(xdolfDir.getAbsolutePath(), "gui.txt");
 			FileInputStream fstream = new FileInputStream(file.getAbsolutePath());
 			DataInputStream in = new DataInputStream(fstream);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 			String line;
-			while((line = br.readLine()) != null)
-			{
-				String curLine = line.toLowerCase().trim();
-				String[] args = curLine.split(":");
-				String title = args[0];
-				int dragX = Integer.parseInt(args[1]);
-				int dragY = Integer.parseInt(args[2]);
-				boolean isExtended = Boolean.parseBoolean(args[3]);
-				boolean isOpen = Boolean.parseBoolean(args[4]);
-				boolean isPinned = Boolean.parseBoolean(args[5]);
-				for(XdolfWindow window: XdolfGuiClick.windows)
-				{
-					if(window.getTitle().replace(" ", "").equalsIgnoreCase(title))
-					{
-						window.dragX = dragX;
-						window.dragY = dragY;
-						window.setExtended(isExtended);
-						window.setOpen(isOpen);
-						window.setPinned(isPinned);
+			while((line = br.readLine()) != null) {
+				String curLine = line.trim();
+				String[] s = curLine.split(" = ");
+				for(XdolfWindow w : XdolfGuiClick.windowList) {
+					if(w.getTitle().toLowerCase().equalsIgnoreCase(s[0])) {
+						w.setDragX(Integer.parseInt(s[1]));
+						w.setDragY(Integer.parseInt(s[2]));
+						w.setOpen(Boolean.parseBoolean(s[3]));
+						w.setPinned(Boolean.parseBoolean(s[4]));
 					}
 				}
 			}
 			br.close();
-		}catch(Exception e)
-		{
+		} catch(Exception e) {
 			e.printStackTrace();
 			saveGuiSettings();
 		}

@@ -35,7 +35,7 @@ public class XdolfSlider {
 		this.yPos = y;
 		this.maxValue = 10.0F;
 		this.minValue = 0.0F;
-		this.drawSliderWidth = 85;
+		this.drawSliderWidth = 95;
 		this.sliderWidth = this.drawSliderWidth - 5;
 	}
 	
@@ -46,7 +46,7 @@ public class XdolfSlider {
 		this.yPos = y;
 		this.maxValue = maxValue;
 		this.minValue = 0.0F;
-		this.drawSliderWidth = 85;
+		this.drawSliderWidth = 95;
 		this.sliderWidth = this.drawSliderWidth - 5;
 	}
 	
@@ -57,7 +57,7 @@ public class XdolfSlider {
 		this.yPos = y;
 		this.maxValue = maxValue;
 		this.minValue = minValue;
-		this.drawSliderWidth = 85;
+		this.drawSliderWidth = 95;
 		this.shouldRound = shouldRound;
 		this.sliderWidth = this.drawSliderWidth - 5;
 	}

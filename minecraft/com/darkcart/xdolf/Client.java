@@ -51,8 +51,9 @@ public class Client {
 	public static String[] splashes = { "malt liquor!", "It swings, it jives!", "Hitler did nothing wrong!",
 			"Niggers aren't really people.", "qy_ is a qt", "better than nhack!", "Stay gold!",
 			"straight outta hackforums", "TEQUILLA!", "rawr xd", "RIP my code", "dank meme", "better than 2h2e",
-			"l33t!", "make the fuher proud!", "torogajude", "666 nigger 666", "not backdoored!", "probably backdoored!",
-			"totally backdoored!", "2f4u's a skid!", "it's kawaii!!!!", "wew lad" };
+			"l33t!", "make the führer proud!", "torogajude", "666 nigger 666", "not backdoored!", "probably backdoored!",
+			"totally backdoored!", "2f4u's a skid!", "it's kawaii!!!!", "wew lad", "NIGGER GIRLS HAVE PURPLE PUSSIES", 
+			"x0xp is king", "kys, just do it" };
 
 	public static HashMap<String, String> vTable = new HashMap<String, String>();
 

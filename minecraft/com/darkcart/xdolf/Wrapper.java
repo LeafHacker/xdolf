@@ -5,6 +5,7 @@ import java.io.File;
 import org.lwjgl.input.Keyboard;
 
 import com.darkcart.xdolf.clickgui.XdolfGuiClick;
+import com.darkcart.xdolf.fonts.Fonts;
 import com.darkcart.xdolf.mods.Hacks;
 import com.darkcart.xdolf.util.FileManager;
 import com.darkcart.xdolf.util.FriendManager;
@@ -69,6 +70,11 @@ public class Wrapper {
 		
 		return clickGui;
 	}
+	
+	public static void drawCenteredTTFString(String s, int x, int y, int color)
+    {
+		Fonts.roboto18.drawCenteredString(s, x, y, color, true);
+    }
 	
     /**
      * gets the working dir (OS specific) for the specific application (which is always minecraft)

@@ -21,10 +21,10 @@ public class WindowRadar extends XdolfWindow {
 	{
 		if(dragging)
 		{
-			windowDragged(x, y);
+			drag(x, y);
 		}
 			
-		if(isExtended())
+		if(isOpen())
 		{
 			int rect = 0;
 			int rect2 = 0;
@@ -39,7 +39,7 @@ public class WindowRadar extends XdolfWindow {
 				
 			if(!(rect == 0 && count == 0))
 			{
-				RenderUtils.drawBetterBorderedRect(getX() + dragX, getY() + dragY, getX() + 90 + dragX, getY() + rect + 16 + dragY, 0.5F, 0xFF000000, 0x80000000);
+				RenderUtils.drawBorderedRect(getXAndDrag(), getYAndDrag(), getXAndDrag() + 90, getYAndDrag() + rect + 16, 0.5F, 0xFF000000, 0x80000000);
 			}
 			count = 0;
 			for(Object o: Wrapper.getWorld().playerEntities)
@@ -59,8 +59,8 @@ public class WindowRadar extends XdolfWindow {
 					{
 						text = text.replace(friend.getName(), friend.getAlias());
 					}
-					int xPosition = getX() + 3 + dragX;
-					int yPosition = getY() + (10 * count) + 13 + dragY;
+					int xPosition = getXAndDrag() + 3;
+					int yPosition = getYAndDrag() + (10 * count) + 13;
 					Fonts.roboto18.drawStringWithShadow(text, xPosition, yPosition, 0xFFFFFF);
 					count++;
 				}
@@ -68,29 +68,19 @@ public class WindowRadar extends XdolfWindow {
 				
 			if(rect == 0 && count == 0)
 			{
-				RenderUtils.drawBetterBorderedRect(getX() + dragX, getY() + dragY, getX() + 90 + dragX, getY() + 26 + dragY, 0.5F, 0xff000000, 0x80000000);
-				Fonts.roboto18.drawStringWithShadow("No players in range.", getX() + 3 + dragX, getY() + 13 + dragY, 0xFFFFFF);
-			}
-				
-			for(XdolfButton button: buttons)
-			{
-				button.draw();
-			}
-				
-			for(XdolfSlider slider: sliders)
-			{
-				slider.draw(x);
+				RenderUtils.drawBorderedRect(getXAndDrag(), getYAndDrag(), getXAndDrag() + 100 , getYAndDrag() + 26 , 0.5F, 0xff000000, 0x80000000);
+				Fonts.roboto18.drawStringWithShadow("No players in range.", getXAndDrag() + 3, getYAndDrag() + 13, 0xFFFFFF);
 			}
 			
-			Fonts.roboto18.drawStringWithShadow(getTitle(), getX() + 3 + dragX, getY() + dragY + 1, 0xFFFFFFFF);
-			RenderUtils.drawBetterBorderedRect(getX() + 70 + dragX, getY() + 3 + dragY, getX() + 78 + dragX, getY() + 11 + dragY, 0.5F, 0xFF000000, isPinned() ? 0xFFFF0000 : 0xFF383b42);
-			RenderUtils.drawBetterBorderedRect(getX() + 80 + dragX, getY() + 3 + dragY, getX() + 88 + dragX, getY() + 11 + dragY, 0.5F, 0xFF000000, isExtended() ? 0xFFFF0000 : 0xFF383b42);
+			Fonts.roboto18.drawStringWithShadow(getTitle(), getXAndDrag() + 3, getYAndDrag() + 1, 0xFFFFFFFF);
+			RenderUtils.drawBorderedRect(getXAndDrag() + 79, getYAndDrag() + 2, getXAndDrag() + 88, getYAndDrag() + 11, 0.5F, 0xFF000000, isPinned() ? 0xFFFF0000 : 0xFF383b42);
+			RenderUtils.drawBorderedRect(getXAndDrag() + 89, getYAndDrag() + 2, getXAndDrag() + 98, getYAndDrag() + 11, 0.5F, 0xFF000000, isOpen() ? 0xFFFF0000 : 0xFF383b42);
 		}else{
-			RenderUtils.drawBetterBorderedRect(getX() + dragX, getY() + dragY, getX() + 90 + dragX, getY() + 14 + dragY, 0.5F, 0xFF000000, 0x80000000);
-			Fonts.roboto18.drawStringWithShadow(getTitle(), getX() + 3 + dragX, getY() + dragY + 1, 0xFFFFFFFF);
+			RenderUtils.drawBorderedRect(getXAndDrag(), getYAndDrag(), getXAndDrag() + 100, getYAndDrag() + 14, 0.5F, 0xFF000000, 0x80000000);
+			Fonts.roboto18.drawStringWithShadow(getTitle(), getXAndDrag() + 3, getYAndDrag() + 1, 0xFFFFFFFF);
 				
-			RenderUtils.drawBetterBorderedRect(getX() + 70 + dragX, getY() + 3 + dragY, getX() + 78 + dragX, getY() + 11 + dragY, 0.5F, 0xFF000000, isPinned() ? 0xFFFF0000 : 0xFF383b42);
-			RenderUtils.drawBetterBorderedRect(getX() + 80 + dragX, getY() + 3 + dragY, getX() + 88 + dragX, getY() + 11 + dragY, 0.5F, 0xFF000000, isExtended() ? 0xFFFF0000 : 0xFF383b42);
+			RenderUtils.drawBorderedRect(getXAndDrag() + 79, getYAndDrag() + 2, getXAndDrag() + 88, getYAndDrag() + 11, 0.5F, 0xFF000000, isPinned() ? 0xFFFF0000 : 0xFF383b42);
+			RenderUtils.drawBorderedRect(getXAndDrag() + 89, getYAndDrag() + 2, getXAndDrag() + 98, getYAndDrag() + 11, 0.5F, 0xFF000000, isOpen() ? 0xFFFF0000 : 0xFF383b42);
 		}
 	}
 }

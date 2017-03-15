@@ -6,11 +6,6 @@ public enum Category
 	WORLD,
 	ESP,
 	AURA,
-	DERP,
 	MISC,
 	NONE;
-	
-	/*
-	 * addToGUIPane("Player", this);
-	 */
 }
