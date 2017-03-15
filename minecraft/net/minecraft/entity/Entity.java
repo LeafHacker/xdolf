@@ -1,5 +1,9 @@
 package net.minecraft.entity;
 
+import com.darkcart.xdolf.Wrapper;
+import com.darkcart.xdolf.mods.Hacks;
+import com.darkcart.xdolf.mods.player.Flight;
+import com.darkcart.xdolf.mods.player.SafeWalk;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -736,71 +740,74 @@ public abstract class Entity implements ICommandSender
             double d5 = p_70091_6_;
             boolean flag = this.onGround && this.isSneaking() && this instanceof EntityPlayer;
 
-            if ((x == MoverType.SELF || x == MoverType.PLAYER) && flag)
-            {
-                for (double d6 = 0.05D; p_70091_2_ != 0.0D && this.world.getCollisionBoxes(this, this.getEntityBoundingBox().offset(p_70091_2_, (double)(-this.stepHeight), 0.0D)).isEmpty(); d3 = p_70091_2_)
-                {
-                    if (p_70091_2_ < 0.05D && p_70091_2_ >= -0.05D)
-                    {
-                        p_70091_2_ = 0.0D;
-                    }
-                    else if (p_70091_2_ > 0.0D)
-                    {
-                        p_70091_2_ -= 0.05D;
-                    }
-                    else
-                    {
-                        p_70091_2_ += 0.05D;
-                    }
-                }
-
-                for (; p_70091_6_ != 0.0D && this.world.getCollisionBoxes(this, this.getEntityBoundingBox().offset(0.0D, (double)(-this.stepHeight), p_70091_6_)).isEmpty(); d5 = p_70091_6_)
-                {
-                    if (p_70091_6_ < 0.05D && p_70091_6_ >= -0.05D)
-                    {
-                        p_70091_6_ = 0.0D;
-                    }
-                    else if (p_70091_6_ > 0.0D)
-                    {
-                        p_70091_6_ -= 0.05D;
-                    }
-                    else
-                    {
-                        p_70091_6_ += 0.05D;
-                    }
-                }
-
-                for (; p_70091_2_ != 0.0D && p_70091_6_ != 0.0D && this.world.getCollisionBoxes(this, this.getEntityBoundingBox().offset(p_70091_2_, (double)(-this.stepHeight), p_70091_6_)).isEmpty(); d5 = p_70091_6_)
-                {
-                    if (p_70091_2_ < 0.05D && p_70091_2_ >= -0.05D)
-                    {
-                        p_70091_2_ = 0.0D;
-                    }
-                    else if (p_70091_2_ > 0.0D)
-                    {
-                        p_70091_2_ -= 0.05D;
-                    }
-                    else
-                    {
-                        p_70091_2_ += 0.05D;
-                    }
-
-                    d3 = p_70091_2_;
-
-                    if (p_70091_6_ < 0.05D && p_70091_6_ >= -0.05D)
-                    {
-                        p_70091_6_ = 0.0D;
-                    }
-                    else if (p_70091_6_ > 0.0D)
-                    {
-                        p_70091_6_ -= 0.05D;
-                    }
-                    else
-                    {
-                        p_70091_6_ += 0.05D;
-                    }
-                }
-            }
+            try{ 
+            	if ((x == MoverType.SELF || x == MoverType.PLAYER) && flag 
+            		|| (Hacks.findMod(SafeWalk.class).isEnabled() && Wrapper.getPlayer().onGround) && !Hacks.findMod(Flight.class).isEnabled())
+	            {
+	                for (double d6 = 0.05D; p_70091_2_ != 0.0D && this.world.getCollisionBoxes(this, this.getEntityBoundingBox().offset(p_70091_2_, (double)(-this.stepHeight), 0.0D)).isEmpty(); d3 = p_70091_2_)
+	                {
+	                    if (p_70091_2_ < 0.05D && p_70091_2_ >= -0.05D)
+	                    {
+	                        p_70091_2_ = 0.0D;
+	                    }
+	                    else if (p_70091_2_ > 0.0D)
+	                    {
+	                        p_70091_2_ -= 0.05D;
+	                    }
+	                    else
+	                    {
+	                        p_70091_2_ += 0.05D;
+	                    }
+	                }
+	
+	                for (; p_70091_6_ != 0.0D && this.world.getCollisionBoxes(this, this.getEntityBoundingBox().offset(0.0D, (double)(-this.stepHeight), p_70091_6_)).isEmpty(); d5 = p_70091_6_)
+	                {
+	                    if (p_70091_6_ < 0.05D && p_70091_6_ >= -0.05D)
+	                    {
+	                        p_70091_6_ = 0.0D;
+	                    }
+	                    else if (p_70091_6_ > 0.0D)
+	                    {
+	                        p_70091_6_ -= 0.05D;
+	                    }
+	                    else
+	                    {
+	                        p_70091_6_ += 0.05D;
+	                    }
+	                }
+	
+	                for (; p_70091_2_ != 0.0D && p_70091_6_ != 0.0D && this.world.getCollisionBoxes(this, this.getEntityBoundingBox().offset(p_70091_2_, (double)(-this.stepHeight), p_70091_6_)).isEmpty(); d5 = p_70091_6_)
+	                {
+	                    if (p_70091_2_ < 0.05D && p_70091_2_ >= -0.05D)
+	                    {
+	                        p_70091_2_ = 0.0D;
+	                    }
+	                    else if (p_70091_2_ > 0.0D)
+	                    {
+	                        p_70091_2_ -= 0.05D;
+	                    }
+	                    else
+	                    {
+	                        p_70091_2_ += 0.05D;
+	                    }
+	
+	                    d3 = p_70091_2_;
+	
+	                    if (p_70091_6_ < 0.05D && p_70091_6_ >= -0.05D)
+	                    {
+	                        p_70091_6_ = 0.0D;
+	                    }
+	                    else if (p_70091_6_ > 0.0D)
+	                    {
+	                        p_70091_6_ -= 0.05D;
+	                    }
+	                    else
+	                    {
+	                        p_70091_6_ += 0.05D;
+	                    }
+	                }
+	            }
+            }catch(Exception ex){}
 
             List<AxisAlignedBB> list1 = this.world.getCollisionBoxes(this, this.getEntityBoundingBox().addCoord(p_70091_2_, p_70091_4_, p_70091_6_));
             AxisAlignedBB axisalignedbb = this.getEntityBoundingBox();

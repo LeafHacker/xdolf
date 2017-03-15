@@ -13,6 +13,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.renderer.entity.RenderManager;
 
 import org.lwjgl.input.Keyboard;
@@ -22,6 +23,7 @@ import com.darkcart.xdolf.Wrapper;
 import com.darkcart.xdolf.clickgui.XdolfGuiClick;
 import com.darkcart.xdolf.clickgui.elements.XdolfWindow;
 import com.darkcart.xdolf.mods.Hacks;
+import com.darkcart.xdolf.mods.world.XRay;
 
 public class FileManager
 {
@@ -36,7 +38,7 @@ public class FileManager
 		}
 		loadKeybinds();
 		loadGuiSettings();
-		//loadXrayList();
+		loadXrayList();
 		loadHacks();
 		loadFriends();
 		loadWaypoints();
@@ -141,13 +143,13 @@ public class FileManager
 		}
 	}
 	
-	/*public void saveXrayList()
+	public void saveXrayList()
 	{
 		try
 		{
 			File file = new File(xdolfDir.getAbsolutePath(), "xray.txt");
 			BufferedWriter out = new BufferedWriter(new FileWriter(file));
-			for(int i: Xray.blocks)
+			for(Block i: XRay.xrayBlocks)
 			{
 				out.write(i + "\r\n");
 			}
@@ -167,8 +169,8 @@ public class FileManager
 			while((line = br.readLine()) != null)
 			{
 				String curLine = line.toLowerCase().trim();
-				int id = Integer.parseInt(curLine);
-				Xray.blocks.add(id);
+				String name = curLine;
+				XRay.xrayBlocks.add(Block.getBlockFromName(name));
 			}
 			br.close();
 		}catch(Exception e)
@@ -176,7 +178,7 @@ public class FileManager
 			e.printStackTrace();
 			saveXrayList();
 		}
-	}*/
+	}
 	
 	public void saveHacks()
 	{
