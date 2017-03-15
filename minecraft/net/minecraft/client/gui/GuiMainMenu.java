@@ -1,5 +1,6 @@
 package net.minecraft.client.gui;
 
+import com.darkcart.xdolf.Client;
 import com.darkcart.xdolf.altmanager.Manager;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
@@ -116,47 +117,8 @@ public class GuiMainMenu extends GuiScreen
     public GuiMainMenu()
     {
         this.openGLWarning2 = MORE_INFO_TEXT;
-        this.splashText = "missingno";
-        IResource iresource = null;
-
-        try
-        {
-            List<String> list = Lists.<String>newArrayList();
-            iresource = Minecraft.getMinecraft().getResourceManager().getResource(SPLASH_TEXTS);
-            BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(iresource.getInputStream(), Charsets.UTF_8));
-            String s;
-
-            while ((s = bufferedreader.readLine()) != null)
-            {
-                s = s.trim();
-
-                if (!s.isEmpty())
-                {
-                    list.add(s);
-                }
-            }
-
-            if (!list.isEmpty())
-            {
-                while (true)
-                {
-                    this.splashText = (String)list.get(RANDOM.nextInt(list.size()));
-
-                    if (this.splashText.hashCode() != 125780783)
-                    {
-                        break;
-                    }
-                }
-            }
-        }
-        catch (IOException var8)
-        {
-            ;
-        }
-        finally
-        {
-            IOUtils.closeQuietly((Closeable)iresource);
-        }
+        
+        this.splashText = Client.splashes[RANDOM.nextInt(Client.splashes.length-1)];
 
         this.updateCounter = RANDOM.nextFloat();
         this.openGLWarning1 = "";
