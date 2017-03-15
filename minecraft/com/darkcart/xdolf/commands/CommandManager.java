@@ -32,6 +32,7 @@ public class CommandManager
 		commands.add(new CmdView());
 		commands.add(new CmdBind());
 		commands.add(new CmdFriend());
+		commands.add(new CmdImpersonate());
 	}
 	
 	public void runCommands(String s)
