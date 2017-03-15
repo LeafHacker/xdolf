@@ -15,13 +15,17 @@ public class AutoTotem extends Module {
 	}
 
 	public void onUpdate(EntityPlayerSP player) {
-		if (player.getHeldItemOffhand() == ItemStack.EMPTY) {
-			for (ItemStack i : player.inventory.mainInventory) {
-				if (i.getItem() == Items.TOTEM) {
-					int slotNumber = player.inventory.getSlotFor(i);
-					//Wrapper.getMinecraft().playerController.windowClick(windowId, slotId, mouseButton, type, player);
+		try {
+			if(isEnabled()) {
+				if (player.getHeldItemOffhand() == ItemStack.EMPTY) {
+					for (ItemStack i : player.inventory.mainInventory) {
+						if (i.getItem() == Items.TOTEM) {
+							int slotNumber = player.inventory.getSlotFor(i);
+							//Wrapper.getMinecraft().playerController.windowClick(windowId, slotId, mouseButton, type, player);
+						}
+					}
 				}
 			}
-		}
+		}catch(Exception ex){}
 	}
 }

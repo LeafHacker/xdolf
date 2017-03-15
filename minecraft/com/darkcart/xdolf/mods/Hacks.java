@@ -8,6 +8,8 @@ import com.darkcart.xdolf.Module;
 import com.darkcart.xdolf.mods.aura.AuraMob;
 import com.darkcart.xdolf.mods.aura.AuraPlayer;
 import com.darkcart.xdolf.mods.aura.AutoArmor;
+import com.darkcart.xdolf.mods.aura.AutoLog;
+import com.darkcart.xdolf.mods.aura.AutoTotem;
 import com.darkcart.xdolf.mods.aura.CrystalAura;
 import com.darkcart.xdolf.mods.aura.KillAura;
 import com.darkcart.xdolf.mods.player.AntiKnockback;
@@ -47,7 +49,6 @@ public class Hacks
 			new KillAura(),
 			new AutoRespawn(),
 			new AutoArmor(),
-			new CrystalAura(),
 			new AutoWalk(),
 			new Chams(),
 			new AuraMob(),
@@ -55,6 +56,7 @@ public class Hacks
 			new GUI(),
 			new AntiTotemAnimation(),
 			new SafeWalk(),
+			new AutoLog(),
 	});
 
 	public static Module[] getEnabledHacks()

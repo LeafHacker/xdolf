@@ -659,7 +659,7 @@ public class Minecraft implements IThreadListener, ISnooperInfo
     private void createDisplay() throws LWJGLException
     {
         Display.setResizable(true);
-        Display.setTitle(c.CLIENT_NAME + " v" + c.CLIENT_VERSION);
+        Display.setTitle(c.CLIENT_NAME + " beta");
 
         try
         {
