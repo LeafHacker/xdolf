@@ -39,7 +39,7 @@ public class CmdImpersonate extends Command {
 
 	@Override
 	public String getDescription() {
-		return "Impersonate a player in the chat!.";
+		return "Impersonate a player in the chat.";
 	}
 
 	@Override

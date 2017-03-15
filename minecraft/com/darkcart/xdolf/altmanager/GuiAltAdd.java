@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.lwjgl.input.Keyboard;
 
 import com.darkcart.xdolf.Client;
+import com.darkcart.xdolf.Wrapper;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -84,13 +85,13 @@ public class GuiAltAdd extends GuiScreen {
 						Alt theAlt = new Alt(usernameBox.getText().trim());
 						if(!Manager.altList.contains(theAlt)) {
 							Manager.altList.add(theAlt);
-							Manager.saveAlts();
+							Wrapper.getFileManager().saveAlts();
 						}
 					} else {
 						Alt theAlt = new Alt(usernameBox.getText().trim(), passwordBox.getText().trim());
 						if(!Manager.altList.contains(theAlt)) {
 							Manager.altList.add(theAlt);
-							Manager.saveAlts();
+							Wrapper.getFileManager().saveAlts();
 						}
 					}
 				}

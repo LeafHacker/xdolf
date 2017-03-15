@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.darkcart.xdolf.Client;
+import com.darkcart.xdolf.Wrapper;
 
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
@@ -23,7 +24,7 @@ public class GuiAltList extends GuiScreen {
 	public boolean deleteMenuOpen = false;
 	
 	public GuiAltList() {
-		Manager.loadAlts();
+		Wrapper.getFileManager().loadAlts();
 	}
 	
 	public FontRenderer getLocalFontRenderer() {
@@ -31,7 +32,7 @@ public class GuiAltList extends GuiScreen {
 	}
 	
 	public void onGuiClosed() {
-		Manager.saveAlts();
+		Wrapper.getFileManager().saveAlts();
 		super.onGuiClosed();
 	}
 	
@@ -57,7 +58,7 @@ public class GuiAltList extends GuiScreen {
 			
 			if(flag) {
 				Manager.altList.remove(i1);
-				Manager.saveAlts();
+				Wrapper.getFileManager().saveAlts();
 			}
 			
 			this.mc.displayGuiScreen(this);

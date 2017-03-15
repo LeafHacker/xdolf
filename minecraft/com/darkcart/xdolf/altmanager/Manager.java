@@ -1,8 +1,11 @@
 package com.darkcart.xdolf.altmanager;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.InputStream;
@@ -17,6 +20,7 @@ import java.util.UUID;
 import javax.net.ssl.HttpsURLConnection;
 
 import com.darkcart.xdolf.Wrapper;
+import com.darkcart.xdolf.util.Friend;
 import com.mojang.authlib.Agent;
 import com.mojang.authlib.exceptions.AuthenticationException;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
@@ -30,7 +34,6 @@ public class Manager
 	public static ArrayList<Alt> altList = new ArrayList<Alt>();
 	public static GuiAltList altScreen = new GuiAltList();
 	public static final int slotHeight = 25;
-	public static File xdolfDir = new File(Wrapper.getMinecraftDir() + File.separator + "Xdolf");
 
 	public static void addAlt(Alt paramAlt)
 	{
@@ -160,7 +163,6 @@ public class Manager
 				}
 				bufferedReader.close();
 			}
-		}catch(Exception error)
 		{
 			error.printStackTrace();
 		}

@@ -20,6 +20,8 @@ import org.lwjgl.input.Keyboard;
 
 import com.darkcart.xdolf.Module;
 import com.darkcart.xdolf.Wrapper;
+import com.darkcart.xdolf.altmanager.Alt;
+import com.darkcart.xdolf.altmanager.Manager;
 import com.darkcart.xdolf.clickgui.XdolfGuiClick;
 import com.darkcart.xdolf.clickgui.elements.XdolfWindow;
 import com.darkcart.xdolf.mods.Hacks;
@@ -100,6 +102,66 @@ public class FileManager
 				logString += ele.getClassName() + " " + ele.toString() + "\r\n";
 			}
 			writeCrash(logString);
+		}
+	}
+	
+	public void saveAlts()
+	{
+		try
+		{
+			File file = new File(xdolfDir.getAbsolutePath(), "alts.txt");
+			PrintWriter writer = new PrintWriter(new FileWriter(file));
+			for(Alt alt: Manager.altList)
+			{
+				writer.println(alt.getFileLine());
+			}
+			writer.close();
+		}catch(Exception error)
+		{
+			error.printStackTrace();
+		}
+	}
+	
+	public void loadAlts()
+	{
+		try
+		{
+			File file = new File(xdolfDir.getAbsolutePath(), "alts.txt");
+			FileInputStream fstream = new FileInputStream(file.getAbsolutePath());
+			DataInputStream in = new DataInputStream(fstream);
+			BufferedReader br = new BufferedReader(new InputStreamReader(in));
+			String rLine;
+			while((rLine = br.readLine()) != null)
+			{
+				String curLine = rLine;
+				try
+				{
+					if(curLine.contains(":") && !curLine.trim().endsWith(":"))
+					{
+						String[] altInfo = curLine.split(":");
+						Alt theAlt = new Alt(altInfo[0], altInfo[1]);
+						if(!Manager.altList.contains(theAlt))
+						{
+							Manager.altList.add(theAlt);
+						}
+					}else
+						if(!curLine.isEmpty() && curLine != null && !curLine.trim().isEmpty())
+						{
+							Alt theAlt = new Alt(curLine.replace(":", "").trim());
+							if(!Manager.altList.contains(theAlt))
+							{
+								Manager.altList.add(theAlt);
+							}
+						}
+				}catch(Exception error)
+				{
+					error.printStackTrace();
+				}
+			br.close();
+			}
+		}catch(Exception e)
+		{
+			e.printStackTrace();
 		}
 	}
 	
