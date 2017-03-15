@@ -4,15 +4,16 @@ import java.awt.Color;
 
 import org.lwjgl.input.Keyboard;
 
-import com.darkcart.xdolf.Client;
 import com.darkcart.xdolf.Module;
 import com.darkcart.xdolf.Wrapper;
 import com.darkcart.xdolf.util.Category;
 import com.darkcart.xdolf.util.RenderUtils;
 
 import net.minecraft.block.BlockChest;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityMinecartChest;
+import net.minecraft.entity.item.EntityMinecartFurnace;
+import net.minecraft.entity.item.EntityMinecartHopper;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntityDispenser;
 import net.minecraft.tileentity.TileEntityDropper;
@@ -58,6 +59,15 @@ public class StorageESP extends Module {
 				if (o instanceof TileEntityShulkerBox) {
 					TileEntityShulkerBox shulker = (TileEntityShulkerBox) o;
 					RenderUtils.blockESP(shulker.getPos(), Color.yellow, 1.0, 1.0);
+				}
+				
+			}
+			for (Entity e: Wrapper.getWorld().loadedEntityList) {
+				if (e instanceof EntityMinecartChest) {
+					RenderUtils.blockESP(e.getPosition(), Color.green, 1.0, 1.0);
+				}
+				if (e instanceof EntityMinecartFurnace || e instanceof EntityMinecartHopper) {
+					RenderUtils.blockESP(e.getPosition(), Color.gray, 1.0, 1.0);
 				}
 			}
 		}
