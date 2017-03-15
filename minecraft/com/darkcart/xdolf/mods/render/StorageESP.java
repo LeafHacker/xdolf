@@ -6,9 +6,12 @@ import org.lwjgl.input.Keyboard;
 
 import com.darkcart.xdolf.Client;
 import com.darkcart.xdolf.Module;
+import com.darkcart.xdolf.Wrapper;
 import com.darkcart.xdolf.util.Category;
 import com.darkcart.xdolf.util.RenderUtils;
 
+import net.minecraft.block.BlockChest;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntityDispenser;
@@ -26,20 +29,73 @@ public class StorageESP extends Module {
 	@Override
 	public void onRender() {
 		if(isEnabled()) {
-			for (TileEntity e : Client.mc.world.loadedTileEntityList) {
-				if (e instanceof TileEntityChest) {
-					RenderUtils.blockESP(e.getPos(), Color.green);
+			for (Object o : Wrapper.getWorld().loadedTileEntityList) {
+				if (o instanceof TileEntityChest) {
+					TileEntityChest chest = (TileEntityChest) o;
+					this.drawChestESP(chest, chest.getPos().getX(), chest.getPos().getY(), chest.getPos().getZ());
 				}
-				if (e instanceof TileEntityEnderChest) {
-					RenderUtils.blockESP(e.getPos(), Color.magenta);
+				if (o instanceof TileEntityEnderChest) {
+					TileEntityEnderChest enderChest = (TileEntityEnderChest) o;
+					this.drawEnderChestESP(enderChest, enderChest.getPos().getX(), enderChest.getPos().getY(), enderChest.getPos().getZ());
 				}
-				if (e instanceof TileEntityFurnace || e instanceof TileEntityDispenser || e instanceof TileEntityDropper) {
-					RenderUtils.blockESP(e.getPos(), Color.gray);
+				if (o instanceof TileEntityFurnace) {
+					TileEntityFurnace furnace = (TileEntityFurnace) o;
+					RenderUtils.blockESP(furnace.getPos(), Color.gray, 1.0, 1.0);
 				}
-				if (e instanceof TileEntityShulkerBox) {
-					RenderUtils.blockESP(e.getPos(), Color.red);
+				if (o instanceof TileEntityDispenser) {
+					TileEntityDispenser dispenser = (TileEntityDispenser) o;
+					RenderUtils.blockESP(dispenser.getPos(), Color.gray, 1.0, 1.0);
+				}
+				if (o instanceof TileEntityDropper) {
+					TileEntityDropper dropper = (TileEntityDropper) o;
+					RenderUtils.blockESP(dropper.getPos(), Color.gray, 1.0, 1.0);
+				}
+				if (o instanceof TileEntityShulkerBox) {
+					TileEntityShulkerBox shulker = (TileEntityShulkerBox) o;
+					RenderUtils.blockESP(shulker.getPos(), Color.yellow, 1.0, 1.0);
 				}
 			}
+		}
+	}
+
+	
+	public void drawChestESP(TileEntityChest chest, double x, double y, double z) {
+		if(isEnabled()) {
+			boolean isAdjacent = chest.adjacentChestChecked;
+			if(chest.adjacentChestXPos != null)
+			{
+				if(chest.getChestType() == BlockChest.Type.TRAP) { //if is trapped chest
+					RenderUtils.blockESP(chest.getPos(), Color.red, 1.0, 2.0);
+				}else{
+					RenderUtils.blockESP(chest.getPos(), Color.green, 1.0, 2.0);
+				}
+			}
+
+			if(chest.adjacentChestZPos != null)
+			{
+				if(chest.getChestType() == BlockChest.Type.TRAP) { //if is trapped chest
+					RenderUtils.blockESP(chest.getPos(), Color.red, 2.0, 1.0);
+				}else{
+					RenderUtils.blockESP(chest.getPos(), Color.green, 2.0, 1.0);
+				}
+			}
+			if(chest.adjacentChestZNeg == null && chest.adjacentChestXNeg == null && chest.adjacentChestXPos == null && chest.adjacentChestZPos == null)
+			{
+				if(chest.getChestType() == BlockChest.Type.TRAP) { //if is trapped chest
+					RenderUtils.blockESP(chest.getPos(), Color.red, 1.0, 1.0);
+				}else{
+					RenderUtils.blockESP(chest.getPos(), 
+							Color.green, 
+							1.0, 
+							1.0);
+				}
+			}
+		}
+	}
+	
+	public void drawEnderChestESP(TileEntityEnderChest enderChest, double x, double y, double z) {
+		if(isEnabled()) {
+			RenderUtils.blockESP(enderChest.getPos(), Color.magenta, 1.0, 1.0);
 		}
 	}
 }

@@ -121,20 +121,17 @@ public class RenderUtils {
 	 * Renders a green ESP box with the size of a normal block at the specified
 	 * BlockPos.
 	 */
-	public static void blockEsp(BlockPos blockPos) {
-		blockEsp(blockPos, 0, 1, 0);
-	}
 
-	public static void blockESP(BlockPos b, Color c) {
+	public static void blockESP(BlockPos b, Color c, double length, double length2) {
 		float[] v = getColorValues(c);
-		blockEsp(b, v[0], v[1], v[2]);
+		blockEsp(b, v[0], v[1], v[2], length, length2);
 	}
 
 	/**
 	 * Renders an ESP box with the size of a normal block at the specified
 	 * BlockPos.
 	 */
-	public static void blockEsp(BlockPos blockPos, double red, double green, double blue) {
+	public static void blockEsp(BlockPos blockPos, double red, double green, double blue, double length, double length2) {
 		double x = blockPos.getX() - Minecraft.getMinecraft().getRenderManager().renderPosX;
 		double y = blockPos.getY() - Minecraft.getMinecraft().getRenderManager().renderPosY;
 		double z = blockPos.getZ() - Minecraft.getMinecraft().getRenderManager().renderPosZ;
@@ -145,9 +142,9 @@ public class RenderUtils {
 		GL11.glDisable(GL_DEPTH_TEST);
 		GL11.glDepthMask(false);
 		GL11.glColor4d(red, green, blue, 0.15);
-		drawColorBox(new AxisAlignedBB(x, y, z, x + 1.0, y + 1.0, z + 1.0), 0F, 0F, 0F, 0F);
+		drawColorBox(new AxisAlignedBB(x, y, z, x + length2, y + 1.0, z + length), 0F, 0F, 0F, 0F);
 		GL11.glColor4d(0, 0, 0, 0.5);
-		drawSelectionBoundingBox(new AxisAlignedBB(x, y, z, x + 1.0, y + 1.0, z + 1.0));
+		drawSelectionBoundingBox(new AxisAlignedBB(x, y, z, x + length2, y + 1.0, z + length));
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glEnable(GL_DEPTH_TEST);
 		GL11.glDepthMask(true);
@@ -921,10 +918,10 @@ public class RenderUtils {
 		GL11.glEnable(GL11.GL_LINE_SMOOTH);
 		GL11.glDisable(2929);
 		GL11.glDepthMask(false);
-		GL11.glColor4d(r, g, b, 0.1825F);
-		drawBoundingBox(new AxisAlignedBB(d, d1, d2, d + length2, d1 + 1.0, d2 + length));
-		GL11.glColor4d(r, g, b, 1F);
-		drawOutlinedBoundingBox(new AxisAlignedBB(d, d1, d2, d + length2, d1 + 1.0, d2 + length));
+		GL11.glColor4d(r, g, b, 0.15);
+		drawColorBox(new AxisAlignedBB(d, d1, d2, d + length2, d1 + 1.0, d2 + length), 0F, 0F, 0F, 0F);
+		GL11.glColor4d(0, 0, 0, 0.5);
+		drawSelectionBoundingBox(new AxisAlignedBB(d, d1, d2, d + length2, d1 + 1.0, d2 + length));
 		GL11.glLineWidth(2.0F);
 		GL11.glDisable(GL11.GL_LINE_SMOOTH);
 		GL11.glEnable(GL11.GL_TEXTURE_2D);

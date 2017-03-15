@@ -24,8 +24,9 @@ public class CrystalAura extends Module {
 	
 	@Override
 	public void onDisable() {
-		Wrapper.getMinecraft().gameSettings.keyBindUseItem.pressed = Keyboard
-				.isKeyDown(Wrapper.getMinecraft().gameSettings.keyBindUseItem.getKeyCode());
+		try {
+			Wrapper.getMinecraft().gameSettings.keyBindUseItem.pressed = Keyboard.isKeyDown(Wrapper.getMinecraft().gameSettings.keyBindUseItem.getKeyCode());
+		}catch(Exception ex) {}
 	}
 
 	@Override
