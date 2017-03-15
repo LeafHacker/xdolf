@@ -18,6 +18,7 @@ import net.minecraft.tileentity.TileEntityDispenser;
 import net.minecraft.tileentity.TileEntityDropper;
 import net.minecraft.tileentity.TileEntityEnderChest;
 import net.minecraft.tileentity.TileEntityFurnace;
+import net.minecraft.tileentity.TileEntityHopper;
 import net.minecraft.tileentity.TileEntityShulkerBox;
 
 public class StorageESP extends Module {
@@ -49,6 +50,10 @@ public class StorageESP extends Module {
 				if (o instanceof TileEntityDropper) {
 					TileEntityDropper dropper = (TileEntityDropper) o;
 					RenderUtils.blockESP(dropper.getPos(), Color.gray, 1.0, 1.0);
+				}
+				if (o instanceof TileEntityHopper) {
+					TileEntityHopper hopper = (TileEntityHopper) o;
+					RenderUtils.blockESP(hopper.getPos(), Color.gray, 1.0, 1.0);
 				}
 				if (o instanceof TileEntityShulkerBox) {
 					TileEntityShulkerBox shulker = (TileEntityShulkerBox) o;

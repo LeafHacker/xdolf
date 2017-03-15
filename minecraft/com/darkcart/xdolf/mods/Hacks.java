@@ -14,6 +14,7 @@ import com.darkcart.xdolf.mods.player.AntiKnockback;
 import com.darkcart.xdolf.mods.player.AutoRespawn;
 import com.darkcart.xdolf.mods.player.AutoWalk;
 import com.darkcart.xdolf.mods.player.Flight;
+import com.darkcart.xdolf.mods.player.SafeWalk;
 import com.darkcart.xdolf.mods.player.Spammer;
 import com.darkcart.xdolf.mods.render.AntiTotemAnimation;
 import com.darkcart.xdolf.mods.render.Chams;
@@ -52,7 +53,8 @@ public class Hacks
 			new AuraMob(),
 			new AuraPlayer(),
 			new GUI(),
-			new AntiTotemAnimation()
+			new AntiTotemAnimation(),
+			new SafeWalk(),
 	});
 
 	public static Module[] getEnabledHacks()
