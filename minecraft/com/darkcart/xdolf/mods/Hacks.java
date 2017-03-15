@@ -15,7 +15,6 @@ import com.darkcart.xdolf.mods.player.AutoRespawn;
 import com.darkcart.xdolf.mods.player.AutoWalk;
 import com.darkcart.xdolf.mods.player.Flight;
 import com.darkcart.xdolf.mods.player.Spammer;
-import com.darkcart.xdolf.mods.player.Step;
 import com.darkcart.xdolf.mods.render.AntiTotemAnimation;
 import com.darkcart.xdolf.mods.render.Chams;
 import com.darkcart.xdolf.mods.render.EntityESP;
@@ -39,7 +38,6 @@ public class Hacks
 			new EntityESP(),
 			new NoHurtCam(),
 			new AntiKnockback(),
-			new Step(),
 			new Flight(),
 			new Spammer(),
 			new Timer(),

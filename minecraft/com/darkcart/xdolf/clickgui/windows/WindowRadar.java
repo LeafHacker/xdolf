@@ -39,7 +39,7 @@ public class WindowRadar extends XdolfWindow {
 				
 			if(!(rect == 0 && count == 0))
 			{
-				RenderUtils.drawBorderedRect(getXAndDrag(), getYAndDrag(), getXAndDrag() + 90, getYAndDrag() + rect + 16, 0.5F, 0xFF000000, 0x80000000);
+				RenderUtils.drawBorderedRect(getXAndDrag(), getYAndDrag(), getXAndDrag() + 100, getYAndDrag() + rect + 16, 0.5F, 0xFF000000, 0x80000000);
 			}
 			count = 0;
 			for(Object o: Wrapper.getWorld().playerEntities)
