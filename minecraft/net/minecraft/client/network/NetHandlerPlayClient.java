@@ -1118,7 +1118,9 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
 
                 if (entity == this.gameController.player)
                 {
-                    this.gameController.entityRenderer.displayItemActivation(new ItemStack(Items.TOTEM));
+                	if (!Hacks.getModByName("AntiTotemAnimation").isEnabled()) {
+                       this.gameController.entityRenderer.displayItemActivation(new ItemStack(Items.TOTEM));
+                	}
                 }
             }
             else
