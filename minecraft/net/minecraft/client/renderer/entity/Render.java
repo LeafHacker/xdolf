@@ -391,14 +391,15 @@ public abstract class Render<T extends Entity> implements IEntityRenderer
             boolean flag1 = this.renderManager.options.thirdPersonView == 2;
             float f2 = entityIn.height + 0.5F - (flag ? 0.25F : 0.0F);
             int i = "deadmau5".equals(str) ? -10 : 0;
-            EntityLivingBase entity = ((EntityLivingBase) entityIn);
             for(Friend friend: Wrapper.getFriends().friendsList) {
             	str.replace(friend.getName(), friend.getAlias());
             }
             if(Wrapper.getFriends().isFriend(str)) {
             	str = "\2479" + str;
             }
-            str = str + " \247a" + ((double)Math.round((entity.getHealth() * 100) / 100) / 2);
+            if (entityIn instanceof EntityLivingBase) {
+            str = str + " \247a" + ((double)Math.round((((EntityLivingBase) entityIn).getHealth() * 100) / 100) / 2);
+            }
             EntityRenderer.drawNameplate(this.getFontRendererFromRenderManager(), str, (float)x, (float)y + f2, (float)z, i, f, f1, flag1, flag);
         }
     }
