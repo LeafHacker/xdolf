@@ -39,7 +39,7 @@ public class Client {
 			"no oremonger!", "LOL", "2 B 2 T . O R G", "cocaine n hookers", "silentpedophile",
 			"Endorsed by the Camping Rusher!", "Try our sister game, ILOVEYOU", "Sponsered by federal taxes",
 			"100% nigger free!", "m-m-m-my sharona!", "Better than Adolf!", "Better than Impact!", "Better than Wurst!",
-			"popbob loves pretty ponies!" };
+			"popbob loves pretty ponies!", "ok" };
 
 	public static HashMap<String, String> vTable = new HashMap<String, String>();
 

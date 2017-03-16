@@ -1,5 +1,7 @@
 package com.darkcart.xdolf.mods.aura;
 
+import org.lwjgl.input.Keyboard;
+
 import com.darkcart.xdolf.Module;
 import com.darkcart.xdolf.Wrapper;
 import com.darkcart.xdolf.util.Category;
@@ -11,7 +13,7 @@ import net.minecraft.item.ItemStack;
 public class AutoTotem extends Module {
 
 	public AutoTotem() {
-		super("AutoTotem", "Automagically places totems in offhand", Category.AURA);
+		super("AutoTotem", "Automatically replaces totems", Keyboard.KEYBOARD_SIZE, 0xffffff, Category.AURA);
 	}
 
 	public void onUpdate(EntityPlayerSP player) {
