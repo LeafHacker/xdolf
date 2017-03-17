@@ -23,13 +23,13 @@ public class EntityESP extends Module {
 			for (Entity e: Client.mc.world.loadedEntityList) {
 				String entityPackage = e.getClass().getPackage().getName();
 				if (entityPackage.equals("net.minecraft.entity.monster")) {
-					RenderUtils.entityESPBox(e, Color.red);
+					RenderUtils.drawEntityESP(e, Color.red);
 				}
 				if (entityPackage.equals("net.minecraft.entity.passive")) {
-					RenderUtils.entityESPBox(e, Color.green);
+					RenderUtils.drawEntityESP(e, Color.green);
 				}
 				if (entityPackage.equals("net.minecraft.entity.item")) {
-					RenderUtils.entityESPBox(e, Color.white);
+					RenderUtils.drawEntityESP(e, Color.green);
 				}
 			}
 		}
