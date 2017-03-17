@@ -19,6 +19,7 @@ import com.darkcart.xdolf.mods.player.Spammer;
 import com.darkcart.xdolf.mods.render.AntiTotemAnimation;
 import com.darkcart.xdolf.mods.render.Chams;
 import com.darkcart.xdolf.mods.render.EntityESP;
+import com.darkcart.xdolf.mods.render.ItemESP;
 import com.darkcart.xdolf.mods.render.NoHurtCam;
 import com.darkcart.xdolf.mods.render.NoPumpkinBlur;
 import com.darkcart.xdolf.mods.render.StorageESP;
@@ -54,7 +55,8 @@ public class Hacks
 			new GUI(),
 			new AntiTotemAnimation(),
 			new SafeWalk(),
-			new AutoLog()
+			new AutoLog(),
+			new ItemESP(),
 	});
 
 	public static Module[] getEnabledHacks()
