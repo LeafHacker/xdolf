@@ -67,6 +67,6 @@ public class CmdXray extends Command
 	@Override
 	public String getSyntax() 
 	{
-		return "xray add/del <block id>";
+		return "xray add/del <block name>";
 	}
 }
