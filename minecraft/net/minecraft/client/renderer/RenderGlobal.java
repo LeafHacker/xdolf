@@ -1,10 +1,5 @@
 package net.minecraft.client.renderer;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
-import com.google.gson.JsonSyntaxException;
-import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -19,7 +14,23 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+
 import javax.annotation.Nullable;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.util.vector.Vector3f;
+import org.lwjgl.util.vector.Vector4f;
+
+import com.darkcart.xdolf.mods.Hacks;
+import com.darkcart.xdolf.mods.world.XRay;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+import com.google.gson.JsonSyntaxException;
+
+import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockChest;
 import net.minecraft.block.BlockEnderChest;
@@ -104,11 +115,6 @@ import net.minecraft.world.WorldProvider;
 import net.minecraft.world.border.WorldBorder;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.util.vector.Vector3f;
-import org.lwjgl.util.vector.Vector4f;
 import shadersmod.client.Shaders;
 import shadersmod.client.ShadersRender;
 
@@ -1191,7 +1197,7 @@ public class RenderGlobal implements IWorldEventListener, IResourceManagerReload
             this.visibilityDeque.clear();
             Deque deque = this.visibilityDeque;
             Entity.setRenderDistanceWeight(MathHelper.clamp((double)this.mc.gameSettings.renderDistanceChunks / 8.0D, 1.0D, 2.5D));
-            boolean flag2 = this.mc.renderChunksMany;
+            boolean flag2 = this.mc.renderChunksMany || !Hacks.findMod(XRay.class).isEnabled();
 
             if (renderchunk != null)
             {

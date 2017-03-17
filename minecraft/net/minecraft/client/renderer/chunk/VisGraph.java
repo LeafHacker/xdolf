@@ -4,6 +4,10 @@ import java.util.ArrayDeque;
 import java.util.BitSet;
 import java.util.EnumSet;
 import java.util.Set;
+
+import com.darkcart.xdolf.mods.Hacks;
+import com.darkcart.xdolf.mods.world.XRay;
+
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IntegerCache;
 import net.minecraft.util.math.BlockPos;
@@ -37,7 +41,7 @@ public class VisGraph
     {
         SetVisibility setvisibility = new SetVisibility();
 
-        if (4096 - this.empty < 256)
+        if (4096 - this.empty < 256 ||Hacks.findMod(XRay.class).isEnabled())
         {
             setvisibility.setAllVisible(true);
         }
