@@ -201,6 +201,13 @@ public class GuiMainMenu extends GuiScreen
             this.splashText = "OOoooOOOoooo! Spooky!";
         }
 
+        if (calendar.get(2) + 1 == 9 && calendar.get(5) == 27) {
+        	this.splashText = "Happy Birthday, Sgt. Pepper!";
+        }
+        else if (calendar.get(2) + 1 == 5 && calendar.get(5) == 28) {
+        	this.splashText = "Happy Birthday, x0XP!";
+        }
+        
         int i = 24;
         int j = this.height / 4 + 48;
 
