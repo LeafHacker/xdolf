@@ -545,7 +545,6 @@ public class Block
                 }
         }
         
-        // TODO: Fix bug where ores are dark????
      	if (Hacks.findMod(XRay.class).isEnabled()) {
      		return XRay.xrayBlocks.contains(this);
      	}
@@ -1002,6 +1001,9 @@ public class Block
     @Deprecated
     public float getAmbientOcclusionLightValue(IBlockState state)
     {
+    	if(Hacks.findMod(XRay.class).isEnabled())
+    		return 1.0F;
+    	
         return state.isBlockNormalCube() ? 0.2F : 1.0F;
     }
 
