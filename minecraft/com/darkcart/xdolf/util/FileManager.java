@@ -213,7 +213,8 @@ public class FileManager
 			BufferedWriter out = new BufferedWriter(new FileWriter(file));
 			for(Block i: XRay.xrayBlocks)
 			{
-				out.write(i + "\r\n");
+				String name = i.getLocalizedName().replaceAll("\\s+","_");
+				out.write(name + "\r\n");
 			}
 			out.close();
 		}catch(Exception e) {}
@@ -230,9 +231,7 @@ public class FileManager
 			String line;
 			while((line = br.readLine()) != null)
 			{
-				String curLine = line.toLowerCase().trim();
-				String name = curLine;
-				XRay.xrayBlocks.add(Block.getBlockFromName(name));
+				XRay.xrayBlocks.add(Block.getBlockFromName(line));
 			}
 			br.close();
 		}catch(Exception e)
