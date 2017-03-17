@@ -1,6 +1,7 @@
 package com.darkcart.xdolf.clickgui.windows;
 
 import com.darkcart.xdolf.Wrapper;
+import com.darkcart.xdolf.clickgui.XdolfGuiClick;
 import com.darkcart.xdolf.clickgui.elements.XdolfButton;
 import com.darkcart.xdolf.clickgui.elements.XdolfSlider;
 import com.darkcart.xdolf.clickgui.elements.XdolfWindow;
@@ -73,9 +74,11 @@ public class WindowRadar extends XdolfWindow {
 			}
 			
 			Fonts.roboto18.drawStringWithShadow(getTitle(), getXAndDrag() + 3, getYAndDrag() + 1, 0xFFFFFFFF);
-			RenderUtils.drawBorderedRect(getXAndDrag() + 79, getYAndDrag() + 2, getXAndDrag() + 88, getYAndDrag() + 11, 0.5F, 0xFF000000, isPinned() ? 0xFFFF0000 : 0xFF383b42);
-			RenderUtils.drawBorderedRect(getXAndDrag() + 89, getYAndDrag() + 2, getXAndDrag() + 98, getYAndDrag() + 11, 0.5F, 0xFF000000, isOpen() ? 0xFFFF0000 : 0xFF383b42);
-		}else{
+			if(Wrapper.getMinecraft().currentScreen instanceof XdolfGuiClick) {
+				RenderUtils.drawBorderedRect(getXAndDrag() + 79, getYAndDrag() + 2, getXAndDrag() + 88, getYAndDrag() + 11, 0.5F, 0xFF000000, isPinned() ? 0xFFFF0000 : 0xFF383b42);
+				RenderUtils.drawBorderedRect(getXAndDrag() + 89, getYAndDrag() + 2, getXAndDrag() + 98, getYAndDrag() + 11, 0.5F, 0xFF000000, isOpen() ? 0xFFFF0000 : 0xFF383b42);
+			}
+			}else{
 			RenderUtils.drawBorderedRect(getXAndDrag(), getYAndDrag(), getXAndDrag() + 100, getYAndDrag() + 14, 0.5F, 0xFF000000, 0x80000000);
 			Fonts.roboto18.drawStringWithShadow(getTitle(), getXAndDrag() + 3, getYAndDrag() + 1, 0xFFFFFFFF);
 				
