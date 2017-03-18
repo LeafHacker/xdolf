@@ -1,5 +1,9 @@
 package com.darkcart.xdolf;
 
+import java.util.Collections;
+import java.util.Comparator;
+
+import com.darkcart.xdolf.mods.Hacks;
 import com.darkcart.xdolf.util.Category;
 
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -17,7 +21,7 @@ public class Module {
 	private boolean isVisible;
 
 	private Category category;
-	
+
 	public Module(String name, String description, Category category) {
 		this.name = name;
 		this.setDescription(description);
@@ -28,8 +32,7 @@ public class Module {
 		System.out.println("[Xdolf] " + name + " instantiated.");
 	}
 
-	public Module(String name, String description, int keyBind, Category category)
-	{
+	public Module(String name, String description, int keyBind, Category category) {
 		this.name = name;
 		this.setDescription(description);
 		this.keyBind = keyBind;
@@ -39,8 +42,7 @@ public class Module {
 		System.out.println("[Xdolf] " + name + " instantiated.");
 	}
 
-	public Module(String name, String description, int keyBind, int arrayColor, Category category)
-	{
+	public Module(String name, String description, int keyBind, int arrayColor, Category category) {
 		this.name = name;
 		this.setDescription(description);
 		this.keyBind = keyBind;
@@ -51,21 +53,36 @@ public class Module {
 		System.out.println("[Xdolf] " + name + " instantiated.");
 	}
 
-	public void onEnable() {}
-	public void onDisable() {}
-	public void onToggled() {}
-	public void beforeUpdate(EntityPlayerSP player) {}
-	public void onUpdate(EntityPlayerSP player) {}
-	public void afterUpdate(EntityPlayerSP player) {}
-	public void runTick() {}
-	public void onRender() {}
-	
-	public GuiScreen onDisplayGuiScreen(GuiScreen guiScreen) { 
-		return guiScreen; 
+	public void onEnable() {
+	}
+
+	public void onDisable() {
+	}
+
+	public void onToggled() {
+	}
+
+	public void beforeUpdate(EntityPlayerSP player) {
+	}
+
+	public void onUpdate(EntityPlayerSP player) {
+	}
+
+	public void afterUpdate(EntityPlayerSP player) {
+	}
+
+	public void runTick() {
+	}
+
+	public void onRender() {
+	}
+
+	public GuiScreen onDisplayGuiScreen(GuiScreen guiScreen) {
+		return guiScreen;
 	}
 
 	public void onKeyPressed(int key) {
-		if(key == keyBind) {
+		if (key == keyBind) {
 			toggle();
 		}
 	}
@@ -77,9 +94,8 @@ public class Module {
 	public int getKey() {
 		return keyBind;
 	}
-	
-	public int getColor()
-	{
+
+	public int getColor() {
 		return arrayColor;
 	}
 
@@ -90,22 +106,31 @@ public class Module {
 	public boolean getVisible() {
 		return isVisible;
 	}
-	
+
 	public Category getCategory() {
 		return category;
 	}
 
 	public final void setState(boolean flag) {
 		isEnabled = flag;
-		if(isEnabled()) {
+		if (isEnabled()) {
 			onEnable();
-			if(isVisible) {
+			if (isVisible) {
 				Wrapper.getHacks().display.add(this);
 			}
-		}else{
+		} else {
 			onDisable();
 			Wrapper.getHacks().display.remove(this);
 		}
+
+		Collections.sort(Hacks.display, new Comparator<Module>() {
+
+			@Override
+			public int compare(Module m, Module m1) {
+				return m1.getName().length() - m.getName().length();
+			}
+
+		});
 	}
 
 	public void setName(String s) {
@@ -129,5 +154,5 @@ public class Module {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
+
 }
