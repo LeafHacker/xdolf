@@ -1,4 +1,4 @@
-package com.darkcart.xdolf.commands;
+ package com.darkcart.xdolf.commands;
 
 import com.darkcart.xdolf.Wrapper;
 import com.darkcart.xdolf.mods.Hacks;
@@ -22,13 +22,18 @@ public class CmdXray extends Command
 				String name = args[1];
 				if(!((XRay)Hacks.findMod(XRay.class)).xrayBlocks.contains(Block.getBlockFromName(name)))
 				{
-					((XRay)Hacks.findMod(XRay.class)).xrayBlocks.add(Block.getBlockFromName(name));
-					Wrapper.addChatMessage("Added \247e" + name + "\247f to xray list.");
-					if(Hacks.findMod(XRay.class).isEnabled())
-					{
-						Wrapper.getMinecraft().renderGlobal.loadRenderers();
-					}
-					Wrapper.getFileManager().saveXrayList();
+					if(Block.getBlockFromName(name) != null)
+ 					{	
+						((XRay)Hacks.findMod(XRay.class)).xrayBlocks.add(Block.getBlockFromName(name));
+						Wrapper.addChatMessage("Added \247e" + name + "\247f to xray list.");
+						if(Hacks.findMod(XRay.class).isEnabled())
+						{
+							Wrapper.getMinecraft().renderGlobal.loadRenderers();
+						}
+						Wrapper.getFileManager().saveXrayList();
+				}else{
+					Wrapper.addChatMessage("\247e" + name + "\247f is not a recognized block.");
+				}
 				}else
 				{
 					Wrapper.addChatMessage("\247e" + name + "\247f is already in the xray list.");
