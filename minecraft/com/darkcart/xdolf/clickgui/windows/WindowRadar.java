@@ -1,5 +1,7 @@
 package com.darkcart.xdolf.clickgui.windows;
 
+import org.lwjgl.opengl.GL11;
+
 import com.darkcart.xdolf.Wrapper;
 import com.darkcart.xdolf.clickgui.XdolfGuiClick;
 import com.darkcart.xdolf.clickgui.elements.XdolfButton;
@@ -87,5 +89,6 @@ public class WindowRadar extends XdolfWindow {
 		
 			}
 		}
+		GL11.glEnable(GL11.GL_BLEND);
 	}
 }

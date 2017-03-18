@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
 
 import com.darkcart.xdolf.Module;
 import com.darkcart.xdolf.Wrapper;
@@ -67,6 +68,7 @@ public class XdolfWindow {
 				s.draw(x);
 			} 
 		}
+		GL11.glEnable(GL11.GL_BLEND);
 	}
 	
 	public void mouseClicked(int x, int y, int button) throws IOException {
