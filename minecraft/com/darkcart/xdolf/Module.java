@@ -3,6 +3,7 @@ package com.darkcart.xdolf;
 import java.util.Collections;
 import java.util.Comparator;
 
+import com.darkcart.xdolf.fonts.Fonts;
 import com.darkcart.xdolf.mods.Hacks;
 import com.darkcart.xdolf.util.Category;
 
@@ -127,7 +128,8 @@ public class Module {
 
 			@Override
 			public int compare(Module m, Module m1) {
-				return m1.getName().length() - m.getName().length();
+				return Fonts.roboto18.getStringWidth(m1.getName()) - Fonts.roboto18.getStringWidth(m.getName());
+				//return m1.getName().length() - m.getName().length();
 			}
 
 		});
