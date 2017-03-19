@@ -34,6 +34,7 @@ import com.darkcart.xdolf.Wrapper;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -893,9 +894,9 @@ public class RenderUtils {
 		GL11.glDisable(2929);
 		GL11.glDepthMask(false);
 		GL11.glColor4d(r, g, b, 0.1825F);
-		drawBoundingBox(new AxisAlignedBB(d, d1, d2, d + 1.0, d1 + 1.0, d2 + 1.0));
-		GL11.glColor4d(r, g, b, 1F);
-		drawOutlinedBoundingBox(new AxisAlignedBB(d, d1, d2, d + 1.0, d1 + 1.0, d2 + 1.0));
+		drawColorBox(new AxisAlignedBB(d, d1, d2, d + 1.0, d1 + 1.0, d2 + 1.0), 0F, 0F, 0F, 0F);
+		GL11.glColor4d(0, 0, 0, 0.5);
+		drawSelectionBoundingBox(new AxisAlignedBB(d, d1, d2, d + 1.0, d1 + 1.0, d2 + 1.0));
 		GL11.glLineWidth(2.0F);
 		GL11.glDisable(GL11.GL_LINE_SMOOTH);
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
@@ -1004,10 +1005,11 @@ public class RenderUtils {
 	        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 	        GL11.glEnable(GL11.GL_BLEND);
 	        GL11.glLineWidth(1.5F);
-
 			GL11.glColor3d(w.red, w.green, w.blue);
 			GL11.glBegin(GL11.GL_LINE_LOOP);
-			GL11.glVertex3d(0, 0, 0);
+			Vec3d eyes = new Vec3d(0, 0, 1).rotatePitch(-(float) Math.toRadians(Wrapper.getPlayer().rotationPitch)).rotateYaw(-(float) Math.toRadians(Wrapper.getPlayer().rotationYaw));
+
+			GL11.glVertex3d(eyes.xCoord, Wrapper.getPlayer().getEyeHeight() + eyes.yCoord, eyes.zCoord);
 			GL11.glVertex3d(w.dX + 0.5, w.dY + 0.5, w.dZ + 0.5);
 			GL11.glEnd();
 			
@@ -1022,40 +1024,38 @@ public class RenderUtils {
 		}catch(Exception e) {}
 	}
 
-	public static void drawTag(String s, double d, double d1, double d2) {
-		/*RenderManager renderManager = RenderManager.instance;
+    public static void drawNameplate(FontRenderer fontRendererIn, String str, float x, float y, float z, int verticalShift, float viewerYaw, float viewerPitch, boolean isThirdPersonFrontal)
+    {
+        GlStateManager.pushMatrix();
+        GlStateManager.translate(x, y, z);
+        GlStateManager.glNormal3f(0.0F, 1.0F, 0.0F);
+        GlStateManager.rotate(-viewerYaw, 0.0F, 1.0F, 0.0F);
+        GlStateManager.rotate((float)(isThirdPersonFrontal ? -1 : 1) * viewerPitch, 1.0F, 0.0F, 0.0F);
+        GlStateManager.scale(-0.025F, -0.025F, 0.025F);
+        GlStateManager.disableLighting();
+        GlStateManager.depthMask(false);
 
-		float f = 5;
+        GlStateManager.enableBlend();
+        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+        int i = fontRendererIn.getStringWidth(str) / 2;
+        GlStateManager.disableTexture2D();
+        Tessellator tessellator = Tessellator.getInstance();
+        VertexBuffer vertexbuffer = tessellator.getBuffer();
+        vertexbuffer.begin(7, DefaultVertexFormats.POSITION_COLOR);
+        vertexbuffer.pos((double)(-i - 1), (double)(-1 + verticalShift), 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
+        vertexbuffer.pos((double)(-i - 1), (double)(8 + verticalShift), 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
+        vertexbuffer.pos((double)(i + 1), (double)(8 + verticalShift), 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
+        vertexbuffer.pos((double)(i + 1), (double)(-1 + verticalShift), 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
+        tessellator.draw();
+        GlStateManager.enableTexture2D();
 
-		d += 0.5D;
-		d2 += 0.5D;
-		FontRenderer fontrenderer = mc.fontRendererObj;
-		int color = 0xFFFFFFFF;  
-
-		float scale = f / 100;
-		RenderManager renderManager1 = RenderManager.instance;
-		GL11.glPushMatrix();
-		GL11.glTranslatef((float)d, (float)d1 + 1.5F, (float)d2 - 0.5F);
-		GL11.glNormal3f(0.0F, 1.0F, 0.0F);
-		GL11.glRotatef(-renderManager1.playerViewY, 0.0F, 1.0F, 0.0F);
-		GL11.glRotatef(renderManager1.playerViewX, 1.0F, 0.0F, 0.0F);
-
-		GL11.glScalef(-scale, -scale, scale);
-
-		GL11.glDisable(GL11.GL_LIGHTING);
-		GL11.glDisable(GL11.GL_DEPTH_TEST);
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(770, 771);
-		byte byte0 = 0;
-		int i = fontrenderer.getStringWidth(s) / 2;
-		fontrenderer.drawStringWithShadow(s, -fontrenderer.getStringWidth(s) / 2, byte0, color);
-		fontrenderer.drawStringWithShadow(s, -fontrenderer.getStringWidth(s) / 2, byte0, color);
-		GL11.glDisable(GL11.GL_BLEND);
-		GL11.glEnable(GL11.GL_DEPTH_TEST);
-		GL11.glEnable(GL11.GL_LIGHTING);
-		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		GL11.glPopMatrix();*/
-	}
+        GlStateManager.depthMask(true);
+        fontRendererIn.drawString(str, -fontRendererIn.getStringWidth(str) / 2, verticalShift, -1);
+        GlStateManager.enableLighting();
+        GlStateManager.disableBlend();
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.popMatrix();
+    }
 	
 	public static void drawEntityESP(Entity entity, Color c) {
 		GL11.glPushMatrix();

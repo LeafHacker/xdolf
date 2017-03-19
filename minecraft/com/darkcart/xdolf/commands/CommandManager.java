@@ -34,6 +34,7 @@ public class CommandManager
 		commands.add(new CmdFriend());
 		commands.add(new CmdImpersonate());
 		commands.add(new CmdXray());
+		commands.add(new CmdWaypoint());
 	}
 	
 	public void runCommands(String s)

@@ -26,6 +26,8 @@ import com.darkcart.xdolf.mods.render.NoHurtCam;
 import com.darkcart.xdolf.mods.render.NoPumpkinBlur;
 import com.darkcart.xdolf.mods.render.StorageESP;
 import com.darkcart.xdolf.mods.render.Tracers;
+import com.darkcart.xdolf.mods.render.Waypoints;
+import com.darkcart.xdolf.mods.world.FastPlace;
 import com.darkcart.xdolf.mods.world.Fullbright;
 import com.darkcart.xdolf.mods.world.Timer;
 import com.darkcart.xdolf.mods.world.XRay;
@@ -61,6 +63,8 @@ public class Hacks
 			new ItemESP(),
 			new NoSlowdown(),
 			new Breadcrumb(),
+			new Waypoints(),
+			new FastPlace(),
 	});
 
 	public static Module[] getEnabledHacks()
