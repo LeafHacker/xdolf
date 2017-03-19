@@ -1,6 +1,10 @@
 package net.minecraft.block;
 
 import javax.annotation.Nullable;
+
+import com.darkcart.xdolf.Wrapper;
+import com.darkcart.xdolf.mods.player.NoSlowdown;
+
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -32,7 +36,10 @@ public class BlockSoulSand extends Block
      */
     public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn)
     {
-        entityIn.motionX *= 0.4D;
-        entityIn.motionZ *= 0.4D;
+    	if(!Wrapper.getHacks().findMod(NoSlowdown.class).isEnabled()) 
+    	{
+    		entityIn.motionX *= 0.4D;
+    		entityIn.motionZ *= 0.4D;
+    	}
     }
 }
