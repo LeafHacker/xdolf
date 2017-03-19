@@ -38,90 +38,65 @@ public class AutoArmor extends Module {
 	}
 	
 	private void equip() {
-		// wait for timer
-				if(timer > 0)
-				{
-					timer--;
-					return;
-				}
+		if(timer > 0) {
+			timer--;
+			return;
+		}
 				
-				// check screen
-				if(Client.mc.currentScreen instanceof GuiContainer
-					&& !(Client.mc.currentScreen instanceof InventoryEffectRenderer))
-					return;
+		if(Client.mc.currentScreen instanceof GuiContainer && !(Client.mc.currentScreen instanceof InventoryEffectRenderer))
+			return;
 				
-				// store slots and values of best armor pieces
-				int[] bestArmorSlots = new int[4];
-				int[] bestArmorValues = new int[4];
+		int[] bestArmorSlots = new int[4];
+		int[] bestArmorValues = new int[4];
 				
-				// initialize with currently equipped armor
-				for(int armorType = 0; armorType < 4; armorType++)
-				{
-					ItemStack oldArmor = Client.mc.player.inventory.armorItemInSlot(armorType);
-					if(oldArmor != null && oldArmor.getItem() instanceof ItemArmor)
-						bestArmorValues[armorType] =
-							((ItemArmor)oldArmor.getItem()).damageReduceAmount;
+		for(int armorType = 0; armorType < 4; armorType++) {
+			ItemStack oldArmor = Client.mc.player.inventory.armorItemInSlot(armorType);
+			if(oldArmor != null && oldArmor.getItem() instanceof ItemArmor)
+				bestArmorValues[armorType] = ((ItemArmor)oldArmor.getItem()).damageReduceAmount;
 					
-					bestArmorSlots[armorType] = -1;
-				}
+				bestArmorSlots[armorType] = -1;
+		}
 				
-				// search inventory for better armor
-				for(int slot = 0; slot < 36; slot++)
-				{
-					ItemStack stack = Client.mc.player.inventory.getStackInSlot(slot);
-					if(stack == null || !(stack.getItem() instanceof ItemArmor))
-						continue;
+		for(int slot = 0; slot < 36; slot++) {
+			ItemStack stack = Client.mc.player.inventory.getStackInSlot(slot);
+			if(stack == null || !(stack.getItem() instanceof ItemArmor))
+				continue;
 					
-					ItemArmor armor = (ItemArmor)stack.getItem();
-					int armorType = this.getArmorType(armor);
-					int armorValue = armor.damageReduceAmount;
+			ItemArmor armor = (ItemArmor)stack.getItem();
+			int armorType = this.getArmorType(armor);
+			int armorValue = armor.damageReduceAmount;
 					
-					if(armorValue > bestArmorValues[armorType])
-					{
-						bestArmorSlots[armorType] = slot;
-						bestArmorValues[armorType] = armorValue;
-					}
-				}
+			if(armorValue > bestArmorValues[armorType]) {
+				bestArmorSlots[armorType] = slot;
+				bestArmorValues[armorType] = armorValue;
+			}
+		}
 				
-				// equip better armor
-				for(int armorType = 0; armorType < 4; armorType++)
-				{
-					// check if better armor was found
-					int slot = bestArmorSlots[armorType];
-					if(slot == -1)
-						continue;
+		for(int armorType = 0; armorType < 4; armorType++) {
+			int slot = bestArmorSlots[armorType];
+			if(slot == -1)
+				continue;
 						
-					// check if armor can be swapped
-					// needs 1 free slot where it can put the old armor
-					ItemStack oldArmor = Client.mc.player.inventory.armorItemInSlot(armorType);
-					if(oldArmor == null || !this.isEmptySlot(oldArmor)
-						|| Client.mc.player.inventory.getFirstEmptyStack() != -1)
-					{
-						// hotbar fix
-						if(slot < 9)
-							slot += 36;
+			ItemStack oldArmor = Client.mc.player.inventory.armorItemInSlot(armorType);
+			if(oldArmor == null || !this.isEmptySlot(oldArmor) || Client.mc.player.inventory.getFirstEmptyStack() != -1) {
+				if(slot < 9)
+					slot += 36;
 						
-						// swap armor
-						Client.mc.playerController.windowClick(0, 8 - armorType, 0,
-							ClickType.QUICK_MOVE, Client.mc.player);
-						Client.mc.playerController.windowClick(0, slot, 0,
-							ClickType.QUICK_MOVE, Client.mc.player);
+				Client.mc.playerController.windowClick(0, 8 - armorType, 0, ClickType.QUICK_MOVE, Client.mc.player);
+				Client.mc.playerController.windowClick(0, slot, 0, ClickType.QUICK_MOVE, Client.mc.player);
 						
-						break;
-					}
-				}
+				break;
+			}
+		}
 				
-				// set timer
-				timer = 2;
+		timer = 2;
 	}
 
-	public int getArmorType(ItemArmor armor)
-	{
+	public int getArmorType(ItemArmor armor) {
 		return armor.armorType.ordinal() - 2;
 	}
 	
-	public boolean isEmptySlot(ItemStack slot)
-	{
+	public boolean isEmptySlot(ItemStack slot) {
 		return slot.getItem() == NULL_ITEM;
 	}
 

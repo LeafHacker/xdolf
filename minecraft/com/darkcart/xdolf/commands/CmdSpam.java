@@ -23,9 +23,11 @@ public class CmdSpam extends Command {
 					message += args[i] + " ";
 				}
 				Spammer.message = message;
+				Wrapper.addChatMessage("Spam message changed to \247e" + Spammer.message);
 			}
 			if (args[0].equalsIgnoreCase("delay")) {
 				Spammer.delay = Integer.parseInt(args[1]);
+				Wrapper.addChatMessage("Spam delay changed to \247e" + Spammer.delay);
 			}
 			if (args[0].equalsIgnoreCase("file")) {
 				Spammer.file = Wrapper.getMinecraftDir() + File.pathSeparator + "spam" + File.pathSeparator + args[1];
