@@ -14,6 +14,7 @@ import com.darkcart.xdolf.mods.player.AntiKnockback;
 import com.darkcart.xdolf.mods.player.AutoRespawn;
 import com.darkcart.xdolf.mods.player.AutoWalk;
 import com.darkcart.xdolf.mods.player.Flight;
+import com.darkcart.xdolf.mods.player.NoSlowdown;
 import com.darkcart.xdolf.mods.player.SafeWalk;
 import com.darkcart.xdolf.mods.player.Spammer;
 import com.darkcart.xdolf.mods.render.AntiTotemAnimation;
@@ -57,6 +58,7 @@ public class Hacks
 			new SafeWalk(),
 			new AutoLog(),
 			new ItemESP(),
+			new NoSlowdown(),
 	});
 
 	public static Module[] getEnabledHacks()

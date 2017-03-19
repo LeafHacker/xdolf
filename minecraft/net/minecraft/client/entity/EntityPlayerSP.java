@@ -4,7 +4,9 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import com.darkcart.xdolf.Module;
+import com.darkcart.xdolf.Wrapper;
 import com.darkcart.xdolf.mods.Hacks;
+import com.darkcart.xdolf.mods.player.NoSlowdown;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -963,7 +965,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
         boolean flag2 = this.movementInput.moveForward >= 0.8F;
         this.movementInput.updatePlayerMoveState();
 
-        if (this.isHandActive() && !this.isRiding())
+        if (this.isHandActive() && !this.isRiding() && !Wrapper.getHacks().findMod(NoSlowdown.class).isEnabled() )
         {
             this.movementInput.moveStrafe *= 0.2F;
             this.movementInput.moveForward *= 0.2F;
