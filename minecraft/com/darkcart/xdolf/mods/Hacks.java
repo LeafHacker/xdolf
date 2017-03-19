@@ -18,6 +18,7 @@ import com.darkcart.xdolf.mods.player.NoSlowdown;
 import com.darkcart.xdolf.mods.player.SafeWalk;
 import com.darkcart.xdolf.mods.player.Spammer;
 import com.darkcart.xdolf.mods.render.AntiTotemAnimation;
+import com.darkcart.xdolf.mods.render.Breadcrumb;
 import com.darkcart.xdolf.mods.render.Chams;
 import com.darkcart.xdolf.mods.render.EntityESP;
 import com.darkcart.xdolf.mods.render.ItemESP;
@@ -59,6 +60,7 @@ public class Hacks
 			new AutoLog(),
 			new ItemESP(),
 			new NoSlowdown(),
+			new Breadcrumb(),
 	});
 
 	public static Module[] getEnabledHacks()
