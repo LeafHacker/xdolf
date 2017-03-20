@@ -149,7 +149,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
     public float prevRenderArmYaw;
     public float prevRenderArmPitch;
     private int horseJumpPowerCounter;
-    private float horseJumpPower;
+    public float horseJumpPower;
 
     /** The amount of time an entity has been in a Portal */
     public float timeInPortal;

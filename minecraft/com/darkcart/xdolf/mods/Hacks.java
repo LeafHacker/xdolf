@@ -15,6 +15,7 @@ import com.darkcart.xdolf.mods.player.AntiKnockback;
 import com.darkcart.xdolf.mods.player.AutoRespawn;
 import com.darkcart.xdolf.mods.player.AutoWalk;
 import com.darkcart.xdolf.mods.player.Flight;
+import com.darkcart.xdolf.mods.player.HorseJump;
 import com.darkcart.xdolf.mods.player.NoSlowdown;
 import com.darkcart.xdolf.mods.player.SafeWalk;
 import com.darkcart.xdolf.mods.player.Spammer;
@@ -67,6 +68,7 @@ public class Hacks
 			new Waypoints(),
 			new FastPlace(),
 			new AutoTotem(),
+			new HorseJump(),
 	});
 
 	public static Module[] getEnabledHacks()
