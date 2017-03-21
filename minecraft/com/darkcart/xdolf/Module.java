@@ -129,7 +129,6 @@ public class Module {
 			@Override
 			public int compare(Module m, Module m1) {
 				return Fonts.roboto18.getStringWidth(m1.getName()) - Fonts.roboto18.getStringWidth(m.getName());
-				//return m1.getName().length() - m.getName().length();
 			}
 
 		});

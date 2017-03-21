@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 
 import org.lwjgl.input.Keyboard;
@@ -52,10 +53,23 @@ public class Client {
 
 			Wrapper.hacks = new Hacks();
 			Fonts.loadFonts();
+			
+			Collections.sort(Hacks.hackList, new Comparator<Module>() {
+
+				@Override
+				public int compare(Module m, Module m1) {
+					if(m.getName() == null) {
+						return (m1.getName() == null) ? 0 : +1;
+					}else{
+						return (m1.getName() == null) ? -1 : m.getName().compareTo(m1.getName());
+					}
+				}
+			});
 
 			Wrapper.friendManager = new FriendManager();
 			Wrapper.fileManager = new FileManager();
 			Wrapper.clickGui = new XdolfGuiClick();
+
 
 			System.out.println("[Xdolf] Initialised Xdolf.");
 		} catch (Exception err) {
