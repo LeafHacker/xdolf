@@ -5,6 +5,9 @@ import java.io.File;
 import com.darkcart.xdolf.Wrapper;
 import com.darkcart.xdolf.mods.player.Spammer;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.Util;
+
 public class CmdSpam extends Command {
 
 	public CmdSpam() {
@@ -30,7 +33,11 @@ public class CmdSpam extends Command {
 				Wrapper.addChatMessage("Spam delay changed to \247e" + Spammer.delay);
 			}
 			if (args[0].equalsIgnoreCase("file")) {
-				Spammer.file = Wrapper.getFileManager().xdolfDir + File.pathSeparator + "spam" + File.pathSeparator + args[1];
+				if (Util.getOSType() == Util.EnumOS.OSX || Util.getOSType() == Util.EnumOS.LINUX) {
+					Spammer.file = Wrapper.getFileManager().xdolfDir + "/spam/" + args[1];
+				} else {
+					Spammer.file = Wrapper.getFileManager().xdolfDir + "\\spam\\" + args[1];
+				}
 			}
 		}catch(Exception ex) {
 			ex.printStackTrace();
