@@ -1,7 +1,11 @@
 package com.darkcart.xdolf.clickgui.windows;
 
+import java.util.Collections;
+import java.util.Comparator;
+
 import org.lwjgl.opengl.GL11;
 
+import com.darkcart.xdolf.Module;
 import com.darkcart.xdolf.Wrapper;
 import com.darkcart.xdolf.clickgui.XdolfGuiClick;
 import com.darkcart.xdolf.clickgui.elements.XdolfButton;
@@ -12,6 +16,7 @@ import com.darkcart.xdolf.mods.Hacks;
 import com.darkcart.xdolf.util.Friend;
 import com.darkcart.xdolf.util.RenderUtils;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class WindowRadar extends XdolfWindow {
@@ -45,6 +50,16 @@ public class WindowRadar extends XdolfWindow {
 				RenderUtils.drawBorderedRect(getXAndDrag(), getYAndDrag(), getXAndDrag() + 100, getYAndDrag() + rect + 16, 0.5F, 0xFF000000, 0x80000000);
 			}
 			count = 0;
+			
+			Collections.sort(Wrapper.getWorld().playerEntities, new Comparator<Entity>() {
+
+				@Override
+				public int compare(Entity e1, Entity e2) {
+					return (int)Wrapper.getPlayer().getDistanceToEntity(e1) - (int)Wrapper.getPlayer().getDistanceToEntity(e2);
+				}
+
+			});
+			
 			for(Object o: Wrapper.getWorld().playerEntities)
 			{
 				EntityPlayer e = (EntityPlayer) o;
