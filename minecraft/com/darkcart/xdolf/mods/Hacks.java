@@ -19,6 +19,7 @@ import com.darkcart.xdolf.mods.player.HorseJump;
 import com.darkcart.xdolf.mods.player.NoSlowdown;
 import com.darkcart.xdolf.mods.player.SafeWalk;
 import com.darkcart.xdolf.mods.player.Spammer;
+import com.darkcart.xdolf.mods.player.Sprint;
 import com.darkcart.xdolf.mods.render.AntiTotemAnimation;
 import com.darkcart.xdolf.mods.render.Breadcrumb;
 import com.darkcart.xdolf.mods.render.Chams;
@@ -69,6 +70,7 @@ public class Hacks
 			new FastPlace(),
 			new AutoTotem(),
 			new HorseJump(),
+			new Sprint(),
 	});
 
 	public static Module[] getEnabledHacks()
