@@ -31,6 +31,7 @@ public class CmdSpam extends Command {
 			}
 			if (args[0].equalsIgnoreCase("file")) {
 				Spammer.file = Wrapper.getFileManager().xdolfDir + File.separator + "spam" + File.separator + args[1];
+				Wrapper.addChatMessage("Loaded \247e" + Spammer.file);
 			}
 		}catch(Exception ex) {
 			ex.printStackTrace();

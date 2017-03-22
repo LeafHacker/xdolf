@@ -51,35 +51,35 @@ public class Spammer extends Module {
 		if (mode == 2) {
 			try {
 				final String[] lines = new String(Files.readAllBytes(Paths.get(file))).split("\n");
-
+				final int MAX_INDEX = lines.length;
 				mode2 = new Timer(delay, new ActionListener() {
-
+					int index = 0;
+					
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						for (int i = 0; i < lines.length; i++) {
-							Wrapper.getPlayer().sendChatMessage(lines[i]);
+						if (index < MAX_INDEX) {
+							Wrapper.getPlayer().sendChatMessage(lines[index]);
+			                  index++;
+			                  if (index == MAX_INDEX)
+			                	  index = 0;
 						}
 					}
-
 				});
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+				mode2.start();
+			} catch (Exception e) {}
 		}
 	}
 
 	@Override
 	public void onDisable() {
 		try {
-			if (mode == 0) {
-				mode0.stop();
-			}
-			if (mode == 1) {
-				mode1.stop();
-			}
-			if (mode == 2) {
-				mode2.stop();
-			}
+			mode0.stop();
+		}catch(Exception ex){}
+		try {
+			mode1.stop();
+		}catch(Exception ex){}
+		try {
+			mode2.stop();
 		}catch(Exception ex){}
 	}
 
