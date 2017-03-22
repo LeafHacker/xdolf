@@ -30,7 +30,7 @@ public class CmdSpam extends Command {
 				Wrapper.addChatMessage("Spam delay changed to \247e" + Spammer.delay);
 			}
 			if (args[0].equalsIgnoreCase("file")) {
-				Spammer.file = Wrapper.getFileManager().xdolfDir + File.pathSeparator + "spam" + File.pathSeparator + args[1];
+				Spammer.file = Wrapper.getFileManager().xdolfDir + File.separator + "spam" + File.separator + args[1];
 			}
 		}catch(Exception ex) {
 			ex.printStackTrace();
