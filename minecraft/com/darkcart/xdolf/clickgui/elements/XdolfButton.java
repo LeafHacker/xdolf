@@ -4,6 +4,7 @@ import org.lwjgl.input.Mouse;
 
 import com.darkcart.xdolf.Module;
 import com.darkcart.xdolf.Wrapper;
+import com.darkcart.xdolf.clickgui.XdolfGuiClick;
 import com.darkcart.xdolf.util.RenderUtils;
 
 
@@ -30,6 +31,7 @@ public class XdolfButton {
 	
 	public void mouseClicked(int x, int y, int button) {
 		if(x >= getX() + window.getDragX() && y >= getY() + window.getDragY() && x <= getX() + 96 + window.getDragX() && y <= getY() + 11 + window.getDragY() && window.isOpen()) {
+			XdolfGuiClick.sendPanelToFront(window);
 			mod.toggle();
 		}
 	}
