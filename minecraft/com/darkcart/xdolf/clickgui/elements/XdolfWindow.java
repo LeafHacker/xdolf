@@ -39,6 +39,7 @@ public class XdolfWindow {
 		this.x = x;
 		this.y = y;
 		XdolfGuiClick.windowList.add(this);
+		XdolfGuiClick.unFocusedWindows.add(this);
 	}
 	
 	public void draw(int x, int y) {
@@ -80,6 +81,7 @@ public class XdolfWindow {
 		}
 		
 		if(x >= getXAndDrag() && y >= getYAndDrag() && x <= getXAndDrag() + 80 && y <= getYAndDrag() + 11) {
+			XdolfGuiClick.sendPanelToFront(this);
 			dragging = true;
 			lastDragX = x - dragX;
 			lastDragY = y - dragY;

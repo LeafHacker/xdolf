@@ -16,7 +16,9 @@ import com.darkcart.xdolf.clickgui.windows.WindowWorld;
 import net.minecraft.client.gui.GuiScreen;
 
 public class XdolfGuiClick extends GuiScreen {
+	
 	public static ArrayList<XdolfWindow> windowList = new ArrayList<XdolfWindow>();
+	public static ArrayList<XdolfWindow> unFocusedWindows = new ArrayList<XdolfWindow>();
 	
 	public static WindowPlayer player = new WindowPlayer();
 	public static WindowRender render = new WindowRender();
@@ -33,17 +35,22 @@ public class XdolfGuiClick extends GuiScreen {
 	}
 	
 	public void mouseClicked(int x, int y, int b) throws IOException {
-		for(XdolfWindow w : windowList) {
-			w.mouseClicked(x, y, b);
-		}
-		super.mouseClicked(x, y, b);
+		try
+		{
+			for(XdolfWindow w : windowList) {
+				w.mouseClicked(x, y, b);
+			}
+			super.mouseClicked(x, y, b);
+		}catch(Exception e) {}
 	}
 	
 	public void mouseReleased(int x, int y, int state) {
-		for(XdolfWindow w : windowList) {
-			w.mouseReleased(x, y, state);
-		}
-		super.mouseReleased(x, y, state);
+		try {
+			for(XdolfWindow w : windowList) {
+				w.mouseReleased(x, y, state);
+			}
+			super.mouseReleased(x, y, state);
+		}catch(Exception e) {}
 	}
 	
 	public void drawScreen(int x, int y, float ticks) {
@@ -57,6 +64,21 @@ public class XdolfGuiClick extends GuiScreen {
 	@Override
 	public boolean doesGuiPauseGame() {
 		return false;
+	}
+	
+	public static void sendPanelToFront(XdolfWindow window)
+	{
+		if(windowList.contains(window))
+		{
+			int panelIndex = windowList.indexOf(window);
+			windowList.remove(panelIndex);
+			windowList.add(windowList.size(), window);
+		}
+	}
+	
+	public static XdolfWindow getFocusedPanel()
+	{
+		return windowList.get(windowList.size() - 1);
 	}
 }
 
