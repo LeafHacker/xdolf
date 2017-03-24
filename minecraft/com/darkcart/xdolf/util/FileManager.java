@@ -127,7 +127,7 @@ public class FileManager
 		try
 		{
 			File file = new File(xdolfDir.getAbsolutePath(), "alts.txt");
-			FileInputStream fstream = new FileInputStream(file.getAbsolutePath());
+			FileInputStream fstream = new FileInputStream(file);
 			DataInputStream in = new DataInputStream(fstream);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 			String rLine;
@@ -157,8 +157,8 @@ public class FileManager
 				{
 					error.printStackTrace();
 				}
-			br.close();
 			}
+			br.close();
 		}catch(Exception e)
 		{
 			e.printStackTrace();
