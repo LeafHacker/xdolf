@@ -13,8 +13,11 @@ import com.darkcart.xdolf.clickgui.XdolfGuiClick;
 import com.darkcart.xdolf.fonts.Fonts;
 import com.darkcart.xdolf.mods.Hacks;
 import com.darkcart.xdolf.util.Category;
+import com.darkcart.xdolf.util.Friend;
 import com.darkcart.xdolf.util.RenderUtils;
 import com.darkcart.xdolf.util.Value;
+
+import net.minecraft.entity.player.EntityPlayer;
 
 public class XdolfWindow {
 	private String title;
@@ -91,6 +94,37 @@ public class XdolfWindow {
 		}
 		if(x >= getXAndDrag() + 79 && y >= getYAndDrag() + 2 && x <= getXAndDrag() + 88 && y <= getYAndDrag() + 11) {
 			isPinned = !isPinned;
+		}
+		
+		if(this.title.equalsIgnoreCase("Radar"))
+		{
+			int count = 0;
+			for(Object o: Wrapper.getWorld().playerEntities)
+			{
+				EntityPlayer e = (EntityPlayer) o;
+				if(e != Wrapper.getPlayer() && !e.isDead)
+				{
+					int x2 = 26;
+					if(x >= getXAndDrag() && y >= getYAndDrag()+ (10 * count) + 2 && x <= getXAndDrag() + 90 && y <= getYAndDrag() + (10 * count) + 13 + 2)
+					{
+						for(Friend friend: Wrapper.getFriends().friendsList)
+						{
+							if(Wrapper.getFriends().isFriend(e.getName()))
+							{
+								Wrapper.getFriends().removeFriend(e.getName());
+								Wrapper.addChatMessage("Removed " + e.getName() + " from friends.");
+								Wrapper.getFileManager().saveFriends();
+							}else{
+								Wrapper.getFriends().addFriend(e.getName(), e.getName());
+								Wrapper.addChatMessage("Protected " + e.getName() + " as " + e.getName() + ".");
+								Wrapper.getFileManager().saveFriends();
+							}
+						}
+						Wrapper.getFileManager().saveFriends();
+					}
+				}
+				count++;
+			}
 		}
 	}
 	
