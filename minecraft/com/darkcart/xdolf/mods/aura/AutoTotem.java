@@ -18,9 +18,21 @@ public class AutoTotem extends Module {
 	public AutoTotem() {
 		super("AutoTotem", "Automatically replaces totems", Keyboard.KEYBOARD_SIZE, 0xffffff, Category.AURA);
 	}
+	
+	private int timer;
+	
+	@Override
+	public void onEnable() {
+		timer = 0; 
+	}
 
 	public void onUpdate(EntityPlayerSP player) {
 		if(isEnabled()) {
+			if(timer > 0) {
+				timer--;
+				return;
+			}
+				
             NonNullList<ItemStack> inv;
             NonNullList<ItemStack> offhand = player.inventory.offHandInventory;
 
@@ -36,6 +48,7 @@ public class AutoTotem extends Module {
                 	}
                 }
             }
+    		timer = 2;
 		}
 	}
 	
