@@ -29,6 +29,7 @@ import com.darkcart.xdolf.mods.render.NoHurtCam;
 import com.darkcart.xdolf.mods.render.NoPumpkinBlur;
 import com.darkcart.xdolf.mods.render.StorageESP;
 import com.darkcart.xdolf.mods.render.Tracers;
+import com.darkcart.xdolf.mods.render.Trajectories;
 import com.darkcart.xdolf.mods.render.Waypoints;
 import com.darkcart.xdolf.mods.world.FastPlace;
 import com.darkcart.xdolf.mods.world.Fullbright;
@@ -71,6 +72,7 @@ public class Hacks
 			new AutoTotem(),
 			new HorseJump(),
 			new Sprint(),
+			new Trajectories(),
 	});
 
 	public static Module[] getEnabledHacks()
