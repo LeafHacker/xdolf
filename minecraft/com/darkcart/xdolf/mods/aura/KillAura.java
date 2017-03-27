@@ -69,7 +69,7 @@ public class KillAura extends Module {
 							if(Hacks.findMod(AuraPlayer.class).isEnabled())
 							{
 								Entity e = (Entity) o;
-								boolean checks = !Wrapper.getFriends().isFriend((e).getName()) && !(e instanceof EntityPlayerSP) && (e instanceof EntityPlayer) && player.getDistanceToEntity(e) <= auraRange.getValue() && player.canEntityBeSeen(e) && !e.isDead;
+								boolean checks = !Wrapper.getFriends().isFriend((e).getName()) && !(e instanceof EntityPlayerSP) && (e instanceof EntityPlayer) && player.getDistanceToEntity(e) <= auraRange.getValue() && !e.isDead;
 								if(checks) 
 								{
 									player.setSprinting(false);
@@ -85,7 +85,7 @@ public class KillAura extends Module {
 							if(Hacks.findMod(AuraMob.class).isEnabled())
 							{
 								Entity e = (Entity) o;
-								boolean checks = !(e instanceof EntityPlayerSP) && !(e instanceof EntityPlayer) && (e instanceof EntityLivingBase) && player.getDistanceToEntity(e) <= auraRange.getValue() && player.canEntityBeSeen(e) && !e.isDead;
+								boolean checks = !(e instanceof EntityPlayerSP) && !(e instanceof EntityPlayer) && (e instanceof EntityLivingBase) && player.getDistanceToEntity(e) <= auraRange.getValue() && !e.isDead;
 								if(checks) 
 								{
 									player.setSprinting(false);
@@ -100,7 +100,7 @@ public class KillAura extends Module {
 						if(Hacks.findMod(AuraPlayer.class).isEnabled() && Hacks.findMod(AuraMob.class).isEnabled())
 						{
 							Entity e = (Entity) o;
-							boolean checks = !(e instanceof EntityPlayerSP) && (e instanceof EntityLivingBase) && player.getDistanceToEntity(e) <= auraRange.getValue() && player.canEntityBeSeen(e) && !e.isDead;
+							boolean checks = !(e instanceof EntityPlayerSP) && (e instanceof EntityLivingBase) && player.getDistanceToEntity(e) <= auraRange.getValue() && !e.isDead;
 				
 							if(e instanceof EntityPlayer) 
 							{
