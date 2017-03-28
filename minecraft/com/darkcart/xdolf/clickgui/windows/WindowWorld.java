@@ -7,6 +7,6 @@ public class WindowWorld extends XdolfWindow
 {
 	public WindowWorld() {
 		super("World", 186, 2);
-		this.loadButtonsFromCategory(Category.WORLD);
+		this.loadButtonsFromCategory(Category.World);
 	}
 }

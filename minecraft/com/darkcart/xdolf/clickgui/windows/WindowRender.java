@@ -8,6 +8,6 @@ import com.darkcart.xdolf.util.Category;
 public class WindowRender extends XdolfWindow {
 	public WindowRender() {
 		super("Render", 278, 2);
-		this.loadButtonsFromCategory(Category.ESP);
+		this.loadButtonsFromCategory(Category.Render);
 	}
 }

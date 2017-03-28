@@ -16,7 +16,7 @@ import net.minecraft.util.NonNullList;
 public class AutoTotem extends Module {
 
 	public AutoTotem() {
-		super("AutoTotem", "Automatically replaces totems", Keyboard.KEYBOARD_SIZE, 0xffffff, Category.AURA);
+		super("AutoTotem", "Automatically replaces totems", Keyboard.KEYBOARD_SIZE, 0xffffff, Category.Combat);
 	}
 	
 	private int timer;

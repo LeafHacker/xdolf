@@ -33,7 +33,7 @@ public class KillAura extends Module {
 	public static Value auraRange = new Value("Aura Range");
 	
 	public KillAura() {
-		super("KillAura", "Automatically attacks players or mobs.", Keyboard.KEY_R, 0xFFFFFF, Category.AURA);
+		super("KillAura", "Automatically attacks players or mobs.", Keyboard.KEY_R, 0xFFFFFF, Category.Combat);
 	}
 	
 	private float yaw, pitch, yawHead;

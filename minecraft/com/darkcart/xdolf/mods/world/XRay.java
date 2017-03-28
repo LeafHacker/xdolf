@@ -19,7 +19,7 @@ public class XRay extends Module
 	
 	public XRay()
 	{
-		super("Xray", "Allows you to see through the ground and find ores.", Keyboard.KEY_X, 0x666666, Category.WORLD);
+		super("Xray", "Allows you to see through the ground and find ores.", Keyboard.KEY_X, 0x666666, Category.World);
 	}
 	
 	@Override

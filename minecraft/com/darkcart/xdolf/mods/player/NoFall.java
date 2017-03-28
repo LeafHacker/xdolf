@@ -11,7 +11,7 @@ public class NoFall extends Module
 {
 	public NoFall()
 	{
-		super("NoFall", "Prevents fall damage and bypasses NCP.", Keyboard.KEYBOARD_SIZE, 0xFFFFFF, Category.PLAYER);
+		super("NoFall", "Prevents fall damage and bypasses NCP.", Keyboard.KEYBOARD_SIZE, 0xFFFFFF, Category.Player);
 	}
 	
 	@Override

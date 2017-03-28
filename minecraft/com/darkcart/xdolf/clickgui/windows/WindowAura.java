@@ -7,6 +7,6 @@ public class WindowAura extends XdolfWindow
 {
 	public WindowAura() {
 		super("Combat", 94, 109);
-		this.loadButtonsFromCategory(Category.AURA);
+		this.loadButtonsFromCategory(Category.Combat);
 	}
 }

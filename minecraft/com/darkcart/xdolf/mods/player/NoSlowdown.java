@@ -15,7 +15,7 @@ public class NoSlowdown extends Module
 	
 	public NoSlowdown()
 	{
-		super("NoSlowdown", "Removes speed modifiers causing player to slowdown.", Keyboard.KEYBOARD_SIZE, 0xFFFFFF, Category.PLAYER);
+		super("NoSlowdown", "Removes speed modifiers causing player to slowdown.", Keyboard.KEYBOARD_SIZE, 0xFFFFFF, Category.Player);
 	}
 	
 	@Override

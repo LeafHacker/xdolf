@@ -1,4 +1,4 @@
-package com.darkcart.xdolf.mods.player;
+package com.darkcart.xdolf.mods.aura;
 
 import org.lwjgl.input.Keyboard;
 
@@ -9,6 +9,6 @@ import com.darkcart.xdolf.util.Category;
 public class AntiKnockback extends Module {
 	
 	public AntiKnockback() {
-		super("AntiKnockback", "Blocks velocity.", Keyboard.KEY_L, 0xFFFFFF, Category.AURA);
+		super("AntiKnockback", "Blocks velocity.", Keyboard.KEY_L, 0xFFFFFF, Category.Combat);
 	}
 }

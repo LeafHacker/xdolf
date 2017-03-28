@@ -9,7 +9,7 @@ public class AntiTotemAnimation extends Module {
 
 	public AntiTotemAnimation() {
 		super("AntiTotemAnimation", "Allows you to still see when Totem of Undying activates.", Keyboard.KEYBOARD_SIZE,
-				0xffffff, Category.ESP);
+				0xffffff, Category.Render);
 	}
 
 }

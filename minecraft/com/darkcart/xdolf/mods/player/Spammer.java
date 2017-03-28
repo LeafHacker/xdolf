@@ -17,7 +17,7 @@ import com.darkcart.xdolf.util.Category;
 public class Spammer extends Module {
 	
 	public Spammer() {
-		super("Spammer", "Spams the server with chat messages.", Keyboard.KEYBOARD_SIZE, 0xFFFFFF, Category.PLAYER);
+		super("Spammer", "Spams the server with chat messages.", Keyboard.KEYBOARD_SIZE, 0xFFFFFF, Category.Player);
 	}
 
 	public static int mode = 1;

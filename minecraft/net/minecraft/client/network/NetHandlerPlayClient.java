@@ -2,7 +2,7 @@ package net.minecraft.client.network;
 
 import com.darkcart.xdolf.Client;
 import com.darkcart.xdolf.mods.Hacks;
-import com.darkcart.xdolf.mods.player.AntiKnockback;
+import com.darkcart.xdolf.mods.aura.AntiKnockback;
 import com.google.common.base.Charsets;
 import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.FutureCallback;

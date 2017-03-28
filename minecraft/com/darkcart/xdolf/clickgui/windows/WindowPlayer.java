@@ -9,7 +9,7 @@ public class WindowPlayer extends XdolfWindow {
 	
 	public WindowPlayer() {
 		super("Player", 94, 2);
-		this.loadButtonsFromCategory(Category.PLAYER);
+		this.loadButtonsFromCategory(Category.Player);
 	}
 }
 

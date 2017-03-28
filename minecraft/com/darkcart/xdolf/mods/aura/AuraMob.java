@@ -9,6 +9,6 @@ public class AuraMob extends Module
 {
 	public AuraMob()
 	{
-		super("Mobs", "Mobs hit mode for Kill Aura.", Keyboard.KEYBOARD_SIZE, Category.AURA);
+		super("Mobs", "Mobs hit mode for Kill Aura.", Keyboard.KEYBOARD_SIZE, Category.Combat);
 	}
 }

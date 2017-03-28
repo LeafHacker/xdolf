@@ -10,7 +10,7 @@ import com.darkcart.xdolf.util.Waypoint;
 
 public class Waypoints extends Module {
 	public Waypoints() {
-		super("Waypoints", "Toggles waypoint rendering.", Keyboard.KEY_EQUALS, 0xFFFFFF, Category.ESP);
+		super("Waypoints", "Toggles waypoint rendering.", Keyboard.KEY_EQUALS, 0xFFFFFF, Category.Render);
 	}
 	
 	@Override

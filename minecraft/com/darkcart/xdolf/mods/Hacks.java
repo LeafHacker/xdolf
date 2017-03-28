@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.darkcart.xdolf.Module;
+import com.darkcart.xdolf.mods.aura.AntiKnockback;
 import com.darkcart.xdolf.mods.aura.AuraMob;
 import com.darkcart.xdolf.mods.aura.AuraPlayer;
 import com.darkcart.xdolf.mods.aura.AutoArmor;
@@ -12,7 +13,6 @@ import com.darkcart.xdolf.mods.aura.AutoLog;
 import com.darkcart.xdolf.mods.aura.AutoTotem;
 import com.darkcart.xdolf.mods.aura.CrystalAura;
 import com.darkcart.xdolf.mods.aura.KillAura;
-import com.darkcart.xdolf.mods.player.AntiKnockback;
 import com.darkcart.xdolf.mods.player.AutoRespawn;
 import com.darkcart.xdolf.mods.player.AutoWalk;
 import com.darkcart.xdolf.mods.player.Flight;

@@ -16,7 +16,7 @@ public class Fullbright extends Module {
 	
 	public Fullbright()
 	{
-		super("Fullbright", "Turns on NightVision effect to brighten the world.", Keyboard.KEY_C, Category.WORLD);
+		super("Fullbright", "Turns on NightVision effect to brighten the world.", Keyboard.KEY_C, Category.World);
 	}
 
 	@Override

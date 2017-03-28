@@ -8,7 +8,7 @@ import com.darkcart.xdolf.util.Category;
 
 public class GUI extends Module {
 	public GUI() {
-		super("GUI", "", Keyboard.KEY_GRAVE, Category.NONE);
+		super("GUI", "", Keyboard.KEY_GRAVE, Category.None);
 	}
 	
 	@Override

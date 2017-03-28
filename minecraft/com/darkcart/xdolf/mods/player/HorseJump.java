@@ -11,7 +11,7 @@ public class HorseJump extends Module
 {
 	public HorseJump()
 	{
-		super("HorseJump", "Max jump height on a horse everytime.", Keyboard.KEYBOARD_SIZE, 0xFFFFFF, Category.PLAYER);
+		super("HorseJump", "Max jump height on a horse everytime.", Keyboard.KEYBOARD_SIZE, 0xFFFFFF, Category.Player);
 	}
 	
 	@Override

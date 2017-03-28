@@ -11,7 +11,7 @@ import net.minecraft.client.entity.EntityPlayerSP;
 public class AutoWalk extends Module {
 	
 	public AutoWalk() {
-		super("AutoWalk", "Automatically walks for you.", Keyboard.KEYBOARD_SIZE, 0xFFFFFF, Category.PLAYER);
+		super("AutoWalk", "Automatically walks for you.", Keyboard.KEYBOARD_SIZE, 0xFFFFFF, Category.Player);
 	}
 
 	@Override

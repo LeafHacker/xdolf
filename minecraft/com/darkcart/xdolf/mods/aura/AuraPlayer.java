@@ -9,7 +9,7 @@ public class AuraPlayer extends Module
 {
 	public AuraPlayer()
 	{
-		super("Players", "Players hit mode for Kill Aura.", Keyboard.KEYBOARD_SIZE, Category.AURA);
+		super("Players", "Players hit mode for Kill Aura.", Keyboard.KEYBOARD_SIZE, Category.Combat);
 		setState(true);
 	}
 }

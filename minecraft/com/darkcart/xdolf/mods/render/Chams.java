@@ -8,6 +8,6 @@ import com.darkcart.xdolf.util.Category;
 public class Chams extends Module {
 	
 	public Chams() {
-		super("Chams", "Renders players through walls.", Keyboard.KEYBOARD_SIZE, 0xFFFFFF, Category.ESP);
+		super("Chams", "Renders players through walls.", Keyboard.KEYBOARD_SIZE, 0xFFFFFF, Category.Render);
 	}
 }
