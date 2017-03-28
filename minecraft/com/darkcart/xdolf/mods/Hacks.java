@@ -10,6 +10,7 @@ import com.darkcart.xdolf.mods.aura.AuraPlayer;
 import com.darkcart.xdolf.mods.aura.AutoArmor;
 import com.darkcart.xdolf.mods.aura.AutoLog;
 import com.darkcart.xdolf.mods.aura.AutoTotem;
+import com.darkcart.xdolf.mods.aura.CrystalAura;
 import com.darkcart.xdolf.mods.aura.KillAura;
 import com.darkcart.xdolf.mods.player.AntiKnockback;
 import com.darkcart.xdolf.mods.player.AutoRespawn;
@@ -73,6 +74,7 @@ public class Hacks
 			new HorseJump(),
 			new Sprint(),
 			new Trajectories(),
+			new CrystalAura(),
 	});
 
 	public static Module[] getEnabledHacks()
