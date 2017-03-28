@@ -8,7 +8,7 @@ import com.darkcart.xdolf.util.Category;
 public class WindowPlayer extends XdolfWindow {
 	
 	public WindowPlayer() {
-		super("Player", 94, 2);
+		super("Player", 2, 47);
 		this.loadButtonsFromCategory(Category.Player);
 	}
 }

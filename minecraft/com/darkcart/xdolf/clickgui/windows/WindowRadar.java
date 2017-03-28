@@ -21,7 +21,7 @@ import net.minecraft.entity.player.EntityPlayer;
 
 public class WindowRadar extends XdolfWindow {
 	public WindowRadar() {
-		super("Radar", 94, 98);
+		super("Radar", 2, 92);
 	}
 	
 	@Override

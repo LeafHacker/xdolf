@@ -7,7 +7,7 @@ import com.darkcart.xdolf.util.Category;
 
 public class WindowRender extends XdolfWindow {
 	public WindowRender() {
-		super("Render", 278, 2);
+		super("Render", 2, 62);
 		this.loadButtonsFromCategory(Category.Render);
 	}
 }

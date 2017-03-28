@@ -15,7 +15,7 @@ public class WindowInfo extends XdolfWindow
 {
 	public WindowInfo() 
 	{
-		super("Info", 94, 2);
+		super("Info", 2, 17);
 	}
 	
 	@Override

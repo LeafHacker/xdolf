@@ -6,7 +6,7 @@ import com.darkcart.xdolf.util.Category;
 public class WindowWorld extends XdolfWindow
 {
 	public WindowWorld() {
-		super("World", 186, 2);
+		super("World", 2, 77);
 		this.loadButtonsFromCategory(Category.World);
 	}
 }

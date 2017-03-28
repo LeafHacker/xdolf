@@ -6,7 +6,7 @@ import com.darkcart.xdolf.util.Category;
 public class WindowAura extends XdolfWindow
 {
 	public WindowAura() {
-		super("Combat", 94, 109);
+		super("Combat", 2, 32);
 		this.loadButtonsFromCategory(Category.Combat);
 	}
 }
