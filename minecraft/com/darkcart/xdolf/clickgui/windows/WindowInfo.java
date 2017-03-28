@@ -1,5 +1,7 @@
 package com.darkcart.xdolf.clickgui.windows;
 
+import org.lwjgl.opengl.GL11;
+
 import com.darkcart.xdolf.Wrapper;
 import com.darkcart.xdolf.clickgui.XdolfGuiClick;
 import com.darkcart.xdolf.clickgui.elements.XdolfButton;
@@ -51,5 +53,6 @@ public class WindowInfo extends XdolfWindow
 				RenderUtils.drawBetterBorderedRect(getXAndDrag() + 89, getYAndDrag() + 2, getXAndDrag() + 98, getYAndDrag() + 11, 0.5F, 0xFF000000, isOpen() ? 0xFFFF0000 : 0xFF383b42);
 			}
 		}
+		GL11.glEnable(GL11.GL_BLEND);
 	}
 }
