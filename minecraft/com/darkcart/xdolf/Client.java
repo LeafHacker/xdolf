@@ -12,6 +12,7 @@ import org.lwjgl.input.Keyboard;
 
 import com.darkcart.xdolf.clickgui.XdolfGuiClick;
 import com.darkcart.xdolf.fonts.Fonts;
+import com.darkcart.xdolf.gui.XdolfUpdateGui;
 import com.darkcart.xdolf.mods.Hacks;
 import com.darkcart.xdolf.util.FileManager;
 import com.darkcart.xdolf.util.FriendManager;
@@ -27,6 +28,7 @@ public class Client {
 	public static Minecraft mc = Minecraft.getMinecraft();
 	public static ScaledResolution gameResolution = new ScaledResolution(Wrapper.getMinecraft());
 	public static ArrayList<String> friends = new ArrayList<String>();
+	public static XdolfUpdateGui xu;
 
 	public static final String CLIENT_NAME = "Xdolf";
 	public static final String CLIENT_VERSION = "1.0.0";

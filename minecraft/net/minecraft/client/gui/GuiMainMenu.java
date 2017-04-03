@@ -2,6 +2,7 @@ package net.minecraft.client.gui;
 
 import com.darkcart.xdolf.Client;
 import com.darkcart.xdolf.altmanager.Manager;
+import com.darkcart.xdolf.gui.XdolfUpdateGui;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import java.io.BufferedReader;
@@ -264,6 +265,7 @@ public class GuiMainMenu extends GuiScreen
         this.buttonList.add(new GuiButton(1, this.width / 2 - 100, p_73969_1_, I18n.format("menu.singleplayer", new Object[0])));
         this.buttonList.add(new GuiButton(2, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 1, I18n.format("menu.multiplayer", new Object[0])));
         this.buttonList.add(new GuiButton(3, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 2, "Alt Manager"));
+        this.buttonList.add(new GuiButton(15, this.width - 102 + 2, 2, 98, 20, "Update available!"));
     }
 
     /**
@@ -341,6 +343,10 @@ public class GuiMainMenu extends GuiScreen
             {
                 this.mc.displayGuiScreen(new GuiYesNo(this, I18n.format("selectWorld.deleteQuestion", new Object[0]), "\'" + worldinfo.getWorldName() + "\' " + I18n.format("selectWorld.deleteWarning", new Object[0]), I18n.format("selectWorld.deleteButton", new Object[0]), I18n.format("gui.cancel", new Object[0]), 12));
             }
+        }
+        if (button.id == 15)
+        {
+        	this.mc.displayGuiScreen(new XdolfUpdateGui(this));
         }
     }
 

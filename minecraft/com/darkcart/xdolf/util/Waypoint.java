@@ -32,10 +32,6 @@ public class Waypoint {
 	}
 	
 	public void update() {
-//		dX = (int)posX - AdolfWrapper.getPlayer().lastTickPosX + (Adolf.getMinecraft().thePlayer.posX - Adolf.getMinecraft().thePlayer.lastTickPosX) * (double)Adolf.getMinecraft().timer.renderPartialTicks;
-//		dY = (int)posY - AdolfWrapper.getPlayer().lastTickPosY + (Adolf.getMinecraft().thePlayer.posY - Adolf.getMinecraft().thePlayer.lastTickPosY) * (double)Adolf.getMinecraft().timer.renderPartialTicks;
-//		dZ = (int)posZ - AdolfWrapper.getPlayer().lastTickPosZ + (Adolf.getMinecraft().thePlayer.posZ - Adolf.getMinecraft().thePlayer.lastTickPosZ) * (double)Adolf.getMinecraft().timer.renderPartialTicks;
-		
 		dX = (int)posX - RenderManager.renderPosX;
 		dY = (int)posY - RenderManager.renderPosY;
 		dZ = (int)posZ - RenderManager.renderPosZ;

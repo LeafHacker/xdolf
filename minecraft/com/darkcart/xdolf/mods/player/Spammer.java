@@ -86,7 +86,7 @@ public class Spammer extends Module {
 	private String getRandomCharacters() {
 		String chars = "abcdefhijklmnopqrstuvxyz0123456789";
 		StringBuilder b = new StringBuilder();
-		for (int i = 0; i < 16; i++) {
+		for (int i = 0; i < 245; i++) {
 			b.append(chars.toCharArray()[new Random().nextInt(chars.length())]);
 		}
 		return "[" + b.toString() + "]";
