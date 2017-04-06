@@ -17,16 +17,17 @@ public class XdolfUpdater {
 	public static String getRemoteVersion() {
 		Scanner s = null;
 		try {
-			s = new Scanner(new URL("http://138.197.86.114/version.txt").openStream());
+			s = new Scanner(new URL("https://darkcart.co/xdolf/version.txt").openStream());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
 		return s.nextLine();
 	}
 
 	public static void downloadFile() {
 		try {
-			FileUtils.copyURLToFile(new URL("http://138.197.86.114/dist/test.zip"),
+			FileUtils.copyURLToFile(new URL("https://darkcart.co/xdolf/xdolf.zip"),
 					new File(Wrapper.getAppDir("minecraft") + File.separator + "versions" + File.separator + "xdolf.zip"));
 		} catch (MalformedURLException e) {
 			e.printStackTrace();

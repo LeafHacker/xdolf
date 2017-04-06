@@ -1,5 +1,8 @@
 package com.darkcart.xdolf.mods.render;
 
+import static org.lwjgl.opengl.GL11.GL_BLEND;
+import static org.lwjgl.opengl.GL11.GL_DEPTH_TEST;
+
 import java.util.ArrayList;
 
 import org.lwjgl.input.Keyboard;
@@ -60,12 +63,12 @@ public class Breadcrumb extends Module {
 		if(this.isEnabled()) {	
 			GL11.glPushMatrix();
 			GL11.glLineWidth(2F);
+			GL11.glBlendFunc(770, 771);
+			GL11.glEnable(GL_BLEND);
+			GL11.glLineWidth(1.0F);
 			GL11.glDisable(GL11.GL_TEXTURE_2D);
-			GL11.glDisable(GL11.GL_LIGHTING);
-			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-			GL11.glEnable(GL11.GL_LINE_SMOOTH);
-			GL11.glEnable(GL11.GL_BLEND);
-			GL11.glDisable(GL11.GL_DEPTH_TEST);
+			GL11.glDisable(GL_DEPTH_TEST);
+			GL11.glDepthMask(false);
 
 			GL11.glBegin(GL11.GL_LINE_STRIP);
 			for(double[] pos : positionsList) {
@@ -76,11 +79,10 @@ public class Breadcrumb extends Module {
 			}
 			GL11.glEnd();
 
-			GL11.glEnable(GL11.GL_DEPTH_TEST);
-			GL11.glDisable(GL11.GL_LINE_SMOOTH);
-			GL11.glDisable(GL11.GL_BLEND);
 			GL11.glEnable(GL11.GL_TEXTURE_2D);
-			GL11.glEnable(GL11.GL_LIGHTING);
+			GL11.glEnable(GL_DEPTH_TEST);
+			GL11.glDepthMask(true);
+			GL11.glDisable(GL_BLEND);
 			GL11.glPopMatrix();
 		}
 	}
