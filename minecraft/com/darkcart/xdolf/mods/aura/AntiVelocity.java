@@ -6,9 +6,9 @@ import com.darkcart.xdolf.Client;
 import com.darkcart.xdolf.Module;
 import com.darkcart.xdolf.util.Category;
 
-public class AntiKnockback extends Module {
+public class AntiVelocity extends Module {
 	
-	public AntiKnockback() {
-		super("AntiKnockback", "Blocks velocity.", Keyboard.KEY_L, 0xFFFFFF, Category.Combat);
+	public AntiVelocity() {
+		super("AntiVelocity", "Blocks velocity.", Keyboard.KEY_L, 0xFFFFFF, Category.Combat);
 	}
 }

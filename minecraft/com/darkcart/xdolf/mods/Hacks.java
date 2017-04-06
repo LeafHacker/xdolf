@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.darkcart.xdolf.Module;
-import com.darkcart.xdolf.mods.aura.AntiKnockback;
+import com.darkcart.xdolf.mods.aura.AntiVelocity;
 import com.darkcart.xdolf.mods.aura.AuraMob;
 import com.darkcart.xdolf.mods.aura.AuraPlayer;
 import com.darkcart.xdolf.mods.aura.AutoArmor;
@@ -49,7 +49,7 @@ public class Hacks
 			new StorageESP(),
 			new EntityESP(),
 			new NoHurtCam(),
-			new AntiKnockback(),
+			new AntiVelocity(),
 			new Flight(),
 			new Spammer(),
 			new Timer(),
@@ -76,7 +76,7 @@ public class Hacks
 			new Sprint(),
 			new Trajectories(),
 			new HitSpheres(),
-			//new CrystalAura(),
+			new CrystalAura(),
 	});
 
 	public static Module[] getEnabledHacks()

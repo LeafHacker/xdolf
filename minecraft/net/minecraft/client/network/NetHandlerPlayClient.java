@@ -2,7 +2,7 @@ package net.minecraft.client.network;
 
 import com.darkcart.xdolf.Client;
 import com.darkcart.xdolf.mods.Hacks;
-import com.darkcart.xdolf.mods.aura.AntiKnockback;
+import com.darkcart.xdolf.mods.aura.AntiVelocity;
 import com.google.common.base.Charsets;
 import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.FutureCallback;
@@ -564,8 +564,13 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
     {
         PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
         Entity entity = this.clientWorldController.getEntityByID(packetIn.getEntityID());
+        
+        if(Hacks.findMod(AntiVelocity.class).isEnabled())
+    	{
+    		return;
+    	}
 
-        if (entity != null && !Hacks.findMod(AntiKnockback.class).isEnabled())
+        if (entity != null)
         {
             entity.setVelocity((double)packetIn.getMotionX() / 8000.0D, (double)packetIn.getMotionY() / 8000.0D, (double)packetIn.getMotionZ() / 8000.0D);
         }
@@ -1171,6 +1176,10 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
         PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
         Explosion explosion = new Explosion(this.gameController.world, (Entity)null, packetIn.getX(), packetIn.getY(), packetIn.getZ(), packetIn.getStrength(), packetIn.getAffectedBlockPositions());
         explosion.doExplosionB(true);
+        
+	    if(Hacks.findMod(AntiVelocity.class).isEnabled())
+	    	return;
+	    
         this.gameController.player.motionX += (double)packetIn.getMotionX();
         this.gameController.player.motionY += (double)packetIn.getMotionY();
         this.gameController.player.motionZ += (double)packetIn.getMotionZ();

@@ -2,6 +2,10 @@ package net.minecraft.block;
 
 import java.util.Random;
 import javax.annotation.Nullable;
+
+import com.darkcart.xdolf.mods.Hacks;
+import com.darkcart.xdolf.mods.aura.AntiVelocity;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyInteger;
@@ -173,18 +177,22 @@ public abstract class BlockLiquid extends Block
                     if (j >= 0)
                     {
                         int k = j - (i - 8);
-                        d0 += (double)(enumfacing.getFrontOffsetX() * k);
-                        d1 += (double)(enumfacing.getFrontOffsetY() * k);
-                        d2 += (double)(enumfacing.getFrontOffsetZ() * k);
+                        if(!Hacks.findMod(AntiVelocity.class).isEnabled()) {
+	                        d0 += (double)(enumfacing.getFrontOffsetX() * k);
+	                        d1 += (double)(enumfacing.getFrontOffsetY() * k);
+	                        d2 += (double)(enumfacing.getFrontOffsetZ() * k);
+                        }
                     }
                 }
             }
             else if (j >= 0)
             {
                 int l = j - i;
-                d0 += (double)(enumfacing.getFrontOffsetX() * l);
-                d1 += (double)(enumfacing.getFrontOffsetY() * l);
-                d2 += (double)(enumfacing.getFrontOffsetZ() * l);
+                if(!Hacks.findMod(AntiVelocity.class).isEnabled()) {
+	                d0 += (double)(enumfacing.getFrontOffsetX() * l);
+	                d1 += (double)(enumfacing.getFrontOffsetY() * l);
+	                d2 += (double)(enumfacing.getFrontOffsetZ() * l);
+                }
             }
         }
 
