@@ -6,6 +6,7 @@ import com.darkcart.xdolf.Module;
 import com.darkcart.xdolf.Wrapper;
 import com.darkcart.xdolf.util.Category;
 
+import net.minecraft.block.material.Material;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.ClickType;
@@ -42,7 +43,7 @@ public class AutoTotem extends Module {
 
             for(inventoryIndex = 0; inventoryIndex < inv.size(); inventoryIndex++) {
                	if (inv.get(inventoryIndex) != ItemStack.EMPTY) {
-                	if (inv.get(inventoryIndex).getItem().getUnlocalizedName().equals("item.totem")) {
+                	if (inv.get(inventoryIndex).getItem() == Items.TOTEM) {
                       	replaceTotem(inventoryIndex);
                         break;
                 	}
