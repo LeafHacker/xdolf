@@ -1,8 +1,12 @@
 package com.darkcart.xdolf;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -16,6 +20,7 @@ import com.darkcart.xdolf.gui.XdolfUpdateGui;
 import com.darkcart.xdolf.mods.Hacks;
 import com.darkcart.xdolf.util.FileManager;
 import com.darkcart.xdolf.util.FriendManager;
+import com.darkcart.xdolf.util.XdolfUpdater;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
@@ -28,7 +33,6 @@ public class Client {
 	public static Minecraft mc = Minecraft.getMinecraft();
 	public static ScaledResolution gameResolution = new ScaledResolution(Wrapper.getMinecraft());
 	public static ArrayList<String> friends = new ArrayList<String>();
-	public static XdolfUpdateGui xu;
 
 	public static final String CLIENT_NAME = "Xdolf";
 	public static final String CLIENT_VERSION = "1.0.0";
@@ -36,7 +40,7 @@ public class Client {
 	public static String[] splashes = { "malt liquor!", "It swings, it jives!", "Hitler did nothing wrong!",
 			"Niggers aren't really people.", "qy_ is a qt", "better than nhack!", "Stay gold!",
 			"straight outta hackforums", "TEQUILLA!", "rawr xd", "RIP my code", "dank meme", "better than 2h2e",
-			"l33t!", "make the f�hrer proud!", "torogajude", "666 nigger 666", "not backdoored!",
+			"l33t!", "make the fuhrer proud!", "torogajude", "666 nigger 666", "not backdoored!",
 			"probably backdoored!", "totally backdoored!", "2f4u's a skid!", "it's kawaii!!!!", "wew lad",
 			"NIGGER GIRLS HAVE PURPLE PUSSIES", "x0xp is king", "kys, just do it", "pop, you're obese...",
 			"no oremonger!", "LOL", "2 B 2 T . O R G", "cocaine n hookers", "silentpedophile",
@@ -47,6 +51,7 @@ public class Client {
 	public static HashMap<String, String> vTable = new HashMap<String, String>();
 
 	public static void onStart() {
+
 		try {
 			System.out.println("[Xdolf] Initialising Xdolf...");
 			vTable.put(StringUtils.stripControlCodes(CLIENT_NAME),
@@ -55,14 +60,14 @@ public class Client {
 
 			Wrapper.hacks = new Hacks();
 			Fonts.loadFonts();
-			
+
 			Collections.sort(Hacks.hackList, new Comparator<Module>() {
 
 				@Override
 				public int compare(Module m, Module m1) {
-					if(m.getName() == null) {
+					if (m.getName() == null) {
 						return (m1.getName() == null) ? 0 : +1;
-					}else{
+					} else {
 						return (m1.getName() == null) ? -1 : m.getName().compareTo(m1.getName());
 					}
 				}
@@ -71,7 +76,6 @@ public class Client {
 			Wrapper.friendManager = new FriendManager();
 			Wrapper.fileManager = new FileManager();
 			Wrapper.clickGui = new XdolfGuiClick();
-
 
 			System.out.println("[Xdolf] Initialised Xdolf.");
 		} catch (Exception err) {
