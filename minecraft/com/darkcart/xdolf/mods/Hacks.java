@@ -18,6 +18,7 @@ import com.darkcart.xdolf.mods.player.AutoWalk;
 import com.darkcart.xdolf.mods.player.Flight;
 import com.darkcart.xdolf.mods.player.HorseJump;
 import com.darkcart.xdolf.mods.player.NoSlowdown;
+import com.darkcart.xdolf.mods.player.Phase;
 import com.darkcart.xdolf.mods.player.SafeWalk;
 import com.darkcart.xdolf.mods.player.Spammer;
 import com.darkcart.xdolf.mods.player.Sprint;
@@ -25,6 +26,7 @@ import com.darkcart.xdolf.mods.render.AntiTotemAnimation;
 import com.darkcart.xdolf.mods.render.Breadcrumb;
 import com.darkcart.xdolf.mods.render.Chams;
 import com.darkcart.xdolf.mods.render.EntityESP;
+import com.darkcart.xdolf.mods.render.HitSpheres;
 import com.darkcart.xdolf.mods.render.ItemESP;
 import com.darkcart.xdolf.mods.render.NoHurtCam;
 import com.darkcart.xdolf.mods.render.NoPumpkinBlur;
@@ -74,7 +76,9 @@ public class Hacks
 			new HorseJump(),
 			new Sprint(),
 			new Trajectories(),
-			new CrystalAura(),
+			new HitSpheres(),
+			new Phase(),
+			//new CrystalAura(),
 	});
 
 	public static Module[] getEnabledHacks()
