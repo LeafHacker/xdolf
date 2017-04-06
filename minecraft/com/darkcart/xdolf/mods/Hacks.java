@@ -29,6 +29,7 @@ import com.darkcart.xdolf.mods.render.HitSpheres;
 import com.darkcart.xdolf.mods.render.ItemESP;
 import com.darkcart.xdolf.mods.render.NoHurtCam;
 import com.darkcart.xdolf.mods.render.NoPumpkinBlur;
+import com.darkcart.xdolf.mods.render.PlayerESP;
 import com.darkcart.xdolf.mods.render.StorageESP;
 import com.darkcart.xdolf.mods.render.Tracers;
 import com.darkcart.xdolf.mods.render.Trajectories;
@@ -79,6 +80,7 @@ public class Hacks
 			new HitSpheres(),
 			new CrystalAura(),
 			new Freecam(),
+			new PlayerESP(),
 	});
 
 	public static Module[] getEnabledHacks()

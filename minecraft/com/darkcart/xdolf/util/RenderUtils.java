@@ -124,25 +124,24 @@ public class RenderUtils {
 	 */
 
 	public static void blockESP(BlockPos b, Color c, double length, double length2) {
-		float[] v = getColorValues(c);
-		blockEsp(b, v[0], v[1], v[2], length, length2);
+		blockEsp(b, c, length, length2);
 	}
 
 	/**
 	 * Renders an ESP box with the size of a normal block at the specified
 	 * BlockPos.
 	 */
-	public static void blockEsp(BlockPos blockPos, double red, double green, double blue, double length, double length2) {
+	public static void blockEsp(BlockPos blockPos, Color c, double length, double length2) {
 		double x = blockPos.getX() - Minecraft.getMinecraft().getRenderManager().renderPosX;
 		double y = blockPos.getY() - Minecraft.getMinecraft().getRenderManager().renderPosY;
 		double z = blockPos.getZ() - Minecraft.getMinecraft().getRenderManager().renderPosZ;
 		GL11.glBlendFunc(770, 771);
 		GL11.glEnable(GL_BLEND);
-		GL11.glLineWidth(1.0F);
+		GL11.glLineWidth(2.0F);
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GL11.glDisable(GL_DEPTH_TEST);
 		GL11.glDepthMask(false);
-		GL11.glColor4d(red, green, blue, 0.15);
+		GL11.glColor4d(c.getRed() / 255f, c.getGreen() / 255f, c.getBlue() / 255f, 0.15);
 		drawColorBox(new AxisAlignedBB(x, y, z, x + length2, y + 1.0, z + length), 0F, 0F, 0F, 0F);
 		GL11.glColor4d(0, 0, 0, 0.5);
 		drawSelectionBoundingBox(new AxisAlignedBB(x, y, z, x + length2, y + 1.0, z + length));
@@ -452,21 +451,20 @@ public class RenderUtils {
 	public static void drawSphere(double x, double y, double z, float size, int slices, int stacks) {
 		final Sphere s = new Sphere();
 		GL11.glPushMatrix();
-		GL11.glEnable(3042);
-		GL11.glDisable(GL11.GL_TEXTURE_2D);
-		GL11.glDisable(GL11.GL_LIGHTING);
-		GL11.glDepthMask(false);
+		GL11.glBlendFunc(770, 771);
+		GL11.glEnable(GL_BLEND);
 		GL11.glLineWidth(1.2F);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		GL11.glEnable(GL11.GL_LINE_SMOOTH);
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		GL11.glDisable(GL_DEPTH_TEST);
+		GL11.glDepthMask(false);
 		s.setDrawStyle(GLU.GLU_SILHOUETTE);
 		GL11.glTranslated(x - RenderManager.renderPosX, y - RenderManager.renderPosY, z - RenderManager.renderPosZ);
 		s.draw(size, slices, stacks);
-		GL11.glDepthMask(true);
-		GL11.glDisable(GL11.GL_LINE_SMOOTH);
+		GL11.glLineWidth(2.0F);
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
-		GL11.glEnable(GL11.GL_LIGHTING);
-		GL11.glDisable(3042);
+		GL11.glEnable(GL_DEPTH_TEST);
+		GL11.glDepthMask(true);
+		GL11.glDisable(GL_BLEND);
 		GL11.glPopMatrix();
 	}
 	
