@@ -27,7 +27,7 @@ public class XdolfUpdater {
 	public static void downloadFile() {
 		try {
 			FileUtils.copyURLToFile(new URL("http://138.197.86.114/dist/test.zip"),
-					new File(Wrapper.getMinecraftDir().getAbsolutePath() + File.separator + "xdolf.zip"));
+					new File(Wrapper.getAppDir("minecraft") + File.separator + "versions" + File.separator + "xdolf.zip"));
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -35,7 +35,7 @@ public class XdolfUpdater {
 		} finally {
 			XdolfUpdateGui.downloadedUpdate = true;
 			try {
-				Desktop.getDesktop().open(new File(Wrapper.getMinecraftDir().getAbsolutePath()));
+				Desktop.getDesktop().open(new File(Wrapper.getAppDir("minecraft") + File.separator + "versions"));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
