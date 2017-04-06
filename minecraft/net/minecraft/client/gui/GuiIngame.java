@@ -65,7 +65,7 @@ public class GuiIngame extends Gui
     private static final ResourceLocation PUMPKIN_BLUR_TEX_PATH = new ResourceLocation("textures/misc/pumpkinblur.png");
     private final Random rand = new Random();
     private final Minecraft mc;
-    private final RenderItem itemRenderer;
+    public final RenderItem itemRenderer;
 
     /** ChatGUI instance that retains all previous chat data */
     private final GuiNewChat persistantChatGUI;

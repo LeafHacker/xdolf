@@ -137,8 +137,8 @@ public class RenderManager
     /** RenderManager's field for the renderViewEntity */
     public Entity renderViewEntity;
     public Entity pointedEntity;
-    public float playerViewY;
-    public float playerViewX;
+    public static float playerViewY;
+    public static float playerViewX;
 
     /** Reference to the GameSettings object. */
     public GameSettings options;

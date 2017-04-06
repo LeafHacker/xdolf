@@ -27,6 +27,7 @@ import com.darkcart.xdolf.mods.render.Chams;
 import com.darkcart.xdolf.mods.render.EntityESP;
 import com.darkcart.xdolf.mods.render.HitSpheres;
 import com.darkcart.xdolf.mods.render.ItemESP;
+import com.darkcart.xdolf.mods.render.Nametags;
 import com.darkcart.xdolf.mods.render.NoHurtCam;
 import com.darkcart.xdolf.mods.render.NoPumpkinBlur;
 import com.darkcart.xdolf.mods.render.PlayerESP;
@@ -81,6 +82,7 @@ public class Hacks
 			new CrystalAura(),
 			new Freecam(),
 			new PlayerESP(),
+			new Nametags(),
 	});
 
 	public static Module[] getEnabledHacks()

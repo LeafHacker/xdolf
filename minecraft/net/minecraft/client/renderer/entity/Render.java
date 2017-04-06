@@ -3,6 +3,8 @@ package net.minecraft.client.renderer.entity;
 import javax.annotation.Nullable;
 
 import com.darkcart.xdolf.Wrapper;
+import com.darkcart.xdolf.mods.Hacks;
+import com.darkcart.xdolf.mods.render.Nametags;
 import com.darkcart.xdolf.util.Friend;
 
 import net.minecraft.block.state.IBlockState;
@@ -400,7 +402,8 @@ public abstract class Render<T extends Entity> implements IEntityRenderer
             if (entityIn instanceof EntityLivingBase) {
             str = str + " \247a" + ((double)Math.round((((EntityLivingBase) entityIn).getHealth() * 100) / 100) / 2);
             }
-            EntityRenderer.drawNameplate(this.getFontRendererFromRenderManager(), str, (float)x, (float)y + f2, (float)z, i, f, f1, flag1, flag);
+            if(!Hacks.findMod(Nametags.class).isEnabled())
+            	EntityRenderer.drawNameplate(this.getFontRendererFromRenderManager(), str, (float)x, (float)y + f2, (float)z, i, f, f1, flag1, flag);
         }
     }
 
