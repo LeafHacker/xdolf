@@ -21,7 +21,7 @@ public class XdolfUpdateGui extends GuiScreen
 	private GuiScreen parentScreen;
 	public static boolean downloadedUpdate = false;
 	
-	public GuiButton backButton = new GuiButton(1, width / 2 - 100, height / 6 + 168, "Back");
+	public GuiButton backButton;
 
 	public XdolfUpdateGui(GuiScreen screen)
 	{
@@ -30,7 +30,7 @@ public class XdolfUpdateGui extends GuiScreen
 
 	public void initGui()
 	{
-		this.buttonList.add(backButton);
+		this.buttonList.add(backButton = new GuiButton(1, width / 2 - 100, height / 6 + 168, "Back"));
 		this.buttonList.add(new GuiButton(2, width / 2 - 100, height / 6 + 145, "Update"));
 	}
 
