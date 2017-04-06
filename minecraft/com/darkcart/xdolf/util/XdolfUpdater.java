@@ -1,5 +1,6 @@
 package com.darkcart.xdolf.util;
 
+import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -33,6 +34,11 @@ public class XdolfUpdater {
 			e.printStackTrace();
 		} finally {
 			XdolfUpdateGui.downloadedUpdate = true;
+			try {
+				Desktop.getDesktop().open(new File(Wrapper.getMinecraftDir().getAbsolutePath()));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }
