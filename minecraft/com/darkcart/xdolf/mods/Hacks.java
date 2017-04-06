@@ -18,7 +18,6 @@ import com.darkcart.xdolf.mods.player.AutoWalk;
 import com.darkcart.xdolf.mods.player.Flight;
 import com.darkcart.xdolf.mods.player.HorseJump;
 import com.darkcart.xdolf.mods.player.NoSlowdown;
-import com.darkcart.xdolf.mods.player.Phase;
 import com.darkcart.xdolf.mods.player.SafeWalk;
 import com.darkcart.xdolf.mods.player.Spammer;
 import com.darkcart.xdolf.mods.player.Sprint;
@@ -77,7 +76,6 @@ public class Hacks
 			new Sprint(),
 			new Trajectories(),
 			new HitSpheres(),
-			new Phase(),
 			//new CrystalAura(),
 	});
 
