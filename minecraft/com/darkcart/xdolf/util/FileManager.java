@@ -249,7 +249,7 @@ public class FileManager
 			BufferedWriter out = new BufferedWriter(new FileWriter(file));
 			for(Module mod: Hacks.hackList)
 			{
-				if(!mod.getName().equals("Spammer"))
+				if(!mod.getName().equals("Spammer") && !mod.getName().equals("Freecam"))
 				{
 					out.write(mod.getName().toLowerCase().replace(" ", "") + ":" + mod.isEnabled());
 					out.write("\r\n");
