@@ -1,6 +1,10 @@
 package net.minecraft.block;
 
 import java.util.Random;
+
+import com.darkcart.xdolf.mods.Hacks;
+import com.darkcart.xdolf.mods.world.Freecam;
+
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -80,7 +84,7 @@ public abstract class BlockSlab extends Block
 
     public boolean isFullCube(IBlockState state)
     {
-        return this.isDouble();
+        return this.isDouble() && !Hacks.findMod(Freecam.class).isEnabled();
     }
 
     public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side)

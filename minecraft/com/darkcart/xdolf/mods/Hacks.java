@@ -34,6 +34,7 @@ import com.darkcart.xdolf.mods.render.Tracers;
 import com.darkcart.xdolf.mods.render.Trajectories;
 import com.darkcart.xdolf.mods.render.Waypoints;
 import com.darkcart.xdolf.mods.world.FastPlace;
+import com.darkcart.xdolf.mods.world.Freecam;
 import com.darkcart.xdolf.mods.world.Fullbright;
 import com.darkcart.xdolf.mods.world.Timer;
 import com.darkcart.xdolf.mods.world.XRay;
@@ -77,6 +78,7 @@ public class Hacks
 			new Trajectories(),
 			new HitSpheres(),
 			new CrystalAura(),
+			new Freecam(),
 	});
 
 	public static Module[] getEnabledHacks()

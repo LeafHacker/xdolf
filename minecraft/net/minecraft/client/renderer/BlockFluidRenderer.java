@@ -1,5 +1,8 @@
 package net.minecraft.client.renderer;
 
+import com.darkcart.xdolf.mods.Hacks;
+import com.darkcart.xdolf.mods.world.XRay;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.BlockSlab;
@@ -54,6 +57,10 @@ public class BlockFluidRenderer
             }
 
             BlockLiquid blockliquid = (BlockLiquid)blockStateIn.getBlock();
+            
+            if(Hacks.findMod(XRay.class).isEnabled() && !XRay.xrayBlocks.contains(blockliquid))
+            	return false;
+            
             boolean flag = blockStateIn.getMaterial() == Material.LAVA;
             TextureAtlasSprite[] atextureatlassprite = flag ? this.atlasSpritesLava : this.atlasSpritesWater;
             RenderEnv renderenv = worldRendererIn.getRenderEnv(blockAccess, blockStateIn, blockPosIn);

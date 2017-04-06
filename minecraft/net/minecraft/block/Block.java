@@ -2,6 +2,8 @@ package net.minecraft.block;
 
 import com.darkcart.xdolf.Client;
 import com.darkcart.xdolf.mods.Hacks;
+import com.darkcart.xdolf.mods.player.Flight;
+import com.darkcart.xdolf.mods.world.Freecam;
 import com.darkcart.xdolf.mods.world.XRay;
 import com.google.common.collect.Sets;
 import com.google.common.collect.UnmodifiableIterator;
@@ -381,7 +383,10 @@ public class Block
     @Deprecated
     public boolean isFullCube(IBlockState state)
     {
-        return true;
+    	if(Hacks.findMod(XRay.class).isEnabled())
+    		return XRay.xrayBlocks.contains(this);
+    	else
+    		return !Hacks.findMod(Freecam.class).isEnabled();
     }
 
     @Deprecated
@@ -589,7 +594,10 @@ public class Block
     @Nullable
     public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos)
     {
-        return blockState.getBoundingBox(worldIn, pos);
+    	if(Hacks.findMod(Freecam.class).isEnabled() && Hacks.findMod(Flight.class).isEnabled())
+    		return NULL_AABB;
+    	else
+    		return blockState.getBoundingBox(worldIn, pos);
     }
 
     @Deprecated

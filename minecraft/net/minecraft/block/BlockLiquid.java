@@ -5,6 +5,7 @@ import javax.annotation.Nullable;
 
 import com.darkcart.xdolf.mods.Hacks;
 import com.darkcart.xdolf.mods.aura.AntiVelocity;
+import com.darkcart.xdolf.mods.world.XRay;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -53,7 +54,7 @@ public abstract class BlockLiquid extends Block
 
     public boolean isPassable(IBlockAccess worldIn, BlockPos pos)
     {
-        return this.blockMaterial != Material.LAVA;
+    	return Hacks.findMod(XRay.class).isEnabled() ? true : this.blockMaterial != Material.LAVA;
     }
 
     /**

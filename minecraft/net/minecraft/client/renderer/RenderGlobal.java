@@ -24,6 +24,7 @@ import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.util.vector.Vector4f;
 
 import com.darkcart.xdolf.mods.Hacks;
+import com.darkcart.xdolf.mods.world.Freecam;
 import com.darkcart.xdolf.mods.world.XRay;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -1197,7 +1198,7 @@ public class RenderGlobal implements IWorldEventListener, IResourceManagerReload
             this.visibilityDeque.clear();
             Deque deque = this.visibilityDeque;
             Entity.setRenderDistanceWeight(MathHelper.clamp((double)this.mc.gameSettings.renderDistanceChunks / 8.0D, 1.0D, 2.5D));
-            boolean flag2 = this.mc.renderChunksMany || !Hacks.findMod(XRay.class).isEnabled();
+            boolean flag2 = this.mc.renderChunksMany || !Hacks.findMod(XRay.class).isEnabled() || !Hacks.findMod(Freecam.class).isEnabled();
 
             if (renderchunk != null)
             {

@@ -3,6 +3,10 @@ package net.minecraft.client.renderer;
 import java.util.BitSet;
 import java.util.List;
 import javax.annotation.Nullable;
+
+import com.darkcart.xdolf.mods.Hacks;
+import com.darkcart.xdolf.mods.world.XRay;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -49,6 +53,9 @@ public class BlockModelRenderer
 
     public boolean renderModel(IBlockAccess blockAccessIn, IBakedModel modelIn, IBlockState blockStateIn, BlockPos blockPosIn, VertexBuffer buffer, boolean checkSides)
     {
+    	if(Hacks.findMod(XRay.class).isEnabled() && !XRay.xrayBlocks.contains(blockStateIn.getBlock()))
+    			return false;
+    	
         return this.renderModel(blockAccessIn, modelIn, blockStateIn, blockPosIn, buffer, checkSides, MathHelper.getPositionRandom(blockPosIn));
     }
 
@@ -113,7 +120,7 @@ public class BlockModelRenderer
 
         List<BakedQuad> list1 = modelIn.getQuads(stateIn, (EnumFacing)null, rand);
 
-        if (!list1.isEmpty())
+        if(!list1.isEmpty() && (!Hacks.findMod(XRay.class).isEnabled() || !XRay.xrayBlocks.contains(stateIn.getBlock())))
         {
             list1 = BlockModelCustomizer.getRenderQuads(list1, worldIn, stateIn, posIn, (EnumFacing)null, rand, renderenv);
             this.renderQuadsSmooth(worldIn, stateIn, posIn, buffer, list1, renderenv);

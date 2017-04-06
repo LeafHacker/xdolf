@@ -7,6 +7,7 @@ import com.darkcart.xdolf.Module;
 import com.darkcart.xdolf.Wrapper;
 import com.darkcart.xdolf.mods.Hacks;
 import com.darkcart.xdolf.mods.player.NoSlowdown;
+import com.darkcart.xdolf.mods.world.Freecam;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -315,7 +316,10 @@ public class EntityPlayerSP extends AbstractClientPlayer
             boolean flag2 = d0 * d0 + d1 * d1 + d2 * d2 > 9.0E-4D || this.positionUpdateTicks >= 20;
             boolean flag3 = d3 != 0.0D || d4 != 0.0D;
 
-            if (this.isRiding())
+            if(Hacks.findMod(Freecam.class).isEnabled())
+            {	
+            	//do nothing
+            }else if (this.isRiding())
             {
                 this.connection.sendPacket(new CPacketPlayer.PositionRotation(this.motionX, -999.0D, this.motionZ, this.rotationYaw, this.rotationPitch, this.onGround));
                 flag2 = false;
