@@ -21,7 +21,7 @@ public class Spammer extends Module {
 	}
 
 	public static int mode = 1;
-	public static int delay = 1000;
+	public static int delay = 1800;
 	public static String message = "test";
 	Timer mode0, mode1, mode2;
 	public static String file = "";
