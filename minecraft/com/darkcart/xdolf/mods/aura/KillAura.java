@@ -29,7 +29,6 @@ import net.minecraft.util.math.MathHelper;
 
 public class KillAura extends Module {
 	
-	public static Value auraSpeed = new Value("Aura Speed");
 	public static Value auraRange = new Value("Aura Range");
 	
 	public KillAura() {
@@ -37,9 +36,6 @@ public class KillAura extends Module {
 	}
 	
 	private float yaw, pitch, yawHead;
-
-	private long currentMS = 0L;
-	private long lastMS = -1L;
 	
 	@Override
 	public void beforeUpdate(EntityPlayerSP player) {
@@ -59,8 +55,7 @@ public class KillAura extends Module {
 		if(isEnabled())
 		{
 			try {
-				currentMS = System.nanoTime() / 1000000;
-				if(hasDelayRun((long)(1000 / auraSpeed.getValue())))
+				if(player.getCooledAttackStrength(1.0F) >= 1F)
 				{
 					for(Object o: Wrapper.getWorld().loadedEntityList)
 					{
@@ -74,12 +69,9 @@ public class KillAura extends Module {
 								{
 									player.setSprinting(false);
 									faceEntity(e);
-									player.swingArm(EnumHand.MAIN_HAND);
-	
 									Wrapper.getMinecraft().playerController.attackEntity(player, e);
+									player.swingArm(EnumHand.MAIN_HAND);
 									player.setSprinting(false);
-									lastMS = System.nanoTime() / 1000000;
-									break;
 								}
 							}else
 							if(Hacks.findMod(AuraMob.class).isEnabled())
@@ -90,10 +82,8 @@ public class KillAura extends Module {
 								{
 									player.setSprinting(false);
 									faceEntity(e);
-									player.swingArm(EnumHand.MAIN_HAND);
 									Wrapper.getMinecraft().playerController.attackEntity(player, e);
-									lastMS = System.nanoTime() / 1000000;
-									break;
+									player.swingArm(EnumHand.MAIN_HAND);
 								}
 							}
 						}else
@@ -112,10 +102,8 @@ public class KillAura extends Module {
 							{
 								player.setSprinting(false);
 								faceEntity(e);
-								player.swingArm(EnumHand.MAIN_HAND);
 								Wrapper.getMinecraft().playerController.attackEntity(player, e);
-								lastMS = System.nanoTime() / 1000000;
-								break;
+								player.swingArm(EnumHand.MAIN_HAND);
 							}
 						}
 					}
@@ -131,10 +119,6 @@ public class KillAura extends Module {
 			player.rotationPitch = this.pitch;
 			player.rotationYawHead = this.yawHead;
 		}catch(Exception ex){}
-	}
-	
-	public boolean hasDelayRun(long time) {
-		return (currentMS - lastMS) >= time;
 	}
 	
 	public void faceEntity(Entity entity)
