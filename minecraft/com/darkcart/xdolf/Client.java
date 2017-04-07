@@ -35,7 +35,7 @@ public class Client {
 	public static ArrayList<String> friends = new ArrayList<String>();
 
 	public static final String CLIENT_NAME = "Xdolf";
-	public static final String CLIENT_VERSION = "1.0.3";
+	public static final String CLIENT_VERSION = "1.0.4";
 
 	public static String[] splashes = { "malt liquor!", "It swings, it jives!", "Hitler did nothing wrong!",
 			"Niggers aren't really people.", "qy_ is a qt", "better than nhack!", "Stay gold!",

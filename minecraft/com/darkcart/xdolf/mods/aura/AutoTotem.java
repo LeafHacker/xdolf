@@ -11,6 +11,7 @@ import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.ContainerPlayer;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 
@@ -35,7 +36,7 @@ public class AutoTotem extends Module {
 			}
 				
             NonNullList<ItemStack> inv;
-            NonNullList<ItemStack> offhand = player.inventory.offHandInventory;
+            ItemStack offhand = player.getItemStackFromSlot(EntityEquipmentSlot.OFFHAND);
 
             int inventoryIndex;
 
@@ -44,6 +45,7 @@ public class AutoTotem extends Module {
             for(inventoryIndex = 0; inventoryIndex < inv.size(); inventoryIndex++) {
                	if (inv.get(inventoryIndex) != ItemStack.EMPTY) {
                 	if (inv.get(inventoryIndex).getItem() == Items.TOTEM) {
+                		if ((offhand == null) || (offhand.getItem() != Items.TOTEM))
                       	replaceTotem(inventoryIndex);
                         break;
                 	}

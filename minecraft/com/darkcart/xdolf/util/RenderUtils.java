@@ -135,6 +135,7 @@ public class RenderUtils {
 		double x = blockPos.getX() - Minecraft.getMinecraft().getRenderManager().renderPosX;
 		double y = blockPos.getY() - Minecraft.getMinecraft().getRenderManager().renderPosY;
 		double z = blockPos.getZ() - Minecraft.getMinecraft().getRenderManager().renderPosZ;
+		GL11.glPushMatrix();
 		GL11.glBlendFunc(770, 771);
 		GL11.glEnable(GL_BLEND);
 		GL11.glLineWidth(2.0F);
@@ -150,6 +151,7 @@ public class RenderUtils {
 		GL11.glEnable(GL_DEPTH_TEST);
 		GL11.glDepthMask(true);
 		GL11.glDisable(GL_BLEND);
+		GL11.glPopMatrix();
 	}
 
 	public static void blockEspFrame(BlockPos blockPos, double red, double green, double blue) {
@@ -498,13 +500,12 @@ public class RenderUtils {
         float f1 = (float)(col1 >> 16 & 0xFF) / 255F;
         float f2 = (float)(col1 >> 8 & 0xFF) / 255F;
         float f3 = (float)(col1 & 0xFF) / 255F;
-
+        GL11.glPushMatrix();
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glEnable(GL11.GL_LINE_SMOOTH);
 
-        GL11.glPushMatrix();
         GL11.glColor4f(f1, f2, f3, f);
         GL11.glLineWidth(l1);
         GL11.glBegin(GL11.GL_LINES);
@@ -517,11 +518,11 @@ public class RenderUtils {
         GL11.glVertex2d(x, y2);
         GL11.glVertex2d(x2, y2);
         GL11.glEnd();
-        GL11.glPopMatrix();
 
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glDisable(GL11.GL_BLEND);
         GL11.glDisable(GL11.GL_LINE_SMOOTH);
+        GL11.glPopMatrix();
 	}
 
 
@@ -1057,6 +1058,7 @@ public class RenderUtils {
     }
 	
 	public static void drawEntityESP(Entity entity, Color c) {
+		GL11.glPushMatrix();
 		GL11.glBlendFunc(770, 771);
 		GL11.glEnable(GL_BLEND);
 		GL11.glLineWidth(1.0F);
@@ -1083,6 +1085,7 @@ public class RenderUtils {
 		GL11.glEnable(GL_DEPTH_TEST);
 		GL11.glDepthMask(true);
 		GL11.glDisable(GL_BLEND);
+		GL11.glPopMatrix();
 	}
 	
 	public static void drawPlayerESP(double d, double d1, double d2, EntityPlayer ep, double e, double f)
@@ -1096,6 +1099,7 @@ public class RenderUtils {
 	        }else{
 	        	GL11.glColor4f(0.7F, 0.0F, 0.0F, 0.15F);
 	        }
+	        GL11.glPushMatrix();
 	        GL11.glDisable(GL11.GL_TEXTURE_2D);
 	        GL11.glDisable(GL11.GL_LIGHTING);
 	        GL11.glDisable(GL11.GL_DEPTH_TEST);

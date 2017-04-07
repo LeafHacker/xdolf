@@ -65,15 +65,12 @@ public class XDolfOverlay extends GuiIngame {
 
 		if (!var4.isEmpty()) {
 			final ResourceLocation var5 = new ResourceLocation("textures/gui/container/inventory.png");
-			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-			GL11.glDisable(GL11.GL_LIGHTING);
 			int var6 = -23;
 			int count2 = 0;
 
 			for (PotionEffect potioneffect : Ordering.natural().sortedCopy(var4)) {
 				count2++;
 				Potion var9 = potioneffect.getPotion();
-				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 				Wrapper.getMinecraft().renderEngine.bindTexture(var5);
 
 				String s1 = I18n.format(var9.getName(), new Object[0]);

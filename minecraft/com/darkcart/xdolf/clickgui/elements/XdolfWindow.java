@@ -72,7 +72,9 @@ public class XdolfWindow {
 				s.draw(x);
 			} 
 		}
+		GL11.glPushMatrix();
 		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glPopMatrix();
 	}
 	
 	public void mouseClicked(int x, int y, int button) throws IOException {
