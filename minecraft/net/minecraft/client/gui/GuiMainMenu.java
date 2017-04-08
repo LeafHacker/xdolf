@@ -271,6 +271,7 @@ public class GuiMainMenu extends GuiScreen
 				this.buttonList.add(new GuiButton(15, this.width - 102 + 2, 2, 98, 20, "Update available!"));
 			}
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }
