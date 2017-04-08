@@ -55,7 +55,7 @@ public class KillAura extends Module {
 		if(isEnabled())
 		{
 			try {
-				if(player.getCooledAttackStrength(1.0F) >= 1F)
+				if(Wrapper.getCooldown() >= 1)
 				{
 					for(Object o: Wrapper.getWorld().loadedEntityList)
 					{
@@ -64,7 +64,7 @@ public class KillAura extends Module {
 							if(Hacks.findMod(AuraPlayer.class).isEnabled())
 							{
 								Entity e = (Entity) o;
-								boolean checks = !Wrapper.getFriends().isFriend((e).getName()) && !(e instanceof EntityPlayerSP) && (e instanceof EntityPlayer) && player.getDistanceToEntity(e) <= auraRange.getValue() && !e.isDead;
+								boolean checks = !Wrapper.getFriends().isFriend((e).getName()) && !(e instanceof EntityPlayerSP) && (e instanceof EntityPlayer) && player.getDistanceToEntity(e) <= auraRange.getValue() && ((EntityLivingBase)e).getHealth() > 0;
 								if(checks) 
 								{
 									player.setSprinting(false);
@@ -72,25 +72,27 @@ public class KillAura extends Module {
 									Wrapper.getMinecraft().playerController.attackEntity(player, e);
 									player.swingArm(EnumHand.MAIN_HAND);
 									player.setSprinting(false);
+									break;
 								}
 							}else
 							if(Hacks.findMod(AuraMob.class).isEnabled())
 							{
 								Entity e = (Entity) o;
-								boolean checks = !(e instanceof EntityPlayerSP) && !(e instanceof EntityPlayer) && (e instanceof EntityLivingBase) && player.getDistanceToEntity(e) <= auraRange.getValue() && !e.isDead;
+								boolean checks = !(e instanceof EntityPlayerSP) && !(e instanceof EntityPlayer) && (e instanceof EntityLivingBase) && player.getDistanceToEntity(e) <= auraRange.getValue() && ((EntityLivingBase)e).getHealth() > 0;
 								if(checks) 
 								{
 									player.setSprinting(false);
 									faceEntity(e);
 									Wrapper.getMinecraft().playerController.attackEntity(player, e);
 									player.swingArm(EnumHand.MAIN_HAND);
+									break;
 								}
 							}
 						}else
 						if(Hacks.findMod(AuraPlayer.class).isEnabled() && Hacks.findMod(AuraMob.class).isEnabled())
 						{
 							Entity e = (Entity) o;
-							boolean checks = !(e instanceof EntityPlayerSP) && (e instanceof EntityLivingBase) && player.getDistanceToEntity(e) <= auraRange.getValue() && !e.isDead;
+							boolean checks = !(e instanceof EntityPlayerSP) && (e instanceof EntityLivingBase) && player.getDistanceToEntity(e) <= auraRange.getValue() && ((EntityLivingBase)e).getHealth() > 0;
 				
 							if(e instanceof EntityPlayer) 
 							{
@@ -104,6 +106,7 @@ public class KillAura extends Module {
 								faceEntity(e);
 								Wrapper.getMinecraft().playerController.attackEntity(player, e);
 								player.swingArm(EnumHand.MAIN_HAND);
+								break;
 							}
 						}
 					}
