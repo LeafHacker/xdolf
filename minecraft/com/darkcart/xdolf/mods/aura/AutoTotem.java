@@ -44,12 +44,13 @@ public class AutoTotem extends Module {
             
             for(inventoryIndex = 0; inventoryIndex < inv.size(); inventoryIndex++) {
                	if (inv.get(inventoryIndex) != ItemStack.EMPTY) {
-            		if ((offhand == null) || (offhand.getItem() != Items.TOTEM))
-                	if (inv.get(inventoryIndex).getItem() == Items.TOTEM) {
-                      	replaceTotem(inventoryIndex);
-                		timer = 2;
-                        return;
-                	}
+            		if ((offhand == null) || (offhand.getItem() != Items.TOTEM)) {
+            			if (inv.get(inventoryIndex).getItem() == Items.TOTEM) {
+            				replaceTotem(inventoryIndex);
+            				timer = 2;
+                			return;
+            			}
+            		}
                 }
             }
 		}
