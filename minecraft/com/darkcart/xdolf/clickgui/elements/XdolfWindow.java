@@ -46,6 +46,8 @@ public class XdolfWindow {
 	}
 	
 	public void draw(int x, int y) {
+		GL11.glPushMatrix();
+		GL11.glPushAttrib(8256);
 		int toAdd = 0;
 		if(dragging) {
 			drag(x, y);
@@ -72,9 +74,9 @@ public class XdolfWindow {
 				s.draw(x);
 			} 
 		}
-		GL11.glPushMatrix();
-		GL11.glEnable(GL11.GL_BLEND);
+		//GL11.glEnable(GL11.GL_BLEND);
 		GL11.glPopMatrix();
+		GL11.glPopAttrib();
 	}
 	
 	public void mouseClicked(int x, int y, int button) throws IOException {
