@@ -100,7 +100,7 @@ public class GuiMultiplayer extends GuiScreen
         this.buttonList.add(new GuiButton(3, this.width / 2 + 4 + 50, this.height - 52, 100, 20, I18n.format("selectServer.add", new Object[0])));
         this.buttonList.add(new GuiButton(8, this.width / 2 + 4, this.height - 28, 70, 20, I18n.format("selectServer.refresh", new Object[0])));
         this.buttonList.add(new GuiButton(0, this.width / 2 + 4 + 76, this.height - 28, 75, 20, I18n.format("gui.cancel", new Object[0])));
-        this.buttonList.add(new GuiButton(69, 0, 0, 75, 20, GuiScreenProtocol.proto == 315 ? "1.11" : "1.11.1/1.11.2"));
+        this.buttonList.add(new GuiButton(69, 2, 6, 75, 20, GuiScreenProtocol.proto == 315 ? "1.11" : "1.11.1/1.11.2"));
         this.selectServer(this.serverListSelector.getSelected());
     }
 
@@ -203,7 +203,7 @@ public class GuiMultiplayer extends GuiScreen
             		GuiScreenProtocol.proto = 316;
             		buttonList.get(7).displayString = "1.11.1/1.11.2";
             	}
-            	//this.mc.displayGuiScreen(new GuiScreenProtocol(this));
+            	this.refreshServerList();
             }
         }
     }
