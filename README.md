@@ -1,11 +1,3 @@
-my memes
+http://darkcart.co/xdolf
 
-it seems 
-
-are bursting at the seams
-
-dank memes
-
-dank dreams
-
-jet fuel can't melt steel memes
+An updated version of Adolf, with some niche additions.
