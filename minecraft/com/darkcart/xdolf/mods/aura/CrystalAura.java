@@ -36,7 +36,7 @@ public class CrystalAura extends Module {
 			if(hasDelayRun((long)(1000 / crystalSpeed.getValue())))
 			{
 				for (Entity e : Wrapper.getWorld().loadedEntityList) {
-					if (player.getDistanceToEntity(e) <crystalRange.getValue()) {
+					if (player.getDistanceToEntity(e) < crystalRange.getValue()) {
 						if (e instanceof EntityEnderCrystal) {
 							Wrapper.getMinecraft().playerController.attackEntity(player, e);
 							player.swingArm(EnumHand.MAIN_HAND);
