@@ -27,6 +27,8 @@ public class WindowRadar extends XdolfWindow {
 	@Override
 	public void draw(int x, int y)
 	{
+		GL11.glPushMatrix();
+		GL11.glPushAttrib(8256);
 		if(dragging)
 		{
 			drag(x, y);
@@ -104,6 +106,7 @@ public class WindowRadar extends XdolfWindow {
 		
 			}
 		}
-		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glPopMatrix();
+		GL11.glPopAttrib();
 	}
 }

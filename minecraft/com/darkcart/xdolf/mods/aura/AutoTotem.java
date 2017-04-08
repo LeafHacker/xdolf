@@ -40,12 +40,12 @@ public class AutoTotem extends Module {
 
             int inventoryIndex;
 
-            	inv = player.inventory.mainInventory;
-
+            inv = player.inventory.mainInventory;
+            
+    		if ((offhand == null) || (offhand.getItem() != Items.TOTEM))
             for(inventoryIndex = 0; inventoryIndex < inv.size(); inventoryIndex++) {
                	if (inv.get(inventoryIndex) != ItemStack.EMPTY) {
                 	if (inv.get(inventoryIndex).getItem() == Items.TOTEM) {
-                		if ((offhand == null) || (offhand.getItem() != Items.TOTEM))
                       	replaceTotem(inventoryIndex);
                         break;
                 	}

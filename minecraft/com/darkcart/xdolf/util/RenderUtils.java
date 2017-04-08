@@ -556,13 +556,12 @@ public class RenderUtils {
 		float red = (float)(paramColor >> 16 & 0xFF) / 255F;
 		float green = (float)(paramColor >> 8 & 0xFF) / 255F;
 		float blue = (float)(paramColor & 0xFF) / 255F;
-
+		GL11.glPushMatrix();
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		GL11.glEnable(GL11.GL_LINE_SMOOTH);
 
-		GL11.glPushMatrix();
 		GL11.glColor4f(red, green, blue, alpha);
 		GL11.glBegin(GL11.GL_QUADS);
 		GL11.glVertex2d(paramXEnd, paramYStart);
@@ -570,11 +569,11 @@ public class RenderUtils {
 		GL11.glVertex2d(paramXStart, paramYEnd);
 		GL11.glVertex2d(paramXEnd, paramYEnd);
 		GL11.glEnd();
-		GL11.glPopMatrix();
 
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glDisable(GL11.GL_LINE_SMOOTH);
+		GL11.glPopMatrix();
 	}
 
 	public static void drawGradientRect(double x, double y, double x2, double y2, int col1, int col2) 

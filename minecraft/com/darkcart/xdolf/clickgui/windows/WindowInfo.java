@@ -23,6 +23,8 @@ public class WindowInfo extends XdolfWindow
 	@Override
 	public void draw(int x, int y)
 	{
+		GL11.glPushMatrix();
+		GL11.glPushAttrib(8256);
 		if(dragging)
 		{
 			drag(x, y);
@@ -53,6 +55,7 @@ public class WindowInfo extends XdolfWindow
 				RenderUtils.drawBetterBorderedRect(getXAndDrag() + 89, getYAndDrag() + 2, getXAndDrag() + 98, getYAndDrag() + 11, 0.5F, 0xFF000000, isOpen() ? 0xFFFF0000 : 0xFF383b42);
 			}
 		}
-		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glPopMatrix();
+		GL11.glPopAttrib();
 	}
 }
