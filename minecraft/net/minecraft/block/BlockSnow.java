@@ -2,6 +2,11 @@ package net.minecraft.block;
 
 import java.util.Random;
 import javax.annotation.Nullable;
+
+import com.darkcart.xdolf.mods.Hacks;
+import com.darkcart.xdolf.mods.player.Flight;
+import com.darkcart.xdolf.mods.world.Freecam;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyInteger;
@@ -59,7 +64,10 @@ public class BlockSnow extends Block
         int i = ((Integer)blockState.getValue(LAYERS)).intValue() - 1;
         float f = 0.125F;
         AxisAlignedBB axisalignedbb = blockState.getBoundingBox(worldIn, pos);
-        return new AxisAlignedBB(axisalignedbb.minX, axisalignedbb.minY, axisalignedbb.minZ, axisalignedbb.maxX, (double)((float)i * 0.125F), axisalignedbb.maxZ);
+        if(Hacks.findMod(Freecam.class).isEnabled() && Hacks.findMod(Flight.class).isEnabled())
+    		return NULL_AABB;
+    	else
+    		return new AxisAlignedBB(axisalignedbb.minX, axisalignedbb.minY, axisalignedbb.minZ, axisalignedbb.maxX, (double)((float)i * 0.125F), axisalignedbb.maxZ);
     }
 
     /**

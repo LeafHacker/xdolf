@@ -2,6 +2,11 @@ package net.minecraft.block;
 
 import java.util.List;
 import javax.annotation.Nullable;
+
+import com.darkcart.xdolf.mods.Hacks;
+import com.darkcart.xdolf.mods.player.Flight;
+import com.darkcart.xdolf.mods.world.Freecam;
+
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;

@@ -3,7 +3,10 @@ package net.minecraft.block;
 import javax.annotation.Nullable;
 
 import com.darkcart.xdolf.Wrapper;
+import com.darkcart.xdolf.mods.Hacks;
+import com.darkcart.xdolf.mods.player.Flight;
 import com.darkcart.xdolf.mods.player.NoSlowdown;
+import com.darkcart.xdolf.mods.world.Freecam;
 
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -28,7 +31,10 @@ public class BlockSoulSand extends Block
     @Nullable
     public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos)
     {
-        return SOUL_SAND_AABB;
+    	if(Hacks.findMod(Freecam.class).isEnabled() && Hacks.findMod(Flight.class).isEnabled())
+    		return NULL_AABB;
+    	else
+    		return SOUL_SAND_AABB;
     }
 
     /**
