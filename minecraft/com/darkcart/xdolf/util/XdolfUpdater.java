@@ -62,7 +62,6 @@ public class XdolfUpdater {
 			    }
 
 			    bufferedReader.close();
-			    System.out.println(stringBuilder.toString().trim());
 			    return stringBuilder.toString().trim();
 			} catch (MalformedURLException e) {
 			}
