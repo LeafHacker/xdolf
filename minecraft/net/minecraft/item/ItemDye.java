@@ -43,11 +43,11 @@ public class ItemDye extends Item
     /**
      * Called when a Block is right-clicked with this Item
      */
-    public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+    public EnumActionResult onItemUse(EntityPlayer stack, World playerIn, BlockPos worldIn, EnumHand pos, EnumFacing hand, float facing, float hitX, float hitY)
     {
-        ItemStack itemstack = player.getHeldItem(hand);
+        ItemStack itemstack = stack.getHeldItem(pos);
 
-        if (!player.canPlayerEdit(pos.offset(facing), facing, itemstack))
+        if (!stack.canPlayerEdit(worldIn.offset(hand), hand, itemstack))
         {
             return EnumActionResult.FAIL;
         }
@@ -57,11 +57,11 @@ public class ItemDye extends Item
 
             if (enumdyecolor == EnumDyeColor.WHITE)
             {
-                if (applyBonemeal(itemstack, worldIn, pos))
+                if (applyBonemeal(itemstack, playerIn, worldIn))
                 {
-                    if (!worldIn.isRemote)
+                    if (!playerIn.isRemote)
                     {
-                        worldIn.playEvent(2005, pos, 0);
+                        playerIn.playEvent(2005, worldIn, 0);
                     }
 
                     return EnumActionResult.SUCCESS;
@@ -69,26 +69,26 @@ public class ItemDye extends Item
             }
             else if (enumdyecolor == EnumDyeColor.BROWN)
             {
-                IBlockState iblockstate = worldIn.getBlockState(pos);
+                IBlockState iblockstate = playerIn.getBlockState(worldIn);
                 Block block = iblockstate.getBlock();
 
                 if (block == Blocks.LOG && iblockstate.getValue(BlockOldLog.VARIANT) == BlockPlanks.EnumType.JUNGLE)
                 {
-                    if (facing == EnumFacing.DOWN || facing == EnumFacing.UP)
+                    if (hand == EnumFacing.DOWN || hand == EnumFacing.UP)
                     {
                         return EnumActionResult.FAIL;
                     }
 
-                    pos = pos.offset(facing);
+                    worldIn = worldIn.offset(hand);
 
-                    if (worldIn.isAirBlock(pos))
+                    if (playerIn.isAirBlock(worldIn))
                     {
-                        IBlockState iblockstate1 = Blocks.COCOA.getStateForPlacement(worldIn, pos, facing, hitX, hitY, hitZ, 0, player);
-                        worldIn.setBlockState(pos, iblockstate1, 10);
+                        IBlockState iblockstate1 = Blocks.COCOA.onBlockPlaced(playerIn, worldIn, hand, facing, hitX, hitY, 0, stack);
+                        playerIn.setBlockState(worldIn, iblockstate1, 10);
 
-                        if (!player.capabilities.isCreativeMode)
+                        if (!stack.capabilities.isCreativeMode)
                         {
-                            itemstack.shrink(1);
+                            itemstack.func_190918_g(1);
                         }
 
                         return EnumActionResult.SUCCESS;
@@ -119,7 +119,7 @@ public class ItemDye extends Item
                         igrowable.grow(worldIn, worldIn.rand, target, iblockstate);
                     }
 
-                    stack.shrink(1);
+                    stack.func_190918_g(1);
                 }
 
                 return true;
@@ -163,7 +163,7 @@ public class ItemDye extends Item
             if (!entitysheep.getSheared() && entitysheep.getFleeceColor() != enumdyecolor)
             {
                 entitysheep.setFleeceColor(enumdyecolor);
-                stack.shrink(1);
+                stack.func_190918_g(1);
             }
 
             return true;

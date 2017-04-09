@@ -80,7 +80,7 @@ public class EntityAIRunAroundLikeCrazy extends EntityAIBase
             if (entity instanceof EntityPlayer)
             {
                 int i = this.horseHost.getTemper();
-                int j = this.horseHost.getMaxTemper();
+                int j = this.horseHost.func_190676_dC();
 
                 if (j > 0 && this.horseHost.getRNG().nextInt(j) < i)
                 {
@@ -92,7 +92,7 @@ public class EntityAIRunAroundLikeCrazy extends EntityAIBase
             }
 
             this.horseHost.removePassengers();
-            this.horseHost.makeMad();
+            this.horseHost.func_190687_dF();
             this.horseHost.world.setEntityState(this.horseHost, (byte)6);
         }
     }

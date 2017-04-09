@@ -35,7 +35,7 @@ public class EntityAISkeletonRiders extends EntityAIBase
     public void updateTask()
     {
         DifficultyInstance difficultyinstance = this.horse.world.getDifficultyForLocation(new BlockPos(this.horse));
-        this.horse.setTrap(false);
+        this.horse.func_190691_p(false);
         this.horse.setHorseTamed(true);
         this.horse.setGrowingAge(0);
         this.horse.world.addWeatherEffect(new EntityLightningBolt(this.horse.world, this.horse.posX, this.horse.posY, this.horse.posZ, true));
@@ -60,7 +60,7 @@ public class EntityAISkeletonRiders extends EntityAIBase
         entityskeletonhorse.enablePersistence();
         entityskeletonhorse.setHorseTamed(true);
         entityskeletonhorse.setGrowingAge(0);
-        entityskeletonhorse.world.spawnEntity(entityskeletonhorse);
+        entityskeletonhorse.world.spawnEntityInWorld(entityskeletonhorse);
         return entityskeletonhorse;
     }
 
@@ -72,14 +72,14 @@ public class EntityAISkeletonRiders extends EntityAIBase
         entityskeleton.hurtResistantTime = 60;
         entityskeleton.enablePersistence();
 
-        if (entityskeleton.getItemStackFromSlot(EntityEquipmentSlot.HEAD).isEmpty())
+        if (entityskeleton.getItemStackFromSlot(EntityEquipmentSlot.HEAD).func_190926_b())
         {
             entityskeleton.setItemStackToSlot(EntityEquipmentSlot.HEAD, new ItemStack(Items.IRON_HELMET));
         }
 
         entityskeleton.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, EnchantmentHelper.addRandomEnchantment(entityskeleton.getRNG(), entityskeleton.getHeldItemMainhand(), (int)(5.0F + p_188514_1_.getClampedAdditionalDifficulty() * (float)entityskeleton.getRNG().nextInt(18)), false));
         entityskeleton.setItemStackToSlot(EntityEquipmentSlot.HEAD, EnchantmentHelper.addRandomEnchantment(entityskeleton.getRNG(), entityskeleton.getItemStackFromSlot(EntityEquipmentSlot.HEAD), (int)(5.0F + p_188514_1_.getClampedAdditionalDifficulty() * (float)entityskeleton.getRNG().nextInt(18)), false));
-        entityskeleton.world.spawnEntity(entityskeleton);
+        entityskeleton.world.spawnEntityInWorld(entityskeleton);
         return entityskeleton;
     }
 }

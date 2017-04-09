@@ -37,6 +37,10 @@ public class CustomColormap implements CustomColors.IColorizer
     private static final int FORMAT_VANILLA = 0;
     private static final int FORMAT_GRID = 1;
     private static final int FORMAT_FIXED = 2;
+    public static final String FORMAT_VANILLA_STRING = "vanilla";
+    public static final String FORMAT_GRID_STRING = "grid";
+    public static final String FORMAT_FIXED_STRING = "fixed";
+    public static final String[] FORMAT_STRINGS = new String[] {"vanilla", "grid", "fixed"};
     public static final String KEY_FORMAT = "format";
     public static final String KEY_BLOCKS = "blocks";
     public static final String KEY_SOURCE = "source";
@@ -44,12 +48,12 @@ public class CustomColormap implements CustomColors.IColorizer
     public static final String KEY_Y_VARIANCE = "yVariance";
     public static final String KEY_Y_OFFSET = "yOffset";
 
-    public CustomColormap(Properties p_i29_1_, String p_i29_2_, int p_i29_3_, int p_i29_4_)
+    public CustomColormap(Properties p_i29_1_, String p_i29_2_, int p_i29_3_, int p_i29_4_, String p_i29_5_)
     {
         ConnectedParser connectedparser = new ConnectedParser("Colormap");
         this.name = connectedparser.parseName(p_i29_2_);
         this.basePath = connectedparser.parseBasePath(p_i29_2_);
-        this.format = this.parseFormat(p_i29_1_.getProperty("format"));
+        this.format = this.parseFormat(p_i29_1_.getProperty("format", p_i29_5_));
         this.matchBlocks = connectedparser.parseMatchBlocks(p_i29_1_.getProperty("blocks"));
         this.source = parseTexture(p_i29_1_.getProperty("source"), p_i29_2_, this.basePath);
         this.color = ConnectedParser.parseColor(p_i29_1_.getProperty("color"), -1);

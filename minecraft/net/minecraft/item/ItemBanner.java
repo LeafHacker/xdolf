@@ -37,44 +37,44 @@ public class ItemBanner extends ItemBlock
     /**
      * Called when a Block is right-clicked with this Item
      */
-    public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+    public EnumActionResult onItemUse(EntityPlayer stack, World playerIn, BlockPos worldIn, EnumHand pos, EnumFacing hand, float facing, float hitX, float hitY)
     {
-        IBlockState iblockstate = worldIn.getBlockState(pos);
-        boolean flag = iblockstate.getBlock().isReplaceable(worldIn, pos);
+        IBlockState iblockstate = playerIn.getBlockState(worldIn);
+        boolean flag = iblockstate.getBlock().isReplaceable(playerIn, worldIn);
 
-        if (facing != EnumFacing.DOWN && (iblockstate.getMaterial().isSolid() || flag) && (!flag || facing == EnumFacing.UP))
+        if (hand != EnumFacing.DOWN && (iblockstate.getMaterial().isSolid() || flag) && (!flag || hand == EnumFacing.UP))
         {
-            pos = pos.offset(facing);
-            ItemStack itemstack = player.getHeldItem(hand);
+            worldIn = worldIn.offset(hand);
+            ItemStack itemstack = stack.getHeldItem(pos);
 
-            if (player.canPlayerEdit(pos, facing, itemstack) && Blocks.STANDING_BANNER.canPlaceBlockAt(worldIn, pos))
+            if (stack.canPlayerEdit(worldIn, hand, itemstack) && Blocks.STANDING_BANNER.canPlaceBlockAt(playerIn, worldIn))
             {
-                if (worldIn.isRemote)
+                if (playerIn.isRemote)
                 {
                     return EnumActionResult.SUCCESS;
                 }
                 else
                 {
-                    pos = flag ? pos.down() : pos;
+                    worldIn = flag ? worldIn.down() : worldIn;
 
-                    if (facing == EnumFacing.UP)
+                    if (hand == EnumFacing.UP)
                     {
-                        int i = MathHelper.floor((double)((player.rotationYaw + 180.0F) * 16.0F / 360.0F) + 0.5D) & 15;
-                        worldIn.setBlockState(pos, Blocks.STANDING_BANNER.getDefaultState().withProperty(BlockStandingSign.ROTATION, Integer.valueOf(i)), 3);
+                        int i = MathHelper.floor((double)((stack.rotationYaw + 180.0F) * 16.0F / 360.0F) + 0.5D) & 15;
+                        playerIn.setBlockState(worldIn, Blocks.STANDING_BANNER.getDefaultState().withProperty(BlockStandingSign.ROTATION, Integer.valueOf(i)), 3);
                     }
                     else
                     {
-                        worldIn.setBlockState(pos, Blocks.WALL_BANNER.getDefaultState().withProperty(BlockWallSign.FACING, facing), 3);
+                        playerIn.setBlockState(worldIn, Blocks.WALL_BANNER.getDefaultState().withProperty(BlockWallSign.FACING, hand), 3);
                     }
 
-                    TileEntity tileentity = worldIn.getTileEntity(pos);
+                    TileEntity tileentity = playerIn.getTileEntity(worldIn);
 
                     if (tileentity instanceof TileEntityBanner)
                     {
                         ((TileEntityBanner)tileentity).setItemValues(itemstack, false);
                     }
 
-                    itemstack.shrink(1);
+                    itemstack.func_190918_g(1);
                     return EnumActionResult.SUCCESS;
                 }
             }
@@ -109,11 +109,11 @@ public class ItemBanner extends ItemBlock
             {
                 NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
                 EnumDyeColor enumdyecolor = EnumDyeColor.byDyeDamage(nbttagcompound1.getInteger("Color"));
-                BannerPattern bannerpattern = BannerPattern.byHash(nbttagcompound1.getString("Pattern"));
+                BannerPattern bannerpattern = BannerPattern.func_190994_a(nbttagcompound1.getString("Pattern"));
 
                 if (bannerpattern != null)
                 {
-                    p_185054_1_.add(I18n.translateToLocal("item.banner." + bannerpattern.getFileName() + "." + enumdyecolor.getUnlocalizedName()));
+                    p_185054_1_.add(I18n.translateToLocal("item.banner." + bannerpattern.func_190997_a() + "." + enumdyecolor.getUnlocalizedName()));
                 }
             }
         }
@@ -134,17 +134,17 @@ public class ItemBanner extends ItemBlock
     {
         for (EnumDyeColor enumdyecolor : EnumDyeColor.values())
         {
-            subItems.add(makeBanner(enumdyecolor, (NBTTagList)null));
+            subItems.add(func_190910_a(enumdyecolor, (NBTTagList)null));
         }
     }
 
-    public static ItemStack makeBanner(EnumDyeColor p_190910_0_, @Nullable NBTTagList p_190910_1_)
+    public static ItemStack func_190910_a(EnumDyeColor p_190910_0_, @Nullable NBTTagList p_190910_1_)
     {
         ItemStack itemstack = new ItemStack(Items.BANNER, 1, p_190910_0_.getDyeDamage());
 
         if (p_190910_1_ != null && !p_190910_1_.hasNoTags())
         {
-            itemstack.getOrCreateSubCompound("BlockEntityTag").setTag("Patterns", p_190910_1_.copy());
+            itemstack.func_190925_c("BlockEntityTag").setTag("Patterns", p_190910_1_.copy());
         }
 
         return itemstack;

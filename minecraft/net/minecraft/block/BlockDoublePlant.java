@@ -127,12 +127,12 @@ public class BlockDoublePlant extends BlockBush implements IGrowable
     {
         if (state.getValue(HALF) == BlockDoublePlant.EnumBlockHalf.UPPER)
         {
-            return Items.AIR;
+            return Items.field_190931_a;
         }
         else
         {
             BlockDoublePlant.EnumPlantType blockdoubleplant$enumplanttype = (BlockDoublePlant.EnumPlantType)state.getValue(VARIANT);
-            return blockdoubleplant$enumplanttype == BlockDoublePlant.EnumPlantType.FERN ? Items.AIR : (blockdoubleplant$enumplanttype == BlockDoublePlant.EnumPlantType.GRASS ? (rand.nextInt(8) == 0 ? Items.WHEAT_SEEDS : Items.AIR) : super.getItemDropped(state, rand, fortune));
+            return blockdoubleplant$enumplanttype == BlockDoublePlant.EnumPlantType.FERN ? Items.field_190931_a : (blockdoubleplant$enumplanttype == BlockDoublePlant.EnumPlantType.GRASS ? (rand.nextInt(8) == 0 ? Items.WHEAT_SEEDS : Items.field_190931_a) : super.getItemDropped(state, rand, fortune));
         }
     }
 
@@ -190,7 +190,7 @@ public class BlockDoublePlant extends BlockBush implements IGrowable
                     {
                         worldIn.setBlockToAir(pos.down());
                     }
-                    else if (!player.getHeldItemMainhand().isEmpty() && player.getHeldItemMainhand().getItem() == Items.SHEARS)
+                    else if (!player.getHeldItemMainhand().func_190926_b() && player.getHeldItemMainhand().getItem() == Items.SHEARS)
                     {
                         this.onHarvest(worldIn, pos, iblockstate, player);
                         worldIn.setBlockToAir(pos.down());

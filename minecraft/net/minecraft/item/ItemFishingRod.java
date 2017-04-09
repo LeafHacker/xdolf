@@ -2,6 +2,7 @@ package net.minecraft.item;
 
 import javax.annotation.Nullable;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityFishHook;
@@ -62,28 +63,42 @@ public class ItemFishingRod extends Item
         return true;
     }
 
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
+    public ActionResult<ItemStack> onItemRightClick(World itemStackIn, EntityPlayer worldIn, EnumHand playerIn)
     {
-        ItemStack itemstack = playerIn.getHeldItem(handIn);
+        ItemStack itemstack = worldIn.getHeldItem(playerIn);
 
-        if (playerIn.fishEntity != null)
+        if (worldIn.fishEntity != null)
         {
-            int i = playerIn.fishEntity.handleHookRetraction();
-            itemstack.damageItem(i, playerIn);
-            playerIn.swingArm(handIn);
+            int i = worldIn.fishEntity.handleHookRetraction();
+            itemstack.damageItem(i, worldIn);
+            worldIn.swingArm(playerIn);
         }
         else
         {
-            worldIn.playSound((EntityPlayer)null, playerIn.posX, playerIn.posY, playerIn.posZ, SoundEvents.ENTITY_BOBBER_THROW, SoundCategory.NEUTRAL, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+            itemStackIn.playSound((EntityPlayer)null, worldIn.posX, worldIn.posY, worldIn.posZ, SoundEvents.ENTITY_BOBBER_THROW, SoundCategory.NEUTRAL, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 
-            if (!worldIn.isRemote)
+            if (!itemStackIn.isRemote)
             {
-                EntityFishHook entityfishhook = new EntityFishHook(worldIn, playerIn);
-                worldIn.spawnEntity(entityfishhook);
+                EntityFishHook entityfishhook = new EntityFishHook(itemStackIn, worldIn);
+                int j = EnchantmentHelper.func_191528_c(itemstack);
+
+                if (j > 0)
+                {
+                    entityfishhook.func_191516_a(j);
+                }
+
+                int k = EnchantmentHelper.func_191529_b(itemstack);
+
+                if (k > 0)
+                {
+                    entityfishhook.func_191517_b(k);
+                }
+
+                itemStackIn.spawnEntityInWorld(entityfishhook);
             }
 
-            playerIn.swingArm(handIn);
-            playerIn.addStat(StatList.getObjectUseStats(this));
+            worldIn.swingArm(playerIn);
+            worldIn.addStat(StatList.getObjectUseStats(this));
         }
 
         return new ActionResult(EnumActionResult.SUCCESS, itemstack);

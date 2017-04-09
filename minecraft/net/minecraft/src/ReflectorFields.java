@@ -7,20 +7,20 @@ public class ReflectorFields
     private int fieldCount;
     private ReflectorField[] reflectorFields;
 
-    public ReflectorFields(ReflectorClass p_i84_1_, Class p_i84_2_, int p_i84_3_)
+    public ReflectorFields(ReflectorClass p_i87_1_, Class p_i87_2_, int p_i87_3_)
     {
-        this.reflectorClass = p_i84_1_;
-        this.fieldType = p_i84_2_;
+        this.reflectorClass = p_i87_1_;
+        this.fieldType = p_i87_2_;
 
-        if (p_i84_1_.exists())
+        if (p_i87_1_.exists())
         {
-            if (p_i84_2_ != null)
+            if (p_i87_2_ != null)
             {
-                this.reflectorFields = new ReflectorField[p_i84_3_];
+                this.reflectorFields = new ReflectorField[p_i87_3_];
 
                 for (int i = 0; i < this.reflectorFields.length; ++i)
                 {
-                    this.reflectorFields[i] = new ReflectorField(p_i84_1_, p_i84_2_, i);
+                    this.reflectorFields[i] = new ReflectorField(p_i87_1_, p_i87_2_, i);
                 }
             }
         }

@@ -119,8 +119,47 @@ public class GuiMainMenu extends GuiScreen
     public GuiMainMenu()
     {
         this.openGLWarning2 = MORE_INFO_TEXT;
-        
-        this.splashText = Client.splashes[RANDOM.nextInt(Client.splashes.length-1)];
+        this.splashText = "missingno";
+        IResource iresource = null;
+
+        try
+        {
+            List<String> list = Lists.<String>newArrayList();
+            iresource = Minecraft.getMinecraft().getResourceManager().getResource(SPLASH_TEXTS);
+            BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(iresource.getInputStream(), Charsets.UTF_8));
+            String s;
+
+            while ((s = bufferedreader.readLine()) != null)
+            {
+                s = s.trim();
+
+                if (!s.isEmpty())
+                {
+                    list.add(s);
+                }
+            }
+
+            if (!list.isEmpty())
+            {
+                while (true)
+                {
+                    this.splashText = (String)list.get(RANDOM.nextInt(list.size()));
+
+                    if (this.splashText.hashCode() != 125780783)
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+        catch (IOException var8)
+        {
+            ;
+        }
+        finally
+        {
+            IOUtils.closeQuietly((Closeable)iresource);
+        }
 
         this.updateCounter = RANDOM.nextFloat();
         this.openGLWarning1 = "";
@@ -203,13 +242,6 @@ public class GuiMainMenu extends GuiScreen
             this.splashText = "OOoooOOOoooo! Spooky!";
         }
 
-        if (calendar.get(2) + 1 == 9 && calendar.get(5) == 27) {
-        	this.splashText = "Happy Birthday, Sgt. Pepper!";
-        }
-        else if (calendar.get(2) + 1 == 5 && calendar.get(5) == 28) {
-        	this.splashText = "Happy Birthday, x0XP!";
-        }
-        
         int i = 24;
         int j = this.height / 4 + 48;
 
@@ -271,7 +303,6 @@ public class GuiMainMenu extends GuiScreen
 				this.buttonList.add(new GuiButton(15, this.width - 102 + 2, 2, 98, 20, "Update available!"));
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }
@@ -316,11 +347,6 @@ public class GuiMainMenu extends GuiScreen
         {
             this.mc.displayGuiScreen(new GuiMultiplayer(this));
         }
-        
-        if (button.id == 3)
-        {
-        	this.mc.displayGuiScreen(Manager.altScreen);
-        }
 
         if (button.id == 14 && this.realmsButton.visible)
         {
@@ -352,6 +378,12 @@ public class GuiMainMenu extends GuiScreen
                 this.mc.displayGuiScreen(new GuiYesNo(this, I18n.format("selectWorld.deleteQuestion", new Object[0]), "\'" + worldinfo.getWorldName() + "\' " + I18n.format("selectWorld.deleteWarning", new Object[0]), I18n.format("selectWorld.deleteButton", new Object[0]), I18n.format("gui.cancel", new Object[0]), 12));
             }
         }
+        
+        if (button.id == 3)
+        {
+        	this.mc.displayGuiScreen(Manager.altScreen);
+        }
+        
         if (button.id == 15)
         {
         	this.mc.displayGuiScreen(new XdolfUpdateGui(this));
@@ -648,7 +680,7 @@ public class GuiMainMenu extends GuiScreen
         GlStateManager.scale(f, f, f);
         this.drawCenteredString(this.fontRendererObj, this.splashText, 0, -8, -256);
         GlStateManager.popMatrix();
-        String s = "Minecraft 1.11";
+        String s = "Minecraft 1.11.2";
 
         if (this.mc.isDemo())
         {

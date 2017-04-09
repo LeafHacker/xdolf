@@ -211,19 +211,19 @@ public class ExpressionParser
         }
     }
 
-    private EnumFunctionType getFunctionType(Token token, Deque<Token> deque) throws ParseException
+    private EnumFunctionType getFunctionType(Token tokend, Deque<Token> deque) throws ParseException
     {
-        Token token1 = (Token)deque.peek();
+        Token token = (Token)deque.peek();
 
-        if (token1 != null && token1.getType() == EnumTokenType.BRACKET_OPEN)
+        if (token != null && token.getType() == EnumTokenType.BRACKET_OPEN)
         {
-            EnumFunctionType enumfunctiontype1 = EnumFunctionType.parse(token1.getText());
-            checkNull(enumfunctiontype1, "Unknown function: " + token1);
+            EnumFunctionType enumfunctiontype1 = EnumFunctionType.parse(token.getText());
+            checkNull(enumfunctiontype1, "Unknown function: " + token);
             return enumfunctiontype1;
         }
         else
         {
-            EnumFunctionType enumfunctiontype = EnumFunctionType.parse(token1.getText());
+            EnumFunctionType enumfunctiontype = EnumFunctionType.parse(token.getText());
 
             if (enumfunctiontype == null)
             {

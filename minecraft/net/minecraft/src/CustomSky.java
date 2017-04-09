@@ -115,35 +115,41 @@ public class CustomSky
         }
     }
 
-    public static void renderSky(World p_renderSky_0_, TextureManager p_renderSky_1_, float p_renderSky_2_, float p_renderSky_3_)
+    public static void renderSky(World p_renderSky_0_, TextureManager p_renderSky_1_, float p_renderSky_2_)
     {
         if (worldSkyLayers != null)
         {
-            if (Config.getGameSettings().renderDistanceChunks >= 8)
+            int i = p_renderSky_0_.provider.getDimensionType().getId();
+
+            if (i >= 0 && i < worldSkyLayers.length)
             {
-                int i = p_renderSky_0_.provider.getDimensionType().getId();
+                CustomSkyLayer[] acustomskylayer = worldSkyLayers[i];
 
-                if (i >= 0 && i < worldSkyLayers.length)
+                if (acustomskylayer != null)
                 {
-                    CustomSkyLayer[] acustomskylayer = worldSkyLayers[i];
+                    long j = p_renderSky_0_.getWorldTime();
+                    int k = (int)(j % 24000L);
+                    float f = p_renderSky_0_.getCelestialAngle(p_renderSky_2_);
+                    float f1 = p_renderSky_0_.getRainStrength(p_renderSky_2_);
+                    float f2 = p_renderSky_0_.getThunderStrength(p_renderSky_2_);
 
-                    if (acustomskylayer != null)
+                    if (f1 > 0.0F)
                     {
-                        long j = p_renderSky_0_.getWorldTime();
-                        int k = (int)(j % 24000L);
-
-                        for (int l = 0; l < acustomskylayer.length; ++l)
-                        {
-                            CustomSkyLayer customskylayer = acustomskylayer[l];
-
-                            if (customskylayer.isActive(p_renderSky_0_, k))
-                            {
-                                customskylayer.render(k, p_renderSky_2_, p_renderSky_3_);
-                            }
-                        }
-
-                        Blender.clearBlend(p_renderSky_3_);
+                        f2 /= f1;
                     }
+
+                    for (int l = 0; l < acustomskylayer.length; ++l)
+                    {
+                        CustomSkyLayer customskylayer = acustomskylayer[l];
+
+                        if (customskylayer.isActive(p_renderSky_0_, k))
+                        {
+                            customskylayer.render(k, f, f1, f2);
+                        }
+                    }
+
+                    float f3 = 1.0F - f1;
+                    Blender.clearBlend(f3);
                 }
             }
         }

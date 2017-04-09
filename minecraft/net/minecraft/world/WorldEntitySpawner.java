@@ -157,7 +157,7 @@ public final class WorldEntitySpawner
                                                     if (entityliving.isNotColliding())
                                                     {
                                                         ++j2;
-                                                        worldServerIn.spawnEntity(entityliving);
+                                                        worldServerIn.spawnEntityInWorld(entityliving);
                                                     }
                                                     else
                                                     {
@@ -274,7 +274,7 @@ public final class WorldEntitySpawner
                             }
 
                             entityliving.setLocationAndAngles((double)((float)j + 0.5F), (double)blockpos.getY(), (double)((float)k + 0.5F), randomIn.nextFloat() * 360.0F, 0.0F);
-                            worldIn.spawnEntity(entityliving);
+                            worldIn.spawnEntityInWorld(entityliving);
                             ientitylivingdata = entityliving.onInitialSpawn(worldIn.getDifficultyForLocation(new BlockPos(entityliving)), ientitylivingdata);
                             flag = true;
                         }

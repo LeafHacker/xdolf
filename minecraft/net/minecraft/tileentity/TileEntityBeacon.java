@@ -54,7 +54,7 @@ public class TileEntityBeacon extends TileEntityLockable implements ITickable, I
     private Potion secondaryEffect;
 
     /** Item given to this beacon as payment. */
-    private ItemStack payment = ItemStack.EMPTY;
+    private ItemStack payment = ItemStack.field_190927_a;
     private String customName;
 
     /**
@@ -303,9 +303,9 @@ public class TileEntityBeacon extends TileEntityLockable implements ITickable, I
         return 1;
     }
 
-    public boolean isEmpty()
+    public boolean func_191420_l()
     {
-        return this.payment.isEmpty();
+        return this.payment.func_190926_b();
     }
 
     /**
@@ -313,7 +313,7 @@ public class TileEntityBeacon extends TileEntityLockable implements ITickable, I
      */
     public ItemStack getStackInSlot(int index)
     {
-        return index == 0 ? this.payment : ItemStack.EMPTY;
+        return index == 0 ? this.payment : ItemStack.field_190927_a;
     }
 
     /**
@@ -321,12 +321,12 @@ public class TileEntityBeacon extends TileEntityLockable implements ITickable, I
      */
     public ItemStack decrStackSize(int index, int count)
     {
-        if (index == 0 && !this.payment.isEmpty())
+        if (index == 0 && !this.payment.func_190926_b())
         {
-            if (count >= this.payment.getCount())
+            if (count >= this.payment.func_190916_E())
             {
                 ItemStack itemstack = this.payment;
-                this.payment = ItemStack.EMPTY;
+                this.payment = ItemStack.field_190927_a;
                 return itemstack;
             }
             else
@@ -336,7 +336,7 @@ public class TileEntityBeacon extends TileEntityLockable implements ITickable, I
         }
         else
         {
-            return ItemStack.EMPTY;
+            return ItemStack.field_190927_a;
         }
     }
 
@@ -348,12 +348,12 @@ public class TileEntityBeacon extends TileEntityLockable implements ITickable, I
         if (index == 0)
         {
             ItemStack itemstack = this.payment;
-            this.payment = ItemStack.EMPTY;
+            this.payment = ItemStack.field_190927_a;
             return itemstack;
         }
         else
         {
-            return ItemStack.EMPTY;
+            return ItemStack.field_190927_a;
         }
     }
 
@@ -474,7 +474,7 @@ public class TileEntityBeacon extends TileEntityLockable implements ITickable, I
 
     public void clear()
     {
-        this.payment = ItemStack.EMPTY;
+        this.payment = ItemStack.field_190927_a;
     }
 
     public boolean receiveClientEvent(int id, int type)

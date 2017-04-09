@@ -17,9 +17,9 @@ public class PlayerControllerOF extends PlayerControllerMP
 {
     private boolean acting = false;
 
-    public PlayerControllerOF(Minecraft p_i66_1_, NetHandlerPlayClient p_i66_2_)
+    public PlayerControllerOF(Minecraft p_i69_1_, NetHandlerPlayClient p_i69_2_)
     {
-        super(p_i66_1_, p_i66_2_);
+        super(p_i69_1_, p_i69_2_);
     }
 
     /**

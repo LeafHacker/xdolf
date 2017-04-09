@@ -24,7 +24,7 @@ public class CommandSpreadPlayers extends CommandBase
     /**
      * Gets the name of the command
      */
-    public String getName()
+    public String getCommandName()
     {
         return "spreadplayers";
     }
@@ -40,7 +40,7 @@ public class CommandSpreadPlayers extends CommandBase
     /**
      * Gets the usage string for the command.
      */
-    public String getUsage(ICommandSender sender)
+    public String getCommandUsage(ICommandSender sender)
     {
         return "commands.spreadplayers.usage";
     }
@@ -101,7 +101,7 @@ public class CommandSpreadPlayers extends CommandBase
             }
             else
             {
-                sender.sendMessage(new TextComponentTranslation("commands.spreadplayers.spreading." + (flag ? "teams" : "players"), new Object[] {Integer.valueOf(list.size()), Double.valueOf(d3), Double.valueOf(d0), Double.valueOf(d1), Double.valueOf(d2)}));
+                sender.addChatMessage(new TextComponentTranslation("commands.spreadplayers.spreading." + (flag ? "teams" : "players"), new Object[] {Integer.valueOf(list.size()), Double.valueOf(d3), Double.valueOf(d0), Double.valueOf(d1), Double.valueOf(d2)}));
                 this.spread(sender, list, new CommandSpreadPlayers.Position(d0, d1), d2, d3, ((Entity)list.get(0)).world, flag);
             }
         }
@@ -121,7 +121,7 @@ public class CommandSpreadPlayers extends CommandBase
 
         if (acommandspreadplayers$position.length > 1)
         {
-            sender.sendMessage(new TextComponentTranslation("commands.spreadplayers.info." + (respectTeams ? "teams" : "players"), new Object[] {String.format("%.2f", new Object[]{Double.valueOf(d4)}), Integer.valueOf(i)}));
+            sender.addChatMessage(new TextComponentTranslation("commands.spreadplayers.info." + (respectTeams ? "teams" : "players"), new Object[] {String.format("%.2f", new Object[]{Double.valueOf(d4)}), Integer.valueOf(i)}));
         }
     }
 
@@ -286,7 +286,7 @@ public class CommandSpreadPlayers extends CommandBase
         return acommandspreadplayers$position;
     }
 
-    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
+    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
     {
         return args.length >= 1 && args.length <= 2 ? getTabCompletionCoordinateXZ(args, 0, pos) : Collections.<String>emptyList();
     }

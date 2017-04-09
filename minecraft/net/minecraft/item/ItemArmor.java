@@ -39,7 +39,7 @@ public class ItemArmor extends Item
         protected ItemStack dispenseStack(IBlockSource source, ItemStack stack)
         {
             ItemStack itemstack = ItemArmor.dispenseArmor(source, stack);
-            return itemstack.isEmpty() ? super.dispenseStack(source, stack) : itemstack;
+            return itemstack.func_190926_b() ? super.dispenseStack(source, stack) : itemstack;
         }
     };
 
@@ -68,7 +68,7 @@ public class ItemArmor extends Item
 
         if (list.isEmpty())
         {
-            return ItemStack.EMPTY;
+            return ItemStack.field_190927_a;
         }
         else
         {
@@ -225,16 +225,16 @@ public class ItemArmor extends Item
         return this.material.getRepairItem() == repair.getItem() ? true : super.getIsRepairable(toRepair, repair);
     }
 
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
+    public ActionResult<ItemStack> onItemRightClick(World itemStackIn, EntityPlayer worldIn, EnumHand playerIn)
     {
-        ItemStack itemstack = playerIn.getHeldItem(handIn);
+        ItemStack itemstack = worldIn.getHeldItem(playerIn);
         EntityEquipmentSlot entityequipmentslot = EntityLiving.getSlotForItemStack(itemstack);
-        ItemStack itemstack1 = playerIn.getItemStackFromSlot(entityequipmentslot);
+        ItemStack itemstack1 = worldIn.getItemStackFromSlot(entityequipmentslot);
 
-        if (itemstack1.isEmpty())
+        if (itemstack1.func_190926_b())
         {
-            playerIn.setItemStackToSlot(entityequipmentslot, itemstack.copy());
-            itemstack.setCount(0);
+            worldIn.setItemStackToSlot(entityequipmentslot, itemstack.copy());
+            itemstack.func_190920_e(0);
             return new ActionResult(EnumActionResult.SUCCESS, itemstack);
         }
         else
@@ -249,8 +249,8 @@ public class ItemArmor extends Item
 
         if (equipmentSlot == this.armorType)
         {
-            multimap.put(SharedMonsterAttributes.ARMOR.getName(), new AttributeModifier(ARMOR_MODIFIERS[equipmentSlot.getIndex()], "Armor modifier", (double)this.damageReduceAmount, 0));
-            multimap.put(SharedMonsterAttributes.ARMOR_TOUGHNESS.getName(), new AttributeModifier(ARMOR_MODIFIERS[equipmentSlot.getIndex()], "Armor toughness", (double)this.toughness, 0));
+            multimap.put(SharedMonsterAttributes.ARMOR.getAttributeUnlocalizedName(), new AttributeModifier(ARMOR_MODIFIERS[equipmentSlot.getIndex()], "Armor modifier", (double)this.damageReduceAmount, 0));
+            multimap.put(SharedMonsterAttributes.ARMOR_TOUGHNESS.getAttributeUnlocalizedName(), new AttributeModifier(ARMOR_MODIFIERS[equipmentSlot.getIndex()], "Armor toughness", (double)this.toughness, 0));
         }
 
         return multimap;

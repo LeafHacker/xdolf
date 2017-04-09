@@ -31,12 +31,12 @@ public class ParticleExplosion extends Particle
 
         this.setParticleTextureIndex(7 - this.particleAge * 8 / this.particleMaxAge);
         this.motionY += 0.004D;
-        this.move(this.motionX, this.motionY, this.motionZ);
+        this.moveEntity(this.motionX, this.motionY, this.motionZ);
         this.motionX *= 0.8999999761581421D;
         this.motionY *= 0.8999999761581421D;
         this.motionZ *= 0.8999999761581421D;
 
-        if (this.onGround)
+        if (this.isCollided)
         {
             this.motionX *= 0.699999988079071D;
             this.motionZ *= 0.699999988079071D;

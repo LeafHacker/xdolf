@@ -12,28 +12,28 @@ public class ReflectorMethod
     private boolean checked;
     private Method targetMethod;
 
-    public ReflectorMethod(ReflectorClass p_i85_1_, String p_i85_2_)
+    public ReflectorMethod(ReflectorClass p_i88_1_, String p_i88_2_)
     {
-        this(p_i85_1_, p_i85_2_, (Class[])null, false);
+        this(p_i88_1_, p_i88_2_, (Class[])null, false);
     }
 
-    public ReflectorMethod(ReflectorClass p_i86_1_, String p_i86_2_, Class[] p_i86_3_)
+    public ReflectorMethod(ReflectorClass p_i89_1_, String p_i89_2_, Class[] p_i89_3_)
     {
-        this(p_i86_1_, p_i86_2_, p_i86_3_, false);
+        this(p_i89_1_, p_i89_2_, p_i89_3_, false);
     }
 
-    public ReflectorMethod(ReflectorClass p_i87_1_, String p_i87_2_, Class[] p_i87_3_, boolean p_i87_4_)
+    public ReflectorMethod(ReflectorClass p_i90_1_, String p_i90_2_, Class[] p_i90_3_, boolean p_i90_4_)
     {
         this.reflectorClass = null;
         this.targetMethodName = null;
         this.targetMethodParameterTypes = null;
         this.checked = false;
         this.targetMethod = null;
-        this.reflectorClass = p_i87_1_;
-        this.targetMethodName = p_i87_2_;
-        this.targetMethodParameterTypes = p_i87_3_;
+        this.reflectorClass = p_i90_1_;
+        this.targetMethodName = p_i90_2_;
+        this.targetMethodParameterTypes = p_i90_3_;
 
-        if (!p_i87_4_)
+        if (!p_i90_4_)
         {
             Method method = this.getTargetMethod();
         }

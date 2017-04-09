@@ -25,7 +25,7 @@ public class RenderDragon extends RenderLiving<EntityDragon>
         this.addLayer(new LayerEnderDragonDeath());
     }
 
-    protected void applyRotations(EntityDragon entityLiving, float p_77043_2_, float p_77043_3_, float partialTicks)
+    protected void rotateCorpse(EntityDragon entityLiving, float p_77043_2_, float p_77043_3_, float partialTicks)
     {
         float f = (float)entityLiving.getMovementOffsets(7, partialTicks)[0];
         float f1 = (float)(entityLiving.getMovementOffsets(5, partialTicks)[1] - entityLiving.getMovementOffsets(10, partialTicks)[1]);

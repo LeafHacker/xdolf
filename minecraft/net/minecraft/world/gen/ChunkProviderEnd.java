@@ -40,11 +40,11 @@ public class ChunkProviderEnd implements IChunkGenerator
     public NoiseGeneratorOctaves noiseGen6;
 
     /** Reference to the World object. */
-    private final World world;
+    private final World worldObj;
 
     /** are map structures going to be generated (e.g. strongholds) */
     private final boolean mapFeaturesEnabled;
-    private final BlockPos spawnPoint;
+    private final BlockPos field_191061_n;
     private final MapGenEndCity endCityGen = new MapGenEndCity(this);
     private final NoiseGeneratorSimplex islandNoise;
     private double[] buffer;
@@ -58,9 +58,9 @@ public class ChunkProviderEnd implements IChunkGenerator
 
     public ChunkProviderEnd(World p_i47241_1_, boolean p_i47241_2_, long p_i47241_3_, BlockPos p_i47241_5_)
     {
-        this.world = p_i47241_1_;
+        this.worldObj = p_i47241_1_;
         this.mapFeaturesEnabled = p_i47241_2_;
-        this.spawnPoint = p_i47241_5_;
+        this.field_191061_n = p_i47241_5_;
         this.rand = new Random(p_i47241_3_);
         this.lperlinNoise1 = new NoiseGeneratorOctaves(this.rand, 16);
         this.lperlinNoise2 = new NoiseGeneratorOctaves(this.rand, 16);
@@ -190,16 +190,16 @@ public class ChunkProviderEnd implements IChunkGenerator
     {
         this.rand.setSeed((long)x * 341873128712L + (long)z * 132897987541L);
         ChunkPrimer chunkprimer = new ChunkPrimer();
-        this.biomesForGeneration = this.world.getBiomeProvider().getBiomes(this.biomesForGeneration, x * 16, z * 16, 16, 16);
+        this.biomesForGeneration = this.worldObj.getBiomeProvider().getBiomes(this.biomesForGeneration, x * 16, z * 16, 16, 16);
         this.setBlocksInChunk(x, z, chunkprimer);
         this.buildSurfaces(chunkprimer);
 
         if (this.mapFeaturesEnabled)
         {
-            this.endCityGen.generate(this.world, x, z, chunkprimer);
+            this.endCityGen.generate(this.worldObj, x, z, chunkprimer);
         }
 
-        Chunk chunk = new Chunk(this.world, chunkprimer, x, z);
+        Chunk chunk = new Chunk(this.worldObj, chunkprimer, x, z);
         byte[] abyte = chunk.getBiomeArray();
 
         for (int i = 0; i < abyte.length; ++i)
@@ -345,10 +345,10 @@ public class ChunkProviderEnd implements IChunkGenerator
 
         if (this.mapFeaturesEnabled)
         {
-            this.endCityGen.generateStructure(this.world, this.rand, new ChunkPos(x, z));
+            this.endCityGen.generateStructure(this.worldObj, this.rand, new ChunkPos(x, z));
         }
 
-        this.world.getBiome(blockpos.add(16, 0, 16)).decorate(this.world, this.world.rand, blockpos);
+        this.worldObj.getBiome(blockpos.add(16, 0, 16)).decorate(this.worldObj, this.worldObj.rand, blockpos);
         long i = (long)x * (long)x + (long)z * (long)z;
 
         if (i > 4096L)
@@ -357,11 +357,11 @@ public class ChunkProviderEnd implements IChunkGenerator
 
             if (f < -20.0F && this.rand.nextInt(14) == 0)
             {
-                this.endIslands.generate(this.world, this.rand, blockpos.add(this.rand.nextInt(16) + 8, 55 + this.rand.nextInt(16), this.rand.nextInt(16) + 8));
+                this.endIslands.generate(this.worldObj, this.rand, blockpos.add(this.rand.nextInt(16) + 8, 55 + this.rand.nextInt(16), this.rand.nextInt(16) + 8));
 
                 if (this.rand.nextInt(4) == 0)
                 {
-                    this.endIslands.generate(this.world, this.rand, blockpos.add(this.rand.nextInt(16) + 8, 55 + this.rand.nextInt(16), this.rand.nextInt(16) + 8));
+                    this.endIslands.generate(this.worldObj, this.rand, blockpos.add(this.rand.nextInt(16) + 8, 55 + this.rand.nextInt(16), this.rand.nextInt(16) + 8));
                 }
             }
 
@@ -373,15 +373,15 @@ public class ChunkProviderEnd implements IChunkGenerator
                 {
                     int l = this.rand.nextInt(16) + 8;
                     int i1 = this.rand.nextInt(16) + 8;
-                    int j1 = this.world.getHeight(blockpos.add(l, 0, i1)).getY();
+                    int j1 = this.worldObj.getHeight(blockpos.add(l, 0, i1)).getY();
 
                     if (j1 > 0)
                     {
                         int k1 = j1 - 1;
 
-                        if (this.world.isAirBlock(blockpos.add(l, k1 + 1, i1)) && this.world.getBlockState(blockpos.add(l, k1, i1)).getBlock() == Blocks.END_STONE)
+                        if (this.worldObj.isAirBlock(blockpos.add(l, k1 + 1, i1)) && this.worldObj.getBlockState(blockpos.add(l, k1, i1)).getBlock() == Blocks.END_STONE)
                         {
-                            BlockChorusFlower.generatePlant(this.world, blockpos.add(l, k1 + 1, i1), this.rand, 8);
+                            BlockChorusFlower.generatePlant(this.worldObj, blockpos.add(l, k1 + 1, i1), this.rand, 8);
                         }
                     }
                 }
@@ -390,19 +390,19 @@ public class ChunkProviderEnd implements IChunkGenerator
                 {
                     int l1 = this.rand.nextInt(16) + 8;
                     int i2 = this.rand.nextInt(16) + 8;
-                    int j2 = this.world.getHeight(blockpos.add(l1, 0, i2)).getY();
+                    int j2 = this.worldObj.getHeight(blockpos.add(l1, 0, i2)).getY();
 
                     if (j2 > 0)
                     {
                         int k2 = j2 + 3 + this.rand.nextInt(7);
                         BlockPos blockpos1 = blockpos.add(l1, k2, i2);
-                        (new WorldGenEndGateway()).generate(this.world, this.rand, blockpos1);
-                        TileEntity tileentity = this.world.getTileEntity(blockpos1);
+                        (new WorldGenEndGateway()).generate(this.worldObj, this.rand, blockpos1);
+                        TileEntity tileentity = this.worldObj.getTileEntity(blockpos1);
 
                         if (tileentity instanceof TileEntityEndGateway)
                         {
                             TileEntityEndGateway tileentityendgateway = (TileEntityEndGateway)tileentity;
-                            tileentityendgateway.setExactPosition(this.spawnPoint);
+                            tileentityendgateway.func_190603_b(this.field_191061_n);
                         }
                     }
                 }
@@ -419,7 +419,7 @@ public class ChunkProviderEnd implements IChunkGenerator
 
     public List<Biome.SpawnListEntry> getPossibleCreatures(EnumCreatureType creatureType, BlockPos pos)
     {
-        return this.world.getBiome(pos).getSpawnableList(creatureType);
+        return this.worldObj.getBiome(pos).getSpawnableList(creatureType);
     }
 
     @Nullable

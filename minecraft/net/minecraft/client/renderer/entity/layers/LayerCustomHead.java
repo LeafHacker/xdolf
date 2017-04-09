@@ -34,7 +34,7 @@ public class LayerCustomHead implements LayerRenderer<EntityLivingBase>
     {
         ItemStack itemstack = entitylivingbaseIn.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
 
-        if (!itemstack.isEmpty())
+        if (!itemstack.func_190926_b())
         {
             Item item = itemstack.getItem();
             Minecraft minecraft = Minecraft.getMinecraft();

@@ -52,7 +52,7 @@ public class BlockTNT extends Block
      * change. Cases may include when redstone power is updated, cactus blocks popping off due to a neighboring solid
      * block, etc.
      */
-    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos)
+    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos p_189540_5_)
     {
         if (worldIn.isBlockPowered(pos))
         {
@@ -70,7 +70,7 @@ public class BlockTNT extends Block
         {
             EntityTNTPrimed entitytntprimed = new EntityTNTPrimed(worldIn, (double)((float)pos.getX() + 0.5F), (double)pos.getY(), (double)((float)pos.getZ() + 0.5F), explosionIn.getExplosivePlacedBy());
             entitytntprimed.setFuse((short)(worldIn.rand.nextInt(entitytntprimed.getFuse() / 4) + entitytntprimed.getFuse() / 8));
-            worldIn.spawnEntity(entitytntprimed);
+            worldIn.spawnEntityInWorld(entitytntprimed);
         }
     }
 
@@ -89,17 +89,17 @@ public class BlockTNT extends Block
             if (((Boolean)state.getValue(EXPLODE)).booleanValue())
             {
                 EntityTNTPrimed entitytntprimed = new EntityTNTPrimed(worldIn, (double)((float)pos.getX() + 0.5F), (double)pos.getY(), (double)((float)pos.getZ() + 0.5F), igniter);
-                worldIn.spawnEntity(entitytntprimed);
+                worldIn.spawnEntityInWorld(entitytntprimed);
                 worldIn.playSound((EntityPlayer)null, entitytntprimed.posX, entitytntprimed.posY, entitytntprimed.posZ, SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
             }
         }
     }
 
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing heldItem, float side, float hitX, float hitY)
     {
         ItemStack itemstack = playerIn.getHeldItem(hand);
 
-        if (!itemstack.isEmpty() && (itemstack.getItem() == Items.FLINT_AND_STEEL || itemstack.getItem() == Items.FIRE_CHARGE))
+        if (!itemstack.func_190926_b() && (itemstack.getItem() == Items.FLINT_AND_STEEL || itemstack.getItem() == Items.FIRE_CHARGE))
         {
             this.explode(worldIn, pos, state.withProperty(EXPLODE, Boolean.valueOf(true)), playerIn);
             worldIn.setBlockState(pos, Blocks.AIR.getDefaultState(), 11);
@@ -110,14 +110,14 @@ public class BlockTNT extends Block
             }
             else if (!playerIn.capabilities.isCreativeMode)
             {
-                itemstack.shrink(1);
+                itemstack.func_190918_g(1);
             }
 
             return true;
         }
         else
         {
-            return super.onBlockActivated(worldIn, pos, state, playerIn, hand, facing, hitX, hitY, hitZ);
+            return super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY);
         }
     }
 

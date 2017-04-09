@@ -17,7 +17,7 @@ import net.minecraft.util.text.TextFormatting;
 
 public class CommandMessage extends CommandBase
 {
-    public List<String> getAliases()
+    public List<String> getCommandAliases()
     {
         return Arrays.<String>asList(new String[] {"w", "msg"});
     }
@@ -25,7 +25,7 @@ public class CommandMessage extends CommandBase
     /**
      * Gets the name of the command
      */
-    public String getName()
+    public String getCommandName()
     {
         return "tell";
     }
@@ -41,7 +41,7 @@ public class CommandMessage extends CommandBase
     /**
      * Gets the usage string for the command.
      */
-    public String getUsage(ICommandSender sender)
+    public String getCommandUsage(ICommandSender sender)
     {
         return "commands.message.usage";
     }
@@ -70,15 +70,15 @@ public class CommandMessage extends CommandBase
                 TextComponentTranslation textcomponenttranslation1 = new TextComponentTranslation("commands.message.display.outgoing", new Object[] {entityplayer.getDisplayName(), itextcomponent.createCopy()});
                 textcomponenttranslation.getStyle().setColor(TextFormatting.GRAY).setItalic(Boolean.valueOf(true));
                 textcomponenttranslation1.getStyle().setColor(TextFormatting.GRAY).setItalic(Boolean.valueOf(true));
-                entityplayer.sendMessage(textcomponenttranslation);
-                sender.sendMessage(textcomponenttranslation1);
+                entityplayer.addChatMessage(textcomponenttranslation);
+                sender.addChatMessage(textcomponenttranslation1);
             }
         }
     }
 
-    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
+    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
     {
-        return getListOfStringsMatchingLastWord(args, server.getOnlinePlayerNames());
+        return getListOfStringsMatchingLastWord(args, server.getAllUsernames());
     }
 
     /**

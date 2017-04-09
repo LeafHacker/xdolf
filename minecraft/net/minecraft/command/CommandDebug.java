@@ -28,7 +28,7 @@ public class CommandDebug extends CommandBase
     /**
      * Gets the name of the command
      */
-    public String getName()
+    public String getCommandName()
     {
         return "debug";
     }
@@ -44,7 +44,7 @@ public class CommandDebug extends CommandBase
     /**
      * Gets the usage string for the command.
      */
-    public String getUsage(ICommandSender sender)
+    public String getCommandUsage(ICommandSender sender)
     {
         return "commands.debug.usage";
     }
@@ -187,7 +187,7 @@ public class CommandDebug extends CommandBase
         }
     }
 
-    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
+    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
     {
         return args.length == 1 ? getListOfStringsMatchingLastWord(args, new String[] {"start", "stop"}): Collections.<String>emptyList();
     }

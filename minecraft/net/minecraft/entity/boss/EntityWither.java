@@ -70,7 +70,7 @@ public class EntityWither extends EntityMob implements IRangedAttackMob
     {
         public boolean apply(@Nullable Entity p_apply_1_)
         {
-            return p_apply_1_ instanceof EntityLivingBase && ((EntityLivingBase)p_apply_1_).getCreatureAttribute() != EnumCreatureAttribute.UNDEAD && ((EntityLivingBase)p_apply_1_).attackable();
+            return p_apply_1_ instanceof EntityLivingBase && ((EntityLivingBase)p_apply_1_).getCreatureAttribute() != EnumCreatureAttribute.UNDEAD && ((EntityLivingBase)p_apply_1_).func_190631_cK();
         }
     };
 
@@ -131,6 +131,15 @@ public class EntityWither extends EntityMob implements IRangedAttackMob
         {
             this.bossInfo.setName(this.getDisplayName());
         }
+    }
+
+    /**
+     * Sets the custom name tag for this entity
+     */
+    public void setCustomNameTag(String name)
+    {
+        super.setCustomNameTag(name);
+        this.bossInfo.setName(this.getDisplayName());
     }
 
     protected SoundEvent getAmbientSound()
@@ -529,11 +538,13 @@ public class EntityWither extends EntityMob implements IRangedAttackMob
         entitywitherskull.posY = d1;
         entitywitherskull.posX = d0;
         entitywitherskull.posZ = d2;
-        this.world.spawnEntity(entitywitherskull);
+        this.world.spawnEntityInWorld(entitywitherskull);
     }
 
     /**
      * Attack the specified entity using a ranged attack.
+     *  
+     * @param distanceFactor How far the target is, normalized and clamped between 0.1 and 1.0
      */
     public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor)
     {
@@ -549,9 +560,9 @@ public class EntityWither extends EntityMob implements IRangedAttackMob
         {
             return false;
         }
-        else if (source != DamageSource.DROWN && !(source.getEntity() instanceof EntityWither))
+        else if (source != DamageSource.drown && !(source.getEntity() instanceof EntityWither))
         {
-            if (this.getInvulTime() > 0 && source != DamageSource.OUT_OF_WORLD)
+            if (this.getInvulTime() > 0 && source != DamageSource.outOfWorld)
             {
                 return false;
             }

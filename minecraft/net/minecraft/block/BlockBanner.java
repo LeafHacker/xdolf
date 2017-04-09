@@ -93,13 +93,13 @@ public class BlockBanner extends BlockContainer
     private ItemStack getTileDataItemStack(World worldIn, BlockPos pos)
     {
         TileEntity tileentity = worldIn.getTileEntity(pos);
-        return tileentity instanceof TileEntityBanner ? ((TileEntityBanner)tileentity).getItem() : ItemStack.EMPTY;
+        return tileentity instanceof TileEntityBanner ? ((TileEntityBanner)tileentity).func_190615_l() : ItemStack.field_190927_a;
     }
 
     public ItemStack getItem(World worldIn, BlockPos pos, IBlockState state)
     {
         ItemStack itemstack = this.getTileDataItemStack(worldIn, pos);
-        return itemstack.isEmpty() ? new ItemStack(Items.BANNER) : itemstack;
+        return itemstack.func_190926_b() ? new ItemStack(Items.BANNER) : itemstack;
     }
 
     /**
@@ -109,7 +109,7 @@ public class BlockBanner extends BlockContainer
     {
         ItemStack itemstack = this.getTileDataItemStack(worldIn, pos);
 
-        if (itemstack.isEmpty())
+        if (itemstack.func_190926_b())
         {
             super.dropBlockAsItemWithChance(worldIn, pos, state, chance, fortune);
         }
@@ -129,7 +129,7 @@ public class BlockBanner extends BlockContainer
         if (te instanceof TileEntityBanner)
         {
             TileEntityBanner tileentitybanner = (TileEntityBanner)te;
-            ItemStack itemstack = tileentitybanner.getItem();
+            ItemStack itemstack = tileentitybanner.func_190615_l();
             spawnAsEntity(worldIn, pos, itemstack);
         }
         else
@@ -179,7 +179,7 @@ public class BlockBanner extends BlockContainer
             }
         }
 
-        public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos)
+        public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos p_189540_5_)
         {
             EnumFacing enumfacing = (EnumFacing)state.getValue(FACING);
 
@@ -189,7 +189,7 @@ public class BlockBanner extends BlockContainer
                 worldIn.setBlockToAir(pos);
             }
 
-            super.neighborChanged(state, worldIn, pos, blockIn, fromPos);
+            super.neighborChanged(state, worldIn, pos, blockIn, p_189540_5_);
         }
 
         public IBlockState getStateFromMeta(int meta)
@@ -237,7 +237,7 @@ public class BlockBanner extends BlockContainer
             return state.withProperty(ROTATION, Integer.valueOf(mirrorIn.mirrorRotation(((Integer)state.getValue(ROTATION)).intValue(), 16)));
         }
 
-        public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos)
+        public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos p_189540_5_)
         {
             if (!worldIn.getBlockState(pos.down()).getMaterial().isSolid())
             {
@@ -245,7 +245,7 @@ public class BlockBanner extends BlockContainer
                 worldIn.setBlockToAir(pos);
             }
 
-            super.neighborChanged(state, worldIn, pos, blockIn, fromPos);
+            super.neighborChanged(state, worldIn, pos, blockIn, p_189540_5_);
         }
 
         public IBlockState getStateFromMeta(int meta)

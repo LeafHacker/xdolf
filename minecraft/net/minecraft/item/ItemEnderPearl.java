@@ -19,26 +19,26 @@ public class ItemEnderPearl extends Item
         this.setCreativeTab(CreativeTabs.MISC);
     }
 
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
+    public ActionResult<ItemStack> onItemRightClick(World itemStackIn, EntityPlayer worldIn, EnumHand playerIn)
     {
-        ItemStack itemstack = playerIn.getHeldItem(handIn);
+        ItemStack itemstack = worldIn.getHeldItem(playerIn);
 
-        if (!playerIn.capabilities.isCreativeMode)
+        if (!worldIn.capabilities.isCreativeMode)
         {
-            itemstack.shrink(1);
+            itemstack.func_190918_g(1);
         }
 
-        worldIn.playSound((EntityPlayer)null, playerIn.posX, playerIn.posY, playerIn.posZ, SoundEvents.ENTITY_ENDERPEARL_THROW, SoundCategory.NEUTRAL, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
-        playerIn.getCooldownTracker().setCooldown(this, 20);
+        itemStackIn.playSound((EntityPlayer)null, worldIn.posX, worldIn.posY, worldIn.posZ, SoundEvents.ENTITY_ENDERPEARL_THROW, SoundCategory.NEUTRAL, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+        worldIn.getCooldownTracker().setCooldown(this, 20);
 
-        if (!worldIn.isRemote)
+        if (!itemStackIn.isRemote)
         {
-            EntityEnderPearl entityenderpearl = new EntityEnderPearl(worldIn, playerIn);
-            entityenderpearl.setHeadingFromThrower(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.0F);
-            worldIn.spawnEntity(entityenderpearl);
+            EntityEnderPearl entityenderpearl = new EntityEnderPearl(itemStackIn, worldIn);
+            entityenderpearl.setHeadingFromThrower(worldIn, worldIn.rotationPitch, worldIn.rotationYaw, 0.0F, 1.5F, 1.0F);
+            itemStackIn.spawnEntityInWorld(entityenderpearl);
         }
 
-        playerIn.addStat(StatList.getObjectUseStats(this));
+        worldIn.addStat(StatList.getObjectUseStats(this));
         return new ActionResult(EnumActionResult.SUCCESS, itemstack);
     }
 }

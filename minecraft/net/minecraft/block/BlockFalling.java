@@ -38,7 +38,7 @@ public class BlockFalling extends Block
      * change. Cases may include when redstone power is updated, cactus blocks popping off due to a neighboring solid
      * block, etc.
      */
-    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos)
+    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos p_189540_5_)
     {
         worldIn.scheduleUpdate(pos, this, this.tickRate(worldIn));
     }
@@ -63,7 +63,7 @@ public class BlockFalling extends Block
                 {
                     EntityFallingBlock entityfallingblock = new EntityFallingBlock(worldIn, (double)pos.getX() + 0.5D, (double)pos.getY(), (double)pos.getZ() + 0.5D, worldIn.getBlockState(pos));
                     this.onStartFalling(entityfallingblock);
-                    worldIn.spawnEntity(entityfallingblock);
+                    worldIn.spawnEntityInWorld(entityfallingblock);
                 }
             }
             else
@@ -107,7 +107,7 @@ public class BlockFalling extends Block
     {
     }
 
-    public void onBroken(World p_190974_1_, BlockPos p_190974_2_)
+    public void func_190974_b(World p_190974_1_, BlockPos p_190974_2_)
     {
     }
 

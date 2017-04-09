@@ -15,7 +15,7 @@ public class CommandEnchant extends CommandBase
     /**
      * Gets the name of the command
      */
-    public String getName()
+    public String getCommandName()
     {
         return "enchant";
     }
@@ -31,7 +31,7 @@ public class CommandEnchant extends CommandBase
     /**
      * Gets the usage string for the command.
      */
-    public String getUsage(ICommandSender sender)
+    public String getCommandUsage(ICommandSender sender)
     {
         return "commands.enchant.usage";
     }
@@ -69,7 +69,7 @@ public class CommandEnchant extends CommandBase
                 int i = 1;
                 ItemStack itemstack = entitylivingbase.getHeldItemMainhand();
 
-                if (itemstack.isEmpty())
+                if (itemstack.func_190926_b())
                 {
                     throw new CommandException("commands.enchant.noItem", new Object[0]);
                 }
@@ -98,7 +98,7 @@ public class CommandEnchant extends CommandBase
                                 {
                                     Enchantment enchantment1 = Enchantment.getEnchantmentByID(k);
 
-                                    if (!enchantment.canApplyTogether(enchantment1))
+                                    if (!enchantment.func_191560_c(enchantment1))
                                     {
                                         throw new CommandException("commands.enchant.cantCombine", new Object[] {enchantment.getTranslatedName(i), enchantment1.getTranslatedName(nbttaglist.getCompoundTagAt(j).getShort("lvl"))});
                                     }
@@ -115,9 +115,9 @@ public class CommandEnchant extends CommandBase
         }
     }
 
-    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
+    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
     {
-        return args.length == 1 ? getListOfStringsMatchingLastWord(args, server.getOnlinePlayerNames()) : (args.length == 2 ? getListOfStringsMatchingLastWord(args, Enchantment.REGISTRY.getKeys()) : Collections.<String>emptyList());
+        return args.length == 1 ? getListOfStringsMatchingLastWord(args, server.getAllUsernames()) : (args.length == 2 ? getListOfStringsMatchingLastWord(args, Enchantment.REGISTRY.getKeys()) : Collections.<String>emptyList());
     }
 
     /**

@@ -1,6 +1,7 @@
 package net.minecraft.src;
 
 import java.util.Arrays;
+import java.util.regex.Pattern;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagByte;
 import net.minecraft.nbt.NBTTagCompound;
@@ -19,6 +20,7 @@ public class NbtTagValue
     private String name = null;
     private int type = 0;
     private String value = null;
+    private int valueFormat = 0;
     private static final int TYPE_TEXT = 0;
     private static final int TYPE_PATTERN = 1;
     private static final int TYPE_IPATTERN = 2;
@@ -28,40 +30,50 @@ public class NbtTagValue
     private static final String PREFIX_IPATTERN = "ipattern:";
     private static final String PREFIX_REGEX = "regex:";
     private static final String PREFIX_IREGEX = "iregex:";
+    private static final int FORMAT_DEFAULT = 0;
+    private static final int FORMAT_HEX_COLOR = 1;
+    private static final String PREFIX_HEX_COLOR = "#";
+    private static final Pattern PATTERN_HEX_COLOR = Pattern.compile("^#[0-9a-f]{6}+$");
 
-    public NbtTagValue(String p_i63_1_, String p_i63_2_)
+    public NbtTagValue(String p_i66_1_, String p_i66_2_)
     {
-        String[] astring = Config.tokenize(p_i63_1_, ".");
+        String[] astring = Config.tokenize(p_i66_1_, ".");
         this.parents = (String[])Arrays.copyOfRange(astring, 0, astring.length - 1);
         this.name = astring[astring.length - 1];
 
-        if (p_i63_2_.startsWith("pattern:"))
+        if (p_i66_2_.startsWith("pattern:"))
         {
             this.type = 1;
-            p_i63_2_ = p_i63_2_.substring("pattern:".length());
+            p_i66_2_ = p_i66_2_.substring("pattern:".length());
         }
-        else if (p_i63_2_.startsWith("ipattern:"))
+        else if (p_i66_2_.startsWith("ipattern:"))
         {
             this.type = 2;
-            p_i63_2_ = p_i63_2_.substring("ipattern:".length()).toLowerCase();
+            p_i66_2_ = p_i66_2_.substring("ipattern:".length()).toLowerCase();
         }
-        else if (p_i63_2_.startsWith("regex:"))
+        else if (p_i66_2_.startsWith("regex:"))
         {
             this.type = 3;
-            p_i63_2_ = p_i63_2_.substring("regex:".length());
+            p_i66_2_ = p_i66_2_.substring("regex:".length());
         }
-        else if (p_i63_2_.startsWith("iregex:"))
+        else if (p_i66_2_.startsWith("iregex:"))
         {
             this.type = 4;
-            p_i63_2_ = p_i63_2_.substring("iregex:".length()).toLowerCase();
+            p_i66_2_ = p_i66_2_.substring("iregex:".length()).toLowerCase();
         }
         else
         {
             this.type = 0;
         }
 
-        p_i63_2_ = StringEscapeUtils.unescapeJava(p_i63_2_);
-        this.value = p_i63_2_;
+        p_i66_2_ = StringEscapeUtils.unescapeJava(p_i66_2_);
+
+        if (this.type == 0 && PATTERN_HEX_COLOR.matcher(p_i66_2_).matches())
+        {
+            this.valueFormat = 1;
+        }
+
+        this.value = p_i66_2_;
     }
 
     public boolean matches(NBTTagCompound p_matches_1_)
@@ -155,8 +167,16 @@ public class NbtTagValue
         else if (p_getChildTag_0_ instanceof NBTTagList)
         {
             NBTTagList nbttaglist = (NBTTagList)p_getChildTag_0_;
-            int i = Config.parseInt(p_getChildTag_1_, -1);
-            return i < 0 ? null : nbttaglist.get(i);
+
+            if (p_getChildTag_1_.equals("count"))
+            {
+                return new NBTTagInt(nbttaglist.tagCount());
+            }
+            else
+            {
+                int i = Config.parseInt(p_getChildTag_1_, -1);
+                return i < 0 ? null : nbttaglist.get(i);
+            }
         }
         else
         {
@@ -172,7 +192,7 @@ public class NbtTagValue
         }
         else
         {
-            String s = getValue(p_matches_1_);
+            String s = getNbtString(p_matches_1_, this.valueFormat);
 
             if (s == null)
             {
@@ -214,50 +234,50 @@ public class NbtTagValue
         return p_matchesRegex_1_.matches(p_matchesRegex_2_);
     }
 
-    private static String getValue(NBTBase p_getValue_0_)
+    private static String getNbtString(NBTBase p_getNbtString_0_, int p_getNbtString_1_)
     {
-        if (p_getValue_0_ == null)
+        if (p_getNbtString_0_ == null)
         {
             return null;
         }
-        else if (p_getValue_0_ instanceof NBTTagString)
+        else if (p_getNbtString_0_ instanceof NBTTagString)
         {
-            NBTTagString nbttagstring = (NBTTagString)p_getValue_0_;
+            NBTTagString nbttagstring = (NBTTagString)p_getNbtString_0_;
             return nbttagstring.getString();
         }
-        else if (p_getValue_0_ instanceof NBTTagInt)
+        else if (p_getNbtString_0_ instanceof NBTTagInt)
         {
-            NBTTagInt nbttagint = (NBTTagInt)p_getValue_0_;
-            return Integer.toString(nbttagint.getInt());
+            NBTTagInt nbttagint = (NBTTagInt)p_getNbtString_0_;
+            return p_getNbtString_1_ == 1 ? "#" + StrUtils.fillLeft(Integer.toHexString(nbttagint.getInt()), 6, '0') : Integer.toString(nbttagint.getInt());
         }
-        else if (p_getValue_0_ instanceof NBTTagByte)
+        else if (p_getNbtString_0_ instanceof NBTTagByte)
         {
-            NBTTagByte nbttagbyte = (NBTTagByte)p_getValue_0_;
+            NBTTagByte nbttagbyte = (NBTTagByte)p_getNbtString_0_;
             return Byte.toString(nbttagbyte.getByte());
         }
-        else if (p_getValue_0_ instanceof NBTTagShort)
+        else if (p_getNbtString_0_ instanceof NBTTagShort)
         {
-            NBTTagShort nbttagshort = (NBTTagShort)p_getValue_0_;
+            NBTTagShort nbttagshort = (NBTTagShort)p_getNbtString_0_;
             return Short.toString(nbttagshort.getShort());
         }
-        else if (p_getValue_0_ instanceof NBTTagLong)
+        else if (p_getNbtString_0_ instanceof NBTTagLong)
         {
-            NBTTagLong nbttaglong = (NBTTagLong)p_getValue_0_;
+            NBTTagLong nbttaglong = (NBTTagLong)p_getNbtString_0_;
             return Long.toString(nbttaglong.getLong());
         }
-        else if (p_getValue_0_ instanceof NBTTagFloat)
+        else if (p_getNbtString_0_ instanceof NBTTagFloat)
         {
-            NBTTagFloat nbttagfloat = (NBTTagFloat)p_getValue_0_;
+            NBTTagFloat nbttagfloat = (NBTTagFloat)p_getNbtString_0_;
             return Float.toString(nbttagfloat.getFloat());
         }
-        else if (p_getValue_0_ instanceof NBTTagDouble)
+        else if (p_getNbtString_0_ instanceof NBTTagDouble)
         {
-            NBTTagDouble nbttagdouble = (NBTTagDouble)p_getValue_0_;
+            NBTTagDouble nbttagdouble = (NBTTagDouble)p_getNbtString_0_;
             return Double.toString(nbttagdouble.getDouble());
         }
         else
         {
-            return p_getValue_0_.toString();
+            return p_getNbtString_0_.toString();
         }
     }
 

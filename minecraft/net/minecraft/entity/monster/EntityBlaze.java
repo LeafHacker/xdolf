@@ -11,6 +11,7 @@ import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntitySmallFireball;
 import net.minecraft.init.SoundEvents;
@@ -137,7 +138,7 @@ public class EntityBlaze extends EntityMob
     {
         if (this.isWet())
         {
-            this.attackEntityFrom(DamageSource.DROWN, 1.0F);
+            this.attackEntityFrom(DamageSource.drown, 1.0F);
         }
 
         --this.heightOffsetUpdateTime;
@@ -250,7 +251,7 @@ public class EntityBlaze extends EntityMob
 
                 this.blaze.getMoveHelper().setMoveTo(entitylivingbase.posX, entitylivingbase.posY, entitylivingbase.posZ, 1.0D);
             }
-            else if (d0 < 256.0D)
+            else if (d0 < this.func_191523_f() * this.func_191523_f())
             {
                 double d1 = entitylivingbase.posX - this.blaze.posX;
                 double d2 = entitylivingbase.getEntityBoundingBox().minY + (double)(entitylivingbase.height / 2.0F) - (this.blaze.posY + (double)(this.blaze.height / 2.0F));
@@ -285,7 +286,7 @@ public class EntityBlaze extends EntityMob
                         {
                             EntitySmallFireball entitysmallfireball = new EntitySmallFireball(this.blaze.world, this.blaze, d1 + this.blaze.getRNG().nextGaussian() * (double)f, d2, d3 + this.blaze.getRNG().nextGaussian() * (double)f);
                             entitysmallfireball.posY = this.blaze.posY + (double)(this.blaze.height / 2.0F) + 0.5D;
-                            this.blaze.world.spawnEntity(entitysmallfireball);
+                            this.blaze.world.spawnEntityInWorld(entitysmallfireball);
                         }
                     }
                 }
@@ -299,6 +300,12 @@ public class EntityBlaze extends EntityMob
             }
 
             super.updateTask();
+        }
+
+        private double func_191523_f()
+        {
+            IAttributeInstance iattributeinstance = this.blaze.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE);
+            return iattributeinstance == null ? 16.0D : iattributeinstance.getAttributeValue();
         }
     }
 }

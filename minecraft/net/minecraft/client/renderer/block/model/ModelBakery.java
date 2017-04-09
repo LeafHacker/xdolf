@@ -155,13 +155,13 @@ public class ModelBakery
     private void loadVariantItemModels()
     {
         this.variants.put(MODEL_MISSING, new VariantList(Lists.newArrayList(new Variant[] {new Variant(new ResourceLocation(MODEL_MISSING.getResourcePath()), ModelRotation.X0_Y0, false, 1)})));
-        this.loadStaticModels();
+        this.func_191401_d();
         this.loadVariantModels();
         this.loadMultipartVariantModels();
         this.loadItemModels();
     }
 
-    private void loadStaticModels()
+    private void func_191401_d()
     {
         ResourceLocation resourcelocation = new ResourceLocation("item_frame");
         ModelBlockDefinition modelblockdefinition = this.getModelBlockDefinition(resourcelocation);
@@ -435,6 +435,7 @@ public class ModelBakery
         this.variantNames.put(Item.getItemFromBlock(Blocks.OAK_FENCE), Lists.newArrayList(new String[] {"oak_fence"}));
         this.variantNames.put(Items.OAK_DOOR, Lists.newArrayList(new String[] {"oak_door"}));
         this.variantNames.put(Items.BOAT, Lists.newArrayList(new String[] {"oak_boat"}));
+        this.variantNames.put(Items.field_190929_cY, Lists.newArrayList(new String[] {"totem"}));
     }
 
     private List<String> getVariantNames(Item stack)

@@ -206,12 +206,14 @@ public class RenderGlobal implements IWorldEventListener, IResourceManagerReload
    private Long2ObjectMap<Chunk> worldChunkProviderMap = null;
    private int countLoadedChunksPrev = 0;
    private RenderEnv renderEnv;
-   public boolean renderDamagedTileEntities;
+   public boolean renderOverlayDamaged;
+   public boolean renderOverlayEyes;
    static Deque<RenderGlobal.ContainerLocalRenderInformation> renderInfoCache = new ArrayDeque();
 
    public RenderGlobal(Minecraft p_i1249_1_) {
       this.renderEnv = new RenderEnv(this.field_72769_h, Blocks.field_150350_a.func_176223_P(), new BlockPos(0, 0, 0));
-      this.renderDamagedTileEntities = false;
+      this.renderOverlayDamaged = false;
+      this.renderOverlayEyes = false;
       this.cloudRenderer = new CloudRenderer(p_i1249_1_);
       this.field_72777_q = p_i1249_1_;
       this.field_175010_j = p_i1249_1_.func_175598_ae();
@@ -810,7 +812,7 @@ public class RenderGlobal implements IWorldEventListener, IResourceManagerReload
             TileEntityRendererDispatcher.field_147556_a.drawBatch(i);
          }
 
-         this.renderDamagedTileEntities = true;
+         this.renderOverlayDamaged = true;
          this.func_180443_s();
 
          for(DestroyBlockProgress destroyblockprogress : this.field_72738_E.values()) {
@@ -840,7 +842,7 @@ public class RenderGlobal implements IWorldEventListener, IResourceManagerReload
          }
 
          this.func_174969_t();
-         this.renderDamagedTileEntities = false;
+         this.renderOverlayDamaged = false;
          this.field_72777_q.field_71460_t.func_175072_h();
          this.field_72777_q.field_71424_I.func_76319_b();
       }
@@ -1294,6 +1296,7 @@ public class RenderGlobal implements IWorldEventListener, IResourceManagerReload
       if(Config.isShaders() && Keyboard.isKeyDown(61) && Keyboard.isKeyDown(19)) {
          Shaders.uninit();
          Shaders.loadShaderPack();
+         Reflector.Minecraft_actionKeyF3.setValue(this.field_72777_q, Boolean.TRUE);
       }
 
       ++this.field_72773_u;
@@ -1499,7 +1502,7 @@ public class RenderGlobal implements IWorldEventListener, IResourceManagerReload
          float f15 = 1.0F - this.field_72769_h.func_72867_j(p_174976_1_);
          GlStateManager.func_179131_c(1.0F, 1.0F, 1.0F, f15);
          GlStateManager.func_179114_b(-90.0F, 0.0F, 1.0F, 0.0F);
-         CustomSky.renderSky(this.field_72769_h, this.field_72770_i, this.field_72769_h.func_72826_c(p_174976_1_), f15);
+         CustomSky.renderSky(this.field_72769_h, this.field_72770_i, p_174976_1_);
          if(flag) {
             Shaders.preCelestialRotate();
          }
@@ -1643,7 +1646,7 @@ public class RenderGlobal implements IWorldEventListener, IResourceManagerReload
 
    }
 
-   public void func_180447_b(float p_180447_1_, int p_180447_2_) {
+   public void func_180447_b(float p_180447_1_, int p_180447_2_, double p_180447_3_, double p_180447_5_, double p_180447_7_) {
       if(!Config.isCloudsOff()) {
          if(Reflector.ForgeWorldProvider_getCloudRenderer.exists()) {
             WorldProvider worldprovider = this.field_72777_q.field_71441_e.field_73011_w;
@@ -1660,55 +1663,53 @@ public class RenderGlobal implements IWorldEventListener, IResourceManagerReload
             }
 
             if(Config.isCloudsFancy()) {
-               this.func_180445_c(p_180447_1_, p_180447_2_);
+               this.func_180445_c(p_180447_1_, p_180447_2_, p_180447_3_, p_180447_5_, p_180447_7_);
             } else {
-               this.cloudRenderer.prepareToRender(false, this.field_72773_u, p_180447_1_);
+               float f9 = p_180447_1_;
                p_180447_1_ = 0.0F;
                GlStateManager.func_179129_p();
-               Entity entity = this.field_72777_q.func_175606_aa();
-               float f = (float)(entity.field_70137_T + (entity.field_70163_u - entity.field_70137_T) * (double)p_180447_1_);
-               int i = 32;
-               int j = 8;
+               int j1 = 32;
+               int i = 8;
                Tessellator tessellator = Tessellator.func_178181_a();
                VertexBuffer vertexbuffer = tessellator.func_178180_c();
                this.field_72770_i.func_110577_a(field_110925_j);
                GlStateManager.func_179147_l();
                GlStateManager.func_187428_a(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+               Vec3d vec3d = this.field_72769_h.func_72824_f(p_180447_1_);
+               float f = (float)vec3d.field_72450_a;
+               float f1 = (float)vec3d.field_72448_b;
+               float f2 = (float)vec3d.field_72449_c;
+               this.cloudRenderer.prepareToRender(false, this.field_72773_u, f9, vec3d);
                if(this.cloudRenderer.shouldUpdateGlList()) {
                   this.cloudRenderer.startUpdateGlList();
-                  Vec3d vec3d = this.field_72769_h.func_72824_f(p_180447_1_);
-                  float f1 = (float)vec3d.field_72450_a;
-                  float f2 = (float)vec3d.field_72448_b;
-                  float f3 = (float)vec3d.field_72449_c;
                   if(p_180447_2_ != 2) {
-                     float f4 = (f1 * 30.0F + f2 * 59.0F + f3 * 11.0F) / 100.0F;
-                     float f5 = (f1 * 30.0F + f2 * 70.0F) / 100.0F;
-                     float f6 = (f1 * 30.0F + f3 * 70.0F) / 100.0F;
+                     float f3 = (f * 30.0F + f1 * 59.0F + f2 * 11.0F) / 100.0F;
+                     float f4 = (f * 30.0F + f1 * 70.0F) / 100.0F;
+                     float f5 = (f * 30.0F + f2 * 70.0F) / 100.0F;
+                     f = f3;
                      f1 = f4;
                      f2 = f5;
-                     f3 = f6;
                   }
 
                   float f10 = 4.8828125E-4F;
                   double d2 = (double)((float)this.field_72773_u + p_180447_1_);
-                  double d0 = entity.field_70169_q + (entity.field_70165_t - entity.field_70169_q) * (double)p_180447_1_ + d2 * 0.029999999329447746D;
-                  double d1 = entity.field_70166_s + (entity.field_70161_v - entity.field_70166_s) * (double)p_180447_1_;
-                  int k = MathHelper.func_76128_c(d0 / 2048.0D);
-                  int l = MathHelper.func_76128_c(d1 / 2048.0D);
-                  d0 = d0 - (double)(k * 2048);
-                  d1 = d1 - (double)(l * 2048);
-                  float f7 = this.field_72769_h.field_73011_w.func_76571_f() - f + 0.33F;
-                  f7 = f7 + this.field_72777_q.field_71474_y.ofCloudsHeight * 128.0F;
-                  float f8 = (float)(d0 * 4.8828125E-4D);
-                  float f9 = (float)(d1 * 4.8828125E-4D);
+                  double d0 = p_180447_3_ + d2 * 0.029999999329447746D;
+                  int j = MathHelper.func_76128_c(d0 / 2048.0D);
+                  int k = MathHelper.func_76128_c(p_180447_7_ / 2048.0D);
+                  d0 = d0 - (double)(j * 2048);
+                  double d1 = p_180447_7_ - (double)(k * 2048);
+                  float f6 = this.field_72769_h.field_73011_w.func_76571_f() - (float)p_180447_5_ + 0.33F;
+                  f6 = f6 + this.field_72777_q.field_71474_y.ofCloudsHeight * 128.0F;
+                  float f7 = (float)(d0 * 4.8828125E-4D);
+                  float f8 = (float)(d1 * 4.8828125E-4D);
                   vertexbuffer.func_181668_a(7, DefaultVertexFormats.field_181709_i);
 
-                  for(int i1 = -256; i1 < 256; i1 += 32) {
-                     for(int j1 = -256; j1 < 256; j1 += 32) {
-                        vertexbuffer.func_181662_b((double)(i1 + 0), (double)f7, (double)(j1 + 32)).func_187315_a((double)((float)(i1 + 0) * 4.8828125E-4F + f8), (double)((float)(j1 + 32) * 4.8828125E-4F + f9)).func_181666_a(f1, f2, f3, 0.8F).func_181675_d();
-                        vertexbuffer.func_181662_b((double)(i1 + 32), (double)f7, (double)(j1 + 32)).func_187315_a((double)((float)(i1 + 32) * 4.8828125E-4F + f8), (double)((float)(j1 + 32) * 4.8828125E-4F + f9)).func_181666_a(f1, f2, f3, 0.8F).func_181675_d();
-                        vertexbuffer.func_181662_b((double)(i1 + 32), (double)f7, (double)(j1 + 0)).func_187315_a((double)((float)(i1 + 32) * 4.8828125E-4F + f8), (double)((float)(j1 + 0) * 4.8828125E-4F + f9)).func_181666_a(f1, f2, f3, 0.8F).func_181675_d();
-                        vertexbuffer.func_181662_b((double)(i1 + 0), (double)f7, (double)(j1 + 0)).func_187315_a((double)((float)(i1 + 0) * 4.8828125E-4F + f8), (double)((float)(j1 + 0) * 4.8828125E-4F + f9)).func_181666_a(f1, f2, f3, 0.8F).func_181675_d();
+                  for(int l = -256; l < 256; l += 32) {
+                     for(int i1 = -256; i1 < 256; i1 += 32) {
+                        vertexbuffer.func_181662_b((double)(l + 0), (double)f6, (double)(i1 + 32)).func_187315_a((double)((float)(l + 0) * 4.8828125E-4F + f7), (double)((float)(i1 + 32) * 4.8828125E-4F + f8)).func_181666_a(f, f1, f2, 0.8F).func_181675_d();
+                        vertexbuffer.func_181662_b((double)(l + 32), (double)f6, (double)(i1 + 32)).func_187315_a((double)((float)(l + 32) * 4.8828125E-4F + f7), (double)((float)(i1 + 32) * 4.8828125E-4F + f8)).func_181666_a(f, f1, f2, 0.8F).func_181675_d();
+                        vertexbuffer.func_181662_b((double)(l + 32), (double)f6, (double)(i1 + 0)).func_187315_a((double)((float)(l + 32) * 4.8828125E-4F + f7), (double)((float)(i1 + 0) * 4.8828125E-4F + f8)).func_181666_a(f, f1, f2, 0.8F).func_181675_d();
+                        vertexbuffer.func_181662_b((double)(l + 0), (double)f6, (double)(i1 + 0)).func_187315_a((double)((float)(l + 0) * 4.8828125E-4F + f7), (double)((float)(i1 + 0) * 4.8828125E-4F + f8)).func_181666_a(f, f1, f2, 0.8F).func_181675_d();
                      }
                   }
 
@@ -1734,21 +1735,18 @@ public class RenderGlobal implements IWorldEventListener, IResourceManagerReload
       return false;
    }
 
-   private void func_180445_c(float p_180445_1_, int p_180445_2_) {
-      this.cloudRenderer.prepareToRender(true, this.field_72773_u, p_180445_1_);
-      p_180445_1_ = 0.0F;
+   private void func_180445_c(float p_180445_1_, int p_180445_2_, double p_180445_3_, double p_180445_5_, double p_180445_7_) {
+      float f25 = 0.0F;
       GlStateManager.func_179129_p();
-      Entity entity = this.field_72777_q.func_175606_aa();
-      float f = (float)(entity.field_70137_T + (entity.field_70163_u - entity.field_70137_T) * (double)p_180445_1_);
       Tessellator tessellator = Tessellator.func_178181_a();
       VertexBuffer vertexbuffer = tessellator.func_178180_c();
-      float f1 = 12.0F;
-      float f2 = 4.0F;
-      double d0 = (double)((float)this.field_72773_u + p_180445_1_);
-      double d1 = (entity.field_70169_q + (entity.field_70165_t - entity.field_70169_q) * (double)p_180445_1_ + d0 * 0.029999999329447746D) / 12.0D;
-      double d2 = (entity.field_70166_s + (entity.field_70161_v - entity.field_70166_s) * (double)p_180445_1_) / 12.0D + 0.33000001311302185D;
-      float f3 = this.field_72769_h.field_73011_w.func_76571_f() - f + 0.33F;
-      f3 = f3 + this.field_72777_q.field_71474_y.ofCloudsHeight * 128.0F;
+      float f = 12.0F;
+      float f1 = 4.0F;
+      double d0 = (double)((float)this.field_72773_u + f25);
+      double d1 = (p_180445_3_ + d0 * 0.029999999329447746D) / 12.0D;
+      double d2 = p_180445_7_ / 12.0D + 0.33000001311302185D;
+      float f2 = this.field_72769_h.field_73011_w.func_76571_f() - (float)p_180445_5_ + 0.33F;
+      f2 = f2 + this.field_72777_q.field_71474_y.ofCloudsHeight * 128.0F;
       int i = MathHelper.func_76128_c(d1 / 2048.0D);
       int j = MathHelper.func_76128_c(d2 / 2048.0D);
       d1 = d1 - (double)(i * 2048);
@@ -1756,36 +1754,37 @@ public class RenderGlobal implements IWorldEventListener, IResourceManagerReload
       this.field_72770_i.func_110577_a(field_110925_j);
       GlStateManager.func_179147_l();
       GlStateManager.func_187428_a(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-      Vec3d vec3d = this.field_72769_h.func_72824_f(p_180445_1_);
-      float f4 = (float)vec3d.field_72450_a;
-      float f5 = (float)vec3d.field_72448_b;
-      float f6 = (float)vec3d.field_72449_c;
+      Vec3d vec3d = this.field_72769_h.func_72824_f(f25);
+      float f3 = (float)vec3d.field_72450_a;
+      float f4 = (float)vec3d.field_72448_b;
+      float f5 = (float)vec3d.field_72449_c;
+      this.cloudRenderer.prepareToRender(true, this.field_72773_u, p_180445_1_, vec3d);
       if(p_180445_2_ != 2) {
-         float f7 = (f4 * 30.0F + f5 * 59.0F + f6 * 11.0F) / 100.0F;
-         float f8 = (f4 * 30.0F + f5 * 70.0F) / 100.0F;
-         float f9 = (f4 * 30.0F + f6 * 70.0F) / 100.0F;
+         float f6 = (f3 * 30.0F + f4 * 59.0F + f5 * 11.0F) / 100.0F;
+         float f7 = (f3 * 30.0F + f4 * 70.0F) / 100.0F;
+         float f8 = (f3 * 30.0F + f5 * 70.0F) / 100.0F;
+         f3 = f6;
          f4 = f7;
          f5 = f8;
-         f6 = f9;
       }
 
-      float f26 = f4 * 0.9F;
-      float f27 = f5 * 0.9F;
-      float f28 = f6 * 0.9F;
+      float f26 = f3 * 0.9F;
+      float f27 = f4 * 0.9F;
+      float f28 = f5 * 0.9F;
+      float f9 = f3 * 0.7F;
       float f10 = f4 * 0.7F;
       float f11 = f5 * 0.7F;
-      float f12 = f6 * 0.7F;
+      float f12 = f3 * 0.8F;
       float f13 = f4 * 0.8F;
       float f14 = f5 * 0.8F;
-      float f15 = f6 * 0.8F;
-      float f16 = 0.00390625F;
-      float f17 = (float)MathHelper.func_76128_c(d1) * 0.00390625F;
-      float f18 = (float)MathHelper.func_76128_c(d2) * 0.00390625F;
-      float f19 = (float)(d1 - (double)MathHelper.func_76128_c(d1));
-      float f20 = (float)(d2 - (double)MathHelper.func_76128_c(d2));
+      float f15 = 0.00390625F;
+      float f16 = (float)MathHelper.func_76128_c(d1) * 0.00390625F;
+      float f17 = (float)MathHelper.func_76128_c(d2) * 0.00390625F;
+      float f18 = (float)(d1 - (double)MathHelper.func_76128_c(d1));
+      float f19 = (float)(d2 - (double)MathHelper.func_76128_c(d2));
       int k = 8;
       int l = 4;
-      float f21 = 9.765625E-4F;
+      float f20 = 9.765625E-4F;
       GlStateManager.func_179152_a(12.0F, 1.0F, 12.0F);
 
       for(int i1 = 0; i1 < 2; ++i1) {
@@ -1813,57 +1812,57 @@ public class RenderGlobal implements IWorldEventListener, IResourceManagerReload
          for(int l1 = -3; l1 <= 4; ++l1) {
             for(int j1 = -3; j1 <= 4; ++j1) {
                vertexbuffer.func_181668_a(7, DefaultVertexFormats.field_181712_l);
-               float f22 = (float)(l1 * 8);
-               float f23 = (float)(j1 * 8);
+               float f21 = (float)(l1 * 8);
+               float f22 = (float)(j1 * 8);
+               float f23 = f21 - f18;
                float f24 = f22 - f19;
-               float f25 = f23 - f20;
-               if(f3 > -5.0F) {
-                  vertexbuffer.func_181662_b((double)(f24 + 0.0F), (double)(f3 + 0.0F), (double)(f25 + 8.0F)).func_187315_a((double)((f22 + 0.0F) * 0.00390625F + f17), (double)((f23 + 8.0F) * 0.00390625F + f18)).func_181666_a(f10, f11, f12, 0.8F).func_181663_c(0.0F, -1.0F, 0.0F).func_181675_d();
-                  vertexbuffer.func_181662_b((double)(f24 + 8.0F), (double)(f3 + 0.0F), (double)(f25 + 8.0F)).func_187315_a((double)((f22 + 8.0F) * 0.00390625F + f17), (double)((f23 + 8.0F) * 0.00390625F + f18)).func_181666_a(f10, f11, f12, 0.8F).func_181663_c(0.0F, -1.0F, 0.0F).func_181675_d();
-                  vertexbuffer.func_181662_b((double)(f24 + 8.0F), (double)(f3 + 0.0F), (double)(f25 + 0.0F)).func_187315_a((double)((f22 + 8.0F) * 0.00390625F + f17), (double)((f23 + 0.0F) * 0.00390625F + f18)).func_181666_a(f10, f11, f12, 0.8F).func_181663_c(0.0F, -1.0F, 0.0F).func_181675_d();
-                  vertexbuffer.func_181662_b((double)(f24 + 0.0F), (double)(f3 + 0.0F), (double)(f25 + 0.0F)).func_187315_a((double)((f22 + 0.0F) * 0.00390625F + f17), (double)((f23 + 0.0F) * 0.00390625F + f18)).func_181666_a(f10, f11, f12, 0.8F).func_181663_c(0.0F, -1.0F, 0.0F).func_181675_d();
+               if(f2 > -5.0F) {
+                  vertexbuffer.func_181662_b((double)(f23 + 0.0F), (double)(f2 + 0.0F), (double)(f24 + 8.0F)).func_187315_a((double)((f21 + 0.0F) * 0.00390625F + f16), (double)((f22 + 8.0F) * 0.00390625F + f17)).func_181666_a(f9, f10, f11, 0.8F).func_181663_c(0.0F, -1.0F, 0.0F).func_181675_d();
+                  vertexbuffer.func_181662_b((double)(f23 + 8.0F), (double)(f2 + 0.0F), (double)(f24 + 8.0F)).func_187315_a((double)((f21 + 8.0F) * 0.00390625F + f16), (double)((f22 + 8.0F) * 0.00390625F + f17)).func_181666_a(f9, f10, f11, 0.8F).func_181663_c(0.0F, -1.0F, 0.0F).func_181675_d();
+                  vertexbuffer.func_181662_b((double)(f23 + 8.0F), (double)(f2 + 0.0F), (double)(f24 + 0.0F)).func_187315_a((double)((f21 + 8.0F) * 0.00390625F + f16), (double)((f22 + 0.0F) * 0.00390625F + f17)).func_181666_a(f9, f10, f11, 0.8F).func_181663_c(0.0F, -1.0F, 0.0F).func_181675_d();
+                  vertexbuffer.func_181662_b((double)(f23 + 0.0F), (double)(f2 + 0.0F), (double)(f24 + 0.0F)).func_187315_a((double)((f21 + 0.0F) * 0.00390625F + f16), (double)((f22 + 0.0F) * 0.00390625F + f17)).func_181666_a(f9, f10, f11, 0.8F).func_181663_c(0.0F, -1.0F, 0.0F).func_181675_d();
                }
 
-               if(f3 <= 5.0F) {
-                  vertexbuffer.func_181662_b((double)(f24 + 0.0F), (double)(f3 + 4.0F - 9.765625E-4F), (double)(f25 + 8.0F)).func_187315_a((double)((f22 + 0.0F) * 0.00390625F + f17), (double)((f23 + 8.0F) * 0.00390625F + f18)).func_181666_a(f4, f5, f6, 0.8F).func_181663_c(0.0F, 1.0F, 0.0F).func_181675_d();
-                  vertexbuffer.func_181662_b((double)(f24 + 8.0F), (double)(f3 + 4.0F - 9.765625E-4F), (double)(f25 + 8.0F)).func_187315_a((double)((f22 + 8.0F) * 0.00390625F + f17), (double)((f23 + 8.0F) * 0.00390625F + f18)).func_181666_a(f4, f5, f6, 0.8F).func_181663_c(0.0F, 1.0F, 0.0F).func_181675_d();
-                  vertexbuffer.func_181662_b((double)(f24 + 8.0F), (double)(f3 + 4.0F - 9.765625E-4F), (double)(f25 + 0.0F)).func_187315_a((double)((f22 + 8.0F) * 0.00390625F + f17), (double)((f23 + 0.0F) * 0.00390625F + f18)).func_181666_a(f4, f5, f6, 0.8F).func_181663_c(0.0F, 1.0F, 0.0F).func_181675_d();
-                  vertexbuffer.func_181662_b((double)(f24 + 0.0F), (double)(f3 + 4.0F - 9.765625E-4F), (double)(f25 + 0.0F)).func_187315_a((double)((f22 + 0.0F) * 0.00390625F + f17), (double)((f23 + 0.0F) * 0.00390625F + f18)).func_181666_a(f4, f5, f6, 0.8F).func_181663_c(0.0F, 1.0F, 0.0F).func_181675_d();
+               if(f2 <= 5.0F) {
+                  vertexbuffer.func_181662_b((double)(f23 + 0.0F), (double)(f2 + 4.0F - 9.765625E-4F), (double)(f24 + 8.0F)).func_187315_a((double)((f21 + 0.0F) * 0.00390625F + f16), (double)((f22 + 8.0F) * 0.00390625F + f17)).func_181666_a(f3, f4, f5, 0.8F).func_181663_c(0.0F, 1.0F, 0.0F).func_181675_d();
+                  vertexbuffer.func_181662_b((double)(f23 + 8.0F), (double)(f2 + 4.0F - 9.765625E-4F), (double)(f24 + 8.0F)).func_187315_a((double)((f21 + 8.0F) * 0.00390625F + f16), (double)((f22 + 8.0F) * 0.00390625F + f17)).func_181666_a(f3, f4, f5, 0.8F).func_181663_c(0.0F, 1.0F, 0.0F).func_181675_d();
+                  vertexbuffer.func_181662_b((double)(f23 + 8.0F), (double)(f2 + 4.0F - 9.765625E-4F), (double)(f24 + 0.0F)).func_187315_a((double)((f21 + 8.0F) * 0.00390625F + f16), (double)((f22 + 0.0F) * 0.00390625F + f17)).func_181666_a(f3, f4, f5, 0.8F).func_181663_c(0.0F, 1.0F, 0.0F).func_181675_d();
+                  vertexbuffer.func_181662_b((double)(f23 + 0.0F), (double)(f2 + 4.0F - 9.765625E-4F), (double)(f24 + 0.0F)).func_187315_a((double)((f21 + 0.0F) * 0.00390625F + f16), (double)((f22 + 0.0F) * 0.00390625F + f17)).func_181666_a(f3, f4, f5, 0.8F).func_181663_c(0.0F, 1.0F, 0.0F).func_181675_d();
                }
 
                if(l1 > -1) {
                   for(int k1 = 0; k1 < 8; ++k1) {
-                     vertexbuffer.func_181662_b((double)(f24 + (float)k1 + 0.0F), (double)(f3 + 0.0F), (double)(f25 + 8.0F)).func_187315_a((double)((f22 + (float)k1 + 0.5F) * 0.00390625F + f17), (double)((f23 + 8.0F) * 0.00390625F + f18)).func_181666_a(f26, f27, f28, 0.8F).func_181663_c(-1.0F, 0.0F, 0.0F).func_181675_d();
-                     vertexbuffer.func_181662_b((double)(f24 + (float)k1 + 0.0F), (double)(f3 + 4.0F), (double)(f25 + 8.0F)).func_187315_a((double)((f22 + (float)k1 + 0.5F) * 0.00390625F + f17), (double)((f23 + 8.0F) * 0.00390625F + f18)).func_181666_a(f26, f27, f28, 0.8F).func_181663_c(-1.0F, 0.0F, 0.0F).func_181675_d();
-                     vertexbuffer.func_181662_b((double)(f24 + (float)k1 + 0.0F), (double)(f3 + 4.0F), (double)(f25 + 0.0F)).func_187315_a((double)((f22 + (float)k1 + 0.5F) * 0.00390625F + f17), (double)((f23 + 0.0F) * 0.00390625F + f18)).func_181666_a(f26, f27, f28, 0.8F).func_181663_c(-1.0F, 0.0F, 0.0F).func_181675_d();
-                     vertexbuffer.func_181662_b((double)(f24 + (float)k1 + 0.0F), (double)(f3 + 0.0F), (double)(f25 + 0.0F)).func_187315_a((double)((f22 + (float)k1 + 0.5F) * 0.00390625F + f17), (double)((f23 + 0.0F) * 0.00390625F + f18)).func_181666_a(f26, f27, f28, 0.8F).func_181663_c(-1.0F, 0.0F, 0.0F).func_181675_d();
+                     vertexbuffer.func_181662_b((double)(f23 + (float)k1 + 0.0F), (double)(f2 + 0.0F), (double)(f24 + 8.0F)).func_187315_a((double)((f21 + (float)k1 + 0.5F) * 0.00390625F + f16), (double)((f22 + 8.0F) * 0.00390625F + f17)).func_181666_a(f26, f27, f28, 0.8F).func_181663_c(-1.0F, 0.0F, 0.0F).func_181675_d();
+                     vertexbuffer.func_181662_b((double)(f23 + (float)k1 + 0.0F), (double)(f2 + 4.0F), (double)(f24 + 8.0F)).func_187315_a((double)((f21 + (float)k1 + 0.5F) * 0.00390625F + f16), (double)((f22 + 8.0F) * 0.00390625F + f17)).func_181666_a(f26, f27, f28, 0.8F).func_181663_c(-1.0F, 0.0F, 0.0F).func_181675_d();
+                     vertexbuffer.func_181662_b((double)(f23 + (float)k1 + 0.0F), (double)(f2 + 4.0F), (double)(f24 + 0.0F)).func_187315_a((double)((f21 + (float)k1 + 0.5F) * 0.00390625F + f16), (double)((f22 + 0.0F) * 0.00390625F + f17)).func_181666_a(f26, f27, f28, 0.8F).func_181663_c(-1.0F, 0.0F, 0.0F).func_181675_d();
+                     vertexbuffer.func_181662_b((double)(f23 + (float)k1 + 0.0F), (double)(f2 + 0.0F), (double)(f24 + 0.0F)).func_187315_a((double)((f21 + (float)k1 + 0.5F) * 0.00390625F + f16), (double)((f22 + 0.0F) * 0.00390625F + f17)).func_181666_a(f26, f27, f28, 0.8F).func_181663_c(-1.0F, 0.0F, 0.0F).func_181675_d();
                   }
                }
 
                if(l1 <= 1) {
                   for(int i2 = 0; i2 < 8; ++i2) {
-                     vertexbuffer.func_181662_b((double)(f24 + (float)i2 + 1.0F - 9.765625E-4F), (double)(f3 + 0.0F), (double)(f25 + 8.0F)).func_187315_a((double)((f22 + (float)i2 + 0.5F) * 0.00390625F + f17), (double)((f23 + 8.0F) * 0.00390625F + f18)).func_181666_a(f26, f27, f28, 0.8F).func_181663_c(1.0F, 0.0F, 0.0F).func_181675_d();
-                     vertexbuffer.func_181662_b((double)(f24 + (float)i2 + 1.0F - 9.765625E-4F), (double)(f3 + 4.0F), (double)(f25 + 8.0F)).func_187315_a((double)((f22 + (float)i2 + 0.5F) * 0.00390625F + f17), (double)((f23 + 8.0F) * 0.00390625F + f18)).func_181666_a(f26, f27, f28, 0.8F).func_181663_c(1.0F, 0.0F, 0.0F).func_181675_d();
-                     vertexbuffer.func_181662_b((double)(f24 + (float)i2 + 1.0F - 9.765625E-4F), (double)(f3 + 4.0F), (double)(f25 + 0.0F)).func_187315_a((double)((f22 + (float)i2 + 0.5F) * 0.00390625F + f17), (double)((f23 + 0.0F) * 0.00390625F + f18)).func_181666_a(f26, f27, f28, 0.8F).func_181663_c(1.0F, 0.0F, 0.0F).func_181675_d();
-                     vertexbuffer.func_181662_b((double)(f24 + (float)i2 + 1.0F - 9.765625E-4F), (double)(f3 + 0.0F), (double)(f25 + 0.0F)).func_187315_a((double)((f22 + (float)i2 + 0.5F) * 0.00390625F + f17), (double)((f23 + 0.0F) * 0.00390625F + f18)).func_181666_a(f26, f27, f28, 0.8F).func_181663_c(1.0F, 0.0F, 0.0F).func_181675_d();
+                     vertexbuffer.func_181662_b((double)(f23 + (float)i2 + 1.0F - 9.765625E-4F), (double)(f2 + 0.0F), (double)(f24 + 8.0F)).func_187315_a((double)((f21 + (float)i2 + 0.5F) * 0.00390625F + f16), (double)((f22 + 8.0F) * 0.00390625F + f17)).func_181666_a(f26, f27, f28, 0.8F).func_181663_c(1.0F, 0.0F, 0.0F).func_181675_d();
+                     vertexbuffer.func_181662_b((double)(f23 + (float)i2 + 1.0F - 9.765625E-4F), (double)(f2 + 4.0F), (double)(f24 + 8.0F)).func_187315_a((double)((f21 + (float)i2 + 0.5F) * 0.00390625F + f16), (double)((f22 + 8.0F) * 0.00390625F + f17)).func_181666_a(f26, f27, f28, 0.8F).func_181663_c(1.0F, 0.0F, 0.0F).func_181675_d();
+                     vertexbuffer.func_181662_b((double)(f23 + (float)i2 + 1.0F - 9.765625E-4F), (double)(f2 + 4.0F), (double)(f24 + 0.0F)).func_187315_a((double)((f21 + (float)i2 + 0.5F) * 0.00390625F + f16), (double)((f22 + 0.0F) * 0.00390625F + f17)).func_181666_a(f26, f27, f28, 0.8F).func_181663_c(1.0F, 0.0F, 0.0F).func_181675_d();
+                     vertexbuffer.func_181662_b((double)(f23 + (float)i2 + 1.0F - 9.765625E-4F), (double)(f2 + 0.0F), (double)(f24 + 0.0F)).func_187315_a((double)((f21 + (float)i2 + 0.5F) * 0.00390625F + f16), (double)((f22 + 0.0F) * 0.00390625F + f17)).func_181666_a(f26, f27, f28, 0.8F).func_181663_c(1.0F, 0.0F, 0.0F).func_181675_d();
                   }
                }
 
                if(j1 > -1) {
                   for(int j2 = 0; j2 < 8; ++j2) {
-                     vertexbuffer.func_181662_b((double)(f24 + 0.0F), (double)(f3 + 4.0F), (double)(f25 + (float)j2 + 0.0F)).func_187315_a((double)((f22 + 0.0F) * 0.00390625F + f17), (double)((f23 + (float)j2 + 0.5F) * 0.00390625F + f18)).func_181666_a(f13, f14, f15, 0.8F).func_181663_c(0.0F, 0.0F, -1.0F).func_181675_d();
-                     vertexbuffer.func_181662_b((double)(f24 + 8.0F), (double)(f3 + 4.0F), (double)(f25 + (float)j2 + 0.0F)).func_187315_a((double)((f22 + 8.0F) * 0.00390625F + f17), (double)((f23 + (float)j2 + 0.5F) * 0.00390625F + f18)).func_181666_a(f13, f14, f15, 0.8F).func_181663_c(0.0F, 0.0F, -1.0F).func_181675_d();
-                     vertexbuffer.func_181662_b((double)(f24 + 8.0F), (double)(f3 + 0.0F), (double)(f25 + (float)j2 + 0.0F)).func_187315_a((double)((f22 + 8.0F) * 0.00390625F + f17), (double)((f23 + (float)j2 + 0.5F) * 0.00390625F + f18)).func_181666_a(f13, f14, f15, 0.8F).func_181663_c(0.0F, 0.0F, -1.0F).func_181675_d();
-                     vertexbuffer.func_181662_b((double)(f24 + 0.0F), (double)(f3 + 0.0F), (double)(f25 + (float)j2 + 0.0F)).func_187315_a((double)((f22 + 0.0F) * 0.00390625F + f17), (double)((f23 + (float)j2 + 0.5F) * 0.00390625F + f18)).func_181666_a(f13, f14, f15, 0.8F).func_181663_c(0.0F, 0.0F, -1.0F).func_181675_d();
+                     vertexbuffer.func_181662_b((double)(f23 + 0.0F), (double)(f2 + 4.0F), (double)(f24 + (float)j2 + 0.0F)).func_187315_a((double)((f21 + 0.0F) * 0.00390625F + f16), (double)((f22 + (float)j2 + 0.5F) * 0.00390625F + f17)).func_181666_a(f12, f13, f14, 0.8F).func_181663_c(0.0F, 0.0F, -1.0F).func_181675_d();
+                     vertexbuffer.func_181662_b((double)(f23 + 8.0F), (double)(f2 + 4.0F), (double)(f24 + (float)j2 + 0.0F)).func_187315_a((double)((f21 + 8.0F) * 0.00390625F + f16), (double)((f22 + (float)j2 + 0.5F) * 0.00390625F + f17)).func_181666_a(f12, f13, f14, 0.8F).func_181663_c(0.0F, 0.0F, -1.0F).func_181675_d();
+                     vertexbuffer.func_181662_b((double)(f23 + 8.0F), (double)(f2 + 0.0F), (double)(f24 + (float)j2 + 0.0F)).func_187315_a((double)((f21 + 8.0F) * 0.00390625F + f16), (double)((f22 + (float)j2 + 0.5F) * 0.00390625F + f17)).func_181666_a(f12, f13, f14, 0.8F).func_181663_c(0.0F, 0.0F, -1.0F).func_181675_d();
+                     vertexbuffer.func_181662_b((double)(f23 + 0.0F), (double)(f2 + 0.0F), (double)(f24 + (float)j2 + 0.0F)).func_187315_a((double)((f21 + 0.0F) * 0.00390625F + f16), (double)((f22 + (float)j2 + 0.5F) * 0.00390625F + f17)).func_181666_a(f12, f13, f14, 0.8F).func_181663_c(0.0F, 0.0F, -1.0F).func_181675_d();
                   }
                }
 
                if(j1 <= 1) {
                   for(int k2 = 0; k2 < 8; ++k2) {
-                     vertexbuffer.func_181662_b((double)(f24 + 0.0F), (double)(f3 + 4.0F), (double)(f25 + (float)k2 + 1.0F - 9.765625E-4F)).func_187315_a((double)((f22 + 0.0F) * 0.00390625F + f17), (double)((f23 + (float)k2 + 0.5F) * 0.00390625F + f18)).func_181666_a(f13, f14, f15, 0.8F).func_181663_c(0.0F, 0.0F, 1.0F).func_181675_d();
-                     vertexbuffer.func_181662_b((double)(f24 + 8.0F), (double)(f3 + 4.0F), (double)(f25 + (float)k2 + 1.0F - 9.765625E-4F)).func_187315_a((double)((f22 + 8.0F) * 0.00390625F + f17), (double)((f23 + (float)k2 + 0.5F) * 0.00390625F + f18)).func_181666_a(f13, f14, f15, 0.8F).func_181663_c(0.0F, 0.0F, 1.0F).func_181675_d();
-                     vertexbuffer.func_181662_b((double)(f24 + 8.0F), (double)(f3 + 0.0F), (double)(f25 + (float)k2 + 1.0F - 9.765625E-4F)).func_187315_a((double)((f22 + 8.0F) * 0.00390625F + f17), (double)((f23 + (float)k2 + 0.5F) * 0.00390625F + f18)).func_181666_a(f13, f14, f15, 0.8F).func_181663_c(0.0F, 0.0F, 1.0F).func_181675_d();
-                     vertexbuffer.func_181662_b((double)(f24 + 0.0F), (double)(f3 + 0.0F), (double)(f25 + (float)k2 + 1.0F - 9.765625E-4F)).func_187315_a((double)((f22 + 0.0F) * 0.00390625F + f17), (double)((f23 + (float)k2 + 0.5F) * 0.00390625F + f18)).func_181666_a(f13, f14, f15, 0.8F).func_181663_c(0.0F, 0.0F, 1.0F).func_181675_d();
+                     vertexbuffer.func_181662_b((double)(f23 + 0.0F), (double)(f2 + 4.0F), (double)(f24 + (float)k2 + 1.0F - 9.765625E-4F)).func_187315_a((double)((f21 + 0.0F) * 0.00390625F + f16), (double)((f22 + (float)k2 + 0.5F) * 0.00390625F + f17)).func_181666_a(f12, f13, f14, 0.8F).func_181663_c(0.0F, 0.0F, 1.0F).func_181675_d();
+                     vertexbuffer.func_181662_b((double)(f23 + 8.0F), (double)(f2 + 4.0F), (double)(f24 + (float)k2 + 1.0F - 9.765625E-4F)).func_187315_a((double)((f21 + 8.0F) * 0.00390625F + f16), (double)((f22 + (float)k2 + 0.5F) * 0.00390625F + f17)).func_181666_a(f12, f13, f14, 0.8F).func_181663_c(0.0F, 0.0F, 1.0F).func_181675_d();
+                     vertexbuffer.func_181662_b((double)(f23 + 8.0F), (double)(f2 + 0.0F), (double)(f24 + (float)k2 + 1.0F - 9.765625E-4F)).func_187315_a((double)((f21 + 8.0F) * 0.00390625F + f16), (double)((f22 + (float)k2 + 0.5F) * 0.00390625F + f17)).func_181666_a(f12, f13, f14, 0.8F).func_181663_c(0.0F, 0.0F, 1.0F).func_181675_d();
+                     vertexbuffer.func_181662_b((double)(f23 + 0.0F), (double)(f2 + 0.0F), (double)(f24 + (float)k2 + 1.0F - 9.765625E-4F)).func_187315_a((double)((f21 + 0.0F) * 0.00390625F + f16), (double)((f22 + (float)k2 + 0.5F) * 0.00390625F + f17)).func_181666_a(f12, f13, f14, 0.8F).func_181663_c(0.0F, 0.0F, 1.0F).func_181675_d();
                   }
                }
 
@@ -2041,6 +2040,7 @@ public class RenderGlobal implements IWorldEventListener, IResourceManagerReload
          GlStateManager.func_179136_a(0.0F, 0.0F);
          GlStateManager.func_179113_r();
          GlStateManager.func_179141_d();
+         GlStateManager.func_187428_a(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
          GlStateManager.func_179084_k();
          GlStateManager.func_179121_F();
          GlStateManager.func_179132_a(true);
@@ -2757,6 +2757,10 @@ public class RenderGlobal implements IWorldEventListener, IResourceManagerReload
             return this.worldChunkProviderMap == null?0:this.worldChunkProviderMap.size();
          }
       }
+   }
+
+   public int getCountChunksToUpdate() {
+      return this.field_175009_l.size();
    }
 
    public RenderChunk getRenderChunk(BlockPos p_getRenderChunk_1_) {

@@ -1,13 +1,9 @@
 package net.minecraft.entity;
 
-import com.darkcart.xdolf.Wrapper;
-import com.darkcart.xdolf.mods.Hacks;
-import com.darkcart.xdolf.mods.aura.AntiVelocity;
-import com.darkcart.xdolf.mods.player.Flight;
-import com.darkcart.xdolf.mods.player.SafeWalk;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -89,7 +85,7 @@ import org.apache.logging.log4j.Logger;
 public abstract class Entity implements ICommandSender
 {
     private static final Logger LOGGER = LogManager.getLogger();
-    private static final List<ItemStack> EMPTY_EQUIPMENT = Collections.<ItemStack>emptyList();
+    private static final List<ItemStack> field_190535_b = Collections.<ItemStack>emptyList();
     private static final AxisAlignedBB ZERO_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D);
     private static double renderDistanceWeight = 1.0D;
     private static int nextEntityID;
@@ -217,7 +213,7 @@ public abstract class Entity implements ICommandSender
 
     /** How many ticks has this entity had ran since being alive */
     public int ticksExisted;
-    private int fire;
+    private int field_190534_ay;
 
     /**
      * Whether this entity is currently inside of water (if it handles water movement that is)
@@ -283,6 +279,8 @@ public abstract class Entity implements ICommandSender
     protected boolean glowing;
     private final Set<String> tags;
     private boolean isPositionDirty;
+    private double[] field_191505_aI;
+    private long field_191506_aJ;
 
     public Entity(World worldIn)
     {
@@ -293,12 +291,13 @@ public abstract class Entity implements ICommandSender
         this.height = 1.8F;
         this.nextStepDistance = 1;
         this.rand = new Random();
-        this.fire = -this.getFireImmuneTicks();
+        this.field_190534_ay = -this.func_190531_bD();
         this.firstUpdate = true;
         this.entityUniqueID = MathHelper.getRandomUUID(this.rand);
         this.cachedUniqueIdString = this.entityUniqueID.toString();
         this.cmdResultStats = new CommandResultStats();
         this.tags = Sets.<String>newHashSet();
+        this.field_191505_aI = new double[] {0.0D, 0.0D, 0.0D};
         this.world = worldIn;
         this.setPosition(0.0D, 0.0D, 0.0D);
 
@@ -440,7 +439,7 @@ public abstract class Entity implements ICommandSender
 
             if (this.width > f && !this.firstUpdate && !this.world.isRemote)
             {
-                this.move(MoverType.SELF, (double)(f - this.width), 0.0D, (double)(f - this.width));
+                this.moveEntity(MoverType.SELF, (double)(f - this.width), 0.0D, (double)(f - this.width));
             }
         }
     }
@@ -471,7 +470,7 @@ public abstract class Entity implements ICommandSender
      * Adds 15% to the entity's yaw and subtracts 15% from the pitch. Clamps pitch from -90 to 90. Both arguments in
      * degrees.
      */
-    public void turn(float yaw, float pitch)
+    public void setAngles(float yaw, float pitch)
     {
         float f = this.rotationPitch;
         float f1 = this.rotationYaw;
@@ -584,25 +583,25 @@ public abstract class Entity implements ICommandSender
         {
             this.extinguish();
         }
-        else if (this.fire > 0)
+        else if (this.field_190534_ay > 0)
         {
             if (this.isImmuneToFire)
             {
-                this.fire -= 4;
+                this.field_190534_ay -= 4;
 
-                if (this.fire < 0)
+                if (this.field_190534_ay < 0)
                 {
                     this.extinguish();
                 }
             }
             else
             {
-                if (this.fire % 20 == 0)
+                if (this.field_190534_ay % 20 == 0)
                 {
-                    this.attackEntityFrom(DamageSource.ON_FIRE, 1.0F);
+                    this.attackEntityFrom(DamageSource.onFire, 1.0F);
                 }
 
-                --this.fire;
+                --this.field_190534_ay;
             }
         }
 
@@ -619,7 +618,7 @@ public abstract class Entity implements ICommandSender
 
         if (!this.world.isRemote)
         {
-            this.setFlag(0, this.fire > 0);
+            this.setFlag(0, this.field_190534_ay > 0);
         }
 
         this.firstUpdate = false;
@@ -652,7 +651,7 @@ public abstract class Entity implements ICommandSender
     {
         if (!this.isImmuneToFire)
         {
-            this.attackEntityFrom(DamageSource.LAVA, 4.0F);
+            this.attackEntityFrom(DamageSource.lava, 4.0F);
             this.setFire(15);
         }
     }
@@ -669,9 +668,9 @@ public abstract class Entity implements ICommandSender
             i = EnchantmentProtection.getFireTimeForEntity((EntityLivingBase)this, i);
         }
 
-        if (this.fire < i)
+        if (this.field_190534_ay < i)
         {
-            this.fire = i;
+            this.field_190534_ay = i;
         }
     }
 
@@ -680,7 +679,7 @@ public abstract class Entity implements ICommandSender
      */
     public void extinguish()
     {
-        this.fire = 0;
+        this.field_190534_ay = 0;
     }
 
     /**
@@ -711,7 +710,7 @@ public abstract class Entity implements ICommandSender
     /**
      * Tries to move the entity towards the specified location.
      */
-    public void move(MoverType x, double p_70091_2_, double p_70091_4_, double p_70091_6_)
+    public void moveEntity(MoverType x, double p_70091_2_, double p_70091_4_, double p_70091_6_)
     {
         if (this.noClip)
         {
@@ -720,10 +719,63 @@ public abstract class Entity implements ICommandSender
         }
         else
         {
+            if (x == MoverType.PISTON)
+            {
+                long i = this.world.getTotalWorldTime();
+
+                if (i != this.field_191506_aJ)
+                {
+                    Arrays.fill(this.field_191505_aI, 0.0D);
+                    this.field_191506_aJ = i;
+                }
+
+                if (p_70091_2_ != 0.0D)
+                {
+                    int j = EnumFacing.Axis.X.ordinal();
+                    double d0 = MathHelper.clamp(p_70091_2_ + this.field_191505_aI[j], -0.51D, 0.51D);
+                    p_70091_2_ = d0 - this.field_191505_aI[j];
+                    this.field_191505_aI[j] = d0;
+
+                    if (Math.abs(p_70091_2_) <= 9.999999747378752E-6D)
+                    {
+                        return;
+                    }
+                }
+                else if (p_70091_4_ != 0.0D)
+                {
+                    int l4 = EnumFacing.Axis.Y.ordinal();
+                    double d12 = MathHelper.clamp(p_70091_4_ + this.field_191505_aI[l4], -0.51D, 0.51D);
+                    p_70091_4_ = d12 - this.field_191505_aI[l4];
+                    this.field_191505_aI[l4] = d12;
+
+                    if (Math.abs(p_70091_4_) <= 9.999999747378752E-6D)
+                    {
+                        return;
+                    }
+                }
+                else
+                {
+                    if (p_70091_6_ == 0.0D)
+                    {
+                        return;
+                    }
+
+                    int i5 = EnumFacing.Axis.Z.ordinal();
+                    double d13 = MathHelper.clamp(p_70091_6_ + this.field_191505_aI[i5], -0.51D, 0.51D);
+                    p_70091_6_ = d13 - this.field_191505_aI[i5];
+                    this.field_191505_aI[i5] = d13;
+
+                    if (Math.abs(p_70091_6_) <= 9.999999747378752E-6D)
+                    {
+                        return;
+                    }
+                }
+            }
+
             this.world.theProfiler.startSection("move");
-            double d0 = this.posX;
-            double d1 = this.posY;
-            double d2 = this.posZ;
+            double d10 = this.posX;
+            double d11 = this.posY;
+            double d1 = this.posZ;
 
             if (this.isInWeb)
             {
@@ -736,90 +788,86 @@ public abstract class Entity implements ICommandSender
                 this.motionZ = 0.0D;
             }
 
-            double d3 = p_70091_2_;
-            double d4 = p_70091_4_;
-            double d5 = p_70091_6_;
-            boolean flag = this.onGround && this.isSneaking() && this instanceof EntityPlayer;
+            double d2 = p_70091_2_;
+            double d3 = p_70091_4_;
+            double d4 = p_70091_6_;
 
-            try{ 
-            	if ((x == MoverType.SELF || x == MoverType.PLAYER) && flag 
-            		|| (Hacks.findMod(SafeWalk.class).isEnabled() && Wrapper.getPlayer().onGround) && !Hacks.findMod(Flight.class).isEnabled())
-	            {
-	                for (double d6 = 0.05D; p_70091_2_ != 0.0D && this.world.getCollisionBoxes(this, this.getEntityBoundingBox().offset(p_70091_2_, (double)(-this.stepHeight), 0.0D)).isEmpty(); d3 = p_70091_2_)
-	                {
-	                    if (p_70091_2_ < 0.05D && p_70091_2_ >= -0.05D)
-	                    {
-	                        p_70091_2_ = 0.0D;
-	                    }
-	                    else if (p_70091_2_ > 0.0D)
-	                    {
-	                        p_70091_2_ -= 0.05D;
-	                    }
-	                    else
-	                    {
-	                        p_70091_2_ += 0.05D;
-	                    }
-	                }
-	
-	                for (; p_70091_6_ != 0.0D && this.world.getCollisionBoxes(this, this.getEntityBoundingBox().offset(0.0D, (double)(-this.stepHeight), p_70091_6_)).isEmpty(); d5 = p_70091_6_)
-	                {
-	                    if (p_70091_6_ < 0.05D && p_70091_6_ >= -0.05D)
-	                    {
-	                        p_70091_6_ = 0.0D;
-	                    }
-	                    else if (p_70091_6_ > 0.0D)
-	                    {
-	                        p_70091_6_ -= 0.05D;
-	                    }
-	                    else
-	                    {
-	                        p_70091_6_ += 0.05D;
-	                    }
-	                }
-	
-	                for (; p_70091_2_ != 0.0D && p_70091_6_ != 0.0D && this.world.getCollisionBoxes(this, this.getEntityBoundingBox().offset(p_70091_2_, (double)(-this.stepHeight), p_70091_6_)).isEmpty(); d5 = p_70091_6_)
-	                {
-	                    if (p_70091_2_ < 0.05D && p_70091_2_ >= -0.05D)
-	                    {
-	                        p_70091_2_ = 0.0D;
-	                    }
-	                    else if (p_70091_2_ > 0.0D)
-	                    {
-	                        p_70091_2_ -= 0.05D;
-	                    }
-	                    else
-	                    {
-	                        p_70091_2_ += 0.05D;
-	                    }
-	
-	                    d3 = p_70091_2_;
-	
-	                    if (p_70091_6_ < 0.05D && p_70091_6_ >= -0.05D)
-	                    {
-	                        p_70091_6_ = 0.0D;
-	                    }
-	                    else if (p_70091_6_ > 0.0D)
-	                    {
-	                        p_70091_6_ -= 0.05D;
-	                    }
-	                    else
-	                    {
-	                        p_70091_6_ += 0.05D;
-	                    }
-	                }
-	            }
-            }catch(Exception ex){}
+            if ((x == MoverType.SELF || x == MoverType.PLAYER) && this.onGround && this.isSneaking() && this instanceof EntityPlayer)
+            {
+                for (double d5 = 0.05D; p_70091_2_ != 0.0D && this.world.getCollisionBoxes(this, this.getEntityBoundingBox().offset(p_70091_2_, (double)(-this.stepHeight), 0.0D)).isEmpty(); d2 = p_70091_2_)
+                {
+                    if (p_70091_2_ < 0.05D && p_70091_2_ >= -0.05D)
+                    {
+                        p_70091_2_ = 0.0D;
+                    }
+                    else if (p_70091_2_ > 0.0D)
+                    {
+                        p_70091_2_ -= 0.05D;
+                    }
+                    else
+                    {
+                        p_70091_2_ += 0.05D;
+                    }
+                }
+
+                for (; p_70091_6_ != 0.0D && this.world.getCollisionBoxes(this, this.getEntityBoundingBox().offset(0.0D, (double)(-this.stepHeight), p_70091_6_)).isEmpty(); d4 = p_70091_6_)
+                {
+                    if (p_70091_6_ < 0.05D && p_70091_6_ >= -0.05D)
+                    {
+                        p_70091_6_ = 0.0D;
+                    }
+                    else if (p_70091_6_ > 0.0D)
+                    {
+                        p_70091_6_ -= 0.05D;
+                    }
+                    else
+                    {
+                        p_70091_6_ += 0.05D;
+                    }
+                }
+
+                for (; p_70091_2_ != 0.0D && p_70091_6_ != 0.0D && this.world.getCollisionBoxes(this, this.getEntityBoundingBox().offset(p_70091_2_, (double)(-this.stepHeight), p_70091_6_)).isEmpty(); d4 = p_70091_6_)
+                {
+                    if (p_70091_2_ < 0.05D && p_70091_2_ >= -0.05D)
+                    {
+                        p_70091_2_ = 0.0D;
+                    }
+                    else if (p_70091_2_ > 0.0D)
+                    {
+                        p_70091_2_ -= 0.05D;
+                    }
+                    else
+                    {
+                        p_70091_2_ += 0.05D;
+                    }
+
+                    d2 = p_70091_2_;
+
+                    if (p_70091_6_ < 0.05D && p_70091_6_ >= -0.05D)
+                    {
+                        p_70091_6_ = 0.0D;
+                    }
+                    else if (p_70091_6_ > 0.0D)
+                    {
+                        p_70091_6_ -= 0.05D;
+                    }
+                    else
+                    {
+                        p_70091_6_ += 0.05D;
+                    }
+                }
+            }
 
             List<AxisAlignedBB> list1 = this.world.getCollisionBoxes(this, this.getEntityBoundingBox().addCoord(p_70091_2_, p_70091_4_, p_70091_6_));
             AxisAlignedBB axisalignedbb = this.getEntityBoundingBox();
 
             if (p_70091_4_ != 0.0D)
             {
-                int i = 0;
+                int k = 0;
 
-                for (int j = list1.size(); i < j; ++i)
+                for (int l = list1.size(); k < l; ++k)
                 {
-                    p_70091_4_ = ((AxisAlignedBB)list1.get(i)).calculateYOffset(this.getEntityBoundingBox(), p_70091_4_);
+                    p_70091_4_ = ((AxisAlignedBB)list1.get(k)).calculateYOffset(this.getEntityBoundingBox(), p_70091_4_);
                 }
 
                 this.setEntityBoundingBox(this.getEntityBoundingBox().offset(0.0D, p_70091_4_, 0.0D));
@@ -827,11 +875,11 @@ public abstract class Entity implements ICommandSender
 
             if (p_70091_2_ != 0.0D)
             {
-                int j4 = 0;
+                int j5 = 0;
 
-                for (int l4 = list1.size(); j4 < l4; ++j4)
+                for (int l5 = list1.size(); j5 < l5; ++j5)
                 {
-                    p_70091_2_ = ((AxisAlignedBB)list1.get(j4)).calculateXOffset(this.getEntityBoundingBox(), p_70091_2_);
+                    p_70091_2_ = ((AxisAlignedBB)list1.get(j5)).calculateXOffset(this.getEntityBoundingBox(), p_70091_2_);
                 }
 
                 if (p_70091_2_ != 0.0D)
@@ -842,11 +890,11 @@ public abstract class Entity implements ICommandSender
 
             if (p_70091_6_ != 0.0D)
             {
-                int k4 = 0;
+                int k5 = 0;
 
-                for (int i5 = list1.size(); k4 < i5; ++k4)
+                for (int i6 = list1.size(); k5 < i6; ++k5)
                 {
-                    p_70091_6_ = ((AxisAlignedBB)list1.get(k4)).calculateZOffset(this.getEntityBoundingBox(), p_70091_6_);
+                    p_70091_6_ = ((AxisAlignedBB)list1.get(k5)).calculateZOffset(this.getEntityBoundingBox(), p_70091_6_);
                 }
 
                 if (p_70091_6_ != 0.0D)
@@ -855,106 +903,106 @@ public abstract class Entity implements ICommandSender
                 }
             }
 
-            boolean flag1 = this.onGround || d4 != p_70091_4_ && d4 < 0.0D;
+            boolean flag = this.onGround || d3 != p_70091_4_ && d3 < 0.0D;
 
-            if (this.stepHeight > 0.0F && flag1 && (d3 != p_70091_2_ || d5 != p_70091_6_))
+            if (this.stepHeight > 0.0F && flag && (d2 != p_70091_2_ || d4 != p_70091_6_))
             {
-                double d11 = p_70091_2_;
-                double d7 = p_70091_4_;
-                double d8 = p_70091_6_;
+                double d14 = p_70091_2_;
+                double d6 = p_70091_4_;
+                double d7 = p_70091_6_;
                 AxisAlignedBB axisalignedbb1 = this.getEntityBoundingBox();
                 this.setEntityBoundingBox(axisalignedbb);
                 p_70091_4_ = (double)this.stepHeight;
-                List<AxisAlignedBB> list = this.world.getCollisionBoxes(this, this.getEntityBoundingBox().addCoord(d3, p_70091_4_, d5));
+                List<AxisAlignedBB> list = this.world.getCollisionBoxes(this, this.getEntityBoundingBox().addCoord(d2, p_70091_4_, d4));
                 AxisAlignedBB axisalignedbb2 = this.getEntityBoundingBox();
-                AxisAlignedBB axisalignedbb3 = axisalignedbb2.addCoord(d3, 0.0D, d5);
-                double d9 = p_70091_4_;
-                int l = 0;
-
-                for (int i1 = list.size(); l < i1; ++l)
-                {
-                    d9 = ((AxisAlignedBB)list.get(l)).calculateYOffset(axisalignedbb3, d9);
-                }
-
-                axisalignedbb2 = axisalignedbb2.offset(0.0D, d9, 0.0D);
-                double d15 = d3;
+                AxisAlignedBB axisalignedbb3 = axisalignedbb2.addCoord(d2, 0.0D, d4);
+                double d8 = p_70091_4_;
                 int j1 = 0;
 
                 for (int k1 = list.size(); j1 < k1; ++j1)
                 {
-                    d15 = ((AxisAlignedBB)list.get(j1)).calculateXOffset(axisalignedbb2, d15);
+                    d8 = ((AxisAlignedBB)list.get(j1)).calculateYOffset(axisalignedbb3, d8);
                 }
 
-                axisalignedbb2 = axisalignedbb2.offset(d15, 0.0D, 0.0D);
-                double d16 = d5;
+                axisalignedbb2 = axisalignedbb2.offset(0.0D, d8, 0.0D);
+                double d18 = d2;
                 int l1 = 0;
 
                 for (int i2 = list.size(); l1 < i2; ++l1)
                 {
-                    d16 = ((AxisAlignedBB)list.get(l1)).calculateZOffset(axisalignedbb2, d16);
+                    d18 = ((AxisAlignedBB)list.get(l1)).calculateXOffset(axisalignedbb2, d18);
                 }
 
-                axisalignedbb2 = axisalignedbb2.offset(0.0D, 0.0D, d16);
-                AxisAlignedBB axisalignedbb4 = this.getEntityBoundingBox();
-                double d17 = p_70091_4_;
+                axisalignedbb2 = axisalignedbb2.offset(d18, 0.0D, 0.0D);
+                double d19 = d4;
                 int j2 = 0;
 
                 for (int k2 = list.size(); j2 < k2; ++j2)
                 {
-                    d17 = ((AxisAlignedBB)list.get(j2)).calculateYOffset(axisalignedbb4, d17);
+                    d19 = ((AxisAlignedBB)list.get(j2)).calculateZOffset(axisalignedbb2, d19);
                 }
 
-                axisalignedbb4 = axisalignedbb4.offset(0.0D, d17, 0.0D);
-                double d18 = d3;
+                axisalignedbb2 = axisalignedbb2.offset(0.0D, 0.0D, d19);
+                AxisAlignedBB axisalignedbb4 = this.getEntityBoundingBox();
+                double d20 = p_70091_4_;
                 int l2 = 0;
 
                 for (int i3 = list.size(); l2 < i3; ++l2)
                 {
-                    d18 = ((AxisAlignedBB)list.get(l2)).calculateXOffset(axisalignedbb4, d18);
+                    d20 = ((AxisAlignedBB)list.get(l2)).calculateYOffset(axisalignedbb4, d20);
                 }
 
-                axisalignedbb4 = axisalignedbb4.offset(d18, 0.0D, 0.0D);
-                double d19 = d5;
+                axisalignedbb4 = axisalignedbb4.offset(0.0D, d20, 0.0D);
+                double d21 = d2;
                 int j3 = 0;
 
                 for (int k3 = list.size(); j3 < k3; ++j3)
                 {
-                    d19 = ((AxisAlignedBB)list.get(j3)).calculateZOffset(axisalignedbb4, d19);
+                    d21 = ((AxisAlignedBB)list.get(j3)).calculateXOffset(axisalignedbb4, d21);
                 }
 
-                axisalignedbb4 = axisalignedbb4.offset(0.0D, 0.0D, d19);
-                double d20 = d15 * d15 + d16 * d16;
-                double d10 = d18 * d18 + d19 * d19;
-
-                if (d20 > d10)
-                {
-                    p_70091_2_ = d15;
-                    p_70091_6_ = d16;
-                    p_70091_4_ = -d9;
-                    this.setEntityBoundingBox(axisalignedbb2);
-                }
-                else
-                {
-                    p_70091_2_ = d18;
-                    p_70091_6_ = d19;
-                    p_70091_4_ = -d17;
-                    this.setEntityBoundingBox(axisalignedbb4);
-                }
-
+                axisalignedbb4 = axisalignedbb4.offset(d21, 0.0D, 0.0D);
+                double d22 = d4;
                 int l3 = 0;
 
                 for (int i4 = list.size(); l3 < i4; ++l3)
                 {
-                    p_70091_4_ = ((AxisAlignedBB)list.get(l3)).calculateYOffset(this.getEntityBoundingBox(), p_70091_4_);
+                    d22 = ((AxisAlignedBB)list.get(l3)).calculateZOffset(axisalignedbb4, d22);
+                }
+
+                axisalignedbb4 = axisalignedbb4.offset(0.0D, 0.0D, d22);
+                double d23 = d18 * d18 + d19 * d19;
+                double d9 = d21 * d21 + d22 * d22;
+
+                if (d23 > d9)
+                {
+                    p_70091_2_ = d18;
+                    p_70091_6_ = d19;
+                    p_70091_4_ = -d8;
+                    this.setEntityBoundingBox(axisalignedbb2);
+                }
+                else
+                {
+                    p_70091_2_ = d21;
+                    p_70091_6_ = d22;
+                    p_70091_4_ = -d20;
+                    this.setEntityBoundingBox(axisalignedbb4);
+                }
+
+                int j4 = 0;
+
+                for (int k4 = list.size(); j4 < k4; ++j4)
+                {
+                    p_70091_4_ = ((AxisAlignedBB)list.get(j4)).calculateYOffset(this.getEntityBoundingBox(), p_70091_4_);
                 }
 
                 this.setEntityBoundingBox(this.getEntityBoundingBox().offset(0.0D, p_70091_4_, 0.0D));
 
-                if (d11 * d11 + d8 * d8 >= p_70091_2_ * p_70091_2_ + p_70091_6_ * p_70091_6_)
+                if (d14 * d14 + d7 * d7 >= p_70091_2_ * p_70091_2_ + p_70091_6_ * p_70091_6_)
                 {
-                    p_70091_2_ = d11;
-                    p_70091_4_ = d7;
-                    p_70091_6_ = d8;
+                    p_70091_2_ = d14;
+                    p_70091_4_ = d6;
+                    p_70091_6_ = d7;
                     this.setEntityBoundingBox(axisalignedbb1);
                 }
             }
@@ -962,14 +1010,14 @@ public abstract class Entity implements ICommandSender
             this.world.theProfiler.endSection();
             this.world.theProfiler.startSection("rest");
             this.resetPositionToBB();
-            this.isCollidedHorizontally = d3 != p_70091_2_ || d5 != p_70091_6_;
-            this.isCollidedVertically = d4 != p_70091_4_;
-            this.onGround = this.isCollidedVertically && d4 < 0.0D;
+            this.isCollidedHorizontally = d2 != p_70091_2_ || d4 != p_70091_6_;
+            this.isCollidedVertically = d3 != p_70091_4_;
+            this.onGround = this.isCollidedVertically && d3 < 0.0D;
             this.isCollided = this.isCollidedHorizontally || this.isCollidedVertically;
-            int j5 = MathHelper.floor(this.posX);
-            int k = MathHelper.floor(this.posY - 0.20000000298023224D);
-            int k5 = MathHelper.floor(this.posZ);
-            BlockPos blockpos = new BlockPos(j5, k, k5);
+            int j6 = MathHelper.floor(this.posX);
+            int i1 = MathHelper.floor(this.posY - 0.20000000298023224D);
+            int k6 = MathHelper.floor(this.posZ);
+            BlockPos blockpos = new BlockPos(j6, i1, k6);
             IBlockState iblockstate = this.world.getBlockState(blockpos);
 
             if (iblockstate.getMaterial() == Material.AIR)
@@ -987,32 +1035,32 @@ public abstract class Entity implements ICommandSender
 
             this.updateFallState(p_70091_4_, this.onGround, iblockstate, blockpos);
 
-            if (d3 != p_70091_2_)
+            if (d2 != p_70091_2_)
             {
                 this.motionX = 0.0D;
             }
 
-            if (d5 != p_70091_6_)
+            if (d4 != p_70091_6_)
             {
                 this.motionZ = 0.0D;
             }
 
             Block block = iblockstate.getBlock();
 
-            if (d4 != p_70091_4_)
+            if (d3 != p_70091_4_)
             {
                 block.onLanded(this.world, this);
             }
 
-            if (this.canTriggerWalking() && !flag && !this.isRiding())
+            if (this.canTriggerWalking() && (!this.onGround || !this.isSneaking() || !(this instanceof EntityPlayer)) && !this.isRiding())
             {
-                double d12 = this.posX - d0;
-                double d13 = this.posY - d1;
-                double d14 = this.posZ - d2;
+                double d15 = this.posX - d10;
+                double d16 = this.posY - d11;
+                double d17 = this.posZ - d1;
 
                 if (block != Blocks.LADDER)
                 {
-                    d13 = 0.0D;
+                    d16 = 0.0D;
                 }
 
                 if (block != null && this.onGround)
@@ -1020,8 +1068,8 @@ public abstract class Entity implements ICommandSender
                     block.onEntityWalk(this.world, blockpos, this);
                 }
 
-                this.distanceWalkedModified = (float)((double)this.distanceWalkedModified + (double)MathHelper.sqrt(d12 * d12 + d14 * d14) * 0.6D);
-                this.distanceWalkedOnStepModified = (float)((double)this.distanceWalkedOnStepModified + (double)MathHelper.sqrt(d12 * d12 + d13 * d13 + d14 * d14) * 0.6D);
+                this.distanceWalkedModified = (float)((double)this.distanceWalkedModified + (double)MathHelper.sqrt(d15 * d15 + d17 * d17) * 0.6D);
+                this.distanceWalkedOnStepModified = (float)((double)this.distanceWalkedOnStepModified + (double)MathHelper.sqrt(d15 * d15 + d16 * d16 + d17 * d17) * 0.6D);
 
                 if (this.distanceWalkedOnStepModified > (float)this.nextStepDistance && iblockstate.getMaterial() != Material.AIR)
                 {
@@ -1029,14 +1077,16 @@ public abstract class Entity implements ICommandSender
 
                     if (this.isInWater())
                     {
-                        float f = MathHelper.sqrt(this.motionX * this.motionX * 0.20000000298023224D + this.motionY * this.motionY + this.motionZ * this.motionZ * 0.20000000298023224D) * 0.35F;
+                        Entity entity = this.isBeingRidden() && this.getControllingPassenger() != null ? this.getControllingPassenger() : this;
+                        float f = entity == this ? 0.35F : 0.4F;
+                        float f1 = MathHelper.sqrt(entity.motionX * entity.motionX * 0.20000000298023224D + entity.motionY * entity.motionY + entity.motionZ * entity.motionZ * 0.20000000298023224D) * f;
 
-                        if (f > 1.0F)
+                        if (f1 > 1.0F)
                         {
-                            f = 1.0F;
+                            f1 = 1.0F;
                         }
 
-                        this.playSound(this.getSwimSound(), f, 1.0F + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.4F);
+                        this.playSound(this.getSwimSound(), f1, 1.0F + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.4F);
                     }
                     else
                     {
@@ -1057,31 +1107,31 @@ public abstract class Entity implements ICommandSender
                 throw new ReportedException(crashreport);
             }
 
-            boolean flag2 = this.isWet();
+            boolean flag1 = this.isWet();
 
             if (this.world.isFlammableWithin(this.getEntityBoundingBox().contract(0.001D)))
             {
                 this.dealFireDamage(1);
 
-                if (!flag2)
+                if (!flag1)
                 {
-                    ++this.fire;
+                    ++this.field_190534_ay;
 
-                    if (this.fire == 0)
+                    if (this.field_190534_ay == 0)
                     {
                         this.setFire(8);
                     }
                 }
             }
-            else if (this.fire <= 0)
+            else if (this.field_190534_ay <= 0)
             {
-                this.fire = -this.getFireImmuneTicks();
+                this.field_190534_ay = -this.func_190531_bD();
             }
 
-            if (flag2 && this.isBurning())
+            if (flag1 && this.isBurning())
             {
                 this.playSound(SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, 0.7F, 1.6F + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.4F);
-                this.fire = -this.getFireImmuneTicks();
+                this.field_190534_ay = -this.func_190531_bD();
             }
 
             this.world.theProfiler.endSection();
@@ -1240,7 +1290,7 @@ public abstract class Entity implements ICommandSender
     {
         if (!this.isImmuneToFire)
         {
-            this.attackEntityFrom(DamageSource.IN_FIRE, (float)amount);
+            this.attackEntityFrom(DamageSource.inFire, (float)amount);
         }
     }
 
@@ -1328,28 +1378,30 @@ public abstract class Entity implements ICommandSender
      */
     protected void resetHeight()
     {
-        float f = MathHelper.sqrt(this.motionX * this.motionX * 0.20000000298023224D + this.motionY * this.motionY + this.motionZ * this.motionZ * 0.20000000298023224D) * 0.2F;
+        Entity entity = this.isBeingRidden() && this.getControllingPassenger() != null ? this.getControllingPassenger() : this;
+        float f = entity == this ? 0.2F : 0.9F;
+        float f1 = MathHelper.sqrt(entity.motionX * entity.motionX * 0.20000000298023224D + entity.motionY * entity.motionY + entity.motionZ * entity.motionZ * 0.20000000298023224D) * f;
 
-        if (f > 1.0F)
+        if (f1 > 1.0F)
         {
-            f = 1.0F;
+            f1 = 1.0F;
         }
 
-        this.playSound(this.getSplashSound(), f, 1.0F + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.4F);
-        float f1 = (float)MathHelper.floor(this.getEntityBoundingBox().minY);
+        this.playSound(this.getSplashSound(), f1, 1.0F + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.4F);
+        float f2 = (float)MathHelper.floor(this.getEntityBoundingBox().minY);
 
         for (int i = 0; (float)i < 1.0F + this.width * 20.0F; ++i)
         {
-            float f2 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width;
             float f3 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width;
-            this.world.spawnParticle(EnumParticleTypes.WATER_BUBBLE, this.posX + (double)f2, (double)(f1 + 1.0F), this.posZ + (double)f3, this.motionX, this.motionY - (double)(this.rand.nextFloat() * 0.2F), this.motionZ, new int[0]);
+            float f4 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width;
+            this.world.spawnParticle(EnumParticleTypes.WATER_BUBBLE, this.posX + (double)f3, (double)(f2 + 1.0F), this.posZ + (double)f4, this.motionX, this.motionY - (double)(this.rand.nextFloat() * 0.2F), this.motionZ, new int[0]);
         }
 
         for (int j = 0; (float)j < 1.0F + this.width * 20.0F; ++j)
         {
-            float f4 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width;
             float f5 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width;
-            this.world.spawnParticle(EnumParticleTypes.WATER_SPLASH, this.posX + (double)f4, (double)(f1 + 1.0F), this.posZ + (double)f5, this.motionX, this.motionY, this.motionZ, new int[0]);
+            float f6 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width;
+            this.world.spawnParticle(EnumParticleTypes.WATER_SPLASH, this.posX + (double)f5, (double)(f2 + 1.0F), this.posZ + (double)f6, this.motionX, this.motionY, this.motionZ, new int[0]);
         }
     }
 
@@ -1630,14 +1682,12 @@ public abstract class Entity implements ICommandSender
 
                     if (!this.isBeingRidden())
                     {
-                    	if(!Hacks.findMod(AntiVelocity.class).isEnabled())
-                    		this.addVelocity(-d0, 0.0D, -d1);
+                        this.addVelocity(-d0, 0.0D, -d1);
                     }
 
                     if (!entityIn.isBeingRidden())
                     {
-                    	if(!Hacks.findMod(AntiVelocity.class).isEnabled())
-                    		entityIn.addVelocity(d0, 0.0D, d1);
+                        entityIn.addVelocity(d0, 0.0D, d1);
                     }
                 }
             }
@@ -1823,9 +1873,9 @@ public abstract class Entity implements ICommandSender
         }
     }
 
-    public static void registerFixes(DataFixer fixer)
+    public static void func_190533_a(DataFixer p_190533_0_)
     {
-        fixer.registerWalker(FixTypes.ENTITY, new IDataWalker()
+        p_190533_0_.registerWalker(FixTypes.ENTITY, new IDataWalker()
         {
             public NBTTagCompound process(IDataFixer fixer, NBTTagCompound compound, int versionIn)
             {
@@ -1852,7 +1902,7 @@ public abstract class Entity implements ICommandSender
             compound.setTag("Motion", this.newDoubleNBTList(new double[] {this.motionX, this.motionY, this.motionZ}));
             compound.setTag("Rotation", this.newFloatNBTList(new float[] {this.rotationYaw, this.rotationPitch}));
             compound.setFloat("FallDistance", this.fallDistance);
-            compound.setShort("Fire", (short)this.fire);
+            compound.setShort("Fire", (short)this.field_190534_ay);
             compound.setShort("Air", (short)this.getAir());
             compound.setBoolean("OnGround", this.onGround);
             compound.setInteger("Dimension", this.dimension);
@@ -1977,7 +2027,7 @@ public abstract class Entity implements ICommandSender
             this.setRotationYawHead(this.rotationYaw);
             this.setRenderYawOffset(this.rotationYaw);
             this.fallDistance = compound.getFloat("FallDistance");
-            this.fire = compound.getShort("Fire");
+            this.field_190534_ay = compound.getShort("Fire");
             this.setAir(compound.getShort("Air"));
             this.onGround = compound.getBoolean("OnGround");
 
@@ -2049,7 +2099,7 @@ public abstract class Entity implements ICommandSender
      */
     protected final String getEntityString()
     {
-        ResourceLocation resourcelocation = EntityList.getKey(this);
+        ResourceLocation resourcelocation = EntityList.func_191301_a(this);
         return resourcelocation == null ? null : resourcelocation.toString();
     }
 
@@ -2112,7 +2162,7 @@ public abstract class Entity implements ICommandSender
      */
     public EntityItem entityDropItem(ItemStack stack, float offsetY)
     {
-        if (stack.isEmpty())
+        if (stack.func_190926_b())
         {
             return null;
         }
@@ -2120,7 +2170,7 @@ public abstract class Entity implements ICommandSender
         {
             EntityItem entityitem = new EntityItem(this.world, this.posX, this.posY + (double)offsetY, this.posZ, stack);
             entityitem.setDefaultPickupDelay();
-            this.world.spawnEntity(entityitem);
+            this.world.spawnEntityInWorld(entityitem);
             return entityitem;
         }
     }
@@ -2156,7 +2206,7 @@ public abstract class Entity implements ICommandSender
                 {
                     blockpos$pooledmutableblockpos.setPos(k, j, l);
 
-                    if (this.world.getBlockState(blockpos$pooledmutableblockpos).causesSuffocation())
+                    if (this.world.getBlockState(blockpos$pooledmutableblockpos).func_191058_s())
                     {
                         blockpos$pooledmutableblockpos.release();
                         return true;
@@ -2169,7 +2219,7 @@ public abstract class Entity implements ICommandSender
         }
     }
 
-    public boolean processInitialInteract(EntityPlayer player, EnumHand hand)
+    public boolean processInitialInteract(EntityPlayer player, EnumHand stack)
     {
         return false;
     }
@@ -2428,12 +2478,12 @@ public abstract class Entity implements ICommandSender
 
     public Iterable<ItemStack> getHeldEquipment()
     {
-        return EMPTY_EQUIPMENT;
+        return field_190535_b;
     }
 
     public Iterable<ItemStack> getArmorInventoryList()
     {
-        return EMPTY_EQUIPMENT;
+        return field_190535_b;
     }
 
     public Iterable<ItemStack> getEquipmentAndArmor()
@@ -2451,7 +2501,7 @@ public abstract class Entity implements ICommandSender
     public boolean isBurning()
     {
         boolean flag = this.world != null && this.world.isRemote;
-        return !this.isImmuneToFire && (this.fire > 0 || flag && this.getFlag(0));
+        return !this.isImmuneToFire && (this.field_190534_ay > 0 || flag && this.getFlag(0));
     }
 
     public boolean isRiding()
@@ -2605,10 +2655,10 @@ public abstract class Entity implements ICommandSender
      */
     public void onStruckByLightning(EntityLightningBolt lightningBolt)
     {
-        this.attackEntityFrom(DamageSource.LIGHTNING_BOLT, 5.0F);
-        ++this.fire;
+        this.attackEntityFrom(DamageSource.lightningBolt, 5.0F);
+        ++this.field_190534_ay;
 
-        if (this.fire == 0)
+        if (this.field_190534_ay == 0)
         {
             this.setFire(8);
         }
@@ -2787,10 +2837,10 @@ public abstract class Entity implements ICommandSender
      */
     public boolean isEntityInvulnerable(DamageSource source)
     {
-        return this.invulnerable && source != DamageSource.OUT_OF_WORLD && !source.isCreativePlayer();
+        return this.invulnerable && source != DamageSource.outOfWorld && !source.isCreativePlayer();
     }
 
-    public boolean getIsInvulnerable()
+    public boolean func_190530_aW()
     {
         return this.invulnerable;
     }
@@ -2880,7 +2930,7 @@ public abstract class Entity implements ICommandSender
 
             worldserver.updateEntityWithOptionalForce(this, false);
             this.world.theProfiler.endStartSection("reloading");
-            Entity entity = EntityList.newEntity(this.getClass(), worldserver1);
+            Entity entity = EntityList.func_191304_a(this.getClass(), worldserver1);
 
             if (entity != null)
             {
@@ -2898,7 +2948,7 @@ public abstract class Entity implements ICommandSender
 
                 boolean flag = entity.forceSpawn;
                 entity.forceSpawn = true;
-                worldserver1.spawnEntity(entity);
+                worldserver1.spawnEntityInWorld(entity);
                 entity.forceSpawn = flag;
                 worldserver1.updateEntityWithOptionalForce(entity, false);
             }
@@ -2969,7 +3019,7 @@ public abstract class Entity implements ICommandSender
         {
             public String call() throws Exception
             {
-                return EntityList.getKey(Entity.this) + " (" + Entity.this.getClass().getCanonicalName() + ")";
+                return EntityList.func_191301_a(Entity.this) + " (" + Entity.this.getClass().getCanonicalName() + ")";
             }
         });
         category.addCrashSection("Entity ID", Integer.valueOf(this.entityId));
@@ -3122,7 +3172,7 @@ public abstract class Entity implements ICommandSender
     protected HoverEvent getHoverEvent()
     {
         NBTTagCompound nbttagcompound = new NBTTagCompound();
-        ResourceLocation resourcelocation = EntityList.getKey(this);
+        ResourceLocation resourcelocation = EntityList.func_191301_a(this);
         nbttagcompound.setString("id", this.getCachedUniqueIdString());
 
         if (resourcelocation != null)
@@ -3181,14 +3231,14 @@ public abstract class Entity implements ICommandSender
     /**
      * Send a chat message to the CommandSender
      */
-    public void sendMessage(ITextComponent component)
+    public void addChatMessage(ITextComponent component)
     {
     }
 
     /**
      * Returns {@code true} if the CommandSender is allowed to execute the command, {@code false} if not
      */
-    public boolean canUseCommand(int permLevel, String commandName)
+    public boolean canCommandSenderUseCommand(int permLevel, String commandName)
     {
         return true;
     }
@@ -3478,7 +3528,7 @@ public abstract class Entity implements ICommandSender
         return SoundCategory.NEUTRAL;
     }
 
-    protected int getFireImmuneTicks()
+    protected int func_190531_bD()
     {
         return 1;
     }

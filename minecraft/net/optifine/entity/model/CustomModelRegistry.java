@@ -21,6 +21,7 @@ public class CustomModelRegistry
         addModelAdapter(map, new ModelAdapterCow());
         addModelAdapter(map, new ModelAdapterCreeper());
         addModelAdapter(map, new ModelAdapterDragon());
+        addModelAdapter(map, new ModelAdapterDonkey());
         addModelAdapter(map, new ModelAdapterEnderCrystal());
         addModelAdapter(map, new ModelAdapterEnderCrystalNoBase());
         addModelAdapter(map, new ModelAdapterEnderman());
@@ -36,6 +37,7 @@ public class CustomModelRegistry
         addModelAdapter(map, new ModelAdapterMinecart());
         addModelAdapter(map, new ModelAdapterMinecartTnt());
         addModelAdapter(map, new ModelAdapterMinecartMobSpawner());
+        addModelAdapter(map, new ModelAdapterMule());
         addModelAdapter(map, new ModelAdapterOcelot());
         addModelAdapter(map, new ModelAdapterPig());
         addModelAdapter(map, new ModelAdapterPigZombie());
@@ -46,6 +48,7 @@ public class CustomModelRegistry
         addModelAdapter(map, new ModelAdapterShulkerBullet());
         addModelAdapter(map, new ModelAdapterSilverfish());
         addModelAdapter(map, new ModelAdapterSkeleton());
+        addModelAdapter(map, new ModelAdapterSkeletonHorse());
         addModelAdapter(map, new ModelAdapterSlime());
         addModelAdapter(map, new ModelAdapterSnowman());
         addModelAdapter(map, new ModelAdapterSpider());
@@ -58,6 +61,7 @@ public class CustomModelRegistry
         addModelAdapter(map, new ModelAdapterWither());
         addModelAdapter(map, new ModelAdapterWolf());
         addModelAdapter(map, new ModelAdapterZombie());
+        addModelAdapter(map, new ModelAdapterZombieHorse());
         addModelAdapter(map, new ModelAdapterSheepWool());
         addModelAdapter(map, new ModelAdapterBanner());
         addModelAdapter(map, new ModelAdapterBook());
@@ -67,6 +71,7 @@ public class CustomModelRegistry
         addModelAdapter(map, new ModelAdapterHeadDragon());
         addModelAdapter(map, new ModelAdapterHeadHumanoid());
         addModelAdapter(map, new ModelAdapterHeadSkeleton());
+        addModelAdapter(map, new ModelAdapterShulkerBox());
         addModelAdapter(map, new ModelAdapterSign());
         return map;
     }

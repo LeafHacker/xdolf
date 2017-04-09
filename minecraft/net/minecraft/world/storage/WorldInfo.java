@@ -367,13 +367,13 @@ public class WorldInfo
     private void updateTagCompound(NBTTagCompound nbt, NBTTagCompound playerNbt)
     {
         NBTTagCompound nbttagcompound = new NBTTagCompound();
-        nbttagcompound.setString("Name", "1.11");
-        nbttagcompound.setInteger("Id", 819);
+        nbttagcompound.setString("Name", "1.11.2");
+        nbttagcompound.setInteger("Id", 922);
         nbttagcompound.setBoolean("Snapshot", false);
         nbt.setTag("Version", nbttagcompound);
-        nbt.setInteger("DataVersion", 819);
+        nbt.setInteger("DataVersion", 922);
         nbt.setLong("RandomSeed", this.randomSeed);
-        nbt.setString("generatorName", this.terrainType.getName());
+        nbt.setString("generatorName", this.terrainType.getWorldTypeName());
         nbt.setInteger("generatorVersion", this.terrainType.getGeneratorVersion());
         nbt.setString("generatorOptions", this.generatorOptions);
         nbt.setInteger("GameType", this.theGameType.getID());
@@ -911,7 +911,7 @@ public class WorldInfo
         {
             public String call() throws Exception
             {
-                return String.format("ID %02d - %s, ver %d. Features enabled: %b", new Object[] {Integer.valueOf(WorldInfo.this.terrainType.getWorldTypeID()), WorldInfo.this.terrainType.getName(), Integer.valueOf(WorldInfo.this.terrainType.getGeneratorVersion()), Boolean.valueOf(WorldInfo.this.mapFeaturesEnabled)});
+                return String.format("ID %02d - %s, ver %d. Features enabled: %b", new Object[] {Integer.valueOf(WorldInfo.this.terrainType.getWorldTypeID()), WorldInfo.this.terrainType.getWorldTypeName(), Integer.valueOf(WorldInfo.this.terrainType.getGeneratorVersion()), Boolean.valueOf(WorldInfo.this.mapFeaturesEnabled)});
             }
         });
         category.setDetail("Level generator options", new ICrashReportDetail<String>()

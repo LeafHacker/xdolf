@@ -55,33 +55,33 @@ public class EntityAIVillagerInteract extends EntityAIWatchClosest2
                 for (int i = 0; i < inventorybasic.getSizeInventory(); ++i)
                 {
                     ItemStack itemstack = inventorybasic.getStackInSlot(i);
-                    ItemStack itemstack1 = ItemStack.EMPTY;
+                    ItemStack itemstack1 = ItemStack.field_190927_a;
 
-                    if (!itemstack.isEmpty())
+                    if (!itemstack.func_190926_b())
                     {
                         Item item = itemstack.getItem();
 
-                        if ((item == Items.BREAD || item == Items.POTATO || item == Items.CARROT || item == Items.BEETROOT) && itemstack.getCount() > 3)
+                        if ((item == Items.BREAD || item == Items.POTATO || item == Items.CARROT || item == Items.BEETROOT) && itemstack.func_190916_E() > 3)
                         {
-                            int l = itemstack.getCount() / 2;
-                            itemstack.shrink(l);
+                            int l = itemstack.func_190916_E() / 2;
+                            itemstack.func_190918_g(l);
                             itemstack1 = new ItemStack(item, l, itemstack.getMetadata());
                         }
-                        else if (item == Items.WHEAT && itemstack.getCount() > 5)
+                        else if (item == Items.WHEAT && itemstack.func_190916_E() > 5)
                         {
-                            int j = itemstack.getCount() / 2 / 3 * 3;
+                            int j = itemstack.func_190916_E() / 2 / 3 * 3;
                             int k = j / 3;
-                            itemstack.shrink(j);
+                            itemstack.func_190918_g(j);
                             itemstack1 = new ItemStack(Items.BREAD, k, 0);
                         }
 
-                        if (itemstack.isEmpty())
+                        if (itemstack.func_190926_b())
                         {
-                            inventorybasic.setInventorySlotContents(i, ItemStack.EMPTY);
+                            inventorybasic.setInventorySlotContents(i, ItemStack.field_190927_a);
                         }
                     }
 
-                    if (!itemstack1.isEmpty())
+                    if (!itemstack1.func_190926_b())
                     {
                         double d0 = this.villager.posY - 0.30000001192092896D + (double)this.villager.getEyeHeight();
                         EntityItem entityitem = new EntityItem(this.villager.world, this.villager.posX, d0, this.villager.posZ, itemstack1);
@@ -92,7 +92,7 @@ public class EntityAIVillagerInteract extends EntityAIWatchClosest2
                         entityitem.motionZ = (double)(MathHelper.cos(f1 * 0.017453292F) * MathHelper.cos(f2 * 0.017453292F) * 0.3F);
                         entityitem.motionY = (double)(-MathHelper.sin(f2 * 0.017453292F) * 0.3F + 0.1F);
                         entityitem.setDefaultPickupDelay();
-                        this.villager.world.spawnEntity(entityitem);
+                        this.villager.world.spawnEntityInWorld(entityitem);
                         break;
                     }
                 }

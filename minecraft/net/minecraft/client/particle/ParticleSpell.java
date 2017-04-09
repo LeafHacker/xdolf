@@ -43,7 +43,7 @@ public class ParticleSpell extends Particle
 
         this.setParticleTextureIndex(this.baseSpellTextureIndex + (7 - this.particleAge * 8 / this.particleMaxAge));
         this.motionY += 0.004D;
-        this.move(this.motionX, this.motionY, this.motionZ);
+        this.moveEntity(this.motionX, this.motionY, this.motionZ);
 
         if (this.posY == this.prevPosY)
         {
@@ -55,7 +55,7 @@ public class ParticleSpell extends Particle
         this.motionY *= 0.9599999785423279D;
         this.motionZ *= 0.9599999785423279D;
 
-        if (this.onGround)
+        if (this.isCollided)
         {
             this.motionX *= 0.699999988079071D;
             this.motionZ *= 0.699999988079071D;

@@ -57,7 +57,7 @@ public class BlockEnderChest extends BlockContainer
         return false;
     }
 
-    public boolean hasCustomBreakingProgress(IBlockState state)
+    public boolean func_190946_v(IBlockState p_190946_1_)
     {
         return true;
     }
@@ -96,7 +96,7 @@ public class BlockEnderChest extends BlockContainer
      * Called by ItemBlocks just before a block is actually set in the world, to allow for adjustments to the
      * IBlockstate
      */
-    public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
+    public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
     {
         return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite());
     }
@@ -109,7 +109,7 @@ public class BlockEnderChest extends BlockContainer
         worldIn.setBlockState(pos, state.withProperty(FACING, placer.getHorizontalFacing().getOpposite()), 2);
     }
 
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing heldItem, float side, float hitX, float hitY)
     {
         InventoryEnderChest inventoryenderchest = playerIn.getInventoryEnderChest();
         TileEntity tileentity = worldIn.getTileEntity(pos);

@@ -63,26 +63,26 @@ public class MapColor
         }
     }
 
-    public int getMapColor(int index)
+    public int getMapColor(int p_151643_1_)
     {
         int i = 220;
 
-        if (index == 3)
+        if (p_151643_1_ == 3)
         {
             i = 135;
         }
 
-        if (index == 2)
+        if (p_151643_1_ == 2)
         {
             i = 255;
         }
 
-        if (index == 1)
+        if (p_151643_1_ == 1)
         {
             i = 220;
         }
 
-        if (index == 0)
+        if (p_151643_1_ == 0)
         {
             i = 180;
         }

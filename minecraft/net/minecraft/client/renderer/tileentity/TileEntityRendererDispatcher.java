@@ -38,7 +38,7 @@ import net.minecraft.world.World;
 
 public class TileEntityRendererDispatcher
 {
-    public final Map<Class<? extends TileEntity>, TileEntitySpecialRenderer<? extends TileEntity>> mapSpecialRenderers = Maps. < Class <? extends TileEntity > , TileEntitySpecialRenderer <? extends TileEntity >> newHashMap();
+    public final Map<Class, TileEntitySpecialRenderer> mapSpecialRenderers = Maps.newHashMap();
     public static TileEntityRendererDispatcher instance = new TileEntityRendererDispatcher();
     private FontRenderer fontRenderer;
 
@@ -51,7 +51,7 @@ public class TileEntityRendererDispatcher
     /** The player's current Z position (same as playerZ) */
     public static double staticPlayerZ;
     public TextureManager renderEngine;
-    public World world;
+    public World worldObj;
     public Entity entity;
     public float entityYaw;
     public float entityPitch;
@@ -106,7 +106,7 @@ public class TileEntityRendererDispatcher
 
     public void prepare(World p_190056_1_, TextureManager p_190056_2_, FontRenderer p_190056_3_, Entity p_190056_4_, RayTraceResult p_190056_5_, float p_190056_6_)
     {
-        if (this.world != p_190056_1_)
+        if (this.worldObj != p_190056_1_)
         {
             this.setWorld(p_190056_1_);
         }
@@ -136,7 +136,7 @@ public class TileEntityRendererDispatcher
 
             if (flag)
             {
-                int i = this.world.getCombinedLight(tileentityIn.getPos(), 0);
+                int i = this.worldObj.getCombinedLight(tileentityIn.getPos(), 0);
                 int j = i % 65536;
                 int k = i / 65536;
                 OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)j, (float)k);
@@ -189,7 +189,7 @@ public class TileEntityRendererDispatcher
 
     public void setWorld(@Nullable World worldIn)
     {
-        this.world = worldIn;
+        this.worldObj = worldIn;
 
         if (worldIn == null)
         {

@@ -28,11 +28,11 @@ public class PlayerItemModel
     public static final int ATTACH_RIGHT_LEG = 5;
     public static final int ATTACH_CAPE = 6;
 
-    public PlayerItemModel(Dimension p_i67_1_, boolean p_i67_2_, PlayerItemRenderer[] p_i67_3_)
+    public PlayerItemModel(Dimension p_i70_1_, boolean p_i70_2_, PlayerItemRenderer[] p_i70_3_)
     {
-        this.textureSize = p_i67_1_;
-        this.usePlayerTexture = p_i67_2_;
-        this.modelRenderers = p_i67_3_;
+        this.textureSize = p_i70_1_;
+        this.usePlayerTexture = p_i70_2_;
+        this.modelRenderers = p_i70_3_;
     }
 
     public void render(ModelBiped p_render_1_, AbstractClientPlayer p_render_2_, float p_render_3_, float p_render_4_)

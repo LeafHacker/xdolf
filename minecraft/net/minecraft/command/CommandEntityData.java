@@ -13,7 +13,7 @@ public class CommandEntityData extends CommandBase
     /**
      * Gets the name of the command
      */
-    public String getName()
+    public String getCommandName()
     {
         return "entitydata";
     }
@@ -29,7 +29,7 @@ public class CommandEntityData extends CommandBase
     /**
      * Gets the usage string for the command.
      */
-    public String getUsage(ICommandSender sender)
+    public String getCommandUsage(ICommandSender sender)
     {
         return "commands.entitydata.usage";
     }

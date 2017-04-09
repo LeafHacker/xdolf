@@ -146,7 +146,7 @@ public class EntityEnderCrystal extends Entity
      */
     public void onKillCommand()
     {
-        this.onCrystalDestroyed(DamageSource.GENERIC);
+        this.onCrystalDestroyed(DamageSource.generic);
         super.onKillCommand();
     }
 

@@ -91,9 +91,14 @@ public abstract class TextComponentBase implements ITextComponent
 
         for (ITextComponent itextcomponent : this)
         {
-            stringbuilder.append(itextcomponent.getStyle().getFormattingCode());
-            stringbuilder.append(itextcomponent.getUnformattedComponentText());
-            stringbuilder.append((Object)TextFormatting.RESET);
+            String s = itextcomponent.getUnformattedComponentText();
+
+            if (!s.isEmpty())
+            {
+                stringbuilder.append(itextcomponent.getStyle().getFormattingCode());
+                stringbuilder.append(s);
+                stringbuilder.append((Object)TextFormatting.RESET);
+            }
         }
 
         return stringbuilder.toString();

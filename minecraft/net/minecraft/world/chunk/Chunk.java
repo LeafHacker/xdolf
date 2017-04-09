@@ -66,7 +66,7 @@ public class Chunk
     private boolean isChunkLoaded;
 
     /** Reference to the World object. */
-    private final World world;
+    private final World worldObj;
     private final int[] heightMap;
 
     /** The x coordinate of the chunk. */
@@ -119,7 +119,7 @@ public class Chunk
         this.queuedLightChecks = 4096;
         this.tileEntityPosQueue = Queues.<BlockPos>newConcurrentLinkedQueue();
         this.entityLists = (ClassInheritanceMultiMap[])(new ClassInheritanceMultiMap[16]);
-        this.world = worldIn;
+        this.worldObj = worldIn;
         this.xPosition = x;
         this.zPosition = z;
         this.heightMap = new int[256];
@@ -137,7 +137,7 @@ public class Chunk
     {
         this(worldIn, x, z);
         int i = 256;
-        boolean flag = worldIn.provider.hasSkyLight();
+        boolean flag = worldIn.provider.func_191066_m();
 
         for (int j = 0; j < 16; ++j)
         {
@@ -280,7 +280,7 @@ public class Chunk
                     }
                 }
 
-                if (this.world.provider.hasSkyLight())
+                if (this.worldObj.provider.func_191066_m())
                 {
                     int k1 = 15;
                     int i1 = i + 16 - 1;
@@ -303,7 +303,7 @@ public class Chunk
                             if (extendedblockstorage != NULL_BLOCK_STORAGE)
                             {
                                 extendedblockstorage.setExtSkylightValue(j, i1 & 15, k, k1);
-                                this.world.notifyLightSet(new BlockPos((this.xPosition << 4) + j, i1, (this.zPosition << 4) + k));
+                                this.worldObj.notifyLightSet(new BlockPos((this.xPosition << 4) + j, i1, (this.zPosition << 4) + k));
                             }
                         }
 
@@ -332,9 +332,9 @@ public class Chunk
 
     private void recheckGaps(boolean p_150803_1_)
     {
-        this.world.theProfiler.startSection("recheckGaps");
+        this.worldObj.theProfiler.startSection("recheckGaps");
 
-        if (this.world.isAreaLoaded(new BlockPos(this.xPosition * 16 + 8, 0, this.zPosition * 16 + 8), 16))
+        if (this.worldObj.isAreaLoaded(new BlockPos(this.xPosition * 16 + 8, 0, this.zPosition * 16 + 8), 16))
         {
             for (int i = 0; i < 16; ++i)
             {
@@ -350,7 +350,7 @@ public class Chunk
 
                         for (EnumFacing enumfacing : EnumFacing.Plane.HORIZONTAL)
                         {
-                            j1 = Math.min(j1, this.world.getChunksLowestHorizon(l + enumfacing.getFrontOffsetX(), i1 + enumfacing.getFrontOffsetZ()));
+                            j1 = Math.min(j1, this.worldObj.getChunksLowestHorizon(l + enumfacing.getFrontOffsetX(), i1 + enumfacing.getFrontOffsetZ()));
                         }
 
                         this.checkSkylightNeighborHeight(l, i1, j1);
@@ -362,7 +362,7 @@ public class Chunk
 
                         if (p_150803_1_)
                         {
-                            this.world.theProfiler.endSection();
+                            this.worldObj.theProfiler.endSection();
                             return;
                         }
                     }
@@ -372,7 +372,7 @@ public class Chunk
             this.isGapLightingUpdated = false;
         }
 
-        this.world.theProfiler.endSection();
+        this.worldObj.theProfiler.endSection();
     }
 
     /**
@@ -380,7 +380,7 @@ public class Chunk
      */
     private void checkSkylightNeighborHeight(int x, int z, int maxValue)
     {
-        int i = this.world.getHeight(new BlockPos(x, 0, z)).getY();
+        int i = this.worldObj.getHeight(new BlockPos(x, 0, z)).getY();
 
         if (i > maxValue)
         {
@@ -394,11 +394,11 @@ public class Chunk
 
     private void updateSkylightNeighborHeight(int x, int z, int startY, int endY)
     {
-        if (endY > startY && this.world.isAreaLoaded(new BlockPos(x, 0, z), 16))
+        if (endY > startY && this.worldObj.isAreaLoaded(new BlockPos(x, 0, z), 16))
         {
             for (int i = startY; i < endY; ++i)
             {
-                this.world.checkLightFor(EnumSkyBlock.SKY, new BlockPos(x, i, z));
+                this.worldObj.checkLightFor(EnumSkyBlock.SKY, new BlockPos(x, i, z));
             }
 
             this.isModified = true;
@@ -425,12 +425,12 @@ public class Chunk
 
         if (j != i)
         {
-            this.world.markBlocksDirtyVertical(x + this.xPosition * 16, z + this.zPosition * 16, j, i);
+            this.worldObj.markBlocksDirtyVertical(x + this.xPosition * 16, z + this.zPosition * 16, j, i);
             this.heightMap[z << 4 | x] = j;
             int k = this.xPosition * 16 + x;
             int l = this.zPosition * 16 + z;
 
-            if (this.world.provider.hasSkyLight())
+            if (this.worldObj.provider.func_191066_m())
             {
                 if (j < i)
                 {
@@ -441,7 +441,7 @@ public class Chunk
                         if (extendedblockstorage2 != NULL_BLOCK_STORAGE)
                         {
                             extendedblockstorage2.setExtSkylightValue(x, j1 & 15, z, 15);
-                            this.world.notifyLightSet(new BlockPos((this.xPosition << 4) + x, j1, (this.zPosition << 4) + z));
+                            this.worldObj.notifyLightSet(new BlockPos((this.xPosition << 4) + x, j1, (this.zPosition << 4) + z));
                         }
                     }
                 }
@@ -454,7 +454,7 @@ public class Chunk
                         if (extendedblockstorage != NULL_BLOCK_STORAGE)
                         {
                             extendedblockstorage.setExtSkylightValue(x, i1 & 15, z, 0);
-                            this.world.notifyLightSet(new BlockPos((this.xPosition << 4) + x, i1, (this.zPosition << 4) + z));
+                            this.worldObj.notifyLightSet(new BlockPos((this.xPosition << 4) + x, i1, (this.zPosition << 4) + z));
                         }
                     }
                 }
@@ -502,7 +502,7 @@ public class Chunk
                 this.heightMapMinimum = l1;
             }
 
-            if (this.world.provider.hasSkyLight())
+            if (this.worldObj.provider.func_191066_m())
             {
                 for (EnumFacing enumfacing : EnumFacing.Plane.HORIZONTAL)
                 {
@@ -533,7 +533,7 @@ public class Chunk
 
     public IBlockState getBlockState(final int x, final int y, final int z)
     {
-        if (this.world.getWorldType() == WorldType.DEBUG_WORLD)
+        if (this.worldObj.getWorldType() == WorldType.DEBUG_WORLD)
         {
             IBlockState iblockstate = null;
 
@@ -615,7 +615,7 @@ public class Chunk
                     return null;
                 }
 
-                extendedblockstorage = new ExtendedBlockStorage(j >> 4 << 4, this.world.provider.hasSkyLight());
+                extendedblockstorage = new ExtendedBlockStorage(j >> 4 << 4, this.worldObj.provider.func_191066_m());
                 this.storageArrays[j >> 4] = extendedblockstorage;
                 flag = j >= i1;
             }
@@ -624,13 +624,13 @@ public class Chunk
 
             if (block1 != block)
             {
-                if (!this.world.isRemote)
+                if (!this.worldObj.isRemote)
                 {
-                    block1.breakBlock(this.world, pos, iblockstate);
+                    block1.breakBlock(this.worldObj, pos, iblockstate);
                 }
                 else if (block1 instanceof ITileEntityProvider)
                 {
-                    this.world.removeTileEntity(pos);
+                    this.worldObj.removeTileEntity(pos);
                 }
             }
 
@@ -677,9 +677,9 @@ public class Chunk
                     }
                 }
 
-                if (!this.world.isRemote && block1 != block)
+                if (!this.worldObj.isRemote && block1 != block)
                 {
-                    block.onBlockAdded(this.world, pos, state);
+                    block.onBlockAdded(this.worldObj, pos, state);
                 }
 
                 if (block instanceof ITileEntityProvider)
@@ -688,8 +688,8 @@ public class Chunk
 
                     if (tileentity1 == null)
                     {
-                        tileentity1 = ((ITileEntityProvider)block).createNewTileEntity(this.world, block.getMetaFromState(state));
-                        this.world.setTileEntity(pos, tileentity1);
+                        tileentity1 = ((ITileEntityProvider)block).createNewTileEntity(this.worldObj, block.getMetaFromState(state));
+                        this.worldObj.setTileEntity(pos, tileentity1);
                     }
 
                     if (tileentity1 != null)
@@ -710,7 +710,7 @@ public class Chunk
         int j = pos.getY();
         int k = pos.getZ() & 15;
         ExtendedBlockStorage extendedblockstorage = this.storageArrays[j >> 4];
-        return extendedblockstorage == NULL_BLOCK_STORAGE ? (this.canSeeSky(pos) ? p_177413_1_.defaultLightValue : 0) : (p_177413_1_ == EnumSkyBlock.SKY ? (!this.world.provider.hasSkyLight() ? 0 : extendedblockstorage.getExtSkylightValue(i, j & 15, k)) : (p_177413_1_ == EnumSkyBlock.BLOCK ? extendedblockstorage.getExtBlocklightValue(i, j & 15, k) : p_177413_1_.defaultLightValue));
+        return extendedblockstorage == NULL_BLOCK_STORAGE ? (this.canSeeSky(pos) ? p_177413_1_.defaultLightValue : 0) : (p_177413_1_ == EnumSkyBlock.SKY ? (!this.worldObj.provider.func_191066_m() ? 0 : extendedblockstorage.getExtSkylightValue(i, j & 15, k)) : (p_177413_1_ == EnumSkyBlock.BLOCK ? extendedblockstorage.getExtBlocklightValue(i, j & 15, k) : p_177413_1_.defaultLightValue));
     }
 
     public void setLightFor(EnumSkyBlock p_177431_1_, BlockPos pos, int value)
@@ -722,7 +722,7 @@ public class Chunk
 
         if (extendedblockstorage == NULL_BLOCK_STORAGE)
         {
-            extendedblockstorage = new ExtendedBlockStorage(j >> 4 << 4, this.world.provider.hasSkyLight());
+            extendedblockstorage = new ExtendedBlockStorage(j >> 4 << 4, this.worldObj.provider.func_191066_m());
             this.storageArrays[j >> 4] = extendedblockstorage;
             this.generateSkylightMap();
         }
@@ -731,7 +731,7 @@ public class Chunk
 
         if (p_177431_1_ == EnumSkyBlock.SKY)
         {
-            if (this.world.provider.hasSkyLight())
+            if (this.worldObj.provider.func_191066_m())
             {
                 extendedblockstorage.setExtSkylightValue(i, j & 15, k, value);
             }
@@ -751,11 +751,11 @@ public class Chunk
 
         if (extendedblockstorage == NULL_BLOCK_STORAGE)
         {
-            return this.world.provider.hasSkyLight() && amount < EnumSkyBlock.SKY.defaultLightValue ? EnumSkyBlock.SKY.defaultLightValue - amount : 0;
+            return this.worldObj.provider.func_191066_m() && amount < EnumSkyBlock.SKY.defaultLightValue ? EnumSkyBlock.SKY.defaultLightValue - amount : 0;
         }
         else
         {
-            int l = !this.world.provider.hasSkyLight() ? 0 : extendedblockstorage.getExtSkylightValue(i, j & 15, k);
+            int l = !this.worldObj.provider.func_191066_m() ? 0 : extendedblockstorage.getExtSkylightValue(i, j & 15, k);
             l = l - amount;
             int i1 = extendedblockstorage.getExtBlocklightValue(i, j & 15, k);
 
@@ -841,7 +841,7 @@ public class Chunk
     {
         IBlockState iblockstate = this.getBlockState(pos);
         Block block = iblockstate.getBlock();
-        return !block.hasTileEntity() ? null : ((ITileEntityProvider)block).createNewTileEntity(this.world, iblockstate.getBlock().getMetaFromState(iblockstate));
+        return !block.hasTileEntity() ? null : ((ITileEntityProvider)block).createNewTileEntity(this.worldObj, iblockstate.getBlock().getMetaFromState(iblockstate));
     }
 
     @Nullable
@@ -854,7 +854,7 @@ public class Chunk
             if (p_177424_2_ == Chunk.EnumCreateEntityType.IMMEDIATE)
             {
                 tileentity = this.createNewTileEntity(pos);
-                this.world.setTileEntity(pos, tileentity);
+                this.worldObj.setTileEntity(pos, tileentity);
             }
             else if (p_177424_2_ == Chunk.EnumCreateEntityType.QUEUED)
             {
@@ -876,13 +876,13 @@ public class Chunk
 
         if (this.isChunkLoaded)
         {
-            this.world.addTileEntity(tileEntityIn);
+            this.worldObj.addTileEntity(tileEntityIn);
         }
     }
 
     public void addTileEntity(BlockPos pos, TileEntity tileEntityIn)
     {
-        tileEntityIn.setWorld(this.world);
+        tileEntityIn.setWorldObj(this.worldObj);
         tileEntityIn.setPos(pos);
 
         if (this.getBlockState(pos).getBlock() instanceof ITileEntityProvider)
@@ -916,11 +916,11 @@ public class Chunk
     public void onChunkLoad()
     {
         this.isChunkLoaded = true;
-        this.world.addTileEntities(this.chunkTileEntityMap.values());
+        this.worldObj.addTileEntities(this.chunkTileEntityMap.values());
 
         for (ClassInheritanceMultiMap<Entity> classinheritancemultimap : this.entityLists)
         {
-            this.world.loadEntities(classinheritancemultimap);
+            this.worldObj.loadEntities(classinheritancemultimap);
         }
     }
 
@@ -933,12 +933,12 @@ public class Chunk
 
         for (TileEntity tileentity : this.chunkTileEntityMap.values())
         {
-            this.world.markTileEntityForRemoval(tileentity);
+            this.worldObj.markTileEntityForRemoval(tileentity);
         }
 
         for (ClassInheritanceMultiMap<Entity> classinheritancemultimap : this.entityLists)
         {
-            this.world.unloadEntities(classinheritancemultimap);
+            this.worldObj.unloadEntities(classinheritancemultimap);
         }
     }
 
@@ -1017,12 +1017,12 @@ public class Chunk
     {
         if (p_76601_1_)
         {
-            if (this.hasEntities && this.world.getTotalWorldTime() != this.lastSaveTime || this.isModified)
+            if (this.hasEntities && this.worldObj.getTotalWorldTime() != this.lastSaveTime || this.isModified)
             {
                 return true;
             }
         }
-        else if (this.hasEntities && this.world.getTotalWorldTime() >= this.lastSaveTime + 600L)
+        else if (this.hasEntities && this.worldObj.getTotalWorldTime() >= this.lastSaveTime + 600L)
         {
             return true;
         }
@@ -1032,7 +1032,7 @@ public class Chunk
 
     public Random getRandomWithSeed(long seed)
     {
-        return new Random(this.world.getSeed() + (long)(this.xPosition * this.xPosition * 4987142) + (long)(this.xPosition * 5947611) + (long)(this.zPosition * this.zPosition) * 4392871L + (long)(this.zPosition * 389711) ^ seed);
+        return new Random(this.worldObj.getSeed() + (long)(this.xPosition * this.xPosition * 4987142) + (long)(this.xPosition * 5947611) + (long)(this.zPosition * this.zPosition) * 4392871L + (long)(this.zPosition * 389711) ^ seed);
     }
 
     public boolean isEmpty()
@@ -1126,9 +1126,9 @@ public class Chunk
 
     public void onTick(boolean p_150804_1_)
     {
-        if (this.isGapLightingUpdated && this.world.provider.hasSkyLight() && !p_150804_1_)
+        if (this.isGapLightingUpdated && this.worldObj.provider.func_191066_m() && !p_150804_1_)
         {
-            this.recheckGaps(this.world.isRemote);
+            this.recheckGaps(this.worldObj.isRemote);
         }
 
         this.chunkTicked = true;
@@ -1145,8 +1145,8 @@ public class Chunk
             if (this.getTileEntity(blockpos, Chunk.EnumCreateEntityType.CHECK) == null && this.getBlockState(blockpos).getBlock().hasTileEntity())
             {
                 TileEntity tileentity = this.createNewTileEntity(blockpos);
-                this.world.setTileEntity(blockpos, tileentity);
-                this.world.markBlockRangeForRenderUpdate(blockpos, blockpos);
+                this.worldObj.setTileEntity(blockpos, tileentity);
+                this.worldObj.markBlockRangeForRenderUpdate(blockpos, blockpos);
             }
         }
     }
@@ -1212,7 +1212,7 @@ public class Chunk
 
     public void fillChunk(PacketBuffer buf, int p_186033_2_, boolean p_186033_3_)
     {
-        boolean flag = this.world.provider.hasSkyLight();
+        boolean flag = this.worldObj.provider.func_191066_m();
 
         for (int i = 0; i < this.storageArrays.length; ++i)
         {
@@ -1349,13 +1349,13 @@ public class Chunk
                         {
                             BlockPos blockpos2 = blockpos1.offset(enumfacing);
 
-                            if (this.world.getBlockState(blockpos2).getLightValue() > 0)
+                            if (this.worldObj.getBlockState(blockpos2).getLightValue() > 0)
                             {
-                                this.world.checkLight(blockpos2);
+                                this.worldObj.checkLight(blockpos2);
                             }
                         }
 
-                        this.world.checkLight(blockpos1);
+                        this.worldObj.checkLight(blockpos1);
                     }
                 }
             }
@@ -1368,9 +1368,9 @@ public class Chunk
         this.isLightPopulated = true;
         BlockPos blockpos = new BlockPos(this.xPosition << 4, 0, this.zPosition << 4);
 
-        if (this.world.provider.hasSkyLight())
+        if (this.worldObj.provider.func_191066_m())
         {
-            if (this.world.isAreaLoaded(blockpos.add(-1, 0, -1), blockpos.add(16, this.world.getSeaLevel(), 16)))
+            if (this.worldObj.isAreaLoaded(blockpos.add(-1, 0, -1), blockpos.add(16, this.worldObj.getSeaLevel(), 16)))
             {
                 label92:
 
@@ -1391,7 +1391,7 @@ public class Chunk
                     for (EnumFacing enumfacing : EnumFacing.Plane.HORIZONTAL)
                     {
                         int k = enumfacing.getAxisDirection() == EnumFacing.AxisDirection.POSITIVE ? 16 : 1;
-                        this.world.getChunkFromBlockCoords(blockpos.offset(enumfacing, k)).checkLightSide(enumfacing.getOpposite());
+                        this.worldObj.getChunkFromBlockCoords(blockpos.offset(enumfacing, k)).checkLightSide(enumfacing.getOpposite());
                     }
 
                     this.setSkylightUpdated();
@@ -1456,12 +1456,12 @@ public class Chunk
         boolean flag1 = false;
         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos((this.xPosition << 4) + x, 0, (this.zPosition << 4) + z);
 
-        for (int j = i + 16 - 1; j > this.world.getSeaLevel() || j > 0 && !flag1; --j)
+        for (int j = i + 16 - 1; j > this.worldObj.getSeaLevel() || j > 0 && !flag1; --j)
         {
             blockpos$mutableblockpos.setPos(blockpos$mutableblockpos.getX(), j, blockpos$mutableblockpos.getZ());
             int k = this.getBlockLightOpacity(blockpos$mutableblockpos);
 
-            if (k == 255 && blockpos$mutableblockpos.getY() < this.world.getSeaLevel())
+            if (k == 255 && blockpos$mutableblockpos.getY() < this.worldObj.getSeaLevel())
             {
                 flag1 = true;
             }
@@ -1470,7 +1470,7 @@ public class Chunk
             {
                 flag = true;
             }
-            else if (flag && k == 0 && !this.world.checkLight(blockpos$mutableblockpos))
+            else if (flag && k == 0 && !this.worldObj.checkLight(blockpos$mutableblockpos))
             {
                 return false;
             }
@@ -1482,7 +1482,7 @@ public class Chunk
 
             if (this.getBlockState(blockpos$mutableblockpos).getLightValue() > 0)
             {
-                this.world.checkLight(blockpos$mutableblockpos);
+                this.worldObj.checkLight(blockpos$mutableblockpos);
             }
         }
 
@@ -1501,7 +1501,7 @@ public class Chunk
 
     public World getWorld()
     {
-        return this.world;
+        return this.worldObj;
     }
 
     public int[] getHeightMap()

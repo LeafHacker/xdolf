@@ -17,7 +17,7 @@ public abstract class TileEntityLockableLoot extends TileEntityLockable implemen
 {
     protected ResourceLocation lootTable;
     protected long lootTableSeed;
-    protected String customName;
+    protected String field_190577_o;
 
     protected boolean checkLootAndRead(NBTTagCompound compound)
     {
@@ -96,12 +96,12 @@ public abstract class TileEntityLockableLoot extends TileEntityLockable implemen
      */
     public boolean hasCustomName()
     {
-        return this.customName != null && !this.customName.isEmpty();
+        return this.field_190577_o != null && !this.field_190577_o.isEmpty();
     }
 
-    public void setCustomName(String p_190575_1_)
+    public void func_190575_a(String p_190575_1_)
     {
-        this.customName = p_190575_1_;
+        this.field_190577_o = p_190575_1_;
     }
 
     /**
@@ -110,7 +110,7 @@ public abstract class TileEntityLockableLoot extends TileEntityLockable implemen
     public ItemStack getStackInSlot(int index)
     {
         this.fillWithLoot((EntityPlayer)null);
-        return (ItemStack)this.getItems().get(index);
+        return (ItemStack)this.func_190576_q().get(index);
     }
 
     /**
@@ -119,9 +119,9 @@ public abstract class TileEntityLockableLoot extends TileEntityLockable implemen
     public ItemStack decrStackSize(int index, int count)
     {
         this.fillWithLoot((EntityPlayer)null);
-        ItemStack itemstack = ItemStackHelper.getAndSplit(this.getItems(), index, count);
+        ItemStack itemstack = ItemStackHelper.getAndSplit(this.func_190576_q(), index, count);
 
-        if (!itemstack.isEmpty())
+        if (!itemstack.func_190926_b())
         {
             this.markDirty();
         }
@@ -135,7 +135,7 @@ public abstract class TileEntityLockableLoot extends TileEntityLockable implemen
     public ItemStack removeStackFromSlot(int index)
     {
         this.fillWithLoot((EntityPlayer)null);
-        return ItemStackHelper.getAndRemove(this.getItems(), index);
+        return ItemStackHelper.getAndRemove(this.func_190576_q(), index);
     }
 
     /**
@@ -144,11 +144,11 @@ public abstract class TileEntityLockableLoot extends TileEntityLockable implemen
     public void setInventorySlotContents(int index, @Nullable ItemStack stack)
     {
         this.fillWithLoot((EntityPlayer)null);
-        this.getItems().set(index, stack);
+        this.func_190576_q().set(index, stack);
 
-        if (stack.getCount() > this.getInventoryStackLimit())
+        if (stack.func_190916_E() > this.getInventoryStackLimit())
         {
-            stack.setCount(this.getInventoryStackLimit());
+            stack.func_190920_e(this.getInventoryStackLimit());
         }
 
         this.markDirty();
@@ -196,8 +196,8 @@ public abstract class TileEntityLockableLoot extends TileEntityLockable implemen
     public void clear()
     {
         this.fillWithLoot((EntityPlayer)null);
-        this.getItems().clear();
+        this.func_190576_q().clear();
     }
 
-    protected abstract NonNullList<ItemStack> getItems();
+    protected abstract NonNullList<ItemStack> func_190576_q();
 }

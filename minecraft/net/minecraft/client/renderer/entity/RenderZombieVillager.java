@@ -25,7 +25,7 @@ public class RenderZombieVillager extends RenderBiped<EntityZombieVillager>
      */
     protected ResourceLocation getEntityTexture(EntityZombieVillager entity)
     {
-        switch (entity.getProfession())
+        switch (entity.func_190736_dl())
         {
             case 0:
                 return ZOMBIE_VILLAGER_FARMER_LOCATION;
@@ -48,13 +48,13 @@ public class RenderZombieVillager extends RenderBiped<EntityZombieVillager>
         }
     }
 
-    protected void applyRotations(EntityZombieVillager entityLiving, float p_77043_2_, float p_77043_3_, float partialTicks)
+    protected void rotateCorpse(EntityZombieVillager entityLiving, float p_77043_2_, float p_77043_3_, float partialTicks)
     {
         if (entityLiving.isConverting())
         {
             p_77043_3_ += (float)(Math.cos((double)entityLiving.ticksExisted * 3.25D) * Math.PI * 0.25D);
         }
 
-        super.applyRotations(entityLiving, p_77043_2_, p_77043_3_, partialTicks);
+        super.rotateCorpse(entityLiving, p_77043_2_, p_77043_3_, partialTicks);
     }
 }

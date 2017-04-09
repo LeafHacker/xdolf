@@ -1,7 +1,5 @@
 package net.minecraft.client.gui;
 
-import com.google.common.base.Joiner;
-import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import java.util.Iterator;
 import java.util.List;
@@ -17,8 +15,6 @@ import org.apache.logging.log4j.Logger;
 
 public class GuiNewChat extends Gui
 {
-    private static final Splitter NEWLINE_SPLITTER = Splitter.on('\n');
-    private static final Joiner NEWLINE_STRING_JOINER = Joiner.on("\\n");
     private static final Logger LOGGER = LogManager.getLogger();
     private final Minecraft mc;
     private final List<String> sentMessages = Lists.<String>newArrayList();
@@ -144,7 +140,7 @@ public class GuiNewChat extends Gui
     public void printChatMessageWithOptionalDeletion(ITextComponent chatComponent, int chatLineId)
     {
         this.setChatLine(chatComponent, chatLineId, this.mc.ingameGUI.getUpdateCounter(), false);
-        LOGGER.info("[CHAT] {}", new Object[] {NEWLINE_STRING_JOINER.join(NEWLINE_SPLITTER.split(chatComponent.getUnformattedText()))});
+        LOGGER.info("[CHAT] {}", new Object[] {chatComponent.getUnformattedText().replaceAll("\r", "\\\\r").replaceAll("\n", "\\\\n")});
     }
 
     private void setChatLine(ITextComponent chatComponent, int chatLineId, int updateCounter, boolean displayOnly)

@@ -52,7 +52,9 @@ import org.lwjgl.Sys;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL12;
+import org.lwjgl.opengl.GL30;
 import org.lwjgl.opengl.GLContext;
 import org.lwjgl.opengl.PixelFormat;
 import org.lwjgl.util.glu.GLU;
@@ -61,19 +63,22 @@ import shadersmod.client.Shaders;
 public class Config
 {
     public static final String OF_NAME = "OptiFine";
-    public static final String MC_VERSION = "1.11";
+    public static final String MC_VERSION = "1.11.2";
     public static final String OF_EDITION = "HD_U";
-    public static final String OF_RELEASE = "B5";
-    public static final String VERSION = "OptiFine_1.11_HD_U_B5";
+    public static final String OF_RELEASE = "B7";
+    public static final String VERSION = "OptiFine_1.11.2_HD_U_B7";
     private static String newRelease = null;
     private static boolean notify64BitJava = false;
     public static String openGlVersion = null;
     public static String openGlRenderer = null;
     public static String openGlVendor = null;
+    public static String[] openGlExtensions = null;
+    public static GlVersion glVersion = null;
+    public static GlVersion glslVersion = null;
     public static boolean fancyFogAvailable = false;
     public static boolean occlusionAvailable = false;
     private static GameSettings gameSettings = null;
-    private static Minecraft minecraft = null;
+    private static Minecraft minecraft = Minecraft.getMinecraft();
     private static boolean initialized = false;
     private static Thread minecraftThread = null;
     private static DisplayMode desktopDisplayMode = null;
@@ -85,13 +90,13 @@ public class Config
     public static boolean waterOpacityChanged = false;
     private static boolean fullscreenModeChecked = false;
     private static boolean desktopModeChecked = false;
-    private static DefaultResourcePack defaultResourcePack = null;
+    private static DefaultResourcePack defaultResourcePackLazy = null;
     public static final Float DEF_ALPHA_FUNC_LEVEL = Float.valueOf(0.1F);
     private static final Logger LOGGER = LogManager.getLogger();
 
     public static String getVersion()
     {
-        return "OptiFine_1.11_HD_U_B5";
+        return "OptiFine_1.11.2_HD_U_B7";
     }
 
     public static String getVersionDebug()
@@ -105,7 +110,7 @@ public class Config
             stringbuffer.append(", ");
         }
 
-        stringbuffer.append("OptiFine_1.11_HD_U_B5");
+        stringbuffer.append("OptiFine_1.11.2_HD_U_B7");
         String s = Shaders.getShaderPackName();
 
         if (s != null)
@@ -122,7 +127,6 @@ public class Config
         if (gameSettings == null)
         {
             gameSettings = p_initGameSettings_0_;
-            minecraft = Minecraft.getMinecraft();
             desktopDisplayMode = Display.getDesktopDisplayMode();
             updateAvailableProcessors();
             ReflectorForge.putLaunchBlackboard("optifine.ForgeSplashCompatible", Boolean.TRUE);
@@ -226,14 +230,136 @@ public class Config
 
     public static String getOpenGlVersionString()
     {
-        int i = getOpenGlVersion();
-        String s = "" + i / 10 + "." + i % 10;
+        GlVersion glversion = getGlVersion();
+        String s = "" + glversion.getMajor() + "." + glversion.getMinor() + "." + glversion.getRelease();
         return s;
     }
 
-    private static int getOpenGlVersion()
+    private static GlVersion getGlVersionLwjgl()
     {
-        return !GLContext.getCapabilities().OpenGL11 ? 10 : (!GLContext.getCapabilities().OpenGL12 ? 11 : (!GLContext.getCapabilities().OpenGL13 ? 12 : (!GLContext.getCapabilities().OpenGL14 ? 13 : (!GLContext.getCapabilities().OpenGL15 ? 14 : (!GLContext.getCapabilities().OpenGL20 ? 15 : (!GLContext.getCapabilities().OpenGL21 ? 20 : (!GLContext.getCapabilities().OpenGL30 ? 21 : (!GLContext.getCapabilities().OpenGL31 ? 30 : (!GLContext.getCapabilities().OpenGL32 ? 31 : (!GLContext.getCapabilities().OpenGL33 ? 32 : (!GLContext.getCapabilities().OpenGL40 ? 33 : 40)))))))))));
+        return GLContext.getCapabilities().OpenGL44 ? new GlVersion(4, 4) : (GLContext.getCapabilities().OpenGL43 ? new GlVersion(4, 3) : (GLContext.getCapabilities().OpenGL42 ? new GlVersion(4, 2) : (GLContext.getCapabilities().OpenGL41 ? new GlVersion(4, 1) : (GLContext.getCapabilities().OpenGL40 ? new GlVersion(4, 0) : (GLContext.getCapabilities().OpenGL33 ? new GlVersion(3, 3) : (GLContext.getCapabilities().OpenGL32 ? new GlVersion(3, 2) : (GLContext.getCapabilities().OpenGL31 ? new GlVersion(3, 1) : (GLContext.getCapabilities().OpenGL30 ? new GlVersion(3, 0) : (GLContext.getCapabilities().OpenGL21 ? new GlVersion(2, 1) : (GLContext.getCapabilities().OpenGL20 ? new GlVersion(2, 0) : (GLContext.getCapabilities().OpenGL15 ? new GlVersion(1, 5) : (GLContext.getCapabilities().OpenGL14 ? new GlVersion(1, 4) : (GLContext.getCapabilities().OpenGL13 ? new GlVersion(1, 3) : (GLContext.getCapabilities().OpenGL12 ? new GlVersion(1, 2) : (GLContext.getCapabilities().OpenGL11 ? new GlVersion(1, 1) : new GlVersion(1, 0))))))))))))))));
+    }
+
+    public static GlVersion getGlVersion()
+    {
+        if (glVersion == null)
+        {
+            String s = GL11.glGetString(GL11.GL_VERSION);
+            glVersion = parseGlVersion(s, (GlVersion)null);
+
+            if (glVersion == null)
+            {
+                glVersion = getGlVersionLwjgl();
+            }
+
+            if (glVersion == null)
+            {
+                glVersion = new GlVersion(1, 0);
+            }
+        }
+
+        return glVersion;
+    }
+
+    public static GlVersion getGlslVersion()
+    {
+        if (glslVersion == null)
+        {
+            String s = GL11.glGetString(GL20.GL_SHADING_LANGUAGE_VERSION);
+            glslVersion = parseGlVersion(s, (GlVersion)null);
+
+            if (glslVersion == null)
+            {
+                glslVersion = new GlVersion(1, 10);
+            }
+        }
+
+        return glslVersion;
+    }
+
+    public static GlVersion parseGlVersion(String p_parseGlVersion_0_, GlVersion p_parseGlVersion_1_)
+    {
+        try
+        {
+            if (p_parseGlVersion_0_ == null)
+            {
+                return p_parseGlVersion_1_;
+            }
+            else
+            {
+                Pattern pattern = Pattern.compile("([0-9]+)\\.([0-9]+)(\\.([0-9]+))?(.+)?");
+                Matcher matcher = pattern.matcher(p_parseGlVersion_0_);
+
+                if (!matcher.matches())
+                {
+                    return p_parseGlVersion_1_;
+                }
+                else
+                {
+                    int i = Integer.parseInt(matcher.group(1));
+                    int j = Integer.parseInt(matcher.group(2));
+                    int k = matcher.group(4) != null ? Integer.parseInt(matcher.group(4)) : 0;
+                    String s = matcher.group(5);
+                    return new GlVersion(i, j, k, s);
+                }
+            }
+        }
+        catch (Exception exception)
+        {
+            exception.printStackTrace();
+            return p_parseGlVersion_1_;
+        }
+    }
+
+    public static String[] getOpenGlExtensions()
+    {
+        if (openGlExtensions == null)
+        {
+            openGlExtensions = detectOpenGlExtensions();
+        }
+
+        return openGlExtensions;
+    }
+
+    private static String[] detectOpenGlExtensions()
+    {
+        try
+        {
+            GlVersion glversion = getGlVersion();
+
+            if (glversion.getMajor() >= 3)
+            {
+                int i = GL11.glGetInteger(33309);
+
+                if (i > 0)
+                {
+                    String[] astring = new String[i];
+
+                    for (int j = 0; j < i; ++j)
+                    {
+                        astring[j] = GL30.glGetStringi(7939, j);
+                    }
+
+                    return astring;
+                }
+            }
+        }
+        catch (Exception exception1)
+        {
+            exception1.printStackTrace();
+        }
+
+        try
+        {
+            String s = GL11.glGetString(GL11.GL_EXTENSIONS);
+            String[] astring1 = s.split(" ");
+            return astring1;
+        }
+        catch (Exception exception)
+        {
+            exception.printStackTrace();
+            return new String[0];
+        }
     }
 
     public static void updateThreadPriorities()
@@ -691,15 +817,8 @@ public class Config
 
     public static boolean hasResource(ResourceLocation p_hasResource_0_)
     {
-        try
-        {
-            IResource iresource = getResource(p_hasResource_0_);
-            return iresource != null;
-        }
-        catch (IOException var2)
-        {
-            return false;
-        }
+        IResourcePack iresourcepack = getDefiningResourcePack(p_hasResource_0_);
+        return iresourcepack != null;
     }
 
     public static boolean hasResource(IResourceManager p_hasResource_0_, ResourceLocation p_hasResource_1_)
@@ -721,7 +840,7 @@ public class Config
         List list = resourcepackrepository.getRepositoryEntries();
         List list1 = new ArrayList();
 
-        for (Object resourcepackrepository$entry : list)
+        for (Object  resourcepackrepository$entry : list)
         {
             list1.add(((ResourcePackRepository.Entry) resourcepackrepository$entry).getResourcePack());
         }
@@ -737,11 +856,7 @@ public class Config
 
     public static String getResourcePackNames()
     {
-        if (minecraft == null)
-        {
-            return "";
-        }
-        else if (minecraft.getResourcePackRepository() == null)
+        if (minecraft.getResourcePackRepository() == null)
         {
             return "";
         }
@@ -770,23 +885,23 @@ public class Config
 
     public static DefaultResourcePack getDefaultResourcePack()
     {
-        if (defaultResourcePack == null)
+        if (defaultResourcePackLazy == null)
         {
             Minecraft minecraft = Minecraft.getMinecraft();
-            defaultResourcePack = (DefaultResourcePack)Reflector.getFieldValue(minecraft, Reflector.Minecraft_defaultResourcePack);
+            defaultResourcePackLazy = (DefaultResourcePack)Reflector.getFieldValue(minecraft, Reflector.Minecraft_defaultResourcePack);
 
-            if (defaultResourcePack == null)
+            if (defaultResourcePackLazy == null)
             {
                 ResourcePackRepository resourcepackrepository = minecraft.getResourcePackRepository();
 
                 if (resourcepackrepository != null)
                 {
-                    defaultResourcePack = (DefaultResourcePack)resourcepackrepository.rprDefaultResourcePack;
+                    defaultResourcePackLazy = (DefaultResourcePack)resourcepackrepository.rprDefaultResourcePack;
                 }
             }
         }
 
-        return defaultResourcePack;
+        return defaultResourcePackLazy;
     }
 
     public static boolean isFromDefaultResourcePack(ResourceLocation p_isFromDefaultResourcePack_0_)
@@ -797,31 +912,42 @@ public class Config
 
     public static IResourcePack getDefiningResourcePack(ResourceLocation p_getDefiningResourcePack_0_)
     {
-        IResourcePack[] airesourcepack = getResourcePacks();
+        ResourcePackRepository resourcepackrepository = minecraft.getResourcePackRepository();
+        IResourcePack iresourcepack = resourcepackrepository.getResourcePackInstance();
 
-        for (int i = airesourcepack.length - 1; i >= 0; --i)
+        if (iresourcepack != null && iresourcepack.resourceExists(p_getDefiningResourcePack_0_))
         {
-            IResourcePack iresourcepack = airesourcepack[i];
-
-            if (iresourcepack.resourceExists(p_getDefiningResourcePack_0_))
-            {
-                return iresourcepack;
-            }
-        }
-
-        if (getDefaultResourcePack().resourceExists(p_getDefiningResourcePack_0_))
-        {
-            return getDefaultResourcePack();
+            return iresourcepack;
         }
         else
         {
-            return null;
+            List<ResourcePackRepository.Entry> list = resourcepackrepository.repositoryEntries;
+
+            for (int i = list.size() - 1; i >= 0; --i)
+            {
+                ResourcePackRepository.Entry resourcepackrepository$entry = (ResourcePackRepository.Entry)list.get(i);
+                IResourcePack iresourcepack1 = resourcepackrepository$entry.getResourcePack();
+
+                if (iresourcepack1.resourceExists(p_getDefiningResourcePack_0_))
+                {
+                    return iresourcepack1;
+                }
+            }
+
+            if (getDefaultResourcePack().resourceExists(p_getDefiningResourcePack_0_))
+            {
+                return getDefaultResourcePack();
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 
     public static RenderGlobal getRenderGlobal()
     {
-        return minecraft == null ? null : minecraft.renderGlobal;
+        return minecraft.renderGlobal;
     }
 
     public static boolean isBetterGrass()
@@ -1085,6 +1211,21 @@ public class Config
         }
 
         return displayModes;
+    }
+
+    public static DisplayMode getLargestDisplayMode()
+    {
+        DisplayMode[] adisplaymode = getDisplayModes();
+
+        if (adisplaymode != null && adisplaymode.length >= 1)
+        {
+            DisplayMode displaymode = adisplaymode[adisplaymode.length - 1];
+            return desktopDisplayMode.getWidth() > displaymode.getWidth() ? desktopDisplayMode : (desktopDisplayMode.getWidth() == displaymode.getWidth() && desktopDisplayMode.getHeight() > displaymode.getHeight() ? desktopDisplayMode : displaymode);
+        }
+        else
+        {
+            return desktopDisplayMode;
+        }
     }
 
     private static Set<Dimension> getDisplayModeDimensions(DisplayMode[] p_getDisplayModeDimensions_0_)
@@ -1444,51 +1585,44 @@ public class Config
 
     public static WorldServer getWorldServer()
     {
-        if (minecraft == null)
+        World world = minecraft.world;
+
+        if (world == null)
+        {
+            return null;
+        }
+        else if (!minecraft.isIntegratedServerRunning())
         {
             return null;
         }
         else
         {
-            World world = minecraft.world;
+            IntegratedServer integratedserver = minecraft.getIntegratedServer();
 
-            if (world == null)
-            {
-                return null;
-            }
-            else if (!minecraft.isIntegratedServerRunning())
+            if (integratedserver == null)
             {
                 return null;
             }
             else
             {
-                IntegratedServer integratedserver = minecraft.getIntegratedServer();
+                WorldProvider worldprovider = world.provider;
 
-                if (integratedserver == null)
+                if (worldprovider == null)
                 {
                     return null;
                 }
                 else
                 {
-                    WorldProvider worldprovider = world.provider;
+                    DimensionType dimensiontype = worldprovider.getDimensionType();
 
-                    if (worldprovider == null)
+                    try
+                    {
+                        WorldServer worldserver = integratedserver.worldServerForDimension(dimensiontype.getId());
+                        return worldserver;
+                    }
+                    catch (NullPointerException var5)
                     {
                         return null;
-                    }
-                    else
-                    {
-                        DimensionType dimensiontype = worldprovider.getDimensionType();
-
-                        try
-                        {
-                            WorldServer worldserver = integratedserver.worldServerForDimension(dimensiontype.getId());
-                            return worldserver;
-                        }
-                        catch (NullPointerException var5)
-                        {
-                            return null;
-                        }
                     }
                 }
             }
@@ -1896,54 +2030,6 @@ public class Config
     public static boolean isConnectedModels()
     {
         return false;
-    }
-
-    public static String fillLeft(String p_fillLeft_0_, int p_fillLeft_1_, char p_fillLeft_2_)
-    {
-        if (p_fillLeft_0_ == null)
-        {
-            p_fillLeft_0_ = "";
-        }
-
-        if (p_fillLeft_0_.length() >= p_fillLeft_1_)
-        {
-            return p_fillLeft_0_;
-        }
-        else
-        {
-            StringBuffer stringbuffer = new StringBuffer(p_fillLeft_0_);
-
-            while (stringbuffer.length() < p_fillLeft_1_ - p_fillLeft_0_.length())
-            {
-                stringbuffer.append(p_fillLeft_2_);
-            }
-
-            return stringbuffer.toString() + p_fillLeft_0_;
-        }
-    }
-
-    public static String fillRight(String p_fillRight_0_, int p_fillRight_1_, char p_fillRight_2_)
-    {
-        if (p_fillRight_0_ == null)
-        {
-            p_fillRight_0_ = "";
-        }
-
-        if (p_fillRight_0_.length() >= p_fillRight_1_)
-        {
-            return p_fillRight_0_;
-        }
-        else
-        {
-            StringBuffer stringbuffer = new StringBuffer(p_fillRight_0_);
-
-            while (stringbuffer.length() < p_fillRight_1_)
-            {
-                stringbuffer.append(p_fillRight_2_);
-            }
-
-            return stringbuffer.toString();
-        }
     }
 
     public static void showGuiMessage(String p_showGuiMessage_0_, String p_showGuiMessage_1_)

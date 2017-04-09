@@ -43,12 +43,12 @@ public class EntityUtils
 
             if (oclass != null)
             {
-                ResourceLocation resourcelocation = EntityList.getKey(oclass);
+                ResourceLocation resourcelocation = EntityList.func_191306_a(oclass);
 
                 if (resourcelocation != null)
                 {
                     String s = resourcelocation.toString();
-                    String s1 = EntityList.getTranslationName(resourcelocation);
+                    String s1 = EntityList.func_191302_a(resourcelocation);
 
                     if (s1 != null)
                     {

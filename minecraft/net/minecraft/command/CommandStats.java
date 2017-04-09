@@ -19,7 +19,7 @@ public class CommandStats extends CommandBase
     /**
      * Gets the name of the command
      */
-    public String getName()
+    public String getCommandName()
     {
         return "stats";
     }
@@ -35,7 +35,7 @@ public class CommandStats extends CommandBase
     /**
      * Gets the usage string for the command.
      */
-    public String getUsage(ICommandSender sender)
+    public String getCommandUsage(ICommandSender sender)
     {
         return "commands.stats.usage";
     }
@@ -190,9 +190,9 @@ public class CommandStats extends CommandBase
         }
     }
 
-    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
+    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
     {
-        return args.length == 1 ? getListOfStringsMatchingLastWord(args, new String[] {"entity", "block"}): (args.length == 2 && "entity".equals(args[0]) ? getListOfStringsMatchingLastWord(args, server.getOnlinePlayerNames()) : (args.length >= 2 && args.length <= 4 && "block".equals(args[0]) ? getTabCompletionCoordinate(args, 1, pos) : ((args.length != 3 || !"entity".equals(args[0])) && (args.length != 5 || !"block".equals(args[0])) ? ((args.length != 4 || !"entity".equals(args[0])) && (args.length != 6 || !"block".equals(args[0])) ? ((args.length != 6 || !"entity".equals(args[0])) && (args.length != 8 || !"block".equals(args[0])) ? Collections.<String>emptyList() : getListOfStringsMatchingLastWord(args, this.getObjectiveNames(server))) : getListOfStringsMatchingLastWord(args, CommandResultStats.Type.getTypeNames())) : getListOfStringsMatchingLastWord(args, new String[] {"set", "clear"}))));
+        return args.length == 1 ? getListOfStringsMatchingLastWord(args, new String[] {"entity", "block"}): (args.length == 2 && "entity".equals(args[0]) ? getListOfStringsMatchingLastWord(args, server.getAllUsernames()) : (args.length >= 2 && args.length <= 4 && "block".equals(args[0]) ? getTabCompletionCoordinate(args, 1, pos) : ((args.length != 3 || !"entity".equals(args[0])) && (args.length != 5 || !"block".equals(args[0])) ? ((args.length != 4 || !"entity".equals(args[0])) && (args.length != 6 || !"block".equals(args[0])) ? ((args.length != 6 || !"entity".equals(args[0])) && (args.length != 8 || !"block".equals(args[0])) ? Collections.<String>emptyList() : getListOfStringsMatchingLastWord(args, this.getObjectiveNames(server))) : getListOfStringsMatchingLastWord(args, CommandResultStats.Type.getTypeNames())) : getListOfStringsMatchingLastWord(args, new String[] {"set", "clear"}))));
     }
 
     protected List<String> getObjectiveNames(MinecraftServer server)

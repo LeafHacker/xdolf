@@ -20,11 +20,11 @@ public class ChunkCache implements IBlockAccess
     protected boolean hasExtendedLevels;
 
     /** Reference to the World object. */
-    protected World world;
+    protected World worldObj;
 
     public ChunkCache(World worldIn, BlockPos posFromIn, BlockPos posToIn, int subIn)
     {
-        this.world = worldIn;
+        this.worldObj = worldIn;
         this.chunkX = posFromIn.getX() - subIn >> 4;
         this.chunkZ = posFromIn.getZ() - subIn >> 4;
         int i = posToIn.getX() + subIn >> 4;
@@ -69,11 +69,11 @@ public class ChunkCache implements IBlockAccess
     }
 
     @Nullable
-    public TileEntity getTileEntity(BlockPos pos, Chunk.EnumCreateEntityType p_190300_2_)
+    public TileEntity getTileEntity(BlockPos p_190300_1_, Chunk.EnumCreateEntityType p_190300_2_)
     {
-        int i = (pos.getX() >> 4) - this.chunkX;
-        int j = (pos.getZ() >> 4) - this.chunkZ;
-        return this.chunkArray[i][j].getTileEntity(pos, p_190300_2_);
+        int i = (p_190300_1_.getX() >> 4) - this.chunkX;
+        int j = (p_190300_1_.getZ() >> 4) - this.chunkZ;
+        return this.chunkArray[i][j].getTileEntity(p_190300_1_, p_190300_2_);
     }
 
     public int getCombinedLight(BlockPos pos, int lightValue)
@@ -114,12 +114,12 @@ public class ChunkCache implements IBlockAccess
     {
         int i = (pos.getX() >> 4) - this.chunkX;
         int j = (pos.getZ() >> 4) - this.chunkZ;
-        return this.chunkArray[i][j].getBiome(pos, this.world.getBiomeProvider());
+        return this.chunkArray[i][j].getBiome(pos, this.worldObj.getBiomeProvider());
     }
 
     private int getLightForExt(EnumSkyBlock type, BlockPos pos)
     {
-        if (type == EnumSkyBlock.SKY && !this.world.provider.hasSkyLight())
+        if (type == EnumSkyBlock.SKY && !this.worldObj.provider.func_191066_m())
         {
             return 0;
         }
@@ -189,6 +189,6 @@ public class ChunkCache implements IBlockAccess
 
     public WorldType getWorldType()
     {
-        return this.world.getWorldType();
+        return this.worldObj.getWorldType();
     }
 }

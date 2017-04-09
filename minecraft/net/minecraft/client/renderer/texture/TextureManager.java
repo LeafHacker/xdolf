@@ -149,6 +149,7 @@ public class TextureManager implements ITickable, IResourceManagerReloadListener
 
         if (itextureobject != null)
         {
+            this.mapTextureObjects.remove(textureLocation);
             TextureUtil.deleteTexture(itextureobject.getGlTextureId());
         }
     }
@@ -181,6 +182,20 @@ public class TextureManager implements ITickable, IResourceManagerReloadListener
         for (Entry<ResourceLocation, ITextureObject> entry : this.mapTextureObjects.entrySet())
         {
             this.loadTexture((ResourceLocation)entry.getKey(), (ITextureObject)entry.getValue());
+        }
+    }
+
+    public void reloadBannerTextures()
+    {
+        for (Entry<ResourceLocation, ITextureObject> entry : this.mapTextureObjects.entrySet())
+        {
+            ResourceLocation resourcelocation = (ResourceLocation)entry.getKey();
+            ITextureObject itextureobject = (ITextureObject)entry.getValue();
+
+            if (itextureobject instanceof LayeredColorMaskTexture)
+            {
+                this.loadTexture(resourcelocation, itextureobject);
+            }
         }
     }
 }

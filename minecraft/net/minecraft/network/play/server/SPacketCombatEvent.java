@@ -63,12 +63,12 @@ public class SPacketCombatEvent implements Packet<INetHandlerPlayClient>
 
         if (this.eventType == SPacketCombatEvent.Event.END_COMBAT)
         {
-            this.duration = buf.readVarInt();
+            this.duration = buf.readVarIntFromBuffer();
             this.entityId = buf.readInt();
         }
         else if (this.eventType == SPacketCombatEvent.Event.ENTITY_DIED)
         {
-            this.playerId = buf.readVarInt();
+            this.playerId = buf.readVarIntFromBuffer();
             this.entityId = buf.readInt();
             this.deathMessage = buf.readTextComponent();
         }
@@ -83,12 +83,12 @@ public class SPacketCombatEvent implements Packet<INetHandlerPlayClient>
 
         if (this.eventType == SPacketCombatEvent.Event.END_COMBAT)
         {
-            buf.writeVarInt(this.duration);
+            buf.writeVarIntToBuffer(this.duration);
             buf.writeInt(this.entityId);
         }
         else if (this.eventType == SPacketCombatEvent.Event.ENTITY_DIED)
         {
-            buf.writeVarInt(this.playerId);
+            buf.writeVarIntToBuffer(this.playerId);
             buf.writeInt(this.entityId);
             buf.writeTextComponent(this.deathMessage);
         }

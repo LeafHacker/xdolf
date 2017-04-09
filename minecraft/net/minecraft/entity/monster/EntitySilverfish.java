@@ -114,7 +114,7 @@ public class EntitySilverfish extends EntityMob
         }
         else
         {
-            if ((source instanceof EntityDamageSource || source == DamageSource.MAGIC) && this.summonSilverfish != null)
+            if ((source instanceof EntityDamageSource || source == DamageSource.magic) && this.summonSilverfish != null)
             {
                 this.summonSilverfish.notifyHurt();
             }

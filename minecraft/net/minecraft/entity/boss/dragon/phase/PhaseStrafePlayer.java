@@ -84,7 +84,7 @@ public class PhaseStrafePlayer extends PhaseBase
                         this.dragon.world.playEvent((EntityPlayer)null, 1017, new BlockPos(this.dragon), 0);
                         EntityDragonFireball entitydragonfireball = new EntityDragonFireball(this.dragon.world, this.dragon, d9, d10, d11);
                         entitydragonfireball.setLocationAndAngles(d6, d7, d8, 0.0F, 0.0F);
-                        this.dragon.world.spawnEntity(entitydragonfireball);
+                        this.dragon.world.spawnEntityInWorld(entitydragonfireball);
                         this.fireballCharge = 0;
 
                         if (this.currentPath != null)

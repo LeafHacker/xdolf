@@ -19,12 +19,12 @@ public class ContainerPlayer extends Container
 
     /** Determines if inventory manipulation should be handled. */
     public boolean isLocalWorld;
-    private final EntityPlayer player;
+    private final EntityPlayer thePlayer;
 
-    public ContainerPlayer(final InventoryPlayer playerInventory, boolean localWorld, EntityPlayer playerIn)
+    public ContainerPlayer(final InventoryPlayer playerInventory, boolean localWorld, EntityPlayer player)
     {
         this.isLocalWorld = localWorld;
-        this.player = playerIn;
+        this.thePlayer = player;
         this.addSlotToContainer(new SlotCrafting(playerInventory.player, this.craftMatrix, this.craftResult, 0, 154, 28));
 
         for (int i = 0; i < 2; ++i)
@@ -51,7 +51,7 @@ public class ContainerPlayer extends Container
                 public boolean canTakeStack(EntityPlayer playerIn)
                 {
                     ItemStack itemstack = this.getStack();
-                    return !itemstack.isEmpty() && !playerIn.isCreative() && EnchantmentHelper.hasBindingCurse(itemstack) ? false : super.canTakeStack(playerIn);
+                    return !itemstack.func_190926_b() && !playerIn.isCreative() && EnchantmentHelper.func_190938_b(itemstack) ? false : super.canTakeStack(playerIn);
                 }
                 @Nullable
                 public String getSlotTexture()
@@ -90,7 +90,7 @@ public class ContainerPlayer extends Container
      */
     public void onCraftMatrixChanged(IInventory inventoryIn)
     {
-        this.craftResult.setInventorySlotContents(0, CraftingManager.getInstance().findMatchingRecipe(this.craftMatrix, this.player.world));
+        this.craftResult.setInventorySlotContents(0, CraftingManager.getInstance().findMatchingRecipe(this.craftMatrix, this.thePlayer.world));
     }
 
     /**
@@ -104,13 +104,13 @@ public class ContainerPlayer extends Container
         {
             ItemStack itemstack = this.craftMatrix.removeStackFromSlot(i);
 
-            if (!itemstack.isEmpty())
+            if (!itemstack.func_190926_b())
             {
                 playerIn.dropItem(itemstack, false);
             }
         }
 
-        this.craftResult.setInventorySlotContents(0, ItemStack.EMPTY);
+        this.craftResult.setInventorySlotContents(0, ItemStack.field_190927_a);
     }
 
     /**
@@ -126,7 +126,7 @@ public class ContainerPlayer extends Container
      */
     public ItemStack transferStackInSlot(EntityPlayer playerIn, int index)
     {
-        ItemStack itemstack = ItemStack.EMPTY;
+        ItemStack itemstack = ItemStack.field_190927_a;
         Slot slot = (Slot)this.inventorySlots.get(index);
 
         if (slot != null && slot.getHasStack())
@@ -139,7 +139,7 @@ public class ContainerPlayer extends Container
             {
                 if (!this.mergeItemStack(itemstack1, 9, 45, true))
                 {
-                    return ItemStack.EMPTY;
+                    return ItemStack.field_190927_a;
                 }
 
                 slot.onSlotChange(itemstack1, itemstack);
@@ -148,14 +148,14 @@ public class ContainerPlayer extends Container
             {
                 if (!this.mergeItemStack(itemstack1, 9, 45, false))
                 {
-                    return ItemStack.EMPTY;
+                    return ItemStack.field_190927_a;
                 }
             }
             else if (index >= 5 && index < 9)
             {
                 if (!this.mergeItemStack(itemstack1, 9, 45, false))
                 {
-                    return ItemStack.EMPTY;
+                    return ItemStack.field_190927_a;
                 }
             }
             else if (entityequipmentslot.getSlotType() == EntityEquipmentSlot.Type.ARMOR && !((Slot)this.inventorySlots.get(8 - entityequipmentslot.getIndex())).getHasStack())
@@ -164,50 +164,50 @@ public class ContainerPlayer extends Container
 
                 if (!this.mergeItemStack(itemstack1, i, i + 1, false))
                 {
-                    return ItemStack.EMPTY;
+                    return ItemStack.field_190927_a;
                 }
             }
             else if (entityequipmentslot == EntityEquipmentSlot.OFFHAND && !((Slot)this.inventorySlots.get(45)).getHasStack())
             {
                 if (!this.mergeItemStack(itemstack1, 45, 46, false))
                 {
-                    return ItemStack.EMPTY;
+                    return ItemStack.field_190927_a;
                 }
             }
             else if (index >= 9 && index < 36)
             {
                 if (!this.mergeItemStack(itemstack1, 36, 45, false))
                 {
-                    return ItemStack.EMPTY;
+                    return ItemStack.field_190927_a;
                 }
             }
             else if (index >= 36 && index < 45)
             {
                 if (!this.mergeItemStack(itemstack1, 9, 36, false))
                 {
-                    return ItemStack.EMPTY;
+                    return ItemStack.field_190927_a;
                 }
             }
             else if (!this.mergeItemStack(itemstack1, 9, 45, false))
             {
-                return ItemStack.EMPTY;
+                return ItemStack.field_190927_a;
             }
 
-            if (itemstack1.isEmpty())
+            if (itemstack1.func_190926_b())
             {
-                slot.putStack(ItemStack.EMPTY);
+                slot.putStack(ItemStack.field_190927_a);
             }
             else
             {
                 slot.onSlotChanged();
             }
 
-            if (itemstack1.getCount() == itemstack.getCount())
+            if (itemstack1.func_190916_E() == itemstack.func_190916_E())
             {
-                return ItemStack.EMPTY;
+                return ItemStack.field_190927_a;
             }
 
-            ItemStack itemstack2 = slot.onTake(playerIn, itemstack1);
+            ItemStack itemstack2 = slot.func_190901_a(playerIn, itemstack1);
 
             if (index == 0)
             {

@@ -11,13 +11,10 @@ public interface ICommandManager
      * Attempt to execute a command. This method should return the number of times that the command was executed. If the
      * command does not exist or if the player does not have permission, 0 will be returned. A number greater than 1 can
      * be returned if a player selector is used.
-     *  
-     * @param sender The source of the command invocation
-     * @param rawCommand The raw string that was typed
      */
     int executeCommand(ICommandSender sender, String rawCommand);
 
-    List<String> getTabCompletions(ICommandSender sender, String input, BlockPos pos);
+    List<String> getTabCompletionOptions(ICommandSender sender, String input, BlockPos pos);
 
     List<ICommand> getPossibleCommands(ICommandSender sender);
 

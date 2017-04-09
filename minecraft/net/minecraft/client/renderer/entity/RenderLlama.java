@@ -7,7 +7,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class RenderLlama extends RenderLiving<EntityLlama>
 {
-    private static final ResourceLocation[] LLAMA_TEXTURES = new ResourceLocation[] {new ResourceLocation("textures/entity/llama/llama_creamy.png"), new ResourceLocation("textures/entity/llama/llama_white.png"), new ResourceLocation("textures/entity/llama/llama_brown.png"), new ResourceLocation("textures/entity/llama/llama_gray.png")};
+    private static final ResourceLocation[] field_191350_a = new ResourceLocation[] {new ResourceLocation("textures/entity/llama/llama_creamy.png"), new ResourceLocation("textures/entity/llama/llama_white.png"), new ResourceLocation("textures/entity/llama/llama_brown.png"), new ResourceLocation("textures/entity/llama/llama_gray.png")};
 
     public RenderLlama(RenderManager p_i47203_1_)
     {
@@ -20,6 +20,6 @@ public class RenderLlama extends RenderLiving<EntityLlama>
      */
     protected ResourceLocation getEntityTexture(EntityLlama entity)
     {
-        return LLAMA_TEXTURES[entity.getVariant()];
+        return field_191350_a[entity.func_190719_dM()];
     }
 }

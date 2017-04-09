@@ -7,7 +7,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class RenderEvoker extends RenderLiving<EntityMob>
 {
-    private static final ResourceLocation EVOKER_ILLAGER = new ResourceLocation("textures/entity/illager/evoker.png");
+    private static final ResourceLocation field_191338_a = new ResourceLocation("textures/entity/illager/evoker.png");
 
     public RenderEvoker(RenderManager p_i47207_1_)
     {
@@ -19,7 +19,7 @@ public class RenderEvoker extends RenderLiving<EntityMob>
      */
     protected ResourceLocation getEntityTexture(EntityMob entity)
     {
-        return EVOKER_ILLAGER;
+        return field_191338_a;
     }
 
     /**

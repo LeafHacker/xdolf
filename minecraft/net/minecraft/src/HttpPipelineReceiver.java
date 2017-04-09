@@ -16,10 +16,10 @@ public class HttpPipelineReceiver extends Thread
     private static final char CR = '\r';
     private static final char LF = '\n';
 
-    public HttpPipelineReceiver(HttpPipelineConnection p_i51_1_)
+    public HttpPipelineReceiver(HttpPipelineConnection p_i54_1_)
     {
         super("HttpPipelineReceiver");
-        this.httpPipelineConnection = p_i51_1_;
+        this.httpPipelineConnection = p_i54_1_;
     }
 
     public void run()

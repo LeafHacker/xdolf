@@ -11,13 +11,13 @@ import net.minecraft.util.math.MathHelper;
 public class SlotFurnaceOutput extends Slot
 {
     /** The player that is using the GUI where this slot resides. */
-    private final EntityPlayer player;
+    private final EntityPlayer thePlayer;
     private int removeCount;
 
     public SlotFurnaceOutput(EntityPlayer player, IInventory inventoryIn, int slotIndex, int xPosition, int yPosition)
     {
         super(inventoryIn, slotIndex, xPosition, yPosition);
-        this.player = player;
+        this.thePlayer = player;
     }
 
     /**
@@ -36,16 +36,16 @@ public class SlotFurnaceOutput extends Slot
     {
         if (this.getHasStack())
         {
-            this.removeCount += Math.min(amount, this.getStack().getCount());
+            this.removeCount += Math.min(amount, this.getStack().func_190916_E());
         }
 
         return super.decrStackSize(amount);
     }
 
-    public ItemStack onTake(EntityPlayer p_190901_1_, ItemStack p_190901_2_)
+    public ItemStack func_190901_a(EntityPlayer p_190901_1_, ItemStack p_190901_2_)
     {
         this.onCrafting(p_190901_2_);
-        super.onTake(p_190901_1_, p_190901_2_);
+        super.func_190901_a(p_190901_1_, p_190901_2_);
         return p_190901_2_;
     }
 
@@ -64,9 +64,9 @@ public class SlotFurnaceOutput extends Slot
      */
     protected void onCrafting(ItemStack stack)
     {
-        stack.onCrafting(this.player.world, this.player, this.removeCount);
+        stack.onCrafting(this.thePlayer.world, this.thePlayer, this.removeCount);
 
-        if (!this.player.world.isRemote)
+        if (!this.thePlayer.world.isRemote)
         {
             int i = this.removeCount;
             float f = FurnaceRecipes.instance().getSmeltingExperience(stack);
@@ -91,7 +91,7 @@ public class SlotFurnaceOutput extends Slot
             {
                 int k = EntityXPOrb.getXPSplit(i);
                 i -= k;
-                this.player.world.spawnEntity(new EntityXPOrb(this.player.world, this.player.posX, this.player.posY + 0.5D, this.player.posZ + 0.5D, k));
+                this.thePlayer.world.spawnEntityInWorld(new EntityXPOrb(this.thePlayer.world, this.thePlayer.posX, this.thePlayer.posY + 0.5D, this.thePlayer.posZ + 0.5D, k));
             }
         }
 
@@ -99,12 +99,12 @@ public class SlotFurnaceOutput extends Slot
 
         if (stack.getItem() == Items.IRON_INGOT)
         {
-            this.player.addStat(AchievementList.ACQUIRE_IRON);
+            this.thePlayer.addStat(AchievementList.ACQUIRE_IRON);
         }
 
         if (stack.getItem() == Items.COOKED_FISH)
         {
-            this.player.addStat(AchievementList.COOK_FISH);
+            this.thePlayer.addStat(AchievementList.COOK_FISH);
         }
     }
 }

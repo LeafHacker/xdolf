@@ -24,12 +24,12 @@ public class BlockStatePaletteRegistry implements IBlockStatePalette
 
     public void read(PacketBuffer buf)
     {
-        buf.readVarInt();
+        buf.readVarIntFromBuffer();
     }
 
     public void write(PacketBuffer buf)
     {
-        buf.writeVarInt(0);
+        buf.writeVarIntToBuffer(0);
     }
 
     public int getSerializedState()

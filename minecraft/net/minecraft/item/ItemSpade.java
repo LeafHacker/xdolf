@@ -36,28 +36,28 @@ public class ItemSpade extends ItemTool
     /**
      * Called when a Block is right-clicked with this Item
      */
-    public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+    public EnumActionResult onItemUse(EntityPlayer stack, World playerIn, BlockPos worldIn, EnumHand pos, EnumFacing hand, float facing, float hitX, float hitY)
     {
-        ItemStack itemstack = player.getHeldItem(hand);
+        ItemStack itemstack = stack.getHeldItem(pos);
 
-        if (!player.canPlayerEdit(pos.offset(facing), facing, itemstack))
+        if (!stack.canPlayerEdit(worldIn.offset(hand), hand, itemstack))
         {
             return EnumActionResult.FAIL;
         }
         else
         {
-            IBlockState iblockstate = worldIn.getBlockState(pos);
+            IBlockState iblockstate = playerIn.getBlockState(worldIn);
             Block block = iblockstate.getBlock();
 
-            if (facing != EnumFacing.DOWN && worldIn.getBlockState(pos.up()).getMaterial() == Material.AIR && block == Blocks.GRASS)
+            if (hand != EnumFacing.DOWN && playerIn.getBlockState(worldIn.up()).getMaterial() == Material.AIR && block == Blocks.GRASS)
             {
                 IBlockState iblockstate1 = Blocks.GRASS_PATH.getDefaultState();
-                worldIn.playSound(player, pos, SoundEvents.ITEM_SHOVEL_FLATTEN, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                playerIn.playSound(stack, worldIn, SoundEvents.ITEM_SHOVEL_FLATTEN, SoundCategory.BLOCKS, 1.0F, 1.0F);
 
-                if (!worldIn.isRemote)
+                if (!playerIn.isRemote)
                 {
-                    worldIn.setBlockState(pos, iblockstate1, 11);
-                    itemstack.damageItem(1, player);
+                    playerIn.setBlockState(worldIn, iblockstate1, 11);
+                    itemstack.damageItem(1, stack);
                 }
 
                 return EnumActionResult.SUCCESS;

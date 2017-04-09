@@ -280,7 +280,7 @@ public abstract class BlockLeaves extends Block
         return this.leavesFancy ? BlockRenderLayer.CUTOUT_MIPPED : BlockRenderLayer.SOLID;
     }
 
-    public boolean causesSuffocation(IBlockState state)
+    public boolean causesSuffocation(IBlockState p_176214_1_)
     {
         return false;
     }

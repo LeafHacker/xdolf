@@ -151,7 +151,7 @@ public class RenderPainting extends Render<EntityPainting>
             k = MathHelper.floor(painting.posZ + (double)(p_77008_2_ / 16.0F));
         }
 
-        int l = this.renderManager.world.getCombinedLight(new BlockPos(i, j, k), 0);
+        int l = this.renderManager.worldObj.getCombinedLight(new BlockPos(i, j, k), 0);
         int i1 = l % 65536;
         int j1 = l / 65536;
         OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)i1, (float)j1);

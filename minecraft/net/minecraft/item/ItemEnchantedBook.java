@@ -17,7 +17,7 @@ public class ItemEnchantedBook extends Item
     /**
      * Checks isDamagable and if it cannot be stacked
      */
-    public boolean isEnchantable(ItemStack stack)
+    public boolean isItemTool(ItemStack stack)
     {
         return false;
     }

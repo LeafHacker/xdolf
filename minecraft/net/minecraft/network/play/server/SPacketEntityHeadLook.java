@@ -27,7 +27,7 @@ public class SPacketEntityHeadLook implements Packet<INetHandlerPlayClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.entityId = buf.readVarInt();
+        this.entityId = buf.readVarIntFromBuffer();
         this.yaw = buf.readByte();
     }
 
@@ -36,7 +36,7 @@ public class SPacketEntityHeadLook implements Packet<INetHandlerPlayClient>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeVarInt(this.entityId);
+        buf.writeVarIntToBuffer(this.entityId);
         buf.writeByte(this.yaw);
     }
 

@@ -1,6 +1,5 @@
 package net.minecraft.block;
 
-import com.darkcart.xdolf.Client;
 import com.darkcart.xdolf.mods.Hacks;
 import com.darkcart.xdolf.mods.player.Flight;
 import com.darkcart.xdolf.mods.world.Freecam;
@@ -254,7 +253,7 @@ public class Block
      */
     public int getMetaFromState(IBlockState state)
     {
-        if (state.getPropertyKeys().isEmpty())
+        if (state.getPropertyNames().isEmpty())
         {
             return 0;
         }
@@ -375,7 +374,7 @@ public class Block
     }
 
     @Deprecated
-    public boolean causesSuffocation(IBlockState state)
+    public boolean causesSuffocation(IBlockState p_176214_1_)
     {
         return this.blockMaterial.blocksMovement() && this.getDefaultState().isFullCube();
     }
@@ -390,9 +389,9 @@ public class Block
     }
 
     @Deprecated
-    public boolean hasCustomBreakingProgress(IBlockState state)
+    public boolean func_190946_v(IBlockState p_190946_1_)
     {
-        return Hacks.findMod(XRay.class).isEnabled();
+    	return Hacks.findMod(XRay.class).isEnabled();
     }
 
     public boolean isPassable(IBlockAccess worldIn, BlockPos pos)
@@ -550,7 +549,7 @@ public class Block
                 }
         }
         
-     	if (Hacks.findMod(XRay.class).isEnabled()) {
+    	if (Hacks.findMod(XRay.class).isEnabled()) {
      		return XRay.xrayBlocks.contains(this);
      	}
 
@@ -572,7 +571,7 @@ public class Block
     }
 
     @Deprecated
-    public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn)
+    public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn, boolean p_185477_7_)
     {
         addCollisionBoxToList(pos, entityBox, collidingBoxes, state.getCollisionBoundingBox(worldIn, pos));
     }
@@ -654,7 +653,7 @@ public class Block
      * change. Cases may include when redstone power is updated, cactus blocks popping off due to a neighboring solid
      * block, etc.
      */
-    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos)
+    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos p_189540_5_)
     {
     }
 
@@ -730,7 +729,7 @@ public class Block
                 {
                     Item item = this.getItemDropped(state, worldIn.rand, fortune);
 
-                    if (item != Items.AIR)
+                    if (item != Items.field_190931_a)
                     {
                         spawnAsEntity(worldIn, pos, new ItemStack(item, 1, this.damageDropped(state)));
                     }
@@ -744,7 +743,7 @@ public class Block
      */
     public static void spawnAsEntity(World worldIn, BlockPos pos, ItemStack stack)
     {
-        if (!worldIn.isRemote && !stack.isEmpty() && worldIn.getGameRules().getBoolean("doTileDrops"))
+        if (!worldIn.isRemote && !stack.func_190926_b() && worldIn.getGameRules().getBoolean("doTileDrops"))
         {
             float f = 0.5F;
             double d0 = (double)(worldIn.rand.nextFloat() * 0.5F) + 0.25D;
@@ -752,7 +751,7 @@ public class Block
             double d2 = (double)(worldIn.rand.nextFloat() * 0.5F) + 0.25D;
             EntityItem entityitem = new EntityItem(worldIn, (double)pos.getX() + d0, (double)pos.getY() + d1, (double)pos.getZ() + d2, stack);
             entityitem.setDefaultPickupDelay();
-            worldIn.spawnEntity(entityitem);
+            worldIn.spawnEntityInWorld(entityitem);
         }
     }
 
@@ -767,7 +766,7 @@ public class Block
             {
                 int i = EntityXPOrb.getXPSplit(amount);
                 amount -= i;
-                worldIn.spawnEntity(new EntityXPOrb(worldIn, (double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, i));
+                worldIn.spawnEntityInWorld(new EntityXPOrb(worldIn, (double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, i));
             }
         }
     }
@@ -834,7 +833,7 @@ public class Block
         return worldIn.getBlockState(pos).getBlock().blockMaterial.isReplaceable();
     }
 
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing heldItem, float side, float hitX, float hitY)
     {
         return false;
     }
@@ -850,7 +849,7 @@ public class Block
      * Called by ItemBlocks just before a block is actually set in the world, to allow for adjustments to the
      * IBlockstate
      */
-    public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
+    public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
     {
         return this.getStateFromMeta(meta);
     }
@@ -1134,7 +1133,7 @@ public class Block
     }
 
     @Deprecated
-    public Vec3d getOffset(IBlockState state, IBlockAccess worldIn, BlockPos p_190949_3_)
+    public Vec3d func_190949_e(IBlockState p_190949_1_, IBlockAccess p_190949_2_, BlockPos p_190949_3_)
     {
         Block.EnumOffsetType block$enumoffsettype = this.getOffsetType();
 
@@ -1159,7 +1158,7 @@ public class Block
         return "Block{" + REGISTRY.getNameForObject(this) + "}";
     }
 
-    public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltip, boolean advanced)
+    public void func_190948_a(ItemStack p_190948_1_, EntityPlayer p_190948_2_, List<String> p_190948_3_, boolean p_190948_4_)
     {
     }
 

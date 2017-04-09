@@ -47,7 +47,7 @@ import net.minecraft.world.World;
 
 public final class ItemStack
 {
-    public static final ItemStack EMPTY = new ItemStack((Item)null);
+    public static final ItemStack field_190927_a = new ItemStack((Item)null);
     public static final DecimalFormat DECIMALFORMAT = new DecimalFormat("#.##");
 
     /** Size of the stack. */
@@ -63,7 +63,7 @@ public final class ItemStack
      * A NBTTagMap containing data about an ItemStack. Can only be used for non stackable items
      */
     private NBTTagCompound stackTagCompound;
-    private boolean isEmpty;
+    private boolean field_190928_g;
     private int itemDamage;
 
     /** Item frame this stack is on, or null if not on an item frame. */
@@ -109,12 +109,12 @@ public final class ItemStack
             this.itemDamage = 0;
         }
 
-        this.updateEmptyState();
+        this.func_190923_F();
     }
 
-    private void updateEmptyState()
+    private void func_190923_F()
     {
-        this.isEmpty = this.isEmpty();
+        this.field_190928_g = this.func_190926_b();
     }
 
     public ItemStack(NBTTagCompound p_i47263_1_)
@@ -133,12 +133,12 @@ public final class ItemStack
             }
         }
 
-        this.updateEmptyState();
+        this.func_190923_F();
     }
 
-    public boolean isEmpty()
+    public boolean func_190926_b()
     {
-        return this == EMPTY ? true : (this.item != null && this.item != Item.getItemFromBlock(Blocks.AIR) ? (this.stackSize <= 0 ? true : this.itemDamage < -32768 || this.itemDamage > 65535) : true);
+        return this == field_190927_a ? true : (this.item != null && this.item != Item.getItemFromBlock(Blocks.AIR) ? (this.stackSize <= 0 ? true : this.itemDamage < -32768 || this.itemDamage > 65535) : true);
     }
 
     public static void registerFixes(DataFixer fixer)
@@ -154,8 +154,8 @@ public final class ItemStack
     {
         int i = Math.min(amount, this.stackSize);
         ItemStack itemstack = this.copy();
-        itemstack.setCount(i);
-        this.shrink(i);
+        itemstack.func_190920_e(i);
+        this.func_190918_g(i);
         return itemstack;
     }
 
@@ -164,7 +164,7 @@ public final class ItemStack
      */
     public Item getItem()
     {
-        return this.isEmpty ? Item.getItemFromBlock(Blocks.AIR) : this.item;
+        return this.field_190928_g ? Item.getItemFromBlock(Blocks.AIR) : this.item;
     }
 
     /**
@@ -240,7 +240,7 @@ public final class ItemStack
      */
     public boolean isItemStackDamageable()
     {
-        return this.isEmpty ? false : (this.item.getMaxDamage() <= 0 ? false : !this.hasTagCompound() || !this.getTagCompound().getBoolean("Unbreakable"));
+        return this.field_190928_g ? false : (this.item.getMaxDamage() <= 0 ? false : !this.hasTagCompound() || !this.getTagCompound().getBoolean("Unbreakable"));
     }
 
     public boolean getHasSubtypes()
@@ -336,7 +336,7 @@ public final class ItemStack
                 if (this.attemptDamageItem(amount, entityIn.getRNG()))
                 {
                     entityIn.renderBrokenItemStack(this);
-                    this.shrink(1);
+                    this.func_190918_g(1);
 
                     if (entityIn instanceof EntityPlayer)
                     {
@@ -407,7 +407,7 @@ public final class ItemStack
 
     public static boolean areItemStackTagsEqual(ItemStack stackA, ItemStack stackB)
     {
-        return stackA.isEmpty() && stackB.isEmpty() ? true : (!stackA.isEmpty() && !stackB.isEmpty() ? (stackA.stackTagCompound == null && stackB.stackTagCompound != null ? false : stackA.stackTagCompound == null || stackA.stackTagCompound.equals(stackB.stackTagCompound)) : false);
+        return stackA.func_190926_b() && stackB.func_190926_b() ? true : (!stackA.func_190926_b() && !stackB.func_190926_b() ? (stackA.stackTagCompound == null && stackB.stackTagCompound != null ? false : stackA.stackTagCompound == null || stackA.stackTagCompound.equals(stackB.stackTagCompound)) : false);
     }
 
     /**
@@ -415,7 +415,7 @@ public final class ItemStack
      */
     public static boolean areItemStacksEqual(ItemStack stackA, ItemStack stackB)
     {
-        return stackA.isEmpty() && stackB.isEmpty() ? true : (!stackA.isEmpty() && !stackB.isEmpty() ? stackA.isItemStackEqual(stackB) : false);
+        return stackA.func_190926_b() && stackB.func_190926_b() ? true : (!stackA.func_190926_b() && !stackB.func_190926_b() ? stackA.isItemStackEqual(stackB) : false);
     }
 
     /**
@@ -431,12 +431,12 @@ public final class ItemStack
      */
     public static boolean areItemsEqual(ItemStack stackA, ItemStack stackB)
     {
-        return stackA == stackB ? true : (!stackA.isEmpty() && !stackB.isEmpty() ? stackA.isItemEqual(stackB) : false);
+        return stackA == stackB ? true : (!stackA.func_190926_b() && !stackB.func_190926_b() ? stackA.isItemEqual(stackB) : false);
     }
 
     public static boolean areItemsEqualIgnoreDurability(ItemStack stackA, ItemStack stackB)
     {
-        return stackA == stackB ? true : (!stackA.isEmpty() && !stackB.isEmpty() ? stackA.isItemEqualIgnoreDurability(stackB) : false);
+        return stackA == stackB ? true : (!stackA.func_190926_b() && !stackB.func_190926_b() ? stackA.isItemEqualIgnoreDurability(stackB) : false);
     }
 
     /**
@@ -445,12 +445,12 @@ public final class ItemStack
      */
     public boolean isItemEqual(ItemStack other)
     {
-        return !other.isEmpty() && this.item == other.item && this.itemDamage == other.itemDamage;
+        return !other.func_190926_b() && this.item == other.item && this.itemDamage == other.itemDamage;
     }
 
     public boolean isItemEqualIgnoreDurability(ItemStack stack)
     {
-        return !this.isItemStackDamageable() ? this.isItemEqual(stack) : !stack.isEmpty() && this.item == stack.item;
+        return !this.isItemStackDamageable() ? this.isItemEqual(stack) : !stack.func_190926_b() && this.item == stack.item;
     }
 
     public String getUnlocalizedName()
@@ -509,7 +509,7 @@ public final class ItemStack
      */
     public boolean hasTagCompound()
     {
-        return !this.isEmpty && this.stackTagCompound != null;
+        return !this.field_190928_g && this.stackTagCompound != null;
     }
 
     @Nullable
@@ -522,7 +522,7 @@ public final class ItemStack
         return this.stackTagCompound;
     }
 
-    public NBTTagCompound getOrCreateSubCompound(String p_190925_1_)
+    public NBTTagCompound func_190925_c(String p_190925_1_)
     {
         if (this.stackTagCompound != null && this.stackTagCompound.hasKey(p_190925_1_, 10))
         {
@@ -546,7 +546,7 @@ public final class ItemStack
         return this.stackTagCompound != null && this.stackTagCompound.hasKey(key, 10) ? this.stackTagCompound.getCompoundTag(key) : null;
     }
 
-    public void removeSubCompound(String p_190919_1_)
+    public void func_190919_e(String p_190919_1_)
     {
         if (this.stackTagCompound != null && this.stackTagCompound.hasKey(p_190919_1_, 10))
         {
@@ -591,15 +591,15 @@ public final class ItemStack
         return this.getItem().getItemStackDisplayName(this);
     }
 
-    public ItemStack setTranslatableName(String p_190924_1_)
+    public ItemStack func_190924_f(String p_190924_1_)
     {
-        this.getOrCreateSubCompound("display").setString("LocName", p_190924_1_);
+        this.func_190925_c("display").setString("LocName", p_190924_1_);
         return this;
     }
 
     public ItemStack setStackDisplayName(String displayName)
     {
-        this.getOrCreateSubCompound("display").setString("Name", displayName);
+        this.func_190925_c("display").setString("Name", displayName);
         return this;
     }
 
@@ -616,7 +616,7 @@ public final class ItemStack
 
             if (nbttagcompound.hasNoTags())
             {
-                this.removeSubCompound("display");
+                this.func_190919_e("display");
             }
         }
 
@@ -881,7 +881,7 @@ public final class ItemStack
      */
     public boolean isItemEnchantable()
     {
-        return !this.getItem().isEnchantable(this) ? false : !this.isItemEnchanted();
+        return !this.getItem().isItemTool(this) ? false : !this.isItemEnchanted();
     }
 
     /**
@@ -952,7 +952,7 @@ public final class ItemStack
      */
     public EntityItemFrame getItemFrame()
     {
-        return this.isEmpty ? null : this.itemFrame;
+        return this.field_190928_g ? null : this.itemFrame;
     }
 
     /**
@@ -1042,7 +1042,7 @@ public final class ItemStack
 
         ITextComponent itextcomponent = (new TextComponentString("[")).appendSibling(textcomponentstring).appendText("]");
 
-        if (!this.isEmpty)
+        if (!this.field_190928_g)
         {
             NBTTagCompound nbttagcompound = this.writeToNBT(new NBTTagCompound());
             itextcomponent.getStyle().setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_ITEM, new TextComponentString(nbttagcompound.toString())));
@@ -1114,34 +1114,34 @@ public final class ItemStack
         }
     }
 
-    public int getAnimationsToGo()
+    public int func_190921_D()
     {
         return this.animationsToGo;
     }
 
-    public void setAnimationsToGo(int animations)
+    public void func_190915_d(int p_190915_1_)
     {
-        this.animationsToGo = animations;
+        this.animationsToGo = p_190915_1_;
     }
 
-    public int getCount()
+    public int func_190916_E()
     {
-        return this.isEmpty ? 0 : this.stackSize;
+        return this.field_190928_g ? 0 : this.stackSize;
     }
 
-    public void setCount(int size)
+    public void func_190920_e(int p_190920_1_)
     {
-        this.stackSize = size;
-        this.updateEmptyState();
+        this.stackSize = p_190920_1_;
+        this.func_190923_F();
     }
 
-    public void grow(int quantity)
+    public void func_190917_f(int p_190917_1_)
     {
-        this.setCount(this.stackSize + quantity);
+        this.func_190920_e(this.stackSize + p_190917_1_);
     }
 
-    public void shrink(int quantity)
+    public void func_190918_g(int p_190918_1_)
     {
-        this.grow(-quantity);
+        this.func_190917_f(-p_190918_1_);
     }
 }

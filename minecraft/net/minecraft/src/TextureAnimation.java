@@ -23,42 +23,42 @@ public class TextureAnimation
     byte[] srcData = null;
     private ByteBuffer imageData = null;
 
-    public TextureAnimation(String p_i89_1_, byte[] p_i89_2_, String p_i89_3_, ResourceLocation p_i89_4_, int p_i89_5_, int p_i89_6_, int p_i89_7_, int p_i89_8_, Properties p_i89_9_, int p_i89_10_)
+    public TextureAnimation(String p_i92_1_, byte[] p_i92_2_, String p_i92_3_, ResourceLocation p_i92_4_, int p_i92_5_, int p_i92_6_, int p_i92_7_, int p_i92_8_, Properties p_i92_9_, int p_i92_10_)
     {
-        this.srcTex = p_i89_1_;
-        this.dstTex = p_i89_3_;
-        this.dstTexLoc = p_i89_4_;
-        this.dstX = p_i89_5_;
-        this.dstY = p_i89_6_;
-        this.frameWidth = p_i89_7_;
-        this.frameHeight = p_i89_8_;
-        int i = p_i89_7_ * p_i89_8_ * 4;
+        this.srcTex = p_i92_1_;
+        this.dstTex = p_i92_3_;
+        this.dstTexLoc = p_i92_4_;
+        this.dstX = p_i92_5_;
+        this.dstY = p_i92_6_;
+        this.frameWidth = p_i92_7_;
+        this.frameHeight = p_i92_8_;
+        int i = p_i92_7_ * p_i92_8_ * 4;
 
-        if (p_i89_2_.length % i != 0)
+        if (p_i92_2_.length % i != 0)
         {
-            Config.warn("Invalid animated texture length: " + p_i89_2_.length + ", frameWidth: " + p_i89_7_ + ", frameHeight: " + p_i89_8_);
+            Config.warn("Invalid animated texture length: " + p_i92_2_.length + ", frameWidth: " + p_i92_7_ + ", frameHeight: " + p_i92_8_);
         }
 
-        this.srcData = p_i89_2_;
-        int j = p_i89_2_.length / i;
+        this.srcData = p_i92_2_;
+        int j = p_i92_2_.length / i;
 
-        if (p_i89_9_.get("tile.0") != null)
+        if (p_i92_9_.get("tile.0") != null)
         {
-            for (int k = 0; p_i89_9_.get("tile." + k) != null; ++k)
+            for (int k = 0; p_i92_9_.get("tile." + k) != null; ++k)
             {
                 j = k + 1;
             }
         }
 
-        String s2 = (String)p_i89_9_.get("duration");
-        int l = Config.parseInt(s2, p_i89_10_);
+        String s2 = (String)p_i92_9_.get("duration");
+        int l = Config.parseInt(s2, p_i92_10_);
         this.frames = new TextureAnimationFrame[j];
 
         for (int i1 = 0; i1 < this.frames.length; ++i1)
         {
-            String s = (String)p_i89_9_.get("tile." + i1);
+            String s = (String)p_i92_9_.get("tile." + i1);
             int j1 = Config.parseInt(s, i1);
-            String s1 = (String)p_i89_9_.get("duration." + i1);
+            String s1 = (String)p_i92_9_.get("duration." + i1);
             int k1 = Config.parseInt(s1, l);
             TextureAnimationFrame textureanimationframe = new TextureAnimationFrame(j1, k1);
             this.frames[i1] = textureanimationframe;

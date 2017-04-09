@@ -87,17 +87,17 @@ public class ItemWrittenBook extends Item
         }
     }
 
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
+    public ActionResult<ItemStack> onItemRightClick(World itemStackIn, EntityPlayer worldIn, EnumHand playerIn)
     {
-        ItemStack itemstack = playerIn.getHeldItem(handIn);
+        ItemStack itemstack = worldIn.getHeldItem(playerIn);
 
-        if (!worldIn.isRemote)
+        if (!itemStackIn.isRemote)
         {
-            this.resolveContents(itemstack, playerIn);
+            this.resolveContents(itemstack, worldIn);
         }
 
-        playerIn.openBook(itemstack, handIn);
-        playerIn.addStat(StatList.getObjectUseStats(this));
+        worldIn.openBook(itemstack, playerIn);
+        worldIn.addStat(StatList.getObjectUseStats(this));
         return new ActionResult(EnumActionResult.SUCCESS, itemstack);
     }
 

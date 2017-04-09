@@ -1,21 +1,27 @@
 package net.minecraft.nbt;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import java.util.Map.Entry;
 import javax.annotation.Nullable;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.crash.ICrashReportDetail;
 import net.minecraft.util.ReportedException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class NBTTagCompound extends NBTBase
 {
+    private static final Logger field_191551_b = LogManager.getLogger();
     private final Map<String, NBTBase> tagMap = Maps.<String, NBTBase>newHashMap();
 
     /**
@@ -466,15 +472,23 @@ public class NBTTagCompound extends NBTBase
     public String toString()
     {
         StringBuilder stringbuilder = new StringBuilder("{");
+        Collection<String> collection = this.tagMap.keySet();
 
-        for (Entry<String, NBTBase> entry : this.tagMap.entrySet())
+        if (field_191551_b.isDebugEnabled())
+        {
+            List<String> list = Lists.newArrayList(this.tagMap.keySet());
+            Collections.sort(list);
+            collection = list;
+        }
+
+        for (String s : collection)
         {
             if (stringbuilder.length() != 1)
             {
                 stringbuilder.append(',');
             }
 
-            stringbuilder.append((String)entry.getKey()).append(':').append(entry.getValue());
+            stringbuilder.append(s).append(':').append(this.tagMap.get(s));
         }
 
         return stringbuilder.append('}').toString();

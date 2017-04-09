@@ -18,7 +18,7 @@ public class SlotCrafting extends Slot
     private final InventoryCrafting craftMatrix;
 
     /** The player that is using the GUI where this slot resides. */
-    private final EntityPlayer player;
+    private final EntityPlayer thePlayer;
 
     /**
      * The number of items that have been crafted so far. Gets passed to ItemStack.onCrafting before being reset.
@@ -28,7 +28,7 @@ public class SlotCrafting extends Slot
     public SlotCrafting(EntityPlayer player, InventoryCrafting craftingInventory, IInventory inventoryIn, int slotIndex, int xPosition, int yPosition)
     {
         super(inventoryIn, slotIndex, xPosition, yPosition);
-        this.player = player;
+        this.thePlayer = player;
         this.craftMatrix = craftingInventory;
     }
 
@@ -48,7 +48,7 @@ public class SlotCrafting extends Slot
     {
         if (this.getHasStack())
         {
-            this.amountCrafted += Math.min(amount, this.getStack().getCount());
+            this.amountCrafted += Math.min(amount, this.getStack().func_190916_E());
         }
 
         return super.decrStackSize(amount);
@@ -64,7 +64,7 @@ public class SlotCrafting extends Slot
         this.onCrafting(stack);
     }
 
-    protected void onSwapCraft(int p_190900_1_)
+    protected void func_190900_b(int p_190900_1_)
     {
         this.amountCrafted += p_190900_1_;
     }
@@ -76,63 +76,63 @@ public class SlotCrafting extends Slot
     {
         if (this.amountCrafted > 0)
         {
-            stack.onCrafting(this.player.world, this.player, this.amountCrafted);
+            stack.onCrafting(this.thePlayer.world, this.thePlayer, this.amountCrafted);
         }
 
         this.amountCrafted = 0;
 
         if (stack.getItem() == Item.getItemFromBlock(Blocks.CRAFTING_TABLE))
         {
-            this.player.addStat(AchievementList.BUILD_WORK_BENCH);
+            this.thePlayer.addStat(AchievementList.BUILD_WORK_BENCH);
         }
 
         if (stack.getItem() instanceof ItemPickaxe)
         {
-            this.player.addStat(AchievementList.BUILD_PICKAXE);
+            this.thePlayer.addStat(AchievementList.BUILD_PICKAXE);
         }
 
         if (stack.getItem() == Item.getItemFromBlock(Blocks.FURNACE))
         {
-            this.player.addStat(AchievementList.BUILD_FURNACE);
+            this.thePlayer.addStat(AchievementList.BUILD_FURNACE);
         }
 
         if (stack.getItem() instanceof ItemHoe)
         {
-            this.player.addStat(AchievementList.BUILD_HOE);
+            this.thePlayer.addStat(AchievementList.BUILD_HOE);
         }
 
         if (stack.getItem() == Items.BREAD)
         {
-            this.player.addStat(AchievementList.MAKE_BREAD);
+            this.thePlayer.addStat(AchievementList.MAKE_BREAD);
         }
 
         if (stack.getItem() == Items.CAKE)
         {
-            this.player.addStat(AchievementList.BAKE_CAKE);
+            this.thePlayer.addStat(AchievementList.BAKE_CAKE);
         }
 
         if (stack.getItem() instanceof ItemPickaxe && ((ItemPickaxe)stack.getItem()).getToolMaterial() != Item.ToolMaterial.WOOD)
         {
-            this.player.addStat(AchievementList.BUILD_BETTER_PICKAXE);
+            this.thePlayer.addStat(AchievementList.BUILD_BETTER_PICKAXE);
         }
 
         if (stack.getItem() instanceof ItemSword)
         {
-            this.player.addStat(AchievementList.BUILD_SWORD);
+            this.thePlayer.addStat(AchievementList.BUILD_SWORD);
         }
 
         if (stack.getItem() == Item.getItemFromBlock(Blocks.ENCHANTING_TABLE))
         {
-            this.player.addStat(AchievementList.ENCHANTMENTS);
+            this.thePlayer.addStat(AchievementList.ENCHANTMENTS);
         }
 
         if (stack.getItem() == Item.getItemFromBlock(Blocks.BOOKSHELF))
         {
-            this.player.addStat(AchievementList.BOOKCASE);
+            this.thePlayer.addStat(AchievementList.BOOKCASE);
         }
     }
 
-    public ItemStack onTake(EntityPlayer p_190901_1_, ItemStack p_190901_2_)
+    public ItemStack func_190901_a(EntityPlayer p_190901_1_, ItemStack p_190901_2_)
     {
         this.onCrafting(p_190901_2_);
         NonNullList<ItemStack> nonnulllist = CraftingManager.getInstance().getRemainingItems(this.craftMatrix, p_190901_1_.world);
@@ -142,26 +142,26 @@ public class SlotCrafting extends Slot
             ItemStack itemstack = this.craftMatrix.getStackInSlot(i);
             ItemStack itemstack1 = (ItemStack)nonnulllist.get(i);
 
-            if (!itemstack.isEmpty())
+            if (!itemstack.func_190926_b())
             {
                 this.craftMatrix.decrStackSize(i, 1);
                 itemstack = this.craftMatrix.getStackInSlot(i);
             }
 
-            if (!itemstack1.isEmpty())
+            if (!itemstack1.func_190926_b())
             {
-                if (itemstack.isEmpty())
+                if (itemstack.func_190926_b())
                 {
                     this.craftMatrix.setInventorySlotContents(i, itemstack1);
                 }
                 else if (ItemStack.areItemsEqual(itemstack, itemstack1) && ItemStack.areItemStackTagsEqual(itemstack, itemstack1))
                 {
-                    itemstack1.grow(itemstack.getCount());
+                    itemstack1.func_190917_f(itemstack.func_190916_E());
                     this.craftMatrix.setInventorySlotContents(i, itemstack1);
                 }
-                else if (!this.player.inventory.addItemStackToInventory(itemstack1))
+                else if (!this.thePlayer.inventory.addItemStackToInventory(itemstack1))
                 {
-                    this.player.dropItem(itemstack1, false);
+                    this.thePlayer.dropItem(itemstack1, false);
                 }
             }
         }

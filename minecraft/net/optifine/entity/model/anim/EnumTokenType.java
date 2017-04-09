@@ -4,7 +4,7 @@ public enum EnumTokenType
 {
     IDENTIFIER("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz", "0123456789_:."),
     CONSTANT("0123456789", "."),
-    OPERATOR("+-*/", 1),
+    OPERATOR("+-*/%", 1),
     COMMA(",", 1),
     BRACKET_OPEN("(", 1),
     BRACKET_CLOSE(")", 1);

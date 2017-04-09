@@ -26,7 +26,7 @@ public class SPacketEntityProperties implements Packet<INetHandlerPlayClient>
 
         for (IAttributeInstance iattributeinstance : instances)
         {
-            this.snapshots.add(new SPacketEntityProperties.Snapshot(iattributeinstance.getAttribute().getName(), iattributeinstance.getBaseValue(), iattributeinstance.getModifiers()));
+            this.snapshots.add(new SPacketEntityProperties.Snapshot(iattributeinstance.getAttribute().getAttributeUnlocalizedName(), iattributeinstance.getBaseValue(), iattributeinstance.getModifiers()));
         }
     }
 
@@ -35,19 +35,19 @@ public class SPacketEntityProperties implements Packet<INetHandlerPlayClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.entityId = buf.readVarInt();
+        this.entityId = buf.readVarIntFromBuffer();
         int i = buf.readInt();
 
         for (int j = 0; j < i; ++j)
         {
-            String s = buf.readString(64);
+            String s = buf.readStringFromBuffer(64);
             double d0 = buf.readDouble();
             List<AttributeModifier> list = Lists.<AttributeModifier>newArrayList();
-            int k = buf.readVarInt();
+            int k = buf.readVarIntFromBuffer();
 
             for (int l = 0; l < k; ++l)
             {
-                UUID uuid = buf.readUniqueId();
+                UUID uuid = buf.readUuid();
                 list.add(new AttributeModifier(uuid, "Unknown synced attribute modifier", buf.readDouble(), buf.readByte()));
             }
 
@@ -60,18 +60,18 @@ public class SPacketEntityProperties implements Packet<INetHandlerPlayClient>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeVarInt(this.entityId);
+        buf.writeVarIntToBuffer(this.entityId);
         buf.writeInt(this.snapshots.size());
 
         for (SPacketEntityProperties.Snapshot spacketentityproperties$snapshot : this.snapshots)
         {
             buf.writeString(spacketentityproperties$snapshot.getName());
             buf.writeDouble(spacketentityproperties$snapshot.getBaseValue());
-            buf.writeVarInt(spacketentityproperties$snapshot.getModifiers().size());
+            buf.writeVarIntToBuffer(spacketentityproperties$snapshot.getModifiers().size());
 
             for (AttributeModifier attributemodifier : spacketentityproperties$snapshot.getModifiers())
             {
-                buf.writeUniqueId(attributemodifier.getID());
+                buf.writeUuid(attributemodifier.getID());
                 buf.writeDouble(attributemodifier.getAmount());
                 buf.writeByte(attributemodifier.getOperation());
             }

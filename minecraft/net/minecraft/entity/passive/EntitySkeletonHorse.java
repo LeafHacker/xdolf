@@ -22,9 +22,9 @@ public class EntitySkeletonHorse extends AbstractHorse
     private boolean skeletonTrap;
     private int skeletonTrapTime;
 
-    public EntitySkeletonHorse(World worldIn)
+    public EntitySkeletonHorse(World p_i47295_1_)
     {
-        super(worldIn);
+        super(p_i47295_1_);
     }
 
     protected void applyEntityAttributes()
@@ -83,15 +83,15 @@ public class EntitySkeletonHorse extends AbstractHorse
     {
         super.onLivingUpdate();
 
-        if (this.isTrap() && this.skeletonTrapTime++ >= 18000)
+        if (this.func_190690_dh() && this.skeletonTrapTime++ >= 18000)
         {
             this.setDead();
         }
     }
 
-    public static void registerFixesSkeletonHorse(DataFixer fixer)
+    public static void func_190692_b(DataFixer p_190692_0_)
     {
-        AbstractHorse.registerFixesAbstractHorse(fixer, EntitySkeletonHorse.class);
+        AbstractHorse.func_190683_c(p_190692_0_, EntitySkeletonHorse.class);
     }
 
     /**
@@ -100,7 +100,7 @@ public class EntitySkeletonHorse extends AbstractHorse
     public void writeEntityToNBT(NBTTagCompound compound)
     {
         super.writeEntityToNBT(compound);
-        compound.setBoolean("SkeletonTrap", this.isTrap());
+        compound.setBoolean("SkeletonTrap", this.func_190690_dh());
         compound.setInteger("SkeletonTrapTime", this.skeletonTrapTime);
     }
 
@@ -110,22 +110,22 @@ public class EntitySkeletonHorse extends AbstractHorse
     public void readEntityFromNBT(NBTTagCompound compound)
     {
         super.readEntityFromNBT(compound);
-        this.setTrap(compound.getBoolean("SkeletonTrap"));
+        this.func_190691_p(compound.getBoolean("SkeletonTrap"));
         this.skeletonTrapTime = compound.getInteger("SkeletonTrapTime");
     }
 
-    public boolean isTrap()
+    public boolean func_190690_dh()
     {
         return this.skeletonTrap;
     }
 
-    public void setTrap(boolean trap)
+    public void func_190691_p(boolean p_190691_1_)
     {
-        if (trap != this.skeletonTrap)
+        if (p_190691_1_ != this.skeletonTrap)
         {
-            this.skeletonTrap = trap;
+            this.skeletonTrap = p_190691_1_;
 
-            if (trap)
+            if (p_190691_1_)
             {
                 this.tasks.addTask(1, this.skeletonTrapAI);
             }
@@ -139,7 +139,7 @@ public class EntitySkeletonHorse extends AbstractHorse
     public boolean processInteract(EntityPlayer player, EnumHand hand)
     {
         ItemStack itemstack = player.getHeldItem(hand);
-        boolean flag = !itemstack.isEmpty();
+        boolean flag = !itemstack.func_190926_b();
 
         if (flag && itemstack.getItem() == Items.SPAWN_EGG)
         {

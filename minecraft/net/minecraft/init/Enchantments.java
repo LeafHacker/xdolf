@@ -18,7 +18,7 @@ public class Enchantments
     public static final Enchantment THORNS = getRegisteredEnchantment("thorns");
     public static final Enchantment DEPTH_STRIDER = getRegisteredEnchantment("depth_strider");
     public static final Enchantment FROST_WALKER = getRegisteredEnchantment("frost_walker");
-    public static final Enchantment BINDING_CURSE = getRegisteredEnchantment("binding_curse");
+    public static final Enchantment field_190941_k = getRegisteredEnchantment("binding_curse");
     public static final Enchantment SHARPNESS = getRegisteredEnchantment("sharpness");
     public static final Enchantment SMITE = getRegisteredEnchantment("smite");
     public static final Enchantment BANE_OF_ARTHROPODS = getRegisteredEnchantment("bane_of_arthropods");
@@ -27,6 +27,7 @@ public class Enchantments
     /** Lights mobs on fire */
     public static final Enchantment FIRE_ASPECT = getRegisteredEnchantment("fire_aspect");
     public static final Enchantment LOOTING = getRegisteredEnchantment("looting");
+    public static final Enchantment field_191530_r = getRegisteredEnchantment("sweeping");
     public static final Enchantment EFFICIENCY = getRegisteredEnchantment("efficiency");
     public static final Enchantment SILK_TOUCH = getRegisteredEnchantment("silk_touch");
     public static final Enchantment UNBREAKING = getRegisteredEnchantment("unbreaking");
@@ -38,7 +39,7 @@ public class Enchantments
     public static final Enchantment LUCK_OF_THE_SEA = getRegisteredEnchantment("luck_of_the_sea");
     public static final Enchantment LURE = getRegisteredEnchantment("lure");
     public static final Enchantment MENDING = getRegisteredEnchantment("mending");
-    public static final Enchantment VANISHING_CURSE = getRegisteredEnchantment("vanishing_curse");
+    public static final Enchantment field_190940_C = getRegisteredEnchantment("vanishing_curse");
 
     @Nullable
     private static Enchantment getRegisteredEnchantment(String id)

@@ -34,5 +34,5 @@ public interface IChunkLoader
      */
     void saveExtraData();
 
-    boolean isChunkGeneratedAt(int p_191063_1_, int p_191063_2_);
+    boolean func_191063_a(int p_191063_1_, int p_191063_2_);
 }

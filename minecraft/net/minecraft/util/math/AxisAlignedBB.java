@@ -77,7 +77,7 @@ public class AxisAlignedBB
         return j;
     }
 
-    public AxisAlignedBB contract(double p_191195_1_, double p_191195_3_, double p_191195_5_)
+    public AxisAlignedBB func_191195_a(double p_191195_1_, double p_191195_3_, double p_191195_5_)
     {
         double d0 = this.minX;
         double d1 = this.minY;
@@ -177,7 +177,7 @@ public class AxisAlignedBB
         return this.expand(value, value, value);
     }
 
-    public AxisAlignedBB intersect(AxisAlignedBB p_191500_1_)
+    public AxisAlignedBB func_191500_a(AxisAlignedBB p_191500_1_)
     {
         double d0 = Math.max(this.minX, p_191500_1_.minX);
         double d1 = Math.max(this.minY, p_191500_1_.minY);
@@ -212,7 +212,7 @@ public class AxisAlignedBB
         return new AxisAlignedBB(this.minX + (double)pos.getX(), this.minY + (double)pos.getY(), this.minZ + (double)pos.getZ(), this.maxX + (double)pos.getX(), this.maxY + (double)pos.getY(), this.maxZ + (double)pos.getZ());
     }
 
-    public AxisAlignedBB move(Vec3d p_191194_1_)
+    public AxisAlignedBB func_191194_a(Vec3d p_191194_1_)
     {
         return this.offset(p_191194_1_.xCoord, p_191194_1_.yCoord, p_191194_1_.zCoord);
     }

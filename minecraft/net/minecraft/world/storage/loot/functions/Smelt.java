@@ -25,7 +25,7 @@ public class Smelt extends LootFunction
     {
         ItemStack itemstack = FurnaceRecipes.instance().getSmeltingResult(stack);
 
-        if (itemstack.isEmpty())
+        if (itemstack.func_190926_b())
         {
             LOGGER.warn("Couldn\'t smelt {} because there is no smelting recipe", new Object[] {stack});
             return stack;
@@ -33,7 +33,7 @@ public class Smelt extends LootFunction
         else
         {
             ItemStack itemstack1 = itemstack.copy();
-            itemstack1.setCount(stack.getCount());
+            itemstack1.func_190920_e(stack.func_190916_E());
             return itemstack1;
         }
     }

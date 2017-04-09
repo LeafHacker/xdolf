@@ -19,17 +19,17 @@ public class Mipmaps
     private IntBuffer[] mipmapBuffers;
     private Dimension[] mipmapDimensions;
 
-    public Mipmaps(String p_i60_1_, int p_i60_2_, int p_i60_3_, int[] p_i60_4_, boolean p_i60_5_)
+    public Mipmaps(String p_i63_1_, int p_i63_2_, int p_i63_3_, int[] p_i63_4_, boolean p_i63_5_)
     {
-        this.iconName = p_i60_1_;
-        this.width = p_i60_2_;
-        this.height = p_i60_3_;
-        this.data = p_i60_4_;
-        this.direct = p_i60_5_;
-        this.mipmapDimensions = makeMipmapDimensions(p_i60_2_, p_i60_3_, p_i60_1_);
-        this.mipmapDatas = generateMipMapData(p_i60_4_, p_i60_2_, p_i60_3_, this.mipmapDimensions);
+        this.iconName = p_i63_1_;
+        this.width = p_i63_2_;
+        this.height = p_i63_3_;
+        this.data = p_i63_4_;
+        this.direct = p_i63_5_;
+        this.mipmapDimensions = makeMipmapDimensions(p_i63_2_, p_i63_3_, p_i63_1_);
+        this.mipmapDatas = generateMipMapData(p_i63_4_, p_i63_2_, p_i63_3_, this.mipmapDimensions);
 
-        if (p_i60_5_)
+        if (p_i63_5_)
         {
             this.mipmapBuffers = makeMipmapBuffers(this.mipmapDimensions, this.mipmapDatas);
         }

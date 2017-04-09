@@ -9,7 +9,7 @@ public class SPacketCollectItem implements Packet<INetHandlerPlayClient>
 {
     private int collectedItemEntityId;
     private int entityId;
-    private int collectedQuantity;
+    private int field_191209_c;
 
     public SPacketCollectItem()
     {
@@ -19,7 +19,7 @@ public class SPacketCollectItem implements Packet<INetHandlerPlayClient>
     {
         this.collectedItemEntityId = p_i47316_1_;
         this.entityId = p_i47316_2_;
-        this.collectedQuantity = p_i47316_3_;
+        this.field_191209_c = p_i47316_3_;
     }
 
     /**
@@ -27,9 +27,9 @@ public class SPacketCollectItem implements Packet<INetHandlerPlayClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.collectedItemEntityId = buf.readVarInt();
-        this.entityId = buf.readVarInt();
-        this.collectedQuantity = buf.readVarInt();
+        this.collectedItemEntityId = buf.readVarIntFromBuffer();
+        this.entityId = buf.readVarIntFromBuffer();
+        this.field_191209_c = buf.readVarIntFromBuffer();
     }
 
     /**
@@ -37,9 +37,9 @@ public class SPacketCollectItem implements Packet<INetHandlerPlayClient>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeVarInt(this.collectedItemEntityId);
-        buf.writeVarInt(this.entityId);
-        buf.writeVarInt(this.collectedQuantity);
+        buf.writeVarIntToBuffer(this.collectedItemEntityId);
+        buf.writeVarIntToBuffer(this.entityId);
+        buf.writeVarIntToBuffer(this.field_191209_c);
     }
 
     /**
@@ -60,8 +60,8 @@ public class SPacketCollectItem implements Packet<INetHandlerPlayClient>
         return this.entityId;
     }
 
-    public int getAmount()
+    public int func_191208_c()
     {
-        return this.collectedQuantity;
+        return this.field_191209_c;
     }
 }

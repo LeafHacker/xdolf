@@ -111,7 +111,7 @@ public class BlockPistonMoving extends BlockContainer
         return false;
     }
 
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing heldItem, float side, float hitX, float hitY)
     {
         if (!worldIn.isRemote && worldIn.getTileEntity(pos) == null)
         {
@@ -129,7 +129,7 @@ public class BlockPistonMoving extends BlockContainer
      */
     public Item getItemDropped(IBlockState state, Random rand, int fortune)
     {
-        return Items.AIR;
+        return Items.field_190931_a;
     }
 
     /**
@@ -164,7 +164,7 @@ public class BlockPistonMoving extends BlockContainer
      * change. Cases may include when redstone power is updated, cactus blocks popping off due to a neighboring solid
      * block, etc.
      */
-    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos)
+    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos p_189540_5_)
     {
         if (!worldIn.isRemote)
         {
@@ -179,13 +179,13 @@ public class BlockPistonMoving extends BlockContainer
         return tileentitypiston == null ? null : tileentitypiston.getAABB(worldIn, pos);
     }
 
-    public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn)
+    public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn, boolean p_185477_7_)
     {
         TileEntityPiston tileentitypiston = this.getTilePistonAt(worldIn, pos);
 
         if (tileentitypiston != null)
         {
-            tileentitypiston.addCollissionAABBs(worldIn, pos, entityBox, collidingBoxes, entityIn);
+            tileentitypiston.func_190609_a(worldIn, pos, entityBox, collidingBoxes, entityIn);
         }
     }
 
@@ -208,7 +208,7 @@ public class BlockPistonMoving extends BlockContainer
 
     public ItemStack getItem(World worldIn, BlockPos pos, IBlockState state)
     {
-        return ItemStack.EMPTY;
+        return ItemStack.field_190927_a;
     }
 
     /**

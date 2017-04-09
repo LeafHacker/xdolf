@@ -10,7 +10,7 @@ public class WeightedSpawnerEntity extends WeightedRandom.Item
     {
         super(1);
         this.nbt = new NBTTagCompound();
-        this.nbt.setString("id", "Pig");
+        this.nbt.setString("id", "minecraft:pig");
     }
 
     public WeightedSpawnerEntity(NBTTagCompound nbtIn)
@@ -27,6 +27,16 @@ public class WeightedSpawnerEntity extends WeightedRandom.Item
     public NBTTagCompound toCompoundTag()
     {
         NBTTagCompound nbttagcompound = new NBTTagCompound();
+
+        if (!this.nbt.hasKey("id", 8))
+        {
+            this.nbt.setString("id", "minecraft:pig");
+        }
+        else if (!this.nbt.getString("id").contains(":"))
+        {
+            this.nbt.setString("id", (new ResourceLocation(this.nbt.getString("id"))).toString());
+        }
+
         nbttagcompound.setTag("Entity", this.nbt);
         nbttagcompound.setInteger("Weight", this.itemWeight);
         return nbttagcompound;

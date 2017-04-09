@@ -196,7 +196,7 @@ public class NetHandlerLoginServer implements INetHandlerLoginServer, ITickable
                     try
                     {
                         String s = (new BigInteger(CryptManager.getServerIdHash("", NetHandlerLoginServer.this.server.getKeyPair().getPublic(), NetHandlerLoginServer.this.secretKey))).toString(16);
-                        NetHandlerLoginServer.this.loginGameProfile = NetHandlerLoginServer.this.server.getMinecraftSessionService().hasJoinedServer(new GameProfile((UUID)null, gameprofile.getName()), s, this.getAddress());
+                        NetHandlerLoginServer.this.loginGameProfile = NetHandlerLoginServer.this.server.getMinecraftSessionService().hasJoinedServer(new GameProfile((UUID)null, gameprofile.getName()), s, this.func_191235_a());
 
                         if (NetHandlerLoginServer.this.loginGameProfile != null)
                         {
@@ -231,10 +231,10 @@ public class NetHandlerLoginServer implements INetHandlerLoginServer, ITickable
                     }
                 }
                 @Nullable
-                private InetAddress getAddress()
+                private InetAddress func_191235_a()
                 {
                     SocketAddress socketaddress = NetHandlerLoginServer.this.networkManager.getRemoteAddress();
-                    return NetHandlerLoginServer.this.server.getPreventProxyConnections() && socketaddress instanceof InetSocketAddress ? ((InetSocketAddress)socketaddress).getAddress() : null;
+                    return NetHandlerLoginServer.this.server.func_190518_ac() && socketaddress instanceof InetSocketAddress ? ((InetSocketAddress)socketaddress).getAddress() : null;
                 }
             }).start();
         }

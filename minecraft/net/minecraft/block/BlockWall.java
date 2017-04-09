@@ -1,11 +1,7 @@
 package net.minecraft.block;
 
+import java.util.List;
 import javax.annotation.Nullable;
-
-import com.darkcart.xdolf.mods.Hacks;
-import com.darkcart.xdolf.mods.player.Flight;
-import com.darkcart.xdolf.mods.world.Freecam;
-
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
@@ -13,6 +9,7 @@ import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -23,6 +20,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 
 public class BlockWall extends Block
 {
@@ -51,14 +49,21 @@ public class BlockWall extends Block
         return AABB_BY_INDEX[getAABBIndex(state)];
     }
 
+    public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn, boolean p_185477_7_)
+    {
+        if (!p_185477_7_)
+        {
+            state = this.getActualState(state, worldIn, pos);
+        }
+
+        addCollisionBoxToList(pos, entityBox, collidingBoxes, CLIP_AABB_BY_INDEX[getAABBIndex(state)]);
+    }
+
     @Nullable
     public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos)
     {
         blockState = this.getActualState(blockState, worldIn, pos);
-        if(Hacks.findMod(Freecam.class).isEnabled() && Hacks.findMod(Flight.class).isEnabled())
-    		return NULL_AABB;
-    	else
-    		return CLIP_AABB_BY_INDEX[getAABBIndex(blockState)];
+        return CLIP_AABB_BY_INDEX[getAABBIndex(blockState)];
     }
 
     private static int getAABBIndex(IBlockState state)

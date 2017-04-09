@@ -49,7 +49,7 @@ public class EntitySkeleton extends AbstractSkeleton
         return SoundEvents.ENTITY_SKELETON_DEATH;
     }
 
-    SoundEvent getStepSound()
+    SoundEvent func_190727_o()
     {
         return SoundEvents.ENTITY_SKELETON_STEP;
     }
@@ -73,19 +73,19 @@ public class EntitySkeleton extends AbstractSkeleton
         }
     }
 
-    protected EntityArrow getArrow(float p_190726_1_)
+    protected EntityArrow func_190726_a(float p_190726_1_)
     {
         ItemStack itemstack = this.getItemStackFromSlot(EntityEquipmentSlot.OFFHAND);
 
         if (itemstack.getItem() == Items.SPECTRAL_ARROW)
         {
             EntitySpectralArrow entityspectralarrow = new EntitySpectralArrow(this.world, this);
-            entityspectralarrow.setEnchantmentEffectsFromEntity(this, p_190726_1_);
+            entityspectralarrow.func_190547_a(this, p_190726_1_);
             return entityspectralarrow;
         }
         else
         {
-            EntityArrow entityarrow = super.getArrow(p_190726_1_);
+            EntityArrow entityarrow = super.func_190726_a(p_190726_1_);
 
             if (itemstack.getItem() == Items.TIPPED_ARROW && entityarrow instanceof EntityTippedArrow)
             {

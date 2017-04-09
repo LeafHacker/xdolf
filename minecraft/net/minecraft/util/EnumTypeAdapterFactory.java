@@ -65,6 +65,6 @@ public class EnumTypeAdapterFactory implements TypeAdapterFactory
 
     private String getName(Object objectIn)
     {
-        return objectIn instanceof Enum ? ((Enum)objectIn).name().toLowerCase(Locale.US) : objectIn.toString().toLowerCase(Locale.US);
+        return objectIn instanceof Enum ? ((Enum)objectIn).name().toLowerCase(Locale.ROOT) : objectIn.toString().toLowerCase(Locale.ROOT);
     }
 }

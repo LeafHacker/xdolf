@@ -24,20 +24,20 @@ public class ItemSnow extends ItemBlock
     /**
      * Called when a Block is right-clicked with this Item
      */
-    public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+    public EnumActionResult onItemUse(EntityPlayer stack, World playerIn, BlockPos worldIn, EnumHand pos, EnumFacing hand, float facing, float hitX, float hitY)
     {
-        ItemStack itemstack = player.getHeldItem(hand);
+        ItemStack itemstack = stack.getHeldItem(pos);
 
-        if (!itemstack.isEmpty() && player.canPlayerEdit(pos, facing, itemstack))
+        if (!itemstack.func_190926_b() && stack.canPlayerEdit(worldIn, hand, itemstack))
         {
-            IBlockState iblockstate = worldIn.getBlockState(pos);
+            IBlockState iblockstate = playerIn.getBlockState(worldIn);
             Block block = iblockstate.getBlock();
-            BlockPos blockpos = pos;
+            BlockPos blockpos = worldIn;
 
-            if ((facing != EnumFacing.UP || block != this.block) && !block.isReplaceable(worldIn, pos))
+            if ((hand != EnumFacing.UP || block != this.block) && !block.isReplaceable(playerIn, worldIn))
             {
-                blockpos = pos.offset(facing);
-                iblockstate = worldIn.getBlockState(blockpos);
+                blockpos = worldIn.offset(hand);
+                iblockstate = playerIn.getBlockState(blockpos);
                 block = iblockstate.getBlock();
             }
 
@@ -48,19 +48,19 @@ public class ItemSnow extends ItemBlock
                 if (i < 8)
                 {
                     IBlockState iblockstate1 = iblockstate.withProperty(BlockSnow.LAYERS, Integer.valueOf(i + 1));
-                    AxisAlignedBB axisalignedbb = iblockstate1.getCollisionBoundingBox(worldIn, blockpos);
+                    AxisAlignedBB axisalignedbb = iblockstate1.getCollisionBoundingBox(playerIn, blockpos);
 
-                    if (axisalignedbb != Block.NULL_AABB && worldIn.checkNoEntityCollision(axisalignedbb.offset(blockpos)) && worldIn.setBlockState(blockpos, iblockstate1, 10))
+                    if (axisalignedbb != Block.NULL_AABB && playerIn.checkNoEntityCollision(axisalignedbb.offset(blockpos)) && playerIn.setBlockState(blockpos, iblockstate1, 10))
                     {
                         SoundType soundtype = this.block.getSoundType();
-                        worldIn.playSound(player, blockpos, soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
-                        itemstack.shrink(1);
+                        playerIn.playSound(stack, blockpos, soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
+                        itemstack.func_190918_g(1);
                         return EnumActionResult.SUCCESS;
                     }
                 }
             }
 
-            return super.onItemUse(player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
+            return super.onItemUse(stack, playerIn, worldIn, pos, hand, facing, hitX, hitY);
         }
         else
         {

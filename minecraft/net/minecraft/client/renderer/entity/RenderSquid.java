@@ -22,7 +22,7 @@ public class RenderSquid extends RenderLiving<EntitySquid>
         return SQUID_TEXTURES;
     }
 
-    protected void applyRotations(EntitySquid entityLiving, float p_77043_2_, float p_77043_3_, float partialTicks)
+    protected void rotateCorpse(EntitySquid entityLiving, float p_77043_2_, float p_77043_3_, float partialTicks)
     {
         float f = entityLiving.prevSquidPitch + (entityLiving.squidPitch - entityLiving.prevSquidPitch) * partialTicks;
         float f1 = entityLiving.prevSquidYaw + (entityLiving.squidYaw - entityLiving.prevSquidYaw) * partialTicks;

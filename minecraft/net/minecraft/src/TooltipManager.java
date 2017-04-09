@@ -16,9 +16,9 @@ public class TooltipManager
     private int lastMouseY = 0;
     private long mouseStillTime = 0L;
 
-    public TooltipManager(GuiScreen p_i91_1_)
+    public TooltipManager(GuiScreen p_i94_1_)
     {
-        this.guiScreen = p_i91_1_;
+        this.guiScreen = p_i94_1_;
     }
 
     public void drawTooltips(int p_drawTooltips_1_, int p_drawTooltips_2_, List p_drawTooltips_3_)

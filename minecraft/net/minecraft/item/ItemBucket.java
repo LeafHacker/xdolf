@@ -34,11 +34,11 @@ public class ItemBucket extends Item
         this.setCreativeTab(CreativeTabs.MISC);
     }
 
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
+    public ActionResult<ItemStack> onItemRightClick(World itemStackIn, EntityPlayer worldIn, EnumHand playerIn)
     {
         boolean flag = this.containedBlock == Blocks.AIR;
-        ItemStack itemstack = playerIn.getHeldItem(handIn);
-        RayTraceResult raytraceresult = this.rayTrace(worldIn, playerIn, flag);
+        ItemStack itemstack = worldIn.getHeldItem(playerIn);
+        RayTraceResult raytraceresult = this.rayTrace(itemStackIn, worldIn, flag);
 
         if (raytraceresult == null)
         {
@@ -52,34 +52,34 @@ public class ItemBucket extends Item
         {
             BlockPos blockpos = raytraceresult.getBlockPos();
 
-            if (!worldIn.isBlockModifiable(playerIn, blockpos))
+            if (!itemStackIn.isBlockModifiable(worldIn, blockpos))
             {
                 return new ActionResult(EnumActionResult.FAIL, itemstack);
             }
             else if (flag)
             {
-                if (!playerIn.canPlayerEdit(blockpos.offset(raytraceresult.sideHit), raytraceresult.sideHit, itemstack))
+                if (!worldIn.canPlayerEdit(blockpos.offset(raytraceresult.sideHit), raytraceresult.sideHit, itemstack))
                 {
                     return new ActionResult(EnumActionResult.FAIL, itemstack);
                 }
                 else
                 {
-                    IBlockState iblockstate = worldIn.getBlockState(blockpos);
+                    IBlockState iblockstate = itemStackIn.getBlockState(blockpos);
                     Material material = iblockstate.getMaterial();
 
                     if (material == Material.WATER && ((Integer)iblockstate.getValue(BlockLiquid.LEVEL)).intValue() == 0)
                     {
-                        worldIn.setBlockState(blockpos, Blocks.AIR.getDefaultState(), 11);
-                        playerIn.addStat(StatList.getObjectUseStats(this));
-                        playerIn.playSound(SoundEvents.ITEM_BUCKET_FILL, 1.0F, 1.0F);
-                        return new ActionResult(EnumActionResult.SUCCESS, this.fillBucket(itemstack, playerIn, Items.WATER_BUCKET));
+                        itemStackIn.setBlockState(blockpos, Blocks.AIR.getDefaultState(), 11);
+                        worldIn.addStat(StatList.getObjectUseStats(this));
+                        worldIn.playSound(SoundEvents.ITEM_BUCKET_FILL, 1.0F, 1.0F);
+                        return new ActionResult(EnumActionResult.SUCCESS, this.fillBucket(itemstack, worldIn, Items.WATER_BUCKET));
                     }
                     else if (material == Material.LAVA && ((Integer)iblockstate.getValue(BlockLiquid.LEVEL)).intValue() == 0)
                     {
-                        playerIn.playSound(SoundEvents.ITEM_BUCKET_FILL_LAVA, 1.0F, 1.0F);
-                        worldIn.setBlockState(blockpos, Blocks.AIR.getDefaultState(), 11);
-                        playerIn.addStat(StatList.getObjectUseStats(this));
-                        return new ActionResult(EnumActionResult.SUCCESS, this.fillBucket(itemstack, playerIn, Items.LAVA_BUCKET));
+                        worldIn.playSound(SoundEvents.ITEM_BUCKET_FILL_LAVA, 1.0F, 1.0F);
+                        itemStackIn.setBlockState(blockpos, Blocks.AIR.getDefaultState(), 11);
+                        worldIn.addStat(StatList.getObjectUseStats(this));
+                        return new ActionResult(EnumActionResult.SUCCESS, this.fillBucket(itemstack, worldIn, Items.LAVA_BUCKET));
                     }
                     else
                     {
@@ -89,17 +89,17 @@ public class ItemBucket extends Item
             }
             else
             {
-                boolean flag1 = worldIn.getBlockState(blockpos).getBlock().isReplaceable(worldIn, blockpos);
+                boolean flag1 = itemStackIn.getBlockState(blockpos).getBlock().isReplaceable(itemStackIn, blockpos);
                 BlockPos blockpos1 = flag1 && raytraceresult.sideHit == EnumFacing.UP ? blockpos : blockpos.offset(raytraceresult.sideHit);
 
-                if (!playerIn.canPlayerEdit(blockpos1, raytraceresult.sideHit, itemstack))
+                if (!worldIn.canPlayerEdit(blockpos1, raytraceresult.sideHit, itemstack))
                 {
                     return new ActionResult(EnumActionResult.FAIL, itemstack);
                 }
-                else if (this.tryPlaceContainedLiquid(playerIn, worldIn, blockpos1))
+                else if (this.tryPlaceContainedLiquid(worldIn, itemStackIn, blockpos1))
                 {
-                    playerIn.addStat(StatList.getObjectUseStats(this));
-                    return !playerIn.capabilities.isCreativeMode ? new ActionResult(EnumActionResult.SUCCESS, new ItemStack(Items.BUCKET)) : new ActionResult(EnumActionResult.SUCCESS, itemstack);
+                    worldIn.addStat(StatList.getObjectUseStats(this));
+                    return !worldIn.capabilities.isCreativeMode ? new ActionResult(EnumActionResult.SUCCESS, new ItemStack(Items.BUCKET)) : new ActionResult(EnumActionResult.SUCCESS, itemstack);
                 }
                 else
                 {
@@ -117,9 +117,9 @@ public class ItemBucket extends Item
         }
         else
         {
-            emptyBuckets.shrink(1);
+            emptyBuckets.func_190918_g(1);
 
-            if (emptyBuckets.isEmpty())
+            if (emptyBuckets.func_190926_b())
             {
                 return new ItemStack(fullBucket);
             }

@@ -43,7 +43,7 @@ public class ModelSkeleton extends ModelBiped
      * Used for easily adding entity-dependent animations. The second and third float params here are the same second
      * and third as in the setRotationAngles method.
      */
-    public void setLivingAnimations(EntityLivingBase entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTickTime)
+    public void setLivingAnimations(EntityLivingBase entitylivingbaseIn, float p_78086_2_, float p_78086_3_, float partialTickTime)
     {
         this.rightArmPose = ModelBiped.ArmPose.EMPTY;
         this.leftArmPose = ModelBiped.ArmPose.EMPTY;
@@ -61,7 +61,7 @@ public class ModelSkeleton extends ModelBiped
             }
         }
 
-        super.setLivingAnimations(entitylivingbaseIn, limbSwing, limbSwingAmount, partialTickTime);
+        super.setLivingAnimations(entitylivingbaseIn, p_78086_2_, p_78086_3_, partialTickTime);
     }
 
     /**
@@ -75,7 +75,7 @@ public class ModelSkeleton extends ModelBiped
         ItemStack itemstack = ((EntityLivingBase)entityIn).getHeldItemMainhand();
         AbstractSkeleton abstractskeleton = (AbstractSkeleton)entityIn;
 
-        if (abstractskeleton.isSwingingArms() && (itemstack.isEmpty() || itemstack.getItem() != Items.BOW))
+        if (abstractskeleton.isSwingingArms() && (itemstack.func_190926_b() || itemstack.getItem() != Items.BOW))
         {
             float f = MathHelper.sin(this.swingProgress * (float)Math.PI);
             float f1 = MathHelper.sin((1.0F - (1.0F - this.swingProgress) * (1.0F - this.swingProgress)) * (float)Math.PI);

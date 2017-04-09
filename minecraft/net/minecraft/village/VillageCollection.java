@@ -18,7 +18,7 @@ import net.minecraft.world.WorldSavedData;
 
 public class VillageCollection extends WorldSavedData
 {
-    private World world;
+    private World worldObj;
     private final List<BlockPos> villagerPositionsList = Lists.<BlockPos>newArrayList();
     private final List<VillageDoorInfo> newDoors = Lists.<VillageDoorInfo>newArrayList();
     private final List<Village> villageList = Lists.<Village>newArrayList();
@@ -32,13 +32,13 @@ public class VillageCollection extends WorldSavedData
     public VillageCollection(World worldIn)
     {
         super(fileNameForProvider(worldIn.provider));
-        this.world = worldIn;
+        this.worldObj = worldIn;
         this.markDirty();
     }
 
     public void setWorldsForAll(World worldIn)
     {
-        this.world = worldIn;
+        this.worldObj = worldIn;
 
         for (Village village : this.villageList)
         {
@@ -141,7 +141,7 @@ public class VillageCollection extends WorldSavedData
 
             if (village == null)
             {
-                village = new Village(this.world);
+                village = new Village(this.worldObj);
                 this.villageList.add(village);
                 this.markDirty();
             }
@@ -214,7 +214,7 @@ public class VillageCollection extends WorldSavedData
 
     private void addToNewDoorsList(BlockPos doorBlock)
     {
-        EnumFacing enumfacing = BlockDoor.getFacing(this.world, doorBlock);
+        EnumFacing enumfacing = BlockDoor.getFacing(this.worldObj, doorBlock);
         EnumFacing enumfacing1 = enumfacing.getOpposite();
         int i = this.countBlocksCanSeeSky(doorBlock, enumfacing, 5);
         int j = this.countBlocksCanSeeSky(doorBlock, enumfacing1, i + 1);
@@ -234,7 +234,7 @@ public class VillageCollection extends WorldSavedData
 
         for (int j = 1; j <= 5; ++j)
         {
-            if (this.world.canSeeSky(centerPos.offset(direction, j)))
+            if (this.worldObj.canSeeSky(centerPos.offset(direction, j)))
             {
                 ++i;
 
@@ -263,7 +263,7 @@ public class VillageCollection extends WorldSavedData
 
     private boolean isWoodDoor(BlockPos doorPos)
     {
-        IBlockState iblockstate = this.world.getBlockState(doorPos);
+        IBlockState iblockstate = this.worldObj.getBlockState(doorPos);
         Block block = iblockstate.getBlock();
         return block instanceof BlockDoor ? iblockstate.getMaterial() == Material.WOOD : false;
     }

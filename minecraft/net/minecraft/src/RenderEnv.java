@@ -46,11 +46,11 @@ public class RenderEnv
     private static final int FALSE = 0;
     private static final int TRUE = 1;
 
-    public RenderEnv(IBlockAccess p_i88_1_, IBlockState p_i88_2_, BlockPos p_i88_3_)
+    public RenderEnv(IBlockAccess p_i91_1_, IBlockState p_i91_2_, BlockPos p_i91_3_)
     {
-        this.blockAccess = p_i88_1_;
-        this.blockState = p_i88_2_;
-        this.blockPos = p_i88_3_;
+        this.blockAccess = p_i91_1_;
+        this.blockState = p_i91_2_;
+        this.blockPos = p_i91_3_;
     }
 
     public void reset(IBlockAccess p_reset_1_, IBlockState p_reset_2_, BlockPos p_reset_3_)

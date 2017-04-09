@@ -26,14 +26,14 @@ public class ModelVindicator extends ModelIllager
         super.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
         EntityVindicator entityvindicator = (EntityVindicator)entityIn;
 
-        if (entityvindicator.isAggressive())
+        if (entityvindicator.func_190639_o())
         {
-            this.rightArm.render(scale);
-            this.leftArm.render(scale);
+            this.field_191223_g.render(scale);
+            this.field_191224_h.render(scale);
         }
         else
         {
-            this.arms.render(scale);
+            this.field_191219_c.render(scale);
         }
     }
 
@@ -47,29 +47,29 @@ public class ModelVindicator extends ModelIllager
         super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
         float f = MathHelper.sin(this.swingProgress * (float)Math.PI);
         float f1 = MathHelper.sin((1.0F - (1.0F - this.swingProgress) * (1.0F - this.swingProgress)) * (float)Math.PI);
-        this.rightArm.rotateAngleZ = 0.0F;
-        this.leftArm.rotateAngleZ = 0.0F;
-        this.rightArm.rotateAngleY = 0.15707964F;
-        this.leftArm.rotateAngleY = -0.15707964F;
+        this.field_191223_g.rotateAngleZ = 0.0F;
+        this.field_191224_h.rotateAngleZ = 0.0F;
+        this.field_191223_g.rotateAngleY = 0.15707964F;
+        this.field_191224_h.rotateAngleY = -0.15707964F;
 
         if (((EntityLivingBase)entityIn).getPrimaryHand() == EnumHandSide.RIGHT)
         {
-            this.rightArm.rotateAngleX = -1.8849558F + MathHelper.cos(ageInTicks * 0.09F) * 0.15F;
-            this.leftArm.rotateAngleX = -0.0F + MathHelper.cos(ageInTicks * 0.19F) * 0.5F;
-            this.rightArm.rotateAngleX += f * 2.2F - f1 * 0.4F;
-            this.leftArm.rotateAngleX += f * 1.2F - f1 * 0.4F;
+            this.field_191223_g.rotateAngleX = -1.8849558F + MathHelper.cos(ageInTicks * 0.09F) * 0.15F;
+            this.field_191224_h.rotateAngleX = -0.0F + MathHelper.cos(ageInTicks * 0.19F) * 0.5F;
+            this.field_191223_g.rotateAngleX += f * 2.2F - f1 * 0.4F;
+            this.field_191224_h.rotateAngleX += f * 1.2F - f1 * 0.4F;
         }
         else
         {
-            this.rightArm.rotateAngleX = -0.0F + MathHelper.cos(ageInTicks * 0.19F) * 0.5F;
-            this.leftArm.rotateAngleX = -1.8849558F + MathHelper.cos(ageInTicks * 0.09F) * 0.15F;
-            this.rightArm.rotateAngleX += f * 1.2F - f1 * 0.4F;
-            this.leftArm.rotateAngleX += f * 2.2F - f1 * 0.4F;
+            this.field_191223_g.rotateAngleX = -0.0F + MathHelper.cos(ageInTicks * 0.19F) * 0.5F;
+            this.field_191224_h.rotateAngleX = -1.8849558F + MathHelper.cos(ageInTicks * 0.09F) * 0.15F;
+            this.field_191223_g.rotateAngleX += f * 1.2F - f1 * 0.4F;
+            this.field_191224_h.rotateAngleX += f * 2.2F - f1 * 0.4F;
         }
 
-        this.rightArm.rotateAngleZ += MathHelper.cos(ageInTicks * 0.09F) * 0.05F + 0.05F;
-        this.leftArm.rotateAngleZ -= MathHelper.cos(ageInTicks * 0.09F) * 0.05F + 0.05F;
-        this.rightArm.rotateAngleX += MathHelper.sin(ageInTicks * 0.067F) * 0.05F;
-        this.leftArm.rotateAngleX -= MathHelper.sin(ageInTicks * 0.067F) * 0.05F;
+        this.field_191223_g.rotateAngleZ += MathHelper.cos(ageInTicks * 0.09F) * 0.05F + 0.05F;
+        this.field_191224_h.rotateAngleZ -= MathHelper.cos(ageInTicks * 0.09F) * 0.05F + 0.05F;
+        this.field_191223_g.rotateAngleX += MathHelper.sin(ageInTicks * 0.067F) * 0.05F;
+        this.field_191224_h.rotateAngleX -= MathHelper.sin(ageInTicks * 0.067F) * 0.05F;
     }
 }

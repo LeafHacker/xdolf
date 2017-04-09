@@ -149,7 +149,7 @@ public class EntityXPOrb extends Entity
             }
         }
 
-        this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
+        this.moveEntity(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
         float f = 0.98F;
 
         if (this.onGround)
@@ -188,7 +188,7 @@ public class EntityXPOrb extends Entity
      */
     protected void dealFireDamage(int amount)
     {
-        this.attackEntityFrom(DamageSource.IN_FIRE, (float)amount);
+        this.attackEntityFrom(DamageSource.inFire, (float)amount);
     }
 
     /**
@@ -247,7 +247,7 @@ public class EntityXPOrb extends Entity
                 entityIn.onItemPickup(this, 1);
                 ItemStack itemstack = EnchantmentHelper.getEnchantedItem(Enchantments.MENDING, entityIn);
 
-                if (!itemstack.isEmpty() && itemstack.isItemDamaged())
+                if (!itemstack.func_190926_b() && itemstack.isItemDamaged())
                 {
                     int i = Math.min(this.xpToDurability(this.xpValue), itemstack.getItemDamage());
                     this.xpValue -= this.durabilityToXp(i);

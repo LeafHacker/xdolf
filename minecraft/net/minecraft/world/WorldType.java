@@ -52,7 +52,7 @@ public class WorldType
         WORLD_TYPES[id] = this;
     }
 
-    public String getName()
+    public String getWorldTypeName()
     {
         return this.worldType;
     }
@@ -98,7 +98,7 @@ public class WorldType
     /**
      * Gets whether this WorldType can be used to generate a new world.
      */
-    public boolean canBeCreated()
+    public boolean getCanBeCreated()
     {
         return this.canBeCreated;
     }

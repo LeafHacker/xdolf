@@ -53,7 +53,7 @@ public class BlockDaylightDetector extends BlockContainer
 
     public void updatePower(World worldIn, BlockPos pos)
     {
-        if (worldIn.provider.hasSkyLight())
+        if (worldIn.provider.func_191066_m())
         {
             IBlockState iblockstate = worldIn.getBlockState(pos);
             int i = worldIn.getLightFor(EnumSkyBlock.SKY, pos) - worldIn.getSkylightSubtracted();
@@ -80,7 +80,7 @@ public class BlockDaylightDetector extends BlockContainer
         }
     }
 
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing heldItem, float side, float hitX, float hitY)
     {
         if (playerIn.isAllowEdit())
         {
@@ -106,7 +106,7 @@ public class BlockDaylightDetector extends BlockContainer
         }
         else
         {
-            return super.onBlockActivated(worldIn, pos, state, playerIn, hand, facing, hitX, hitY, hitZ);
+            return super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY);
         }
     }
 

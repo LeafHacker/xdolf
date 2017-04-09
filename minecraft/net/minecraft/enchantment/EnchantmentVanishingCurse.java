@@ -39,7 +39,7 @@ public class EnchantmentVanishingCurse extends Enchantment
         return true;
     }
 
-    public boolean isCurse()
+    public boolean func_190936_d()
     {
         return true;
     }

@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.Set;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiNewChat;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.resources.I18n;
@@ -51,6 +52,7 @@ import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.DisplayMode;
 import shadersmod.client.Shaders;
 
 public class GameSettings
@@ -448,7 +450,32 @@ public class GameSettings
 
         if (settingsOption == GameSettings.Options.GUI_SCALE)
         {
-            this.guiScale = this.guiScale + value & 3;
+            this.guiScale += value;
+
+            if (GuiScreen.isShiftKeyDown())
+            {
+                this.guiScale = 0;
+            }
+
+            DisplayMode displaymode = Config.getLargestDisplayMode();
+            int i = displaymode.getWidth() / 320;
+            int j = displaymode.getHeight() / 240;
+            int k = Math.min(i, j);
+
+            if (this.guiScale < 0)
+            {
+                this.guiScale = k - 1;
+            }
+
+            if (this.mc.isUnicode() && this.guiScale % 2 != 0)
+            {
+                this.guiScale += value;
+            }
+
+            if (this.guiScale < 0 || this.guiScale >= k)
+            {
+                this.guiScale = 0;
+            }
         }
 
         if (settingsOption == GameSettings.Options.PARTICLES)
@@ -705,7 +732,7 @@ public class GameSettings
             }
             else if (settingOption == GameSettings.Options.GUI_SCALE)
             {
-                return s1 + getTranslation(GUISCALES, this.guiScale);
+                return this.guiScale >= GUISCALES.length ? s1 + this.guiScale + "x" : s1 + getTranslation(GUISCALES, this.guiScale);
             }
             else if (settingOption == GameSettings.Options.CHAT_VISIBILITY)
             {
@@ -1194,7 +1221,7 @@ public class GameSettings
         try
         {
             printwriter = new PrintWriter(new FileWriter(this.optionsFile));
-            printwriter.println("version:819");
+            printwriter.println("version:922");
             printwriter.println("invertYMouse:" + this.invertMouse);
             printwriter.println("mouseSensitivity:" + this.mouseSensitivity);
             printwriter.println("fov:" + (this.fovSetting - 70.0F) / 40.0F);
@@ -1988,6 +2015,11 @@ public class GameSettings
     private String getKeyBindingOF(GameSettings.Options p_getKeyBindingOF_1_)
     {
         String s = I18n.format(p_getKeyBindingOF_1_.getEnumString(), new Object[0]) + ": ";
+
+        if (s == null)
+        {
+            s = p_getKeyBindingOF_1_.getEnumString();
+        }
 
         if (p_getKeyBindingOF_1_ == GameSettings.Options.RENDER_DISTANCE)
         {

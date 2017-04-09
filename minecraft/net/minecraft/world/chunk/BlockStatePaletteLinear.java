@@ -55,21 +55,21 @@ public class BlockStatePaletteLinear implements IBlockStatePalette
 
     public void read(PacketBuffer buf)
     {
-        this.arraySize = buf.readVarInt();
+        this.arraySize = buf.readVarIntFromBuffer();
 
         for (int i = 0; i < this.arraySize; ++i)
         {
-            this.states[i] = (IBlockState)Block.BLOCK_STATE_IDS.getByValue(buf.readVarInt());
+            this.states[i] = (IBlockState)Block.BLOCK_STATE_IDS.getByValue(buf.readVarIntFromBuffer());
         }
     }
 
     public void write(PacketBuffer buf)
     {
-        buf.writeVarInt(this.arraySize);
+        buf.writeVarIntToBuffer(this.arraySize);
 
         for (int i = 0; i < this.arraySize; ++i)
         {
-            buf.writeVarInt(Block.BLOCK_STATE_IDS.get(this.states[i]));
+            buf.writeVarIntToBuffer(Block.BLOCK_STATE_IDS.get(this.states[i]));
         }
     }
 

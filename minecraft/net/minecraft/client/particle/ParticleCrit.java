@@ -39,12 +39,12 @@ public class ParticleCrit extends Particle
     /**
      * Renders the particle
      */
-    public void renderParticle(VertexBuffer buffer, Entity entityIn, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ)
+    public void renderParticle(VertexBuffer worldRendererIn, Entity entityIn, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ)
     {
         float f = ((float)this.particleAge + partialTicks) / (float)this.particleMaxAge * 32.0F;
         f = MathHelper.clamp(f, 0.0F, 1.0F);
         this.particleScale = this.oSize * f;
-        super.renderParticle(buffer, entityIn, partialTicks, rotationX, rotationZ, rotationYZ, rotationXY, rotationXZ);
+        super.renderParticle(worldRendererIn, entityIn, partialTicks, rotationX, rotationZ, rotationYZ, rotationXY, rotationXZ);
     }
 
     public void onUpdate()
@@ -58,7 +58,7 @@ public class ParticleCrit extends Particle
             this.setExpired();
         }
 
-        this.move(this.motionX, this.motionY, this.motionZ);
+        this.moveEntity(this.motionX, this.motionY, this.motionZ);
         this.particleGreen = (float)((double)this.particleGreen * 0.96D);
         this.particleBlue = (float)((double)this.particleBlue * 0.9D);
         this.motionX *= 0.699999988079071D;
@@ -66,7 +66,7 @@ public class ParticleCrit extends Particle
         this.motionZ *= 0.699999988079071D;
         this.motionY -= 0.019999999552965164D;
 
-        if (this.onGround)
+        if (this.isCollided)
         {
             this.motionX *= 0.699999988079071D;
             this.motionZ *= 0.699999988079071D;

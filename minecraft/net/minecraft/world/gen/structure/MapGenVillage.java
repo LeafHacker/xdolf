@@ -66,7 +66,7 @@ public class MapGenVillage extends MapGenStructure
 
         int k = chunkX / this.distance;
         int l = chunkZ / this.distance;
-        Random random = this.world.setRandomSeed(k, l, 10387312);
+        Random random = this.worldObj.setRandomSeed(k, l, 10387312);
         k = k * this.distance;
         l = l * this.distance;
         k = k + random.nextInt(this.distance - 8);
@@ -74,7 +74,7 @@ public class MapGenVillage extends MapGenStructure
 
         if (i == k && j == l)
         {
-            boolean flag = this.world.getBiomeProvider().areBiomesViable(i * 16 + 8, j * 16 + 8, 0, VILLAGE_SPAWN_BIOMES);
+            boolean flag = this.worldObj.getBiomeProvider().areBiomesViable(i * 16 + 8, j * 16 + 8, 0, VILLAGE_SPAWN_BIOMES);
 
             if (flag)
             {
@@ -87,13 +87,13 @@ public class MapGenVillage extends MapGenStructure
 
     public BlockPos getClosestStrongholdPos(World worldIn, BlockPos pos, boolean p_180706_3_)
     {
-        this.world = worldIn;
-        return findNearestStructurePosBySpacing(worldIn, this, pos, this.distance, 8, 10387312, false, 100, p_180706_3_);
+        this.worldObj = worldIn;
+        return func_191069_a(worldIn, this, pos, this.distance, 8, 10387312, false, 100, p_180706_3_);
     }
 
     protected StructureStart getStructureStart(int chunkX, int chunkZ)
     {
-        return new MapGenVillage.Start(this.world, this.rand, chunkX, chunkZ, this.size);
+        return new MapGenVillage.Start(this.worldObj, this.rand, chunkX, chunkZ, this.size);
     }
 
     public static class Start extends StructureStart

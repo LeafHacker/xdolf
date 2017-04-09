@@ -16,7 +16,7 @@ public class CommandListBans extends CommandBase
     /**
      * Gets the name of the command
      */
-    public String getName()
+    public String getCommandName()
     {
         return "banlist";
     }
@@ -40,7 +40,7 @@ public class CommandListBans extends CommandBase
     /**
      * Gets the usage string for the command.
      */
-    public String getUsage(ICommandSender sender)
+    public String getCommandUsage(ICommandSender sender)
     {
         return "commands.banlist.usage";
     }
@@ -52,17 +52,17 @@ public class CommandListBans extends CommandBase
     {
         if (args.length >= 1 && "ips".equalsIgnoreCase(args[0]))
         {
-            sender.sendMessage(new TextComponentTranslation("commands.banlist.ips", new Object[] {Integer.valueOf(server.getPlayerList().getBannedIPs().getKeys().length)}));
-            sender.sendMessage(new TextComponentString(joinNiceString(server.getPlayerList().getBannedIPs().getKeys())));
+            sender.addChatMessage(new TextComponentTranslation("commands.banlist.ips", new Object[] {Integer.valueOf(server.getPlayerList().getBannedIPs().getKeys().length)}));
+            sender.addChatMessage(new TextComponentString(joinNiceString(server.getPlayerList().getBannedIPs().getKeys())));
         }
         else
         {
-            sender.sendMessage(new TextComponentTranslation("commands.banlist.players", new Object[] {Integer.valueOf(server.getPlayerList().getBannedPlayers().getKeys().length)}));
-            sender.sendMessage(new TextComponentString(joinNiceString(server.getPlayerList().getBannedPlayers().getKeys())));
+            sender.addChatMessage(new TextComponentTranslation("commands.banlist.players", new Object[] {Integer.valueOf(server.getPlayerList().getBannedPlayers().getKeys().length)}));
+            sender.addChatMessage(new TextComponentString(joinNiceString(server.getPlayerList().getBannedPlayers().getKeys())));
         }
     }
 
-    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
+    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
     {
         return args.length == 1 ? getListOfStringsMatchingLastWord(args, new String[] {"players", "ips"}): Collections.<String>emptyList();
     }

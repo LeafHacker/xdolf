@@ -269,7 +269,7 @@ public abstract class Render<T extends Entity> implements IEntityRenderer
      */
     private World getWorldFromRenderManager()
     {
-        return this.renderManager.world;
+        return this.renderManager.worldObj;
     }
 
     private void renderShadowSingle(IBlockState state, double p_188299_2_, double p_188299_4_, double p_188299_6_, BlockPos p_188299_8_, float p_188299_9_, float p_188299_10_, double p_188299_11_, double p_188299_13_, double p_188299_15_)

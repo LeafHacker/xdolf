@@ -31,7 +31,7 @@ public class SPacketKeepAlive implements Packet<INetHandlerPlayClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.id = buf.readVarInt();
+        this.id = buf.readVarIntFromBuffer();
     }
 
     /**
@@ -39,7 +39,7 @@ public class SPacketKeepAlive implements Packet<INetHandlerPlayClient>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeVarInt(this.id);
+        buf.writeVarIntToBuffer(this.id);
     }
 
     public int getId()

@@ -151,13 +151,13 @@ public class BlockStem extends BlockBush implements IGrowable
      */
     public Item getItemDropped(IBlockState state, Random rand, int fortune)
     {
-        return Items.AIR;
+        return Items.field_190931_a;
     }
 
     public ItemStack getItem(World worldIn, BlockPos pos, IBlockState state)
     {
         Item item = this.getSeedItem();
-        return item == null ? ItemStack.EMPTY : new ItemStack(item);
+        return item == null ? ItemStack.field_190927_a : new ItemStack(item);
     }
 
     /**

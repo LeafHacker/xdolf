@@ -10,12 +10,12 @@ public class HttpResponse
     private Map<String, String> headers = new LinkedHashMap();
     private byte[] body = null;
 
-    public HttpResponse(int p_i55_1_, String p_i55_2_, Map p_i55_3_, byte[] p_i55_4_)
+    public HttpResponse(int p_i58_1_, String p_i58_2_, Map p_i58_3_, byte[] p_i58_4_)
     {
-        this.status = p_i55_1_;
-        this.statusLine = p_i55_2_;
-        this.headers = p_i55_3_;
-        this.body = p_i55_4_;
+        this.status = p_i58_1_;
+        this.statusLine = p_i58_2_;
+        this.headers = p_i58_3_;
+        this.body = p_i58_4_;
     }
 
     public int getStatus()

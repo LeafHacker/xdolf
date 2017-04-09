@@ -5,10 +5,10 @@ public class RangeInt
     private int min;
     private int max;
 
-    public RangeInt(int p_i74_1_, int p_i74_2_)
+    public RangeInt(int p_i77_1_, int p_i77_2_)
     {
-        this.min = Math.min(p_i74_1_, p_i74_2_);
-        this.max = Math.max(p_i74_1_, p_i74_2_);
+        this.min = Math.min(p_i77_1_, p_i77_2_);
+        this.max = Math.max(p_i77_1_, p_i77_2_);
     }
 
     public boolean isInRange(int p_isInRange_1_)

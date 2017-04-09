@@ -25,5 +25,7 @@ public class RecipesIngots
 
         manager.addRecipe(new ItemStack(Items.GOLD_INGOT), new Object[] {"###", "###", "###", '#', Items.GOLD_NUGGET});
         manager.addRecipe(new ItemStack(Items.GOLD_NUGGET, 9), new Object[] {"#", '#', Items.GOLD_INGOT});
+        manager.addRecipe(new ItemStack(Items.IRON_INGOT), new Object[] {"###", "###", "###", '#', Items.field_191525_da});
+        manager.addRecipe(new ItemStack(Items.field_191525_da, 9), new Object[] {"#", '#', Items.IRON_INGOT});
     }
 }

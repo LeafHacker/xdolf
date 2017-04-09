@@ -47,6 +47,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 public class CustomColors
 {
+    private static String paletteFormatDefault = "vanilla";
     private static CustomColormap waterColors = null;
     private static CustomColormap foliagePineColors = null;
     private static CustomColormap foliageBirchColors = null;
@@ -153,6 +154,7 @@ public class CustomColors
 
     public static void update()
     {
+        paletteFormatDefault = "vanilla";
         waterColors = null;
         foliageBirchColors = null;
         foliagePineColors = null;
@@ -187,6 +189,7 @@ public class CustomColors
         textColors = null;
         setMapColors(mapColorsOriginal);
         potionColors = null;
+        paletteFormatDefault = getValidProperty("mcpatcher/color.properties", "palette.format", CustomColormap.FORMAT_STRINGS, "vanilla");
         String s = "mcpatcher/colormap/";
         String[] astring = new String[] {"water.png", "watercolorX.png"};
         waterColors = getCustomColors(s, astring, 256, 256);
@@ -224,6 +227,57 @@ public class CustomColors
             readColorProperties("mcpatcher/color.properties");
             blockColormaps = readBlockColormaps(new String[] {s + "custom/", s + "blocks/"}, colorsBlockColormaps, 256, 256);
             updateUseDefaultGrassFoliageColors();
+        }
+    }
+
+    private static String getValidProperty(String p_getValidProperty_0_, String p_getValidProperty_1_, String[] p_getValidProperty_2_, String p_getValidProperty_3_)
+    {
+        try
+        {
+            ResourceLocation resourcelocation = new ResourceLocation(p_getValidProperty_0_);
+            InputStream inputstream = Config.getResourceStream(resourcelocation);
+
+            if (inputstream == null)
+            {
+                return p_getValidProperty_3_;
+            }
+            else
+            {
+                Properties properties = new Properties();
+                properties.load(inputstream);
+                inputstream.close();
+                String s = properties.getProperty(p_getValidProperty_1_);
+
+                if (s == null)
+                {
+                    return p_getValidProperty_3_;
+                }
+                else
+                {
+                    List<String> list = Arrays.<String>asList(p_getValidProperty_2_);
+
+                    if (!list.contains(s))
+                    {
+                        warn("Invalid value: " + p_getValidProperty_1_ + "=" + s);
+                        warn("Expected values: " + Config.arrayToString((Object[])p_getValidProperty_2_));
+                        return p_getValidProperty_3_;
+                    }
+                    else
+                    {
+                        dbg("" + p_getValidProperty_1_ + "=" + s);
+                        return s;
+                    }
+                }
+            }
+        }
+        catch (FileNotFoundException var9)
+        {
+            return p_getValidProperty_3_;
+        }
+        catch (IOException ioexception)
+        {
+            ioexception.printStackTrace();
+            return p_getValidProperty_3_;
         }
     }
 
@@ -374,12 +428,11 @@ public class CustomColors
         String s = "palette.block.";
         Map map = new HashMap();
 
-        for (Object s10 : p_readCustomColormaps_0_.keySet())
+        for (Object s1 : p_readCustomColormaps_0_.keySet())
         {
-        	String s1 = (String) s10;
-            String s2 = p_readCustomColormaps_0_.getProperty(s1);
+            String s2 = p_readCustomColormaps_0_.getProperty((String) s1);
 
-            if (s1.startsWith(s))
+            if (((String) s1).startsWith(s))
             {
                 map.put(s1, s2);
             }
@@ -458,7 +511,7 @@ public class CustomColors
                 {
                     Properties properties = new Properties();
                     properties.load(inputstream);
-                    CustomColormap customcolormap = new CustomColormap(properties, s, p_readBlockColormaps_2_, p_readBlockColormaps_3_);
+                    CustomColormap customcolormap = new CustomColormap(properties, s, p_readBlockColormaps_2_, p_readBlockColormaps_3_, paletteFormatDefault);
 
                     if (customcolormap.isValid(s) && customcolormap.isValidMatchBlocks(s))
                     {
@@ -685,12 +738,12 @@ public class CustomColors
                 }
                 else
                 {
-                    properties.put("format", "vanilla");
+                    properties.put("format", paletteFormatDefault);
                     properties.put("source", p_getCustomColors_0_);
                     s = p_getCustomColors_0_;
                 }
 
-                CustomColormap customcolormap = new CustomColormap(properties, s, p_getCustomColors_1_, p_getCustomColors_2_);
+                CustomColormap customcolormap = new CustomColormap(properties, s, p_getCustomColors_1_, p_getCustomColors_2_, paletteFormatDefault);
                 return !customcolormap.isValid(s) ? null : customcolormap;
             }
         }
@@ -1361,8 +1414,7 @@ public class CustomColors
         return p_getWorldFogColor_0_;
     }
 
-    @SuppressWarnings("incomplete-switch")
-	public static Vec3d getWorldSkyColor(Vec3d p_getWorldSkyColor_0_, World p_getWorldSkyColor_1_, Entity p_getWorldSkyColor_2_, float p_getWorldSkyColor_3_)
+    public static Vec3d getWorldSkyColor(Vec3d p_getWorldSkyColor_0_, World p_getWorldSkyColor_1_, Entity p_getWorldSkyColor_2_, float p_getWorldSkyColor_3_)
     {
         DimensionType dimensiontype = p_getWorldSkyColor_1_.provider.getDimensionType();
 
@@ -1386,10 +1438,9 @@ public class CustomColors
         Set set = p_readSpawnEggColors_0_.keySet();
         int i = 0;
 
-        for (Object s0 : set)
+        for (Object s10 : set)
         {
-
-        	String s = (String) s0;
+        	String s = (String) s10;
             String s1 = p_readSpawnEggColors_0_.getProperty(s);
 
             if (s.startsWith(p_readSpawnEggColors_2_))
@@ -1522,6 +1573,7 @@ public class CustomColors
         for (Object s0 : p_readDyeColors_0_.keySet())
         {
         	String s = (String) s0;
+
             String s1 = p_readDyeColors_0_.getProperty(s);
 
             if (s.startsWith(p_readDyeColors_2_))
@@ -1796,7 +1848,7 @@ public class CustomColors
 
     private static int getMapColorIndex(String p_getMapColorIndex_0_)
     {
-        return p_getMapColorIndex_0_ == null ? -1 : (p_getMapColorIndex_0_.equals("air") ? MapColor.AIR.colorIndex : (p_getMapColorIndex_0_.equals("grass") ? MapColor.GRASS.colorIndex : (p_getMapColorIndex_0_.equals("sand") ? MapColor.SAND.colorIndex : (p_getMapColorIndex_0_.equals("cloth") ? MapColor.CLOTH.colorIndex : (p_getMapColorIndex_0_.equals("tnt") ? MapColor.TNT.colorIndex : (p_getMapColorIndex_0_.equals("ice") ? MapColor.ICE.colorIndex : (p_getMapColorIndex_0_.equals("iron") ? MapColor.IRON.colorIndex : (p_getMapColorIndex_0_.equals("foliage") ? MapColor.FOLIAGE.colorIndex : (p_getMapColorIndex_0_.equals("snow") ? MapColor.SNOW.colorIndex : (p_getMapColorIndex_0_.equals("clay") ? MapColor.CLAY.colorIndex : (p_getMapColorIndex_0_.equals("dirt") ? MapColor.DIRT.colorIndex : (p_getMapColorIndex_0_.equals("stone") ? MapColor.STONE.colorIndex : (p_getMapColorIndex_0_.equals("water") ? MapColor.WATER.colorIndex : (p_getMapColorIndex_0_.equals("wood") ? MapColor.WOOD.colorIndex : (p_getMapColorIndex_0_.equals("quartz") ? MapColor.QUARTZ.colorIndex : (p_getMapColorIndex_0_.equals("adobe") ? MapColor.ADOBE.colorIndex : (p_getMapColorIndex_0_.equals("magenta") ? MapColor.MAGENTA.colorIndex : (p_getMapColorIndex_0_.equals("lightBlue") ? MapColor.LIGHT_BLUE.colorIndex : (p_getMapColorIndex_0_.equals("light_blue") ? MapColor.LIGHT_BLUE.colorIndex : (p_getMapColorIndex_0_.equals("yellow") ? MapColor.YELLOW.colorIndex : (p_getMapColorIndex_0_.equals("lime") ? MapColor.LIME.colorIndex : (p_getMapColorIndex_0_.equals("pink") ? MapColor.PINK.colorIndex : (p_getMapColorIndex_0_.equals("gray") ? MapColor.GRAY.colorIndex : (p_getMapColorIndex_0_.equals("silver") ? MapColor.SILVER.colorIndex : (p_getMapColorIndex_0_.equals("cyan") ? MapColor.CYAN.colorIndex : (p_getMapColorIndex_0_.equals("purple") ? MapColor.PURPLE.colorIndex : (p_getMapColorIndex_0_.equals("blue") ? MapColor.BLUE.colorIndex : (p_getMapColorIndex_0_.equals("brown") ? MapColor.BROWN.colorIndex : (p_getMapColorIndex_0_.equals("green") ? MapColor.GREEN.colorIndex : (p_getMapColorIndex_0_.equals("red") ? MapColor.RED.colorIndex : (p_getMapColorIndex_0_.equals("black") ? MapColor.BLACK.colorIndex : (p_getMapColorIndex_0_.equals("gold") ? MapColor.GOLD.colorIndex : (p_getMapColorIndex_0_.equals("diamond") ? MapColor.DIAMOND.colorIndex : (p_getMapColorIndex_0_.equals("lapis") ? MapColor.LAPIS.colorIndex : (p_getMapColorIndex_0_.equals("emerald") ? MapColor.EMERALD.colorIndex : (p_getMapColorIndex_0_.equals("obsidian") ? MapColor.OBSIDIAN.colorIndex : (p_getMapColorIndex_0_.equals("netherrack") ? MapColor.NETHERRACK.colorIndex : -1)))))))))))))))))))))))))))))))))))));
+        return p_getMapColorIndex_0_ == null ? -1 : (p_getMapColorIndex_0_.equals("air") ? MapColor.AIR.colorIndex : (p_getMapColorIndex_0_.equals("grass") ? MapColor.GRASS.colorIndex : (p_getMapColorIndex_0_.equals("sand") ? MapColor.SAND.colorIndex : (p_getMapColorIndex_0_.equals("cloth") ? MapColor.CLOTH.colorIndex : (p_getMapColorIndex_0_.equals("tnt") ? MapColor.TNT.colorIndex : (p_getMapColorIndex_0_.equals("ice") ? MapColor.ICE.colorIndex : (p_getMapColorIndex_0_.equals("iron") ? MapColor.IRON.colorIndex : (p_getMapColorIndex_0_.equals("foliage") ? MapColor.FOLIAGE.colorIndex : (p_getMapColorIndex_0_.equals("clay") ? MapColor.CLAY.colorIndex : (p_getMapColorIndex_0_.equals("dirt") ? MapColor.DIRT.colorIndex : (p_getMapColorIndex_0_.equals("stone") ? MapColor.STONE.colorIndex : (p_getMapColorIndex_0_.equals("water") ? MapColor.WATER.colorIndex : (p_getMapColorIndex_0_.equals("wood") ? MapColor.WOOD.colorIndex : (p_getMapColorIndex_0_.equals("quartz") ? MapColor.QUARTZ.colorIndex : (p_getMapColorIndex_0_.equals("gold") ? MapColor.GOLD.colorIndex : (p_getMapColorIndex_0_.equals("diamond") ? MapColor.DIAMOND.colorIndex : (p_getMapColorIndex_0_.equals("lapis") ? MapColor.LAPIS.colorIndex : (p_getMapColorIndex_0_.equals("emerald") ? MapColor.EMERALD.colorIndex : (p_getMapColorIndex_0_.equals("podzol") ? MapColor.OBSIDIAN.colorIndex : (p_getMapColorIndex_0_.equals("netherrack") ? MapColor.NETHERRACK.colorIndex : (!p_getMapColorIndex_0_.equals("snow") && !p_getMapColorIndex_0_.equals("white") ? (!p_getMapColorIndex_0_.equals("adobe") && !p_getMapColorIndex_0_.equals("orange") ? (p_getMapColorIndex_0_.equals("magenta") ? MapColor.MAGENTA.colorIndex : (!p_getMapColorIndex_0_.equals("light_blue") && !p_getMapColorIndex_0_.equals("lightBlue") ? (p_getMapColorIndex_0_.equals("yellow") ? MapColor.YELLOW.colorIndex : (p_getMapColorIndex_0_.equals("lime") ? MapColor.LIME.colorIndex : (p_getMapColorIndex_0_.equals("pink") ? MapColor.PINK.colorIndex : (p_getMapColorIndex_0_.equals("gray") ? MapColor.GRAY.colorIndex : (p_getMapColorIndex_0_.equals("silver") ? MapColor.SILVER.colorIndex : (p_getMapColorIndex_0_.equals("cyan") ? MapColor.CYAN.colorIndex : (p_getMapColorIndex_0_.equals("purple") ? MapColor.PURPLE.colorIndex : (p_getMapColorIndex_0_.equals("blue") ? MapColor.BLUE.colorIndex : (p_getMapColorIndex_0_.equals("brown") ? MapColor.BROWN.colorIndex : (p_getMapColorIndex_0_.equals("green") ? MapColor.GREEN.colorIndex : (p_getMapColorIndex_0_.equals("red") ? MapColor.RED.colorIndex : (p_getMapColorIndex_0_.equals("black") ? MapColor.BLACK.colorIndex : -1)))))))))))) : MapColor.LIGHT_BLUE.colorIndex)) : MapColor.ADOBE.colorIndex) : MapColor.SNOW.colorIndex)))))))))))))))))))));
     }
 
     private static int[] getMapColors()
@@ -1823,6 +1875,7 @@ public class CustomColors
         if (p_setMapColors_0_ != null)
         {
             MapColor[] amapcolor = MapColor.COLORS;
+            boolean flag = false;
 
             for (int i = 0; i < amapcolor.length && i < p_setMapColors_0_.length; ++i)
             {
@@ -1832,11 +1885,17 @@ public class CustomColors
                 {
                     int j = p_setMapColors_0_[i];
 
-                    if (j >= 0)
+                    if (j >= 0 && mapcolor.colorValue != j)
                     {
                         mapcolor.colorValue = j;
+                        flag = true;
                     }
                 }
+            }
+
+            if (flag)
+            {
+                Minecraft.getMinecraft().getTextureManager().reloadBannerTextures();
             }
         }
     }

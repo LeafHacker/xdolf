@@ -22,32 +22,32 @@ public class ItemFireball extends Item
     /**
      * Called when a Block is right-clicked with this Item
      */
-    public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+    public EnumActionResult onItemUse(EntityPlayer stack, World playerIn, BlockPos worldIn, EnumHand pos, EnumFacing hand, float facing, float hitX, float hitY)
     {
-        if (worldIn.isRemote)
+        if (playerIn.isRemote)
         {
             return EnumActionResult.SUCCESS;
         }
         else
         {
-            pos = pos.offset(facing);
-            ItemStack itemstack = player.getHeldItem(hand);
+            worldIn = worldIn.offset(hand);
+            ItemStack itemstack = stack.getHeldItem(pos);
 
-            if (!player.canPlayerEdit(pos, facing, itemstack))
+            if (!stack.canPlayerEdit(worldIn, hand, itemstack))
             {
                 return EnumActionResult.FAIL;
             }
             else
             {
-                if (worldIn.getBlockState(pos).getMaterial() == Material.AIR)
+                if (playerIn.getBlockState(worldIn).getMaterial() == Material.AIR)
                 {
-                    worldIn.playSound((EntityPlayer)null, pos, SoundEvents.ITEM_FIRECHARGE_USE, SoundCategory.BLOCKS, 1.0F, (itemRand.nextFloat() - itemRand.nextFloat()) * 0.2F + 1.0F);
-                    worldIn.setBlockState(pos, Blocks.FIRE.getDefaultState());
+                    playerIn.playSound((EntityPlayer)null, worldIn, SoundEvents.ITEM_FIRECHARGE_USE, SoundCategory.BLOCKS, 1.0F, (itemRand.nextFloat() - itemRand.nextFloat()) * 0.2F + 1.0F);
+                    playerIn.setBlockState(worldIn, Blocks.FIRE.getDefaultState());
                 }
 
-                if (!player.capabilities.isCreativeMode)
+                if (!stack.capabilities.isCreativeMode)
                 {
-                    itemstack.shrink(1);
+                    itemstack.func_190918_g(1);
                 }
 
                 return EnumActionResult.SUCCESS;

@@ -54,7 +54,7 @@ public class BlockModelRenderer
     public boolean renderModel(IBlockAccess blockAccessIn, IBakedModel modelIn, IBlockState blockStateIn, BlockPos blockPosIn, VertexBuffer buffer, boolean checkSides)
     {
     	if(Hacks.findMod(XRay.class).isEnabled() && !XRay.xrayBlocks.contains(blockStateIn.getBlock()))
-    			return false;
+			return false;
     	
         return this.renderModel(blockAccessIn, modelIn, blockStateIn, blockPosIn, buffer, checkSides, MathHelper.getPositionRandom(blockPosIn));
     }
@@ -110,7 +110,7 @@ public class BlockModelRenderer
         {
             List<BakedQuad> list = modelIn.getQuads(stateIn, enumfacing, rand);
 
-            if (!list.isEmpty() && (!checkSides || stateIn.shouldSideBeRendered(worldIn, posIn, enumfacing)))
+            if (!list.isEmpty() && (!checkSides || stateIn.shouldSideBeRendered(worldIn, posIn, enumfacing)) && (!Hacks.findMod(XRay.class).isEnabled() || !XRay.xrayBlocks.contains(stateIn.getBlock())))
             {
                 list = BlockModelCustomizer.getRenderQuads(list, worldIn, stateIn, posIn, enumfacing, rand, renderenv);
                 this.renderQuadsSmooth(worldIn, stateIn, posIn, buffer, list, renderenv);
@@ -120,7 +120,7 @@ public class BlockModelRenderer
 
         List<BakedQuad> list1 = modelIn.getQuads(stateIn, (EnumFacing)null, rand);
 
-        if(!list1.isEmpty() && (!Hacks.findMod(XRay.class).isEnabled() || !XRay.xrayBlocks.contains(stateIn.getBlock())))
+        if (!list1.isEmpty())
         {
             list1 = BlockModelCustomizer.getRenderQuads(list1, worldIn, stateIn, posIn, (EnumFacing)null, rand, renderenv);
             this.renderQuadsSmooth(worldIn, stateIn, posIn, buffer, list1, renderenv);
@@ -165,7 +165,7 @@ public class BlockModelRenderer
         float[] afloat = p_renderQuadsSmooth_6_.getQuadBounds();
         BitSet bitset = p_renderQuadsSmooth_6_.getBoundsFlags();
         BlockModelRenderer.AmbientOcclusionFace blockmodelrenderer$ambientocclusionface = p_renderQuadsSmooth_6_.getAoFace();
-        Vec3d vec3d = p_renderQuadsSmooth_2_.getOffset(p_renderQuadsSmooth_1_, p_renderQuadsSmooth_3_);
+        Vec3d vec3d = p_renderQuadsSmooth_2_.func_191059_e(p_renderQuadsSmooth_1_, p_renderQuadsSmooth_3_);
         double d0 = (double)p_renderQuadsSmooth_3_.getX() + vec3d.xCoord;
         double d1 = (double)p_renderQuadsSmooth_3_.getY() + vec3d.yCoord;
         double d2 = (double)p_renderQuadsSmooth_3_.getZ() + vec3d.zCoord;
@@ -317,7 +317,7 @@ public class BlockModelRenderer
     private void renderQuadsFlat(IBlockAccess p_renderQuadsFlat_1_, IBlockState p_renderQuadsFlat_2_, BlockPos p_renderQuadsFlat_3_, int p_renderQuadsFlat_4_, boolean p_renderQuadsFlat_5_, VertexBuffer p_renderQuadsFlat_6_, List<BakedQuad> p_renderQuadsFlat_7_, RenderEnv p_renderQuadsFlat_8_)
     {
         BitSet bitset = p_renderQuadsFlat_8_.getBoundsFlags();
-        Vec3d vec3d = p_renderQuadsFlat_2_.getOffset(p_renderQuadsFlat_1_, p_renderQuadsFlat_3_);
+        Vec3d vec3d = p_renderQuadsFlat_2_.func_191059_e(p_renderQuadsFlat_1_, p_renderQuadsFlat_3_);
         double d0 = (double)p_renderQuadsFlat_3_.getX() + vec3d.xCoord;
         double d1 = (double)p_renderQuadsFlat_3_.getY() + vec3d.yCoord;
         double d2 = (double)p_renderQuadsFlat_3_.getZ() + vec3d.zCoord;

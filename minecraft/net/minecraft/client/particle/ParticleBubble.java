@@ -27,12 +27,12 @@ public class ParticleBubble extends Particle
         this.prevPosY = this.posY;
         this.prevPosZ = this.posZ;
         this.motionY += 0.002D;
-        this.move(this.motionX, this.motionY, this.motionZ);
+        this.moveEntity(this.motionX, this.motionY, this.motionZ);
         this.motionX *= 0.8500000238418579D;
         this.motionY *= 0.8500000238418579D;
         this.motionZ *= 0.8500000238418579D;
 
-        if (this.world.getBlockState(new BlockPos(this.posX, this.posY, this.posZ)).getMaterial() != Material.WATER)
+        if (this.worldObj.getBlockState(new BlockPos(this.posX, this.posY, this.posZ)).getMaterial() != Material.WATER)
         {
             this.setExpired();
         }

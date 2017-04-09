@@ -7,8 +7,8 @@ import net.minecraft.util.ResourceLocation;
 
 public class RenderLlamaSpit extends Render<EntityLlamaSpit>
 {
-    private static final ResourceLocation LLAMA_SPIT_TEXTURE = new ResourceLocation("textures/entity/llama/spit.png");
-    private final ModelLlamaSpit model = new ModelLlamaSpit();
+    private static final ResourceLocation field_191333_a = new ResourceLocation("textures/entity/llama/spit.png");
+    private final ModelLlamaSpit field_191334_f = new ModelLlamaSpit();
 
     public RenderLlamaSpit(RenderManager p_i47202_1_)
     {
@@ -32,7 +32,7 @@ public class RenderLlamaSpit extends Render<EntityLlamaSpit>
             GlStateManager.enableOutlineMode(this.getTeamColor(entity));
         }
 
-        this.model.render(entity, partialTicks, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
+        this.field_191334_f.render(entity, partialTicks, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
 
         if (this.renderOutlines)
         {
@@ -49,6 +49,6 @@ public class RenderLlamaSpit extends Render<EntityLlamaSpit>
      */
     protected ResourceLocation getEntityTexture(EntityLlamaSpit entity)
     {
-        return LLAMA_SPIT_TEXTURE;
+        return field_191333_a;
     }
 }

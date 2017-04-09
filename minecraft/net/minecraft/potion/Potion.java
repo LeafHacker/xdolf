@@ -103,12 +103,12 @@ public class Potion
         {
             if (entityLivingBaseIn.getHealth() > 1.0F)
             {
-                entityLivingBaseIn.attackEntityFrom(DamageSource.MAGIC, 1.0F);
+                entityLivingBaseIn.attackEntityFrom(DamageSource.magic, 1.0F);
             }
         }
         else if (this == MobEffects.WITHER)
         {
-            entityLivingBaseIn.attackEntityFrom(DamageSource.WITHER, 1.0F);
+            entityLivingBaseIn.attackEntityFrom(DamageSource.wither, 1.0F);
         }
         else if (this == MobEffects.HUNGER && entityLivingBaseIn instanceof EntityPlayer)
         {
@@ -125,7 +125,7 @@ public class Potion
         {
             if (this == MobEffects.INSTANT_DAMAGE && !entityLivingBaseIn.isEntityUndead() || this == MobEffects.INSTANT_HEALTH && entityLivingBaseIn.isEntityUndead())
             {
-                entityLivingBaseIn.attackEntityFrom(DamageSource.MAGIC, (float)(6 << p_76394_2_));
+                entityLivingBaseIn.attackEntityFrom(DamageSource.magic, (float)(6 << p_76394_2_));
             }
         }
         else
@@ -144,7 +144,7 @@ public class Potion
 
                 if (source == null)
                 {
-                    entityLivingBaseIn.attackEntityFrom(DamageSource.MAGIC, (float)j);
+                    entityLivingBaseIn.attackEntityFrom(DamageSource.magic, (float)j);
                 }
                 else
                 {

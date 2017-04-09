@@ -67,8 +67,6 @@ public class StatList
     /** counts the number of times you've killed a player */
     public static final StatBase PLAYER_KILLS = (new StatBasic("stat.playerKills", new TextComponentTranslation("stat.playerKills", new Object[0]))).registerStat();
     public static final StatBase FISH_CAUGHT = (new StatBasic("stat.fishCaught", new TextComponentTranslation("stat.fishCaught", new Object[0]))).registerStat();
-    public static final StatBase JUNK_FISHED = (new StatBasic("stat.junkFished", new TextComponentTranslation("stat.junkFished", new Object[0]))).registerStat();
-    public static final StatBase TREASURE_FISHED = (new StatBasic("stat.treasureFished", new TextComponentTranslation("stat.treasureFished", new Object[0]))).registerStat();
     public static final StatBase TALKED_TO_VILLAGER = (new StatBasic("stat.talkedToVillager", new TextComponentTranslation("stat.talkedToVillager", new Object[0]))).registerStat();
     public static final StatBase TRADED_WITH_VILLAGER = (new StatBasic("stat.tradedWithVillager", new TextComponentTranslation("stat.tradedWithVillager", new Object[0]))).registerStat();
     public static final StatBase CAKE_SLICES_EATEN = (new StatBasic("stat.cakeSlicesEaten", new TextComponentTranslation("stat.cakeSlicesEaten", new Object[0]))).registerStat();
@@ -92,7 +90,7 @@ public class StatList
     public static final StatBase CRAFTING_TABLE_INTERACTION = (new StatBasic("stat.craftingTableInteraction", new TextComponentTranslation("stat.workbenchInteraction", new Object[0]))).registerStat();
     public static final StatBase CHEST_OPENED = (new StatBasic("stat.chestOpened", new TextComponentTranslation("stat.chestOpened", new Object[0]))).registerStat();
     public static final StatBase SLEEP_IN_BED = (new StatBasic("stat.sleepInBed", new TextComponentTranslation("stat.sleepInBed", new Object[0]))).registerStat();
-    public static final StatBase OPEN_SHULKER_BOX = (new StatBasic("stat.shulkerBoxOpened", new TextComponentTranslation("stat.shulkerBoxOpened", new Object[0]))).registerStat();
+    public static final StatBase field_191272_ae = (new StatBasic("stat.shulkerBoxOpened", new TextComponentTranslation("stat.shulkerBoxOpened", new Object[0]))).registerStat();
     private static final StatBase[] BLOCKS_STATS = new StatBase[4096];
     private static final StatBase[] CRAFTS_STATS = new StatBase[32000];
 
@@ -162,7 +160,7 @@ public class StatList
         {
             ItemStack itemstack = irecipe.getRecipeOutput();
 
-            if (!itemstack.isEmpty())
+            if (!itemstack.func_190926_b())
             {
                 set.add(irecipe.getRecipeOutput().getItem());
             }
@@ -196,7 +194,7 @@ public class StatList
         {
             Item item = Item.getItemFromBlock(block);
 
-            if (item != Items.AIR)
+            if (item != Items.field_190931_a)
             {
                 int i = Block.getIdFromBlock(block);
                 String s = getItemName(item);
@@ -325,13 +323,13 @@ public class StatList
 
     public static StatBase getStatKillEntity(EntityList.EntityEggInfo eggInfo)
     {
-        String s = EntityList.getTranslationName(eggInfo.spawnedID);
+        String s = EntityList.func_191302_a(eggInfo.spawnedID);
         return s == null ? null : (new StatBase("stat.killEntity." + s, new TextComponentTranslation("stat.entityKill", new Object[] {new TextComponentTranslation("entity." + s + ".name", new Object[0])}))).registerStat();
     }
 
     public static StatBase getStatEntityKilledBy(EntityList.EntityEggInfo eggInfo)
     {
-        String s = EntityList.getTranslationName(eggInfo.spawnedID);
+        String s = EntityList.func_191302_a(eggInfo.spawnedID);
         return s == null ? null : (new StatBase("stat.entityKilledBy." + s, new TextComponentTranslation("stat.entityKilledBy", new Object[] {new TextComponentTranslation("entity." + s + ".name", new Object[0])}))).registerStat();
     }
 

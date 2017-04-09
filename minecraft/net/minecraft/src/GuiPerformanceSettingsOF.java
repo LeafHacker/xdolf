@@ -14,10 +14,10 @@ public class GuiPerformanceSettingsOF extends GuiScreen
     private static GameSettings.Options[] enumOptions = new GameSettings.Options[] {GameSettings.Options.SMOOTH_FPS, GameSettings.Options.SMOOTH_WORLD, GameSettings.Options.FAST_RENDER, GameSettings.Options.FAST_MATH, GameSettings.Options.CHUNK_UPDATES, GameSettings.Options.CHUNK_UPDATES_DYNAMIC, GameSettings.Options.LAZY_CHUNK_LOADING};
     private TooltipManager tooltipManager = new TooltipManager(this);
 
-    public GuiPerformanceSettingsOF(GuiScreen p_i46_1_, GameSettings p_i46_2_)
+    public GuiPerformanceSettingsOF(GuiScreen p_i49_1_, GameSettings p_i49_2_)
     {
-        this.prevScreen = p_i46_1_;
-        this.settings = p_i46_2_;
+        this.prevScreen = p_i49_1_;
+        this.settings = p_i49_2_;
     }
 
     /**

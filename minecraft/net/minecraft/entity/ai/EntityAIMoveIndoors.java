@@ -26,7 +26,7 @@ public class EntityAIMoveIndoors extends EntityAIBase
     {
         BlockPos blockpos = new BlockPos(this.entityObj);
 
-        if ((!this.entityObj.world.isDaytime() || this.entityObj.world.isRaining() && !this.entityObj.world.getBiome(blockpos).canRain()) && this.entityObj.world.provider.hasSkyLight())
+        if ((!this.entityObj.world.isDaytime() || this.entityObj.world.isRaining() && !this.entityObj.world.getBiome(blockpos).canRain()) && this.entityObj.world.provider.func_191066_m())
         {
             if (this.entityObj.getRNG().nextInt(50) != 0)
             {

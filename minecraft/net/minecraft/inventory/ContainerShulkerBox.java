@@ -6,11 +6,11 @@ import net.minecraft.item.ItemStack;
 
 public class ContainerShulkerBox extends Container
 {
-    private final IInventory inventory;
+    private final IInventory field_190899_a;
 
     public ContainerShulkerBox(InventoryPlayer p_i47266_1_, IInventory p_i47266_2_, EntityPlayer p_i47266_3_)
     {
-        this.inventory = p_i47266_2_;
+        this.field_190899_a = p_i47266_2_;
         p_i47266_2_.openInventory(p_i47266_3_);
         int i = 3;
         int j = 9;
@@ -42,7 +42,7 @@ public class ContainerShulkerBox extends Container
      */
     public boolean canInteractWith(EntityPlayer playerIn)
     {
-        return this.inventory.isUsableByPlayer(playerIn);
+        return this.field_190899_a.isUsableByPlayer(playerIn);
     }
 
     /**
@@ -50,7 +50,7 @@ public class ContainerShulkerBox extends Container
      */
     public ItemStack transferStackInSlot(EntityPlayer playerIn, int index)
     {
-        ItemStack itemstack = ItemStack.EMPTY;
+        ItemStack itemstack = ItemStack.field_190927_a;
         Slot slot = (Slot)this.inventorySlots.get(index);
 
         if (slot != null && slot.getHasStack())
@@ -58,21 +58,21 @@ public class ContainerShulkerBox extends Container
             ItemStack itemstack1 = slot.getStack();
             itemstack = itemstack1.copy();
 
-            if (index < this.inventory.getSizeInventory())
+            if (index < this.field_190899_a.getSizeInventory())
             {
-                if (!this.mergeItemStack(itemstack1, this.inventory.getSizeInventory(), this.inventorySlots.size(), true))
+                if (!this.mergeItemStack(itemstack1, this.field_190899_a.getSizeInventory(), this.inventorySlots.size(), true))
                 {
-                    return ItemStack.EMPTY;
+                    return ItemStack.field_190927_a;
                 }
             }
-            else if (!this.mergeItemStack(itemstack1, 0, this.inventory.getSizeInventory(), false))
+            else if (!this.mergeItemStack(itemstack1, 0, this.field_190899_a.getSizeInventory(), false))
             {
-                return ItemStack.EMPTY;
+                return ItemStack.field_190927_a;
             }
 
-            if (itemstack1.isEmpty())
+            if (itemstack1.func_190926_b())
             {
-                slot.putStack(ItemStack.EMPTY);
+                slot.putStack(ItemStack.field_190927_a);
             }
             else
             {
@@ -89,6 +89,6 @@ public class ContainerShulkerBox extends Container
     public void onContainerClosed(EntityPlayer playerIn)
     {
         super.onContainerClosed(playerIn);
-        this.inventory.closeInventory(playerIn);
+        this.field_190899_a.closeInventory(playerIn);
     }
 }

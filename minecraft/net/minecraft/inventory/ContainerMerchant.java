@@ -13,12 +13,12 @@ public class ContainerMerchant extends Container
     private final InventoryMerchant merchantInventory;
 
     /** Instance of World. */
-    private final World world;
+    private final World theWorld;
 
     public ContainerMerchant(InventoryPlayer playerInventory, IMerchant merchant, World worldIn)
     {
         this.theMerchant = merchant;
-        this.world = worldIn;
+        this.theWorld = worldIn;
         this.merchantInventory = new InventoryMerchant(playerInventory.player, merchant);
         this.addSlotToContainer(new Slot(this.merchantInventory, 0, 36, 53));
         this.addSlotToContainer(new Slot(this.merchantInventory, 1, 62, 53));
@@ -70,7 +70,7 @@ public class ContainerMerchant extends Container
      */
     public ItemStack transferStackInSlot(EntityPlayer playerIn, int index)
     {
-        ItemStack itemstack = ItemStack.EMPTY;
+        ItemStack itemstack = ItemStack.field_190927_a;
         Slot slot = (Slot)this.inventorySlots.get(index);
 
         if (slot != null && slot.getHasStack())
@@ -82,7 +82,7 @@ public class ContainerMerchant extends Container
             {
                 if (!this.mergeItemStack(itemstack1, 3, 39, true))
                 {
-                    return ItemStack.EMPTY;
+                    return ItemStack.field_190927_a;
                 }
 
                 slot.onSlotChange(itemstack1, itemstack);
@@ -93,34 +93,34 @@ public class ContainerMerchant extends Container
                 {
                     if (!this.mergeItemStack(itemstack1, 30, 39, false))
                     {
-                        return ItemStack.EMPTY;
+                        return ItemStack.field_190927_a;
                     }
                 }
                 else if (index >= 30 && index < 39 && !this.mergeItemStack(itemstack1, 3, 30, false))
                 {
-                    return ItemStack.EMPTY;
+                    return ItemStack.field_190927_a;
                 }
             }
             else if (!this.mergeItemStack(itemstack1, 3, 39, false))
             {
-                return ItemStack.EMPTY;
+                return ItemStack.field_190927_a;
             }
 
-            if (itemstack1.isEmpty())
+            if (itemstack1.func_190926_b())
             {
-                slot.putStack(ItemStack.EMPTY);
+                slot.putStack(ItemStack.field_190927_a);
             }
             else
             {
                 slot.onSlotChanged();
             }
 
-            if (itemstack1.getCount() == itemstack.getCount())
+            if (itemstack1.func_190916_E() == itemstack.func_190916_E())
             {
-                return ItemStack.EMPTY;
+                return ItemStack.field_190927_a;
             }
 
-            slot.onTake(playerIn, itemstack1);
+            slot.func_190901_a(playerIn, itemstack1);
         }
 
         return itemstack;
@@ -135,18 +135,18 @@ public class ContainerMerchant extends Container
         this.theMerchant.setCustomer((EntityPlayer)null);
         super.onContainerClosed(playerIn);
 
-        if (!this.world.isRemote)
+        if (!this.theWorld.isRemote)
         {
             ItemStack itemstack = this.merchantInventory.removeStackFromSlot(0);
 
-            if (!itemstack.isEmpty())
+            if (!itemstack.func_190926_b())
             {
                 playerIn.dropItem(itemstack, false);
             }
 
             itemstack = this.merchantInventory.removeStackFromSlot(1);
 
-            if (!itemstack.isEmpty())
+            if (!itemstack.func_190926_b())
             {
                 playerIn.dropItem(itemstack, false);
             }

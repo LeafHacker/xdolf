@@ -65,12 +65,12 @@ public class EnchantmentThorns extends Enchantment
                 attacker.attackEntityFrom(DamageSource.causeThornsDamage(user), (float)getDamage(level, random));
             }
 
-            if (!itemstack.isEmpty())
+            if (!itemstack.func_190926_b())
             {
                 itemstack.damageItem(3, user);
             }
         }
-        else if (!itemstack.isEmpty())
+        else if (!itemstack.func_190926_b())
         {
             itemstack.damageItem(1, user);
         }

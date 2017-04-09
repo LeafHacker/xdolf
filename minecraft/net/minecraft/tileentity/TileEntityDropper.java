@@ -16,7 +16,7 @@ public class TileEntityDropper extends TileEntityDispenser
      */
     public String getName()
     {
-        return this.hasCustomName() ? this.customName : "container.dropper";
+        return this.hasCustomName() ? this.field_190577_o : "container.dropper";
     }
 
     public String getGuiID()

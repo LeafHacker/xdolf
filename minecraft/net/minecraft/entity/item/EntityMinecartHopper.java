@@ -59,7 +59,7 @@ public class EntityMinecartHopper extends EntityMinecartContainer implements IHo
         return 5;
     }
 
-    public boolean processInitialInteract(EntityPlayer player, EnumHand hand)
+    public boolean processInitialInteract(EntityPlayer player, EnumHand stack)
     {
         if (!this.world.isRemote)
         {
@@ -194,7 +194,7 @@ public class EntityMinecartHopper extends EntityMinecartContainer implements IHo
 
     public static void registerFixesMinecartHopper(DataFixer fixer)
     {
-        EntityMinecartContainer.addDataFixers(fixer, EntityMinecartHopper.class);
+        EntityMinecartContainer.func_190574_b(fixer, EntityMinecartHopper.class);
     }
 
     /**

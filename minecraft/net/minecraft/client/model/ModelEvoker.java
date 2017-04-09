@@ -19,14 +19,14 @@ public class ModelEvoker extends ModelIllager
         super.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
         EntityEvoker entityevoker = (EntityEvoker)entityIn;
 
-        if (entityevoker.isCastingSpell())
+        if (entityevoker.func_190749_o())
         {
-            this.rightArm.render(scale);
-            this.leftArm.render(scale);
+            this.field_191223_g.render(scale);
+            this.field_191224_h.render(scale);
         }
         else
         {
-            this.arms.render(scale);
+            this.field_191219_c.render(scale);
         }
     }
 
@@ -38,15 +38,15 @@ public class ModelEvoker extends ModelIllager
     public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn)
     {
         super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
-        this.rightArm.rotationPointZ = 0.0F;
-        this.rightArm.rotationPointX = -5.0F;
-        this.leftArm.rotationPointZ = 0.0F;
-        this.leftArm.rotationPointX = 5.0F;
-        this.rightArm.rotateAngleX = MathHelper.cos(ageInTicks * 0.6662F) * 0.25F;
-        this.leftArm.rotateAngleX = MathHelper.cos(ageInTicks * 0.6662F) * 0.25F;
-        this.rightArm.rotateAngleZ = 2.3561945F;
-        this.leftArm.rotateAngleZ = -2.3561945F;
-        this.rightArm.rotateAngleY = 0.0F;
-        this.leftArm.rotateAngleY = 0.0F;
+        this.field_191223_g.rotationPointZ = 0.0F;
+        this.field_191223_g.rotationPointX = -5.0F;
+        this.field_191224_h.rotationPointZ = 0.0F;
+        this.field_191224_h.rotationPointX = 5.0F;
+        this.field_191223_g.rotateAngleX = MathHelper.cos(ageInTicks * 0.6662F) * 0.25F;
+        this.field_191224_h.rotateAngleX = MathHelper.cos(ageInTicks * 0.6662F) * 0.25F;
+        this.field_191223_g.rotateAngleZ = 2.3561945F;
+        this.field_191224_h.rotateAngleZ = -2.3561945F;
+        this.field_191223_g.rotateAngleY = 0.0F;
+        this.field_191224_h.rotateAngleY = 0.0F;
     }
 }

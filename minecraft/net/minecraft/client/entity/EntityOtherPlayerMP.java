@@ -143,7 +143,7 @@ public class EntityOtherPlayerMP extends AbstractClientPlayer
     /**
      * Send a chat message to the CommandSender
      */
-    public void sendMessage(ITextComponent component)
+    public void addChatMessage(ITextComponent component)
     {
         Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessage(component);
     }
@@ -151,7 +151,7 @@ public class EntityOtherPlayerMP extends AbstractClientPlayer
     /**
      * Returns {@code true} if the CommandSender is allowed to execute the command, {@code false} if not
      */
-    public boolean canUseCommand(int permLevel, String commandName)
+    public boolean canCommandSenderUseCommand(int permLevel, String commandName)
     {
         return false;
     }

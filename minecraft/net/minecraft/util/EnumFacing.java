@@ -346,7 +346,7 @@ public enum EnumFacing implements IStringSerializable
         throw new IllegalArgumentException("No such direction: " + axisDirectionIn + " " + axisIn);
     }
 
-    public static EnumFacing getDirectionFromEntityLiving(BlockPos p_190914_0_, EntityLivingBase p_190914_1_)
+    public static EnumFacing func_190914_a(BlockPos p_190914_0_, EntityLivingBase p_190914_1_)
     {
         if (Math.abs(p_190914_1_.posX - (double)((float)p_190914_0_.getX() + 0.5F)) < 2.0D && Math.abs(p_190914_1_.posZ - (double)((float)p_190914_0_.getZ() + 0.5F)) < 2.0D)
         {

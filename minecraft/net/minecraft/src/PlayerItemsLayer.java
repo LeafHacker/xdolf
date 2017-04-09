@@ -13,9 +13,9 @@ public class PlayerItemsLayer implements LayerRenderer
 {
     private RenderPlayer renderPlayer = null;
 
-    public PlayerItemsLayer(RenderPlayer p_i69_1_)
+    public PlayerItemsLayer(RenderPlayer p_i72_1_)
     {
-        this.renderPlayer = p_i69_1_;
+        this.renderPlayer = p_i72_1_;
     }
 
     public void doRenderLayer(EntityLivingBase entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale)

@@ -30,7 +30,7 @@ public abstract class BlockFlower extends BlockBush
 
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
     {
-        return super.getBoundingBox(state, source, pos).move(state.getOffset(source, pos));
+        return super.getBoundingBox(state, source, pos).func_191194_a(state.func_191059_e(source, pos));
     }
 
     /**

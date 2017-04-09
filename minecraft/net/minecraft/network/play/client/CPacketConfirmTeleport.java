@@ -23,7 +23,7 @@ public class CPacketConfirmTeleport implements Packet<INetHandlerPlayServer>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.telportId = buf.readVarInt();
+        this.telportId = buf.readVarIntFromBuffer();
     }
 
     /**
@@ -31,7 +31,7 @@ public class CPacketConfirmTeleport implements Packet<INetHandlerPlayServer>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeVarInt(this.telportId);
+        buf.writeVarIntToBuffer(this.telportId);
     }
 
     /**

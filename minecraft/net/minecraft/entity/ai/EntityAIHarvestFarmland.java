@@ -82,7 +82,7 @@ public class EntityAIHarvestFarmland extends EntityAIMoveToBlock
                     ItemStack itemstack = inventorybasic.getStackInSlot(i);
                     boolean flag = false;
 
-                    if (!itemstack.isEmpty())
+                    if (!itemstack.func_190926_b())
                     {
                         if (itemstack.getItem() == Items.WHEAT_SEEDS)
                         {
@@ -108,11 +108,11 @@ public class EntityAIHarvestFarmland extends EntityAIMoveToBlock
 
                     if (flag)
                     {
-                        itemstack.shrink(1);
+                        itemstack.func_190918_g(1);
 
-                        if (itemstack.isEmpty())
+                        if (itemstack.func_190926_b())
                         {
-                            inventorybasic.setInventorySlotContents(i, ItemStack.EMPTY);
+                            inventorybasic.setInventorySlotContents(i, ItemStack.field_190927_a);
                         }
 
                         break;

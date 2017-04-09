@@ -28,9 +28,9 @@ public class RandomPositionGenerator
     }
 
     @Nullable
-    public static Vec3d getLandPos(EntityCreature p_191377_0_, int p_191377_1_, int p_191377_2_)
+    public static Vec3d func_191377_b(EntityCreature p_191377_0_, int p_191377_1_, int p_191377_2_)
     {
-        return generateRandomPos(p_191377_0_, p_191377_1_, p_191377_2_, (Vec3d)null, false);
+        return func_191379_a(p_191377_0_, p_191377_1_, p_191377_2_, (Vec3d)null, false);
     }
 
     @Nullable
@@ -63,11 +63,11 @@ public class RandomPositionGenerator
      */
     private static Vec3d findRandomTargetBlock(EntityCreature entitycreatureIn, int xz, int y, @Nullable Vec3d targetVec3)
     {
-        return generateRandomPos(entitycreatureIn, xz, y, targetVec3, true);
+        return func_191379_a(entitycreatureIn, xz, y, targetVec3, true);
     }
 
     @Nullable
-    private static Vec3d generateRandomPos(EntityCreature p_191379_0_, int p_191379_1_, int p_191379_2_, @Nullable Vec3d p_191379_3_, boolean p_191379_4_)
+    private static Vec3d func_191379_a(EntityCreature p_191379_0_, int p_191379_1_, int p_191379_2_, @Nullable Vec3d p_191379_3_, boolean p_191379_4_)
     {
         PathNavigate pathnavigate = p_191379_0_.getNavigator();
         Random random = p_191379_0_.getRNG();
@@ -127,9 +127,9 @@ public class RandomPositionGenerator
                 {
                     if (!p_191379_4_)
                     {
-                        blockpos1 = moveAboveSolid(blockpos1, p_191379_0_);
+                        blockpos1 = func_191378_a(blockpos1, p_191379_0_);
 
-                        if (isWaterDestination(blockpos1, p_191379_0_))
+                        if (func_191380_b(blockpos1, p_191379_0_))
                         {
                             continue;
                         }
@@ -159,7 +159,7 @@ public class RandomPositionGenerator
         }
     }
 
-    private static BlockPos moveAboveSolid(BlockPos p_191378_0_, EntityCreature p_191378_1_)
+    private static BlockPos func_191378_a(BlockPos p_191378_0_, EntityCreature p_191378_1_)
     {
         if (!p_191378_1_.world.getBlockState(p_191378_0_).getMaterial().isSolid())
         {
@@ -178,7 +178,7 @@ public class RandomPositionGenerator
         }
     }
 
-    private static boolean isWaterDestination(BlockPos p_191380_0_, EntityCreature p_191380_1_)
+    private static boolean func_191380_b(BlockPos p_191380_0_, EntityCreature p_191380_1_)
     {
         return p_191380_1_.world.getBlockState(p_191380_0_).getMaterial() == Material.WATER;
     }

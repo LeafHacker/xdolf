@@ -15,8 +15,8 @@ import net.minecraft.world.World;
 public class EntityAIMate extends EntityAIBase
 {
     private final EntityAnimal theAnimal;
-    private final Class <? extends EntityAnimal > mateClass;
-    World world;
+    private final Class <? extends EntityAnimal > field_190857_e;
+    World theWorld;
     private EntityAnimal targetMate;
 
     /**
@@ -35,8 +35,8 @@ public class EntityAIMate extends EntityAIBase
     public EntityAIMate(EntityAnimal p_i47306_1_, double p_i47306_2_, Class <? extends EntityAnimal > p_i47306_4_)
     {
         this.theAnimal = p_i47306_1_;
-        this.world = p_i47306_1_.world;
-        this.mateClass = p_i47306_4_;
+        this.theWorld = p_i47306_1_.world;
+        this.field_190857_e = p_i47306_4_;
         this.moveSpeed = p_i47306_2_;
         this.setMutexBits(3);
     }
@@ -95,7 +95,7 @@ public class EntityAIMate extends EntityAIBase
      */
     private EntityAnimal getNearbyMate()
     {
-        List<EntityAnimal> list = this.world.<EntityAnimal>getEntitiesWithinAABB(this.mateClass, this.theAnimal.getEntityBoundingBox().expandXyz(8.0D));
+        List<EntityAnimal> list = this.theWorld.<EntityAnimal>getEntitiesWithinAABB(this.field_190857_e, this.theAnimal.getEntityBoundingBox().expandXyz(8.0D));
         double d0 = Double.MAX_VALUE;
         EntityAnimal entityanimal = null;
 
@@ -143,7 +143,7 @@ public class EntityAIMate extends EntityAIBase
             this.targetMate.resetInLove();
             entityageable.setGrowingAge(-24000);
             entityageable.setLocationAndAngles(this.theAnimal.posX, this.theAnimal.posY, this.theAnimal.posZ, 0.0F, 0.0F);
-            this.world.spawnEntity(entityageable);
+            this.theWorld.spawnEntityInWorld(entityageable);
             Random random = this.theAnimal.getRNG();
 
             for (int i = 0; i < 7; ++i)
@@ -154,12 +154,12 @@ public class EntityAIMate extends EntityAIBase
                 double d3 = random.nextDouble() * (double)this.theAnimal.width * 2.0D - (double)this.theAnimal.width;
                 double d4 = 0.5D + random.nextDouble() * (double)this.theAnimal.height;
                 double d5 = random.nextDouble() * (double)this.theAnimal.width * 2.0D - (double)this.theAnimal.width;
-                this.world.spawnParticle(EnumParticleTypes.HEART, this.theAnimal.posX + d3, this.theAnimal.posY + d4, this.theAnimal.posZ + d5, d0, d1, d2, new int[0]);
+                this.theWorld.spawnParticle(EnumParticleTypes.HEART, this.theAnimal.posX + d3, this.theAnimal.posY + d4, this.theAnimal.posZ + d5, d0, d1, d2, new int[0]);
             }
 
-            if (this.world.getGameRules().getBoolean("doMobLoot"))
+            if (this.theWorld.getGameRules().getBoolean("doMobLoot"))
             {
-                this.world.spawnEntity(new EntityXPOrb(this.world, this.theAnimal.posX, this.theAnimal.posY, this.theAnimal.posZ, random.nextInt(7) + 1));
+                this.theWorld.spawnEntityInWorld(new EntityXPOrb(this.theWorld, this.theAnimal.posX, this.theAnimal.posY, this.theAnimal.posZ, random.nextInt(7) + 1));
             }
         }
     }

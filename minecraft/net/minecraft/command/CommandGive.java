@@ -19,7 +19,7 @@ public class CommandGive extends CommandBase
     /**
      * Gets the name of the command
      */
-    public String getName()
+    public String getCommandName()
     {
         return "give";
     }
@@ -35,7 +35,7 @@ public class CommandGive extends CommandBase
     /**
      * Gets the usage string for the command.
      */
-    public String getUsage(ICommandSender sender)
+    public String getCommandUsage(ICommandSender sender)
     {
         return "commands.give.usage";
     }
@@ -79,9 +79,9 @@ public class CommandGive extends CommandBase
                 entityplayer.inventoryContainer.detectAndSendChanges();
             }
 
-            if (flag && itemstack.isEmpty())
+            if (flag && itemstack.func_190926_b())
             {
-                itemstack.setCount(1);
+                itemstack.func_190920_e(1);
                 sender.setCommandStat(CommandResultStats.Type.AFFECTED_ITEMS, i);
                 EntityItem entityitem1 = entityplayer.dropItem(itemstack, false);
 
@@ -92,7 +92,7 @@ public class CommandGive extends CommandBase
             }
             else
             {
-                sender.setCommandStat(CommandResultStats.Type.AFFECTED_ITEMS, i - itemstack.getCount());
+                sender.setCommandStat(CommandResultStats.Type.AFFECTED_ITEMS, i - itemstack.func_190916_E());
                 EntityItem entityitem = entityplayer.dropItem(itemstack, false);
 
                 if (entityitem != null)
@@ -106,9 +106,9 @@ public class CommandGive extends CommandBase
         }
     }
 
-    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
+    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
     {
-        return args.length == 1 ? getListOfStringsMatchingLastWord(args, server.getOnlinePlayerNames()) : (args.length == 2 ? getListOfStringsMatchingLastWord(args, Item.REGISTRY.getKeys()) : Collections.<String>emptyList());
+        return args.length == 1 ? getListOfStringsMatchingLastWord(args, server.getAllUsernames()) : (args.length == 2 ? getListOfStringsMatchingLastWord(args, Item.REGISTRY.getKeys()) : Collections.<String>emptyList());
     }
 
     /**

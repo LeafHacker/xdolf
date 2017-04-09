@@ -40,7 +40,7 @@ public class CPacketPlayerTryUseItem implements Packet<INetHandlerPlayServer>
      */
     public void processPacket(INetHandlerPlayServer handler)
     {
-        handler.processTryUseItem(this);
+        handler.processPlayerBlockPlacement(this);
     }
 
     public EnumHand getHand()

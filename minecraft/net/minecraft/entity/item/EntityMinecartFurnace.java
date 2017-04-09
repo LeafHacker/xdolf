@@ -147,15 +147,15 @@ public class EntityMinecartFurnace extends EntityMinecart
         super.applyDrag();
     }
 
-    public boolean processInitialInteract(EntityPlayer player, EnumHand hand)
+    public boolean processInitialInteract(EntityPlayer player, EnumHand stack)
     {
-        ItemStack itemstack = player.getHeldItem(hand);
+        ItemStack itemstack = player.getHeldItem(stack);
 
         if (itemstack.getItem() == Items.COAL && this.fuel + 3600 <= 32000)
         {
             if (!player.capabilities.isCreativeMode)
             {
-                itemstack.shrink(1);
+                itemstack.func_190918_g(1);
             }
 
             this.fuel += 3600;

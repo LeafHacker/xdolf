@@ -31,7 +31,7 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
 
     /** an array of the output slot indices */
     private static final int[] OUTPUT_SLOTS = new int[] {0, 1, 2, 4};
-    private NonNullList<ItemStack> brewingItemStacks = NonNullList.<ItemStack>withSize(5, ItemStack.EMPTY);
+    private NonNullList<ItemStack> brewingItemStacks = NonNullList.<ItemStack>func_191197_a(5, ItemStack.field_190927_a);
     private int brewTime;
 
     /**
@@ -75,11 +75,11 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
         return this.brewingItemStacks.size();
     }
 
-    public boolean isEmpty()
+    public boolean func_191420_l()
     {
         for (ItemStack itemstack : this.brewingItemStacks)
         {
-            if (!itemstack.isEmpty())
+            if (!itemstack.func_190926_b())
             {
                 return false;
             }
@@ -98,7 +98,7 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
         if (this.fuel <= 0 && itemstack.getItem() == Items.BLAZE_POWDER)
         {
             this.fuel = 20;
-            itemstack.shrink(1);
+            itemstack.func_190918_g(1);
             this.markDirty();
         }
 
@@ -169,7 +169,7 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
 
         for (int i = 0; i < 3; ++i)
         {
-            if (!((ItemStack)this.brewingItemStacks.get(i)).isEmpty())
+            if (!((ItemStack)this.brewingItemStacks.get(i)).func_190926_b())
             {
                 aboolean[i] = true;
             }
@@ -182,7 +182,7 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
     {
         ItemStack itemstack = (ItemStack)this.brewingItemStacks.get(3);
 
-        if (itemstack.isEmpty())
+        if (itemstack.func_190926_b())
         {
             return false;
         }
@@ -196,7 +196,7 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
             {
                 ItemStack itemstack1 = (ItemStack)this.brewingItemStacks.get(i);
 
-                if (!itemstack1.isEmpty() && PotionHelper.hasConversions(itemstack1, itemstack))
+                if (!itemstack1.func_190926_b() && PotionHelper.hasConversions(itemstack1, itemstack))
                 {
                     return true;
                 }
@@ -215,14 +215,14 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
             this.brewingItemStacks.set(i, PotionHelper.doReaction(itemstack, (ItemStack)this.brewingItemStacks.get(i)));
         }
 
-        itemstack.shrink(1);
+        itemstack.func_190918_g(1);
         BlockPos blockpos = this.getPos();
 
         if (itemstack.getItem().hasContainerItem())
         {
             ItemStack itemstack1 = new ItemStack(itemstack.getItem().getContainerItem());
 
-            if (itemstack.isEmpty())
+            if (itemstack.func_190926_b())
             {
                 itemstack = itemstack1;
             }
@@ -244,8 +244,8 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
     public void readFromNBT(NBTTagCompound compound)
     {
         super.readFromNBT(compound);
-        this.brewingItemStacks = NonNullList.<ItemStack>withSize(this.getSizeInventory(), ItemStack.EMPTY);
-        ItemStackHelper.loadAllItems(compound, this.brewingItemStacks);
+        this.brewingItemStacks = NonNullList.<ItemStack>func_191197_a(this.getSizeInventory(), ItemStack.field_190927_a);
+        ItemStackHelper.func_191283_b(compound, this.brewingItemStacks);
         this.brewTime = compound.getShort("BrewTime");
 
         if (compound.hasKey("CustomName", 8))
@@ -260,7 +260,7 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
     {
         super.writeToNBT(compound);
         compound.setShort("BrewTime", (short)this.brewTime);
-        ItemStackHelper.saveAllItems(compound, this.brewingItemStacks);
+        ItemStackHelper.func_191282_a(compound, this.brewingItemStacks);
 
         if (this.hasCustomName())
         {
@@ -276,7 +276,7 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
      */
     public ItemStack getStackInSlot(int index)
     {
-        return index >= 0 && index < this.brewingItemStacks.size() ? (ItemStack)this.brewingItemStacks.get(index) : ItemStack.EMPTY;
+        return index >= 0 && index < this.brewingItemStacks.size() ? (ItemStack)this.brewingItemStacks.get(index) : ItemStack.field_190927_a;
     }
 
     /**
@@ -343,7 +343,7 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
         else
         {
             Item item = stack.getItem();
-            return index == 4 ? item == Items.BLAZE_POWDER : item == Items.POTIONITEM || item == Items.SPLASH_POTION || item == Items.LINGERING_POTION || item == Items.GLASS_BOTTLE;
+            return index == 4 ? item == Items.BLAZE_POWDER : (item == Items.POTIONITEM || item == Items.SPLASH_POTION || item == Items.LINGERING_POTION || item == Items.GLASS_BOTTLE) && this.getStackInSlot(index) == ItemStack.field_190927_a;
         }
     }
 

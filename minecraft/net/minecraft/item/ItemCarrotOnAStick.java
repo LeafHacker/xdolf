@@ -36,30 +36,37 @@ public class ItemCarrotOnAStick extends Item
         return true;
     }
 
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
+    public ActionResult<ItemStack> onItemRightClick(World itemStackIn, EntityPlayer worldIn, EnumHand playerIn)
     {
-        ItemStack itemstack = playerIn.getHeldItem(handIn);
+        ItemStack itemstack = worldIn.getHeldItem(playerIn);
 
-        if (playerIn.isRiding() && playerIn.getRidingEntity() instanceof EntityPig)
+        if (itemStackIn.isRemote)
         {
-            EntityPig entitypig = (EntityPig)playerIn.getRidingEntity();
-
-            if (itemstack.getMaxDamage() - itemstack.getMetadata() >= 7 && entitypig.boost())
-            {
-                itemstack.damageItem(7, playerIn);
-
-                if (itemstack.isEmpty())
-                {
-                    ItemStack itemstack1 = new ItemStack(Items.FISHING_ROD);
-                    itemstack1.setTagCompound(itemstack.getTagCompound());
-                    return new ActionResult(EnumActionResult.SUCCESS, itemstack1);
-                }
-
-                return new ActionResult(EnumActionResult.SUCCESS, itemstack);
-            }
+            return new ActionResult(EnumActionResult.PASS, itemstack);
         }
+        else
+        {
+            if (worldIn.isRiding() && worldIn.getRidingEntity() instanceof EntityPig)
+            {
+                EntityPig entitypig = (EntityPig)worldIn.getRidingEntity();
 
-        playerIn.addStat(StatList.getObjectUseStats(this));
-        return new ActionResult(EnumActionResult.PASS, itemstack);
+                if (itemstack.getMaxDamage() - itemstack.getMetadata() >= 7 && entitypig.boost())
+                {
+                    itemstack.damageItem(7, worldIn);
+
+                    if (itemstack.func_190926_b())
+                    {
+                        ItemStack itemstack1 = new ItemStack(Items.FISHING_ROD);
+                        itemstack1.setTagCompound(itemstack.getTagCompound());
+                        return new ActionResult(EnumActionResult.SUCCESS, itemstack1);
+                    }
+
+                    return new ActionResult(EnumActionResult.SUCCESS, itemstack);
+                }
+            }
+
+            worldIn.addStat(StatList.getObjectUseStats(this));
+            return new ActionResult(EnumActionResult.PASS, itemstack);
+        }
     }
 }

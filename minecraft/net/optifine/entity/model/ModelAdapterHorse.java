@@ -20,6 +20,11 @@ public class ModelAdapterHorse extends ModelAdapter
         super(EntityHorse.class, "horse", 0.75F);
     }
 
+    protected ModelAdapterHorse(Class entityClass, String name, float shadowSize)
+    {
+        super(entityClass, name, shadowSize);
+    }
+
     public ModelBase makeModel()
     {
         return new ModelHorse();

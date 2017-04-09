@@ -16,7 +16,7 @@ public class CommandParticle extends CommandBase
     /**
      * Gets the name of the command
      */
-    public String getName()
+    public String getCommandName()
     {
         return "particle";
     }
@@ -32,7 +32,7 @@ public class CommandParticle extends CommandBase
     /**
      * Gets the usage string for the command.
      */
-    public String getUsage(ICommandSender sender)
+    public String getCommandUsage(ICommandSender sender)
     {
         return "commands.particle.usage";
     }
@@ -129,9 +129,9 @@ public class CommandParticle extends CommandBase
         }
     }
 
-    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
+    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
     {
-        return args.length == 1 ? getListOfStringsMatchingLastWord(args, EnumParticleTypes.getParticleNames()) : (args.length > 1 && args.length <= 4 ? getTabCompletionCoordinate(args, 1, pos) : (args.length == 10 ? getListOfStringsMatchingLastWord(args, new String[] {"normal", "force"}): (args.length == 11 ? getListOfStringsMatchingLastWord(args, server.getOnlinePlayerNames()) : Collections.<String>emptyList())));
+        return args.length == 1 ? getListOfStringsMatchingLastWord(args, EnumParticleTypes.getParticleNames()) : (args.length > 1 && args.length <= 4 ? getTabCompletionCoordinate(args, 1, pos) : (args.length == 10 ? getListOfStringsMatchingLastWord(args, new String[] {"normal", "force"}): (args.length == 11 ? getListOfStringsMatchingLastWord(args, server.getAllUsernames()) : Collections.<String>emptyList())));
     }
 
     /**

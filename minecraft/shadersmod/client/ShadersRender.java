@@ -1,6 +1,6 @@
 package shadersmod.client;
 
-import net.minecraft.block.Block;
+import java.nio.IntBuffer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.EntityRenderer;
@@ -14,8 +14,6 @@ import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.culling.ICamera;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.src.Reflector;
 import net.minecraft.util.BlockRenderLayer;
 import org.lwjgl.opengl.EXTFramebufferObject;
@@ -97,42 +95,56 @@ public class ShadersRender
     {
         if (!Shaders.isShadowPass)
         {
-            Item item = Shaders.itemToRenderMain != null ? Shaders.itemToRenderMain.getItem() : null;
-            Block block = item instanceof ItemBlock ? ((ItemBlock)item).getBlock() : null;
-            boolean flag = !(item instanceof ItemBlock) || !(block instanceof Block) || block.getBlockLayer() == BlockRenderLayer.SOLID;
-            Item item1 = Shaders.itemToRenderOff != null ? Shaders.itemToRenderOff.getItem() : null;
-            Block block1 = item1 instanceof ItemBlock ? ((ItemBlock)item1).getBlock() : null;
-            boolean flag1 = !(item1 instanceof ItemBlock) || !(block1 instanceof Block) || block1.getBlockLayer() == BlockRenderLayer.SOLID;
+            boolean flag = Shaders.isItemToRenderMainTranslucent();
+            boolean flag1 = Shaders.isItemToRenderOffTranslucent();
 
-            if (flag && flag1)
+            if (!flag || !flag1)
             {
                 Shaders.readCenterDepth();
                 Shaders.beginHand();
                 GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-                er.renderHand(par1, par2);
+                Shaders.setSkipRenderHands(flag, flag1);
+                er.renderHand(par1, par2, true, false, false);
                 Shaders.endHand();
-                Shaders.isHandRendered = true;
+                Shaders.setHandsRendered(!flag, !flag1);
+                Shaders.setSkipRenderHands(false, false);
             }
         }
     }
 
     public static void renderHand1(EntityRenderer er, float par1, int par2)
     {
-        if (!Shaders.isShadowPass && !Shaders.isHandRendered)
+        if (!Shaders.isShadowPass && !Shaders.isBothHandsRendered())
         {
             Shaders.readCenterDepth();
             GlStateManager.enableBlend();
             Shaders.beginHand();
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            er.renderHand(par1, par2);
+            Shaders.setSkipRenderHands(Shaders.isHandRenderedMain(), Shaders.isHandRenderedOff());
+            er.renderHand(par1, par2, true, false, true);
             Shaders.endHand();
-            Shaders.isHandRendered = true;
+            Shaders.setHandsRendered(true, true);
+            Shaders.setSkipRenderHands(false, false);
         }
     }
 
-    public static void renderItemFP(ItemRenderer itemRenderer, float par1)
+    public static void renderItemFP(ItemRenderer itemRenderer, float par1, boolean renderTranslucent)
     {
         GlStateManager.depthMask(true);
+
+        if (renderTranslucent)
+        {
+            GlStateManager.depthFunc(519);
+            GL11.glPushMatrix();
+            IntBuffer intbuffer = Shaders.activeDrawBuffers;
+            Shaders.setDrawBuffers(Shaders.drawBuffersNone);
+            Shaders.renderItemKeepDepthMask = true;
+            itemRenderer.renderItemInFirstPerson(par1);
+            Shaders.renderItemKeepDepthMask = false;
+            Shaders.setDrawBuffers(intbuffer);
+            GL11.glPopMatrix();
+        }
+
         GlStateManager.depthFunc(515);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         itemRenderer.renderItemInFirstPerson(par1);
@@ -143,7 +155,7 @@ public class ShadersRender
         if (!Shaders.isShadowPass)
         {
             Shaders.beginFPOverlay();
-            er.renderHand(par1, par2);
+            er.renderHand(par1, par2, false, true, false);
             Shaders.endFPOverlay();
         }
     }

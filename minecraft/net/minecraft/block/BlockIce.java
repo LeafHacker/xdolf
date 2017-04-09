@@ -87,7 +87,7 @@ public class BlockIce extends BlockBreakable
         {
             this.dropBlockAsItem(worldIn, pos, worldIn.getBlockState(pos), 0);
             worldIn.setBlockState(pos, Blocks.WATER.getDefaultState());
-            worldIn.neighborChanged(pos, Blocks.WATER, pos);
+            worldIn.func_190524_a(pos, Blocks.WATER, pos);
         }
     }
 

@@ -50,15 +50,15 @@ public class SPacketMaps implements Packet<INetHandlerPlayClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.mapId = buf.readVarInt();
+        this.mapId = buf.readVarIntFromBuffer();
         this.mapScale = buf.readByte();
         this.trackingPosition = buf.readBoolean();
-        this.icons = new MapDecoration[buf.readVarInt()];
+        this.icons = new MapDecoration[buf.readVarIntFromBuffer()];
 
         for (int i = 0; i < this.icons.length; ++i)
         {
             short short1 = (short)buf.readByte();
-            this.icons[i] = new MapDecoration(MapDecoration.Type.byIcon((byte)(short1 >> 4 & 15)), buf.readByte(), buf.readByte(), (byte)(short1 & 15));
+            this.icons[i] = new MapDecoration(MapDecoration.Type.func_191159_a((byte)(short1 >> 4 & 15)), buf.readByte(), buf.readByte(), (byte)(short1 & 15));
         }
 
         this.columns = buf.readUnsignedByte();
@@ -77,14 +77,14 @@ public class SPacketMaps implements Packet<INetHandlerPlayClient>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeVarInt(this.mapId);
+        buf.writeVarIntToBuffer(this.mapId);
         buf.writeByte(this.mapScale);
         buf.writeBoolean(this.trackingPosition);
-        buf.writeVarInt(this.icons.length);
+        buf.writeVarIntToBuffer(this.icons.length);
 
         for (MapDecoration mapdecoration : this.icons)
         {
-            buf.writeByte((mapdecoration.getImage() & 15) << 4 | mapdecoration.getRotation() & 15);
+            buf.writeByte((mapdecoration.getType() & 15) << 4 | mapdecoration.getRotation() & 15);
             buf.writeByte(mapdecoration.getX());
             buf.writeByte(mapdecoration.getY());
         }

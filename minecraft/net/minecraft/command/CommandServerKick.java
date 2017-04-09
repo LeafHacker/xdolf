@@ -12,7 +12,7 @@ public class CommandServerKick extends CommandBase
     /**
      * Gets the name of the command
      */
-    public String getName()
+    public String getCommandName()
     {
         return "kick";
     }
@@ -28,7 +28,7 @@ public class CommandServerKick extends CommandBase
     /**
      * Gets the usage string for the command.
      */
-    public String getUsage(ICommandSender sender)
+    public String getCommandUsage(ICommandSender sender)
     {
         return "commands.kick.usage";
     }
@@ -56,7 +56,7 @@ public class CommandServerKick extends CommandBase
                     flag = true;
                 }
 
-                entityplayermp.connection.disconnect(s);
+                entityplayermp.connection.kickPlayerFromServer(s);
 
                 if (flag)
                 {
@@ -74,8 +74,8 @@ public class CommandServerKick extends CommandBase
         }
     }
 
-    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
+    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
     {
-        return args.length >= 1 ? getListOfStringsMatchingLastWord(args, server.getOnlinePlayerNames()) : Collections.<String>emptyList();
+        return args.length >= 1 ? getListOfStringsMatchingLastWord(args, server.getAllUsernames()) : Collections.<String>emptyList();
     }
 }

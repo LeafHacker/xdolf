@@ -20,7 +20,7 @@ public abstract class ModelAdapterIllager extends ModelAdapter
         else
         {
             ModelIllager modelillager = (ModelIllager)model;
-            return modelPart.equals("head") ? modelillager.head : (modelPart.equals("body") ? modelillager.body : (modelPart.equals("arms") ? modelillager.arms : (modelPart.equals("left_leg") ? modelillager.leg1 : (modelPart.equals("right_leg") ? modelillager.leg0 : (modelPart.equals("nose") ? modelillager.nose : (modelPart.equals("left_arm") ? modelillager.leftArm : (modelPart.equals("right_arm") ? modelillager.rightArm : null)))))));
+            return modelPart.equals("head") ? modelillager.field_191217_a : (modelPart.equals("body") ? modelillager.field_191218_b : (modelPart.equals("arms") ? modelillager.field_191219_c : (modelPart.equals("left_leg") ? modelillager.field_191221_e : (modelPart.equals("right_leg") ? modelillager.field_191220_d : (modelPart.equals("nose") ? modelillager.field_191222_f : (modelPart.equals("left_arm") ? modelillager.field_191224_h : (modelPart.equals("right_arm") ? modelillager.field_191223_g : null)))))));
         }
     }
 }

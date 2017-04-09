@@ -38,7 +38,7 @@ public abstract class EntityAgeable extends EntityCreature
         {
             if (!this.world.isRemote)
             {
-                Class <? extends Entity > oclass = (Class)EntityList.REGISTRY.getObject(ItemMonsterPlacer.getNamedIdFrom(itemstack));
+                Class <? extends Entity > oclass = (Class)EntityList.field_191308_b.getObject(ItemMonsterPlacer.func_190908_h(itemstack));
 
                 if (oclass != null && this.getClass() == oclass)
                 {
@@ -48,7 +48,7 @@ public abstract class EntityAgeable extends EntityCreature
                     {
                         entityageable.setGrowingAge(-24000);
                         entityageable.setLocationAndAngles(this.posX, this.posY, this.posZ, 0.0F, 0.0F);
-                        this.world.spawnEntity(entityageable);
+                        this.world.spawnEntityInWorld(entityageable);
 
                         if (itemstack.hasDisplayName())
                         {
@@ -57,7 +57,7 @@ public abstract class EntityAgeable extends EntityCreature
 
                         if (!player.capabilities.isCreativeMode)
                         {
-                            itemstack.shrink(1);
+                            itemstack.func_190918_g(1);
                         }
                     }
                 }
@@ -71,7 +71,7 @@ public abstract class EntityAgeable extends EntityCreature
         }
     }
 
-    protected boolean holdingSpawnEggOfClass(ItemStack p_190669_1_, Class <? extends Entity > p_190669_2_)
+    protected boolean func_190669_a(ItemStack p_190669_1_, Class <? extends Entity > p_190669_2_)
     {
         if (p_190669_1_.getItem() != Items.SPAWN_EGG)
         {
@@ -79,7 +79,7 @@ public abstract class EntityAgeable extends EntityCreature
         }
         else
         {
-            Class <? extends Entity > oclass = (Class)EntityList.REGISTRY.getObject(ItemMonsterPlacer.getNamedIdFrom(p_190669_1_));
+            Class <? extends Entity > oclass = (Class)EntityList.field_191308_b.getObject(ItemMonsterPlacer.func_190908_h(p_190669_1_));
             return oclass != null && p_190669_2_ == oclass;
         }
     }

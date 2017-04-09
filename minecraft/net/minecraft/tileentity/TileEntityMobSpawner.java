@@ -50,7 +50,7 @@ public class TileEntityMobSpawner extends TileEntity implements ITickable
         {
             public NBTTagCompound process(IDataFixer fixer, NBTTagCompound compound, int versionIn)
             {
-                if (TileEntity.getKey(TileEntityMobSpawner.class).equals(new ResourceLocation(compound.getString("id"))))
+                if (TileEntity.func_190559_a(TileEntityMobSpawner.class).equals(new ResourceLocation(compound.getString("id"))))
                 {
                     if (compound.hasKey("SpawnPotentials", 9))
                     {

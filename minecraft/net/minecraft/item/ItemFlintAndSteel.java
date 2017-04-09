@@ -24,24 +24,24 @@ public class ItemFlintAndSteel extends Item
     /**
      * Called when a Block is right-clicked with this Item
      */
-    public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+    public EnumActionResult onItemUse(EntityPlayer stack, World playerIn, BlockPos worldIn, EnumHand pos, EnumFacing hand, float facing, float hitX, float hitY)
     {
-        pos = pos.offset(facing);
-        ItemStack itemstack = player.getHeldItem(hand);
+        worldIn = worldIn.offset(hand);
+        ItemStack itemstack = stack.getHeldItem(pos);
 
-        if (!player.canPlayerEdit(pos, facing, itemstack))
+        if (!stack.canPlayerEdit(worldIn, hand, itemstack))
         {
             return EnumActionResult.FAIL;
         }
         else
         {
-            if (worldIn.getBlockState(pos).getMaterial() == Material.AIR)
+            if (playerIn.getBlockState(worldIn).getMaterial() == Material.AIR)
             {
-                worldIn.playSound(player, pos, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F, itemRand.nextFloat() * 0.4F + 0.8F);
-                worldIn.setBlockState(pos, Blocks.FIRE.getDefaultState(), 11);
+                playerIn.playSound(stack, worldIn, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F, itemRand.nextFloat() * 0.4F + 0.8F);
+                playerIn.setBlockState(worldIn, Blocks.FIRE.getDefaultState(), 11);
             }
 
-            itemstack.damageItem(1, player);
+            itemstack.damageItem(1, stack);
             return EnumActionResult.SUCCESS;
         }
     }

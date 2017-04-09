@@ -31,7 +31,7 @@ public class CPacketKeepAlive implements Packet<INetHandlerPlayServer>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.key = buf.readVarInt();
+        this.key = buf.readVarIntFromBuffer();
     }
 
     /**
@@ -39,7 +39,7 @@ public class CPacketKeepAlive implements Packet<INetHandlerPlayServer>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeVarInt(this.key);
+        buf.writeVarIntToBuffer(this.key);
     }
 
     public int getKey()

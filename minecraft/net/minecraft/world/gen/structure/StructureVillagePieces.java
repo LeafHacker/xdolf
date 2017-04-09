@@ -337,10 +337,10 @@ public class StructureVillagePieces
             this.setBlockState(worldIn, Blocks.GLASS_PANE.getDefaultState(), 0, 3, 6, structureBoundingBoxIn);
             this.setBlockState(worldIn, Blocks.GLASS_PANE.getDefaultState(), 4, 3, 6, structureBoundingBoxIn);
             this.setBlockState(worldIn, Blocks.GLASS_PANE.getDefaultState(), 2, 3, 8, structureBoundingBoxIn);
-            this.placeTorch(worldIn, EnumFacing.SOUTH, 2, 4, 7, structureBoundingBoxIn);
-            this.placeTorch(worldIn, EnumFacing.EAST, 1, 4, 6, structureBoundingBoxIn);
-            this.placeTorch(worldIn, EnumFacing.WEST, 3, 4, 6, structureBoundingBoxIn);
-            this.placeTorch(worldIn, EnumFacing.NORTH, 2, 4, 5, structureBoundingBoxIn);
+            this.func_189926_a(worldIn, EnumFacing.SOUTH, 2, 4, 7, structureBoundingBoxIn);
+            this.func_189926_a(worldIn, EnumFacing.EAST, 1, 4, 6, structureBoundingBoxIn);
+            this.func_189926_a(worldIn, EnumFacing.WEST, 3, 4, 6, structureBoundingBoxIn);
+            this.func_189926_a(worldIn, EnumFacing.NORTH, 2, 4, 5, structureBoundingBoxIn);
             IBlockState iblockstate4 = Blocks.LADDER.getDefaultState().withProperty(BlockLadder.FACING, EnumFacing.WEST);
 
             for (int i = 1; i <= 9; ++i)
@@ -350,7 +350,7 @@ public class StructureVillagePieces
 
             this.setBlockState(worldIn, Blocks.AIR.getDefaultState(), 2, 1, 0, structureBoundingBoxIn);
             this.setBlockState(worldIn, Blocks.AIR.getDefaultState(), 2, 2, 0, structureBoundingBoxIn);
-            this.createVillageDoor(worldIn, structureBoundingBoxIn, randomIn, 2, 1, 0, EnumFacing.NORTH);
+            this.func_189927_a(worldIn, structureBoundingBoxIn, randomIn, 2, 1, 0, EnumFacing.NORTH);
 
             if (this.getBlockStateFromPos(worldIn, 2, 0, -1, structureBoundingBoxIn).getMaterial() == Material.AIR && this.getBlockStateFromPos(worldIn, 2, -1, -1, structureBoundingBoxIn).getMaterial() != Material.AIR)
             {
@@ -730,8 +730,8 @@ public class StructureVillagePieces
             this.setBlockState(worldIn, Blocks.DOUBLE_STONE_SLAB.getDefaultState(), 6, 1, 2, structureBoundingBoxIn);
             this.setBlockState(worldIn, Blocks.AIR.getDefaultState(), 2, 1, 0, structureBoundingBoxIn);
             this.setBlockState(worldIn, Blocks.AIR.getDefaultState(), 2, 2, 0, structureBoundingBoxIn);
-            this.placeTorch(worldIn, EnumFacing.NORTH, 2, 3, 1, structureBoundingBoxIn);
-            this.createVillageDoor(worldIn, structureBoundingBoxIn, randomIn, 2, 1, 0, EnumFacing.NORTH);
+            this.func_189926_a(worldIn, EnumFacing.NORTH, 2, 3, 1, structureBoundingBoxIn);
+            this.func_189927_a(worldIn, structureBoundingBoxIn, randomIn, 2, 1, 0, EnumFacing.NORTH);
 
             if (this.getBlockStateFromPos(worldIn, 2, 0, -1, structureBoundingBoxIn).getMaterial() == Material.AIR && this.getBlockStateFromPos(worldIn, 2, -1, -1, structureBoundingBoxIn).getMaterial() != Material.AIR)
             {
@@ -745,8 +745,8 @@ public class StructureVillagePieces
 
             this.setBlockState(worldIn, Blocks.AIR.getDefaultState(), 6, 1, 5, structureBoundingBoxIn);
             this.setBlockState(worldIn, Blocks.AIR.getDefaultState(), 6, 2, 5, structureBoundingBoxIn);
-            this.placeTorch(worldIn, EnumFacing.SOUTH, 6, 3, 4, structureBoundingBoxIn);
-            this.createVillageDoor(worldIn, structureBoundingBoxIn, randomIn, 6, 1, 5, EnumFacing.SOUTH);
+            this.func_189926_a(worldIn, EnumFacing.SOUTH, 6, 3, 4, structureBoundingBoxIn);
+            this.func_189927_a(worldIn, structureBoundingBoxIn, randomIn, 6, 1, 5, EnumFacing.SOUTH);
 
             for (int k = 0; k < 5; ++k)
             {
@@ -868,7 +868,7 @@ public class StructureVillagePieces
             this.setBlockState(worldIn, Blocks.CRAFTING_TABLE.getDefaultState(), 7, 1, 1, structureBoundingBoxIn);
             this.setBlockState(worldIn, Blocks.AIR.getDefaultState(), 1, 1, 0, structureBoundingBoxIn);
             this.setBlockState(worldIn, Blocks.AIR.getDefaultState(), 1, 2, 0, structureBoundingBoxIn);
-            this.createVillageDoor(worldIn, structureBoundingBoxIn, randomIn, 1, 1, 0, EnumFacing.NORTH);
+            this.func_189927_a(worldIn, structureBoundingBoxIn, randomIn, 1, 1, 0, EnumFacing.NORTH);
 
             if (this.getBlockStateFromPos(worldIn, 1, 0, -1, structureBoundingBoxIn).getMaterial() == Material.AIR && this.getBlockStateFromPos(worldIn, 1, -1, -1, structureBoundingBoxIn).getMaterial() != Material.AIR)
             {
@@ -1159,8 +1159,8 @@ public class StructureVillagePieces
             this.setBlockState(worldIn, iblockstate5, 5, 5, 10, structureBoundingBoxIn);
             this.setBlockState(worldIn, Blocks.AIR.getDefaultState(), 2, 1, 0, structureBoundingBoxIn);
             this.setBlockState(worldIn, Blocks.AIR.getDefaultState(), 2, 2, 0, structureBoundingBoxIn);
-            this.placeTorch(worldIn, EnumFacing.NORTH, 2, 3, 1, structureBoundingBoxIn);
-            this.createVillageDoor(worldIn, structureBoundingBoxIn, randomIn, 2, 1, 0, EnumFacing.NORTH);
+            this.func_189926_a(worldIn, EnumFacing.NORTH, 2, 3, 1, structureBoundingBoxIn);
+            this.func_189927_a(worldIn, structureBoundingBoxIn, randomIn, 2, 1, 0, EnumFacing.NORTH);
             this.fillWithBlocks(worldIn, structureBoundingBoxIn, 1, 0, -1, 3, 2, -1, Blocks.AIR.getDefaultState(), Blocks.AIR.getDefaultState(), false);
 
             if (this.getBlockStateFromPos(worldIn, 2, 0, -1, structureBoundingBoxIn).getMaterial() == Material.AIR && this.getBlockStateFromPos(worldIn, 2, -1, -1, structureBoundingBoxIn).getMaterial() != Material.AIR)
@@ -1319,7 +1319,7 @@ public class StructureVillagePieces
                 this.setBlockState(worldIn, iblockstate5, 3, 4, 3, structureBoundingBoxIn);
             }
 
-            this.placeTorch(worldIn, EnumFacing.NORTH, 2, 3, 1, structureBoundingBoxIn);
+            this.func_189926_a(worldIn, EnumFacing.NORTH, 2, 3, 1, structureBoundingBoxIn);
 
             for (int j = 0; j < 5; ++j)
             {
@@ -1577,7 +1577,7 @@ public class StructureVillagePieces
                 this.structureType = 3;
             }
 
-            this.setStructureType(this.structureType);
+            this.func_189924_a(this.structureType);
             this.isZombieInfested = rand.nextInt(50) == 0;
         }
     }
@@ -1621,10 +1621,10 @@ public class StructureVillagePieces
             this.setBlockState(worldIn, iblockstate, 1, 1, 0, structureBoundingBoxIn);
             this.setBlockState(worldIn, iblockstate, 1, 2, 0, structureBoundingBoxIn);
             this.setBlockState(worldIn, Blocks.WOOL.getStateFromMeta(EnumDyeColor.WHITE.getDyeDamage()), 1, 3, 0, structureBoundingBoxIn);
-            this.placeTorch(worldIn, EnumFacing.EAST, 2, 3, 0, structureBoundingBoxIn);
-            this.placeTorch(worldIn, EnumFacing.NORTH, 1, 3, 1, structureBoundingBoxIn);
-            this.placeTorch(worldIn, EnumFacing.WEST, 0, 3, 0, structureBoundingBoxIn);
-            this.placeTorch(worldIn, EnumFacing.SOUTH, 1, 3, -1, structureBoundingBoxIn);
+            this.func_189926_a(worldIn, EnumFacing.EAST, 2, 3, 0, structureBoundingBoxIn);
+            this.func_189926_a(worldIn, EnumFacing.NORTH, 1, 3, 1, structureBoundingBoxIn);
+            this.func_189926_a(worldIn, EnumFacing.WEST, 0, 3, 0, structureBoundingBoxIn);
+            this.func_189926_a(worldIn, EnumFacing.SOUTH, 1, 3, -1, structureBoundingBoxIn);
             return true;
         }
     }
@@ -1788,17 +1788,17 @@ public class StructureVillagePieces
                         EntityZombieVillager entityzombievillager = new EntityZombieVillager(worldIn);
                         entityzombievillager.setLocationAndAngles((double)j + 0.5D, (double)k, (double)l + 0.5D, 0.0F, 0.0F);
                         entityzombievillager.onInitialSpawn(worldIn.getDifficultyForLocation(new BlockPos(entityzombievillager)), (IEntityLivingData)null);
-                        entityzombievillager.setProfession(this.chooseProfession(i, 0));
+                        entityzombievillager.func_190733_a(this.chooseProfession(i, 0));
                         entityzombievillager.enablePersistence();
-                        worldIn.spawnEntity(entityzombievillager);
+                        worldIn.spawnEntityInWorld(entityzombievillager);
                     }
                     else
                     {
                         EntityVillager entityvillager = new EntityVillager(worldIn);
                         entityvillager.setLocationAndAngles((double)j + 0.5D, (double)k, (double)l + 0.5D, 0.0F, 0.0F);
                         entityvillager.setProfession(this.chooseProfession(i, worldIn.rand.nextInt(6)));
-                        entityvillager.finalizeMobSpawn(worldIn.getDifficultyForLocation(new BlockPos(entityvillager)), (IEntityLivingData)null, false);
-                        worldIn.spawnEntity(entityvillager);
+                        entityvillager.func_190672_a(worldIn.getDifficultyForLocation(new BlockPos(entityvillager)), (IEntityLivingData)null, false);
+                        worldIn.spawnEntityInWorld(entityvillager);
                     }
                 }
             }
@@ -1896,7 +1896,7 @@ public class StructureVillagePieces
             return blockstateIn;
         }
 
-        protected BlockDoor biomeDoor()
+        protected BlockDoor func_189925_i()
         {
             switch (this.structureType)
             {
@@ -1911,15 +1911,15 @@ public class StructureVillagePieces
             }
         }
 
-        protected void createVillageDoor(World p_189927_1_, StructureBoundingBox p_189927_2_, Random p_189927_3_, int p_189927_4_, int p_189927_5_, int p_189927_6_, EnumFacing p_189927_7_)
+        protected void func_189927_a(World p_189927_1_, StructureBoundingBox p_189927_2_, Random p_189927_3_, int p_189927_4_, int p_189927_5_, int p_189927_6_, EnumFacing p_189927_7_)
         {
             if (!this.isZombieInfested)
             {
-                this.generateDoor(p_189927_1_, p_189927_2_, p_189927_3_, p_189927_4_, p_189927_5_, p_189927_6_, EnumFacing.NORTH, this.biomeDoor());
+                this.func_189915_a(p_189927_1_, p_189927_2_, p_189927_3_, p_189927_4_, p_189927_5_, p_189927_6_, EnumFacing.NORTH, this.func_189925_i());
             }
         }
 
-        protected void placeTorch(World p_189926_1_, EnumFacing p_189926_2_, int p_189926_3_, int p_189926_4_, int p_189926_5_, StructureBoundingBox p_189926_6_)
+        protected void func_189926_a(World p_189926_1_, EnumFacing p_189926_2_, int p_189926_3_, int p_189926_4_, int p_189926_5_, StructureBoundingBox p_189926_6_)
         {
             if (!this.isZombieInfested)
             {
@@ -1933,7 +1933,7 @@ public class StructureVillagePieces
             super.replaceAirAndLiquidDownwards(worldIn, iblockstate, x, y, z, boundingboxIn);
         }
 
-        protected void setStructureType(int p_189924_1_)
+        protected void func_189924_a(int p_189924_1_)
         {
             this.structureType = p_189924_1_;
         }
@@ -2114,7 +2114,7 @@ public class StructureVillagePieces
 
             this.setBlockState(worldIn, Blocks.AIR.getDefaultState(), 1, 1, 0, structureBoundingBoxIn);
             this.setBlockState(worldIn, Blocks.AIR.getDefaultState(), 1, 2, 0, structureBoundingBoxIn);
-            this.createVillageDoor(worldIn, structureBoundingBoxIn, randomIn, 1, 1, 0, EnumFacing.NORTH);
+            this.func_189927_a(worldIn, structureBoundingBoxIn, randomIn, 1, 1, 0, EnumFacing.NORTH);
 
             if (this.getBlockStateFromPos(worldIn, 1, 0, -1, structureBoundingBoxIn).getMaterial() == Material.AIR && this.getBlockStateFromPos(worldIn, 1, -1, -1, structureBoundingBoxIn).getMaterial() != Material.AIR)
             {

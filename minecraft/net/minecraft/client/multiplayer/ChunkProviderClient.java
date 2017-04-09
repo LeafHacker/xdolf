@@ -34,12 +34,12 @@ public class ChunkProviderClient implements IChunkProvider
     };
 
     /** Reference to the World object. */
-    private final World world;
+    private final World worldObj;
 
     public ChunkProviderClient(World worldIn)
     {
         this.blankChunk = new EmptyChunk(worldIn, 0, 0);
-        this.world = worldIn;
+        this.worldObj = worldIn;
     }
 
     /**
@@ -69,7 +69,7 @@ public class ChunkProviderClient implements IChunkProvider
      */
     public Chunk loadChunk(int chunkX, int chunkZ)
     {
-        Chunk chunk = new Chunk(this.world, chunkX, chunkZ);
+        Chunk chunk = new Chunk(this.worldObj, chunkX, chunkZ);
         this.chunkMapping.put(ChunkPos.asLong(chunkX, chunkZ), chunk);
         chunk.setChunkLoaded(true);
         return chunk;
@@ -83,7 +83,7 @@ public class ChunkProviderClient implements IChunkProvider
     /**
      * Unloads chunks that are marked to be unloaded. This is not guaranteed to unload every such chunk.
      */
-    public boolean tick()
+    public boolean unloadQueuedChunks()
     {
         long i = System.currentTimeMillis();
         ObjectIterator objectiterator = this.chunkMapping.values().iterator();
@@ -110,7 +110,7 @@ public class ChunkProviderClient implements IChunkProvider
         return "MultiplayerChunkCache: " + this.chunkMapping.size() + ", " + this.chunkMapping.size();
     }
 
-    public boolean isChunkGeneratedAt(int p_191062_1_, int p_191062_2_)
+    public boolean func_191062_e(int p_191062_1_, int p_191062_2_)
     {
         return this.chunkMapping.containsKey(ChunkPos.asLong(p_191062_1_, p_191062_2_));
     }

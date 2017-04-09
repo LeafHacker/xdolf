@@ -39,7 +39,7 @@ public class ParticleDragonBreath extends Particle
         {
             this.setParticleTextureIndex(3 * this.particleAge / this.particleMaxAge + 5);
 
-            if (this.onGround)
+            if (this.isCollided)
             {
                 this.motionY = 0.0D;
                 this.hasHitGround = true;
@@ -50,7 +50,7 @@ public class ParticleDragonBreath extends Particle
                 this.motionY += 0.002D;
             }
 
-            this.move(this.motionX, this.motionY, this.motionZ);
+            this.moveEntity(this.motionX, this.motionY, this.motionZ);
 
             if (this.posY == this.prevPosY)
             {
@@ -71,10 +71,10 @@ public class ParticleDragonBreath extends Particle
     /**
      * Renders the particle
      */
-    public void renderParticle(VertexBuffer buffer, Entity entityIn, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ)
+    public void renderParticle(VertexBuffer worldRendererIn, Entity entityIn, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ)
     {
         this.particleScale = this.oSize * MathHelper.clamp(((float)this.particleAge + partialTicks) / (float)this.particleMaxAge * 32.0F, 0.0F, 1.0F);
-        super.renderParticle(buffer, entityIn, partialTicks, rotationX, rotationZ, rotationYZ, rotationXY, rotationXZ);
+        super.renderParticle(worldRendererIn, entityIn, partialTicks, rotationX, rotationZ, rotationYZ, rotationXY, rotationXZ);
     }
 
     public static class Factory implements IParticleFactory

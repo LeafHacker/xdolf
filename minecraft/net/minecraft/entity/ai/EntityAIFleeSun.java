@@ -15,13 +15,13 @@ public class EntityAIFleeSun extends EntityAIBase
     private double shelterY;
     private double shelterZ;
     private final double movementSpeed;
-    private final World world;
+    private final World theWorld;
 
     public EntityAIFleeSun(EntityCreature theCreatureIn, double movementSpeedIn)
     {
         this.theCreature = theCreatureIn;
         this.movementSpeed = movementSpeedIn;
-        this.world = theCreatureIn.world;
+        this.theWorld = theCreatureIn.world;
         this.setMutexBits(1);
     }
 
@@ -30,7 +30,7 @@ public class EntityAIFleeSun extends EntityAIBase
      */
     public boolean shouldExecute()
     {
-        if (!this.world.isDaytime())
+        if (!this.theWorld.isDaytime())
         {
             return false;
         }
@@ -38,11 +38,11 @@ public class EntityAIFleeSun extends EntityAIBase
         {
             return false;
         }
-        else if (!this.world.canSeeSky(new BlockPos(this.theCreature.posX, this.theCreature.getEntityBoundingBox().minY, this.theCreature.posZ)))
+        else if (!this.theWorld.canSeeSky(new BlockPos(this.theCreature.posX, this.theCreature.getEntityBoundingBox().minY, this.theCreature.posZ)))
         {
             return false;
         }
-        else if (!this.theCreature.getItemStackFromSlot(EntityEquipmentSlot.HEAD).isEmpty())
+        else if (!this.theCreature.getItemStackFromSlot(EntityEquipmentSlot.HEAD).func_190926_b())
         {
             return false;
         }
@@ -90,7 +90,7 @@ public class EntityAIFleeSun extends EntityAIBase
         {
             BlockPos blockpos1 = blockpos.add(random.nextInt(20) - 10, random.nextInt(6) - 3, random.nextInt(20) - 10);
 
-            if (!this.world.canSeeSky(blockpos1) && this.theCreature.getBlockPathWeight(blockpos1) < 0.0F)
+            if (!this.theWorld.canSeeSky(blockpos1) && this.theCreature.getBlockPathWeight(blockpos1) < 0.0F)
             {
                 return new Vec3d((double)blockpos1.getX(), (double)blockpos1.getY(), (double)blockpos1.getZ());
             }

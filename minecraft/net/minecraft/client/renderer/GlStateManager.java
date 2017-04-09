@@ -890,6 +890,16 @@ public class GlStateManager
         p_deleteTextures_0_.rewind();
     }
 
+    public static boolean isFogEnabled()
+    {
+        return fogState.fog.currentState;
+    }
+
+    public static void setFogEnabled(boolean p_setFogEnabled_0_)
+    {
+        fogState.fog.setState(p_setFogEnabled_0_);
+    }
+
     static
     {
         for (int i = 0; i < 8; ++i)

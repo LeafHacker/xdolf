@@ -138,7 +138,7 @@ public class RenderItem implements IResourceManagerReloadListener
 
     public void renderModel(IBakedModel model, int color)
     {
-        this.renderModel(model, color, ItemStack.EMPTY);
+        this.renderModel(model, color, ItemStack.field_190927_a);
     }
 
     private void renderModel(IBakedModel model, int color, ItemStack stack)
@@ -172,7 +172,7 @@ public class RenderItem implements IResourceManagerReloadListener
 
     public void renderItem(ItemStack stack, IBakedModel model)
     {
-        if (!stack.isEmpty())
+        if (!stack.func_190926_b())
         {
             GlStateManager.pushMatrix();
             GlStateManager.translate(-0.5F, -0.5F, -0.5F);
@@ -282,7 +282,7 @@ public class RenderItem implements IResourceManagerReloadListener
 
     private void renderQuads(VertexBuffer renderer, List<BakedQuad> quads, int color, ItemStack stack)
     {
-        boolean flag = color == -1 && !stack.isEmpty();
+        boolean flag = color == -1 && !stack.func_190926_b();
         int i = 0;
 
         for (int j = quads.size(); i < j; ++i)
@@ -319,7 +319,7 @@ public class RenderItem implements IResourceManagerReloadListener
 
     public void renderItem(ItemStack stack, ItemCameraTransforms.TransformType cameraTransformType)
     {
-        if (!stack.isEmpty())
+        if (!stack.func_190926_b())
         {
             IBakedModel ibakedmodel = this.getItemModelWithOverrides(stack, (World)null, (EntityLivingBase)null);
             this.renderItemModel(stack, ibakedmodel, cameraTransformType, false);
@@ -353,7 +353,7 @@ public class RenderItem implements IResourceManagerReloadListener
 
     public void renderItem(ItemStack stack, EntityLivingBase entitylivingbaseIn, ItemCameraTransforms.TransformType transform, boolean leftHanded)
     {
-        if (!stack.isEmpty() && entitylivingbaseIn != null)
+        if (!stack.func_190926_b() && entitylivingbaseIn != null)
         {
             IBakedModel ibakedmodel = this.getItemModelWithOverrides(stack, entitylivingbaseIn.world, entitylivingbaseIn);
             this.renderItemModel(stack, ibakedmodel, transform, leftHanded);
@@ -362,7 +362,7 @@ public class RenderItem implements IResourceManagerReloadListener
 
     protected void renderItemModel(ItemStack stack, IBakedModel bakedmodel, ItemCameraTransforms.TransformType transform, boolean leftHanded)
     {
-        if (!stack.isEmpty())
+        if (!stack.func_190926_b())
         {
             this.textureManager.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
             this.textureManager.getTexture(TextureMap.LOCATION_BLOCKS_TEXTURE).setBlurMipmap(false, false);
@@ -388,7 +388,9 @@ public class RenderItem implements IResourceManagerReloadListener
                 }
             }
 
+            CustomItems.setRenderOffHand(leftHanded);
             this.renderItem(stack, bakedmodel);
+            CustomItems.setRenderOffHand(false);
             GlStateManager.cullFace(GlStateManager.CullFace.BACK);
             GlStateManager.popMatrix();
             GlStateManager.disableRescaleNormal();
@@ -468,7 +470,7 @@ public class RenderItem implements IResourceManagerReloadListener
 
     public void renderItemAndEffectIntoGUI(@Nullable EntityLivingBase p_184391_1_, final ItemStack p_184391_2_, int p_184391_3_, int p_184391_4_)
     {
-        if (!p_184391_2_.isEmpty())
+        if (!p_184391_2_.func_190926_b())
         {
             this.zLevel += 50.0F;
 
@@ -525,11 +527,11 @@ public class RenderItem implements IResourceManagerReloadListener
      */
     public void renderItemOverlayIntoGUI(FontRenderer fr, ItemStack stack, int xPosition, int yPosition, @Nullable String text)
     {
-        if (!stack.isEmpty())
+        if (!stack.func_190926_b())
         {
-            if (stack.getCount() != 1 || text != null)
+            if (stack.func_190916_E() != 1 || text != null)
             {
-                String s = text == null ? String.valueOf(stack.getCount()) : text;
+                String s = text == null ? String.valueOf(stack.func_190916_E()) : text;
                 GlStateManager.disableLighting();
                 GlStateManager.disableDepth();
                 GlStateManager.disableBlend();
@@ -914,23 +916,23 @@ public class RenderItem implements IResourceManagerReloadListener
         this.registerBlock(Blocks.RED_NETHER_BRICK, "red_nether_brick");
         this.registerBlock(Blocks.BONE_BLOCK, "bone_block");
         this.registerBlock(Blocks.STRUCTURE_VOID, "structure_void");
-        this.registerBlock(Blocks.OBSERVER, "observer");
-        this.registerBlock(Blocks.WHITE_SHULKER_BOX, "white_shulker_box");
-        this.registerBlock(Blocks.ORANGE_SHULKER_BOX, "orange_shulker_box");
-        this.registerBlock(Blocks.MAGENTA_SHULKER_BOX, "magenta_shulker_box");
-        this.registerBlock(Blocks.LIGHT_BLUE_SHULKER_BOX, "light_blue_shulker_box");
-        this.registerBlock(Blocks.YELLOW_SHULKER_BOX, "yellow_shulker_box");
-        this.registerBlock(Blocks.LIME_SHULKER_BOX, "lime_shulker_box");
-        this.registerBlock(Blocks.PINK_SHULKER_BOX, "pink_shulker_box");
-        this.registerBlock(Blocks.GRAY_SHULKER_BOX, "gray_shulker_box");
-        this.registerBlock(Blocks.SILVER_SHULKER_BOX, "silver_shulker_box");
-        this.registerBlock(Blocks.CYAN_SHULKER_BOX, "cyan_shulker_box");
-        this.registerBlock(Blocks.PURPLE_SHULKER_BOX, "purple_shulker_box");
-        this.registerBlock(Blocks.BLUE_SHULKER_BOX, "blue_shulker_box");
-        this.registerBlock(Blocks.BROWN_SHULKER_BOX, "brown_shulker_box");
-        this.registerBlock(Blocks.GREEN_SHULKER_BOX, "green_shulker_box");
-        this.registerBlock(Blocks.RED_SHULKER_BOX, "red_shulker_box");
-        this.registerBlock(Blocks.BLACK_SHULKER_BOX, "black_shulker_box");
+        this.registerBlock(Blocks.field_190976_dk, "observer");
+        this.registerBlock(Blocks.field_190977_dl, "white_shulker_box");
+        this.registerBlock(Blocks.field_190978_dm, "orange_shulker_box");
+        this.registerBlock(Blocks.field_190979_dn, "magenta_shulker_box");
+        this.registerBlock(Blocks.field_190980_do, "light_blue_shulker_box");
+        this.registerBlock(Blocks.field_190981_dp, "yellow_shulker_box");
+        this.registerBlock(Blocks.field_190982_dq, "lime_shulker_box");
+        this.registerBlock(Blocks.field_190983_dr, "pink_shulker_box");
+        this.registerBlock(Blocks.field_190984_ds, "gray_shulker_box");
+        this.registerBlock(Blocks.field_190985_dt, "silver_shulker_box");
+        this.registerBlock(Blocks.field_190986_du, "cyan_shulker_box");
+        this.registerBlock(Blocks.field_190987_dv, "purple_shulker_box");
+        this.registerBlock(Blocks.field_190988_dw, "blue_shulker_box");
+        this.registerBlock(Blocks.field_190989_dx, "brown_shulker_box");
+        this.registerBlock(Blocks.field_190990_dy, "green_shulker_box");
+        this.registerBlock(Blocks.field_190991_dz, "red_shulker_box");
+        this.registerBlock(Blocks.field_190975_dA, "black_shulker_box");
         this.registerBlock(Blocks.CHEST, "chest");
         this.registerBlock(Blocks.TRAPPED_CHEST, "trapped_chest");
         this.registerBlock(Blocks.ENDER_CHEST, "ender_chest");
@@ -1093,7 +1095,7 @@ public class RenderItem implements IResourceManagerReloadListener
         this.registerItem(Items.BEETROOT, "beetroot");
         this.registerItem(Items.BEETROOT_SEEDS, "beetroot_seeds");
         this.registerItem(Items.BEETROOT_SOUP, "beetroot_soup");
-        this.registerItem(Items.TOTEM, "totem");
+        this.registerItem(Items.field_190929_cY, "totem");
         this.registerItem(Items.POTIONITEM, "bottle_drinkable");
         this.registerItem(Items.SPLASH_POTION, "bottle_splash");
         this.registerItem(Items.LINGERING_POTION, "bottle_lingering");
@@ -1165,7 +1167,8 @@ public class RenderItem implements IResourceManagerReloadListener
         this.registerItem(Items.ELYTRA, "elytra");
         this.registerItem(Items.CHORUS_FRUIT, "chorus_fruit");
         this.registerItem(Items.CHORUS_FRUIT_POPPED, "chorus_fruit_popped");
-        this.registerItem(Items.SHULKER_SHELL, "shulker_shell");
+        this.registerItem(Items.field_190930_cZ, "shulker_shell");
+        this.registerItem(Items.field_191525_da, "iron_nugget");
         this.registerItem(Items.RECORD_13, "record_13");
         this.registerItem(Items.RECORD_CAT, "record_cat");
         this.registerItem(Items.RECORD_BLOCKS, "record_blocks");

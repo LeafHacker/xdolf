@@ -9,7 +9,7 @@ import net.minecraft.util.text.TextComponentTranslation;
 
 public class InventoryCraftResult implements IInventory
 {
-    private final NonNullList<ItemStack> stackResult = NonNullList.<ItemStack>withSize(1, ItemStack.EMPTY);
+    private final NonNullList<ItemStack> stackResult = NonNullList.<ItemStack>func_191197_a(1, ItemStack.field_190927_a);
 
     /**
      * Returns the number of slots in the inventory.
@@ -19,11 +19,11 @@ public class InventoryCraftResult implements IInventory
         return 1;
     }
 
-    public boolean isEmpty()
+    public boolean func_191420_l()
     {
         for (ItemStack itemstack : this.stackResult)
         {
-            if (!itemstack.isEmpty())
+            if (!itemstack.func_190926_b())
             {
                 return false;
             }

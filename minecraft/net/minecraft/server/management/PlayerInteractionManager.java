@@ -29,10 +29,10 @@ import net.minecraft.world.WorldServer;
 public class PlayerInteractionManager
 {
     /** The world object that this object is connected to. */
-    public World world;
+    public World theWorld;
 
     /** The EntityPlayerMP object that this object is connected to. */
-    public EntityPlayerMP player;
+    public EntityPlayerMP thisPlayerMP;
     private GameType gameType = GameType.NOT_SET;
 
     /** True if the player is destroying a block */
@@ -52,16 +52,16 @@ public class PlayerInteractionManager
 
     public PlayerInteractionManager(World worldIn)
     {
-        this.world = worldIn;
+        this.theWorld = worldIn;
     }
 
     public void setGameType(GameType type)
     {
         this.gameType = type;
-        type.configurePlayerCapabilities(this.player.capabilities);
-        this.player.sendPlayerAbilities();
-        this.player.mcServer.getPlayerList().sendPacketToAllPlayers(new SPacketPlayerListItem(SPacketPlayerListItem.Action.UPDATE_GAME_MODE, new EntityPlayerMP[] {this.player}));
-        this.world.updateAllPlayersSleepingFlag();
+        type.configurePlayerCapabilities(this.thisPlayerMP.capabilities);
+        this.thisPlayerMP.sendPlayerAbilities();
+        this.thisPlayerMP.mcServer.getPlayerList().sendPacketToAllPlayers(new SPacketPlayerListItem(SPacketPlayerListItem.Action.UPDATE_GAME_MODE, new EntityPlayerMP[] {this.thisPlayerMP}));
+        this.theWorld.updateAllPlayersSleepingFlag();
     }
 
     public GameType getGameType()
@@ -102,7 +102,7 @@ public class PlayerInteractionManager
         if (this.receivedFinishDiggingPacket)
         {
             int i = this.curblockDamage - this.initialBlockDamage;
-            IBlockState iblockstate = this.world.getBlockState(this.delayedDestroyPos);
+            IBlockState iblockstate = this.theWorld.getBlockState(this.delayedDestroyPos);
             Block block = iblockstate.getBlock();
 
             if (iblockstate.getMaterial() == Material.AIR)
@@ -111,12 +111,12 @@ public class PlayerInteractionManager
             }
             else
             {
-                float f = iblockstate.getPlayerRelativeBlockHardness(this.player, this.player.world, this.delayedDestroyPos) * (float)(i + 1);
+                float f = iblockstate.getPlayerRelativeBlockHardness(this.thisPlayerMP, this.thisPlayerMP.world, this.delayedDestroyPos) * (float)(i + 1);
                 int j = (int)(f * 10.0F);
 
                 if (j != this.durabilityRemainingOnBlock)
                 {
-                    this.world.sendBlockBreakProgress(this.player.getEntityId(), this.delayedDestroyPos, j);
+                    this.theWorld.sendBlockBreakProgress(this.thisPlayerMP.getEntityId(), this.delayedDestroyPos, j);
                     this.durabilityRemainingOnBlock = j;
                 }
 
@@ -129,24 +129,24 @@ public class PlayerInteractionManager
         }
         else if (this.isDestroyingBlock)
         {
-            IBlockState iblockstate1 = this.world.getBlockState(this.destroyPos);
+            IBlockState iblockstate1 = this.theWorld.getBlockState(this.destroyPos);
             Block block1 = iblockstate1.getBlock();
 
             if (iblockstate1.getMaterial() == Material.AIR)
             {
-                this.world.sendBlockBreakProgress(this.player.getEntityId(), this.destroyPos, -1);
+                this.theWorld.sendBlockBreakProgress(this.thisPlayerMP.getEntityId(), this.destroyPos, -1);
                 this.durabilityRemainingOnBlock = -1;
                 this.isDestroyingBlock = false;
             }
             else
             {
                 int k = this.curblockDamage - this.initialDamage;
-                float f1 = iblockstate1.getPlayerRelativeBlockHardness(this.player, this.player.world, this.delayedDestroyPos) * (float)(k + 1);
+                float f1 = iblockstate1.getPlayerRelativeBlockHardness(this.thisPlayerMP, this.thisPlayerMP.world, this.delayedDestroyPos) * (float)(k + 1);
                 int l = (int)(f1 * 10.0F);
 
                 if (l != this.durabilityRemainingOnBlock)
                 {
-                    this.world.sendBlockBreakProgress(this.player.getEntityId(), this.destroyPos, l);
+                    this.theWorld.sendBlockBreakProgress(this.thisPlayerMP.getEntityId(), this.destroyPos, l);
                     this.durabilityRemainingOnBlock = l;
                 }
             }
@@ -161,14 +161,14 @@ public class PlayerInteractionManager
     {
         if (this.isCreative())
         {
-            if (!this.world.extinguishFire((EntityPlayer)null, pos, side))
+            if (!this.theWorld.extinguishFire((EntityPlayer)null, pos, side))
             {
                 this.tryHarvestBlock(pos);
             }
         }
         else
         {
-            IBlockState iblockstate = this.world.getBlockState(pos);
+            IBlockState iblockstate = this.theWorld.getBlockState(pos);
             Block block = iblockstate.getBlock();
 
             if (this.gameType.isAdventure())
@@ -178,11 +178,11 @@ public class PlayerInteractionManager
                     return;
                 }
 
-                if (!this.player.isAllowEdit())
+                if (!this.thisPlayerMP.isAllowEdit())
                 {
-                    ItemStack itemstack = this.player.getHeldItemMainhand();
+                    ItemStack itemstack = this.thisPlayerMP.getHeldItemMainhand();
 
-                    if (itemstack.isEmpty())
+                    if (itemstack.func_190926_b())
                     {
                         return;
                     }
@@ -194,14 +194,14 @@ public class PlayerInteractionManager
                 }
             }
 
-            this.world.extinguishFire((EntityPlayer)null, pos, side);
+            this.theWorld.extinguishFire((EntityPlayer)null, pos, side);
             this.initialDamage = this.curblockDamage;
             float f = 1.0F;
 
             if (iblockstate.getMaterial() != Material.AIR)
             {
-                block.onBlockClicked(this.world, pos, this.player);
-                f = iblockstate.getPlayerRelativeBlockHardness(this.player, this.player.world, pos);
+                block.onBlockClicked(this.theWorld, pos, this.thisPlayerMP);
+                f = iblockstate.getPlayerRelativeBlockHardness(this.thisPlayerMP, this.thisPlayerMP.world, pos);
             }
 
             if (iblockstate.getMaterial() != Material.AIR && f >= 1.0F)
@@ -213,7 +213,7 @@ public class PlayerInteractionManager
                 this.isDestroyingBlock = true;
                 this.destroyPos = pos;
                 int i = (int)(f * 10.0F);
-                this.world.sendBlockBreakProgress(this.player.getEntityId(), pos, i);
+                this.theWorld.sendBlockBreakProgress(this.thisPlayerMP.getEntityId(), pos, i);
                 this.durabilityRemainingOnBlock = i;
             }
         }
@@ -224,16 +224,16 @@ public class PlayerInteractionManager
         if (pos.equals(this.destroyPos))
         {
             int i = this.curblockDamage - this.initialDamage;
-            IBlockState iblockstate = this.world.getBlockState(pos);
+            IBlockState iblockstate = this.theWorld.getBlockState(pos);
 
             if (iblockstate.getMaterial() != Material.AIR)
             {
-                float f = iblockstate.getPlayerRelativeBlockHardness(this.player, this.player.world, pos) * (float)(i + 1);
+                float f = iblockstate.getPlayerRelativeBlockHardness(this.thisPlayerMP, this.thisPlayerMP.world, pos) * (float)(i + 1);
 
                 if (f >= 0.7F)
                 {
                     this.isDestroyingBlock = false;
-                    this.world.sendBlockBreakProgress(this.player.getEntityId(), pos, -1);
+                    this.theWorld.sendBlockBreakProgress(this.thisPlayerMP.getEntityId(), pos, -1);
                     this.tryHarvestBlock(pos);
                 }
                 else if (!this.receivedFinishDiggingPacket)
@@ -253,7 +253,7 @@ public class PlayerInteractionManager
     public void cancelDestroyingBlock()
     {
         this.isDestroyingBlock = false;
-        this.world.sendBlockBreakProgress(this.player.getEntityId(), this.destroyPos, -1);
+        this.theWorld.sendBlockBreakProgress(this.thisPlayerMP.getEntityId(), this.destroyPos, -1);
     }
 
     /**
@@ -261,13 +261,13 @@ public class PlayerInteractionManager
      */
     private boolean removeBlock(BlockPos pos)
     {
-        IBlockState iblockstate = this.world.getBlockState(pos);
-        iblockstate.getBlock().onBlockHarvested(this.world, pos, iblockstate, this.player);
-        boolean flag = this.world.setBlockToAir(pos);
+        IBlockState iblockstate = this.theWorld.getBlockState(pos);
+        iblockstate.getBlock().onBlockHarvested(this.theWorld, pos, iblockstate, this.thisPlayerMP);
+        boolean flag = this.theWorld.setBlockToAir(pos);
 
         if (flag)
         {
-            iblockstate.getBlock().onBlockDestroyedByPlayer(this.world, pos, iblockstate);
+            iblockstate.getBlock().onBlockDestroyedByPlayer(this.theWorld, pos, iblockstate);
         }
 
         return flag;
@@ -278,19 +278,19 @@ public class PlayerInteractionManager
      */
     public boolean tryHarvestBlock(BlockPos pos)
     {
-        if (this.gameType.isCreative() && !this.player.getHeldItemMainhand().isEmpty() && this.player.getHeldItemMainhand().getItem() instanceof ItemSword)
+        if (this.gameType.isCreative() && !this.thisPlayerMP.getHeldItemMainhand().func_190926_b() && this.thisPlayerMP.getHeldItemMainhand().getItem() instanceof ItemSword)
         {
             return false;
         }
         else
         {
-            IBlockState iblockstate = this.world.getBlockState(pos);
-            TileEntity tileentity = this.world.getTileEntity(pos);
+            IBlockState iblockstate = this.theWorld.getBlockState(pos);
+            TileEntity tileentity = this.theWorld.getTileEntity(pos);
             Block block = iblockstate.getBlock();
 
-            if ((block instanceof BlockCommandBlock || block instanceof BlockStructure) && !this.player.canUseCommandBlock())
+            if ((block instanceof BlockCommandBlock || block instanceof BlockStructure) && !this.thisPlayerMP.canUseCommandBlock())
             {
-                this.world.notifyBlockUpdate(pos, iblockstate, iblockstate, 3);
+                this.theWorld.notifyBlockUpdate(pos, iblockstate, iblockstate, 3);
                 return false;
             }
             else
@@ -302,11 +302,11 @@ public class PlayerInteractionManager
                         return false;
                     }
 
-                    if (!this.player.isAllowEdit())
+                    if (!this.thisPlayerMP.isAllowEdit())
                     {
-                        ItemStack itemstack = this.player.getHeldItemMainhand();
+                        ItemStack itemstack = this.thisPlayerMP.getHeldItemMainhand();
 
-                        if (itemstack.isEmpty())
+                        if (itemstack.func_190926_b())
                         {
                             return false;
                         }
@@ -318,27 +318,27 @@ public class PlayerInteractionManager
                     }
                 }
 
-                this.world.playEvent(this.player, 2001, pos, Block.getStateId(iblockstate));
+                this.theWorld.playEvent(this.thisPlayerMP, 2001, pos, Block.getStateId(iblockstate));
                 boolean flag1 = this.removeBlock(pos);
 
                 if (this.isCreative())
                 {
-                    this.player.connection.sendPacket(new SPacketBlockChange(this.world, pos));
+                    this.thisPlayerMP.connection.sendPacket(new SPacketBlockChange(this.theWorld, pos));
                 }
                 else
                 {
-                    ItemStack itemstack1 = this.player.getHeldItemMainhand();
-                    ItemStack itemstack2 = itemstack1.isEmpty() ? ItemStack.EMPTY : itemstack1.copy();
-                    boolean flag = this.player.canHarvestBlock(iblockstate);
+                    ItemStack itemstack1 = this.thisPlayerMP.getHeldItemMainhand();
+                    ItemStack itemstack2 = itemstack1.func_190926_b() ? ItemStack.field_190927_a : itemstack1.copy();
+                    boolean flag = this.thisPlayerMP.canHarvestBlock(iblockstate);
 
-                    if (!itemstack1.isEmpty())
+                    if (!itemstack1.func_190926_b())
                     {
-                        itemstack1.onBlockDestroyed(this.world, iblockstate, pos, this.player);
+                        itemstack1.onBlockDestroyed(this.theWorld, iblockstate, pos, this.thisPlayerMP);
                     }
 
                     if (flag1 && flag)
                     {
-                        iblockstate.getBlock().harvestBlock(this.world, this.player, pos, iblockstate, tileentity, itemstack2);
+                        iblockstate.getBlock().harvestBlock(this.theWorld, this.thisPlayerMP, pos, iblockstate, tileentity, itemstack2);
                     }
                 }
 
@@ -359,12 +359,12 @@ public class PlayerInteractionManager
         }
         else
         {
-            int i = stack.getCount();
+            int i = stack.func_190916_E();
             int j = stack.getMetadata();
             ActionResult<ItemStack> actionresult = stack.useItemRightClick(worldIn, player, hand);
             ItemStack itemstack = (ItemStack)actionresult.getResult();
 
-            if (itemstack == stack && itemstack.getCount() == i && itemstack.getMaxItemUseDuration() <= 0 && itemstack.getMetadata() == j)
+            if (itemstack == stack && itemstack.func_190916_E() == i && itemstack.getMaxItemUseDuration() <= 0 && itemstack.getMetadata() == j)
             {
                 return actionresult.getType();
             }
@@ -378,7 +378,7 @@ public class PlayerInteractionManager
 
                 if (this.isCreative())
                 {
-                    itemstack.setCount(i);
+                    itemstack.func_190920_e(i);
 
                     if (itemstack.isItemStackDamageable())
                     {
@@ -386,9 +386,9 @@ public class PlayerInteractionManager
                     }
                 }
 
-                if (itemstack.isEmpty())
+                if (itemstack.func_190926_b())
                 {
-                    player.setHeldItem(hand, ItemStack.EMPTY);
+                    player.setHeldItem(hand, ItemStack.field_190927_a);
                 }
 
                 if (!player.isHandActive())
@@ -433,7 +433,7 @@ public class PlayerInteractionManager
         }
         else
         {
-            if (!player.isSneaking() || player.getHeldItemMainhand().isEmpty() && player.getHeldItemOffhand().isEmpty())
+            if (!player.isSneaking() || player.getHeldItemMainhand().func_190926_b() && player.getHeldItemOffhand().func_190926_b())
             {
                 IBlockState iblockstate = worldIn.getBlockState(pos);
 
@@ -443,7 +443,7 @@ public class PlayerInteractionManager
                 }
             }
 
-            if (stack.isEmpty())
+            if (stack.func_190926_b())
             {
                 return EnumActionResult.PASS;
             }
@@ -466,10 +466,10 @@ public class PlayerInteractionManager
                 if (this.isCreative())
                 {
                     int j = stack.getMetadata();
-                    int i = stack.getCount();
+                    int i = stack.func_190916_E();
                     EnumActionResult enumactionresult = stack.onItemUse(player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
                     stack.setItemDamage(j);
-                    stack.setCount(i);
+                    stack.func_190920_e(i);
                     return enumactionresult;
                 }
                 else
@@ -485,6 +485,6 @@ public class PlayerInteractionManager
      */
     public void setWorld(WorldServer serverWorld)
     {
-        this.world = serverWorld;
+        this.theWorld = serverWorld;
     }
 }

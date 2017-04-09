@@ -45,6 +45,7 @@ public class CustomItemProperties
     public RangeListInt enchantmentIds = null;
     public RangeListInt enchantmentLevels = null;
     public NbtTagValue[] nbtTagValues = null;
+    public int hand = 0;
     public int blend = 1;
     public float speed = 0.0F;
     public float rotation = 0.0F;
@@ -64,6 +65,9 @@ public class CustomItemProperties
     public static final int TYPE_ENCHANTMENT = 2;
     public static final int TYPE_ARMOR = 3;
     public static final int TYPE_ELYTRA = 4;
+    public static final int HAND_ANY = 0;
+    public static final int HAND_MAIN = 1;
+    public static final int HAND_OFF = 2;
 
     public CustomItemProperties(Properties p_i30_1_, String p_i30_2_)
     {
@@ -87,6 +91,7 @@ public class CustomItemProperties
         this.enchantmentIds = this.parseRangeListInt(p_i30_1_.getProperty("enchantmentIDs"), new ParserEnchantmentId());
         this.enchantmentLevels = this.parseRangeListInt(p_i30_1_.getProperty("enchantmentLevels"));
         this.nbtTagValues = this.parseNbtTagValues(p_i30_1_);
+        this.hand = this.parseHand(p_i30_1_.getProperty("hand"));
         this.blend = Blender.parseBlend(p_i30_1_.getProperty("blend"));
         this.speed = this.parseFloat(p_i30_1_.getProperty("speed"), 0.0F);
         this.rotation = this.parseFloat(p_i30_1_.getProperty("rotation"), 0.0F);
@@ -552,6 +557,36 @@ public class CustomItemProperties
         }
 
         return map;
+    }
+
+    private int parseHand(String p_parseHand_1_)
+    {
+        if (p_parseHand_1_ == null)
+        {
+            return 0;
+        }
+        else
+        {
+            p_parseHand_1_ = p_parseHand_1_.toLowerCase();
+
+            if (p_parseHand_1_.equals("any"))
+            {
+                return 0;
+            }
+            else if (p_parseHand_1_.equals("main"))
+            {
+                return 1;
+            }
+            else if (p_parseHand_1_.equals("off"))
+            {
+                return 2;
+            }
+            else
+            {
+                Config.warn("Invalid hand: " + p_parseHand_1_);
+                return 0;
+            }
+        }
     }
 
     public boolean isValid(String p_isValid_1_)

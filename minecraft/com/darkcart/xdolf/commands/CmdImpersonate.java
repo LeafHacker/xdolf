@@ -21,7 +21,7 @@ public class CmdImpersonate extends Command {
 				for (int i = 2; i < args.length; i++) {
 					s2 += args[i] + " ";
 				}
-				Wrapper.getPlayer().sendMessage(new TextComponentString(Client.wrap(String.format("<" + s1 + "> " + s2), 100)));
+				Wrapper.getPlayer().sendChatMessage(Client.wrap(String.format("<" + s1 + "> " + s2), 100));
 			}
 			if (args[0].equalsIgnoreCase("whisper")) {
 				String s1 = args[1];
@@ -29,7 +29,7 @@ public class CmdImpersonate extends Command {
 				for (int i = 2; i < args.length; i++) {
 					s2 += args[i] + " ";
 				}
-				Wrapper.getPlayer().sendMessage(new TextComponentString(Client.wrap(String.format("\247d" + s1 + " whispers: " + s2), 100)));
+				Wrapper.getPlayer().sendChatMessage(Client.wrap(String.format("\247d" + s1 + " whispers: " + s2), 100));
 			}
 		}catch(Exception ex) {
 			ex.printStackTrace();

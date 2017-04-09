@@ -26,7 +26,7 @@ public class RenderWitch extends RenderLiving<EntityWitch>
      */
     public void doRender(EntityWitch entity, double x, double y, double z, float entityYaw, float partialTicks)
     {
-        ((ModelWitch)this.mainModel).holdingItem = !entity.getHeldItemMainhand().isEmpty();
+        ((ModelWitch)this.mainModel).holdingItem = !entity.getHeldItemMainhand().func_190926_b();
         super.doRender(entity, x, y, z, entityYaw, partialTicks);
     }
 

@@ -14,9 +14,7 @@ import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.entity.Entity;
 import net.minecraft.src.Config;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.optifine.entity.model.anim.ModelResolver;
 import net.optifine.entity.model.anim.ModelUpdater;
@@ -29,8 +27,8 @@ public class CustomEntityModels
 
     public static void update()
     {
-        Map map = getEntityRenderMap();
-        Map<Class<? extends TileEntity>, TileEntitySpecialRenderer<? extends TileEntity>> map1 = getTileEntityRenderMap();
+        Map<Class, Render> map = getEntityRenderMap();
+        Map<Class, TileEntitySpecialRenderer> map1 = getTileEntityRenderMap();
 
         if (map == null)
         {
@@ -46,7 +44,7 @@ public class CustomEntityModels
             map.clear();
             map1.clear();
             map.putAll(originalEntityRenderMap);
-            map1.putAll((Map<? extends Class<? extends TileEntity>, ? extends TileEntitySpecialRenderer<? extends TileEntity>>) originalTileEntityRenderMap);
+            map1.putAll(originalTileEntityRenderMap);
 
             if (Config.isCustomEntityModels())
             {
@@ -85,10 +83,10 @@ public class CustomEntityModels
         }
     }
 
-    private static Map<Class<? extends Entity>, Render<? extends Entity>> getEntityRenderMap()
+    private static Map<Class, Render> getEntityRenderMap()
     {
         RenderManager rendermanager = Minecraft.getMinecraft().getRenderManager();
-        Map<Class<? extends Entity>, Render<? extends Entity>> map = rendermanager.getEntityRenderMap();
+        Map<Class, Render> map = rendermanager.getEntityRenderMap();
 
         if (map == null)
         {
@@ -105,9 +103,9 @@ public class CustomEntityModels
         }
     }
 
-    private static Map<Class<? extends TileEntity>, TileEntitySpecialRenderer<? extends TileEntity>> getTileEntityRenderMap()
+    private static Map<Class, TileEntitySpecialRenderer> getTileEntityRenderMap()
     {
-        Map<Class<? extends TileEntity>, TileEntitySpecialRenderer<? extends TileEntity>> map = TileEntityRendererDispatcher.instance.mapSpecialRenderers;
+        Map<Class, TileEntitySpecialRenderer> map = TileEntityRendererDispatcher.instance.mapSpecialRenderers;
 
         if (originalTileEntityRenderMap == null)
         {

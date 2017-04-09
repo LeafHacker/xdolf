@@ -209,7 +209,7 @@ public class EntitySquid extends EntityWaterMob
      */
     public void moveEntityWithHeading(float strafe, float forward)
     {
-        this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
+        this.moveEntity(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
     }
 
     /**

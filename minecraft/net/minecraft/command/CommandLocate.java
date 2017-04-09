@@ -12,7 +12,7 @@ public class CommandLocate extends CommandBase
     /**
      * Gets the name of the command
      */
-    public String getName()
+    public String getCommandName()
     {
         return "locate";
     }
@@ -28,7 +28,7 @@ public class CommandLocate extends CommandBase
     /**
      * Gets the usage string for the command.
      */
-    public String getUsage(ICommandSender sender)
+    public String getCommandUsage(ICommandSender sender)
     {
         return "commands.locate.usage";
     }
@@ -45,11 +45,11 @@ public class CommandLocate extends CommandBase
         else
         {
             String s = args[0];
-            BlockPos blockpos = sender.getEntityWorld().findNearestStructure(s, sender.getPosition(), false);
+            BlockPos blockpos = sender.getEntityWorld().func_190528_a(s, sender.getPosition(), false);
 
             if (blockpos != null)
             {
-                sender.sendMessage(new TextComponentTranslation("commands.locate.success", new Object[] {s, Integer.valueOf(blockpos.getX()), Integer.valueOf(blockpos.getZ())}));
+                sender.addChatMessage(new TextComponentTranslation("commands.locate.success", new Object[] {s, Integer.valueOf(blockpos.getX()), Integer.valueOf(blockpos.getZ())}));
             }
             else
             {
@@ -58,7 +58,7 @@ public class CommandLocate extends CommandBase
         }
     }
 
-    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
+    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
     {
         return args.length == 1 ? getListOfStringsMatchingLastWord(args, new String[] {"Stronghold", "Monument", "Village", "Mansion", "EndCity", "Fortress", "Temple", "Mineshaft"}): Collections.<String>emptyList();
     }

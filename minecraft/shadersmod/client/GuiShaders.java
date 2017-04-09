@@ -18,6 +18,7 @@ public class GuiShaders extends GuiScreen
     protected String screenTitle = "Shaders";
     private int updateTimer = -1;
     private GuiSlotShaders shaderList;
+    private boolean saved = false;
     private static float[] QUALITY_MULTIPLIERS = new float[] {0.5F, 0.70710677F, 1.0F, 1.4142135F, 2.0F};
     private static String[] QUALITY_MULTIPLIER_NAMES = new String[] {"0.5x", "0.7x", "1x", "1.5x", "2x"};
     private static float[] HAND_DEPTH_VALUES = new float[] {0.0625F, 0.125F, 0.25F};
@@ -94,8 +95,7 @@ public class GuiShaders extends GuiScreen
     /**
      * Called by the controls from the buttonList when activated. (Mouse pressed for buttons)
      */
-    @SuppressWarnings("incomplete-switch")
-	protected void actionPerformed(GuiButton button)
+    protected void actionPerformed(GuiButton button)
     {
         if (button.enabled)
         {
@@ -308,16 +308,8 @@ public class GuiShaders extends GuiScreen
 
                     case 202:
                         new File(Shaders.shadersdir, "current.cfg");
-
-                        try
-                        {
-                            Shaders.storeConfig();
-                        }
-                        catch (Exception var71)
-                        {
-                            ;
-                        }
-
+                        Shaders.storeConfig();
+                        this.saved = true;
                         this.mc.displayGuiScreen(this.parentGui);
                         break;
 
@@ -330,6 +322,19 @@ public class GuiShaders extends GuiScreen
                         this.shaderList.actionPerformed(button);
                 }
             }
+        }
+    }
+
+    /**
+     * Called when the screen is unloaded. Used to disable keyboard repeat events
+     */
+    public void onGuiClosed()
+    {
+        super.onGuiClosed();
+
+        if (!this.saved)
+        {
+            Shaders.storeConfig();
         }
     }
 

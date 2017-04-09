@@ -164,27 +164,8 @@ public class ScreenShotHelper
 
         pixelBuffer.get(pixelValues);
         TextureUtil.processPixelValues(pixelValues, width, height);
-        BufferedImage bufferedimage;
-
-        if (OpenGlHelper.isFramebufferEnabled())
-        {
-            bufferedimage = new BufferedImage(framebufferIn.framebufferWidth, framebufferIn.framebufferHeight, 1);
-            int j = framebufferIn.framebufferTextureHeight - framebufferIn.framebufferHeight;
-
-            for (int k = j; k < framebufferIn.framebufferTextureHeight; ++k)
-            {
-                for (int l = 0; l < framebufferIn.framebufferWidth; ++l)
-                {
-                    bufferedimage.setRGB(l, k - j, pixelValues[k * framebufferIn.framebufferTextureWidth + l]);
-                }
-            }
-        }
-        else
-        {
-            bufferedimage = new BufferedImage(width, height, 1);
-            bufferedimage.setRGB(0, 0, width, height, pixelValues, 0, width);
-        }
-
+        BufferedImage bufferedimage = new BufferedImage(width, height, 1);
+        bufferedimage.setRGB(0, 0, width, height, pixelValues, 0, width);
         return bufferedimage;
     }
 

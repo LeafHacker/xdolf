@@ -23,7 +23,7 @@ public class SPacketEnableCompression implements Packet<INetHandlerLoginClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.compressionThreshold = buf.readVarInt();
+        this.compressionThreshold = buf.readVarIntFromBuffer();
     }
 
     /**
@@ -31,7 +31,7 @@ public class SPacketEnableCompression implements Packet<INetHandlerLoginClient>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeVarInt(this.compressionThreshold);
+        buf.writeVarIntToBuffer(this.compressionThreshold);
     }
 
     /**

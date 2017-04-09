@@ -192,7 +192,7 @@ public class GuiMultiplayer extends GuiScreen
             else if (button.id == 8)
             {
                 this.refreshServerList();
-            } 
+            }
             else if (button.id == 69) 
             {
             	//TODO: marker

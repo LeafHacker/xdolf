@@ -5,7 +5,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.item.EntityItem;
@@ -14,11 +13,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.stats.StatList;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -42,13 +43,15 @@ public class EntityFishHook extends Entity
     private int ticksCatchableDelay;
     private float fishApproachAngle;
     public Entity caughtEntity;
-    private EntityFishHook.State currentState = EntityFishHook.State.FLYING;
+    private EntityFishHook.State field_190627_av = EntityFishHook.State.FLYING;
+    private int field_191518_aw;
+    private int field_191519_ax;
 
-    public EntityFishHook(World worldIn, EntityPlayer p_i47290_2_, double x, double y, double z)
+    public EntityFishHook(World p_i47290_1_, EntityPlayer p_i47290_2_, double p_i47290_3_, double p_i47290_5_, double p_i47290_7_)
     {
-        super(worldIn);
-        this.init(p_i47290_2_);
-        this.setPosition(x, y, z);
+        super(p_i47290_1_);
+        this.func_190626_a(p_i47290_2_);
+        this.setPosition(p_i47290_3_, p_i47290_5_, p_i47290_7_);
         this.prevPosX = this.posX;
         this.prevPosY = this.posY;
         this.prevPosZ = this.posZ;
@@ -57,11 +60,11 @@ public class EntityFishHook extends Entity
     public EntityFishHook(World worldIn, EntityPlayer fishingPlayer)
     {
         super(worldIn);
-        this.init(fishingPlayer);
-        this.shoot();
+        this.func_190626_a(fishingPlayer);
+        this.func_190620_n();
     }
 
-    private void init(EntityPlayer p_190626_1_)
+    private void func_190626_a(EntityPlayer p_190626_1_)
     {
         this.setSize(0.25F, 0.25F);
         this.ignoreFrustumCheck = true;
@@ -69,7 +72,17 @@ public class EntityFishHook extends Entity
         this.angler.fishEntity = this;
     }
 
-    private void shoot()
+    public void func_191516_a(int p_191516_1_)
+    {
+        this.field_191519_ax = p_191516_1_;
+    }
+
+    public void func_191517_b(int p_191517_1_)
+    {
+        this.field_191518_aw = p_191517_1_;
+    }
+
+    private void func_190620_n()
     {
         float f = this.angler.prevRotationPitch + (this.angler.rotationPitch - this.angler.prevRotationPitch);
         float f1 = this.angler.prevRotationYaw + (this.angler.rotationYaw - this.angler.prevRotationYaw);
@@ -138,7 +151,7 @@ public class EntityFishHook extends Entity
         {
             this.setDead();
         }
-        else if (this.world.isRemote || !this.shouldStopFishing())
+        else if (this.world.isRemote || !this.func_190625_o())
         {
             if (this.inGround)
             {
@@ -157,17 +170,17 @@ public class EntityFishHook extends Entity
 
             if (iblockstate.getMaterial() == Material.WATER)
             {
-                f = BlockLiquid.getBlockLiquidHeight(iblockstate, this.world, blockpos);
+                f = BlockLiquid.func_190973_f(iblockstate, this.world, blockpos);
             }
 
-            if (this.currentState == EntityFishHook.State.FLYING)
+            if (this.field_190627_av == EntityFishHook.State.FLYING)
             {
                 if (this.caughtEntity != null)
                 {
                     this.motionX = 0.0D;
                     this.motionY = 0.0D;
                     this.motionZ = 0.0D;
-                    this.currentState = EntityFishHook.State.HOOKED_IN_ENTITY;
+                    this.field_190627_av = EntityFishHook.State.HOOKED_IN_ENTITY;
                     return;
                 }
 
@@ -176,13 +189,13 @@ public class EntityFishHook extends Entity
                     this.motionX *= 0.3D;
                     this.motionY *= 0.2D;
                     this.motionZ *= 0.3D;
-                    this.currentState = EntityFishHook.State.BOBBING;
+                    this.field_190627_av = EntityFishHook.State.BOBBING;
                     return;
                 }
 
                 if (!this.world.isRemote)
                 {
-                    this.checkCollision();
+                    this.func_190624_r();
                 }
 
                 if (!this.inGround && !this.onGround && !this.isCollidedHorizontally)
@@ -199,14 +212,14 @@ public class EntityFishHook extends Entity
             }
             else
             {
-                if (this.currentState == EntityFishHook.State.HOOKED_IN_ENTITY)
+                if (this.field_190627_av == EntityFishHook.State.HOOKED_IN_ENTITY)
                 {
                     if (this.caughtEntity != null)
                     {
                         if (this.caughtEntity.isDead)
                         {
                             this.caughtEntity = null;
-                            this.currentState = EntityFishHook.State.FLYING;
+                            this.field_190627_av = EntityFishHook.State.FLYING;
                         }
                         else
                         {
@@ -221,7 +234,7 @@ public class EntityFishHook extends Entity
                     return;
                 }
 
-                if (this.currentState == EntityFishHook.State.BOBBING)
+                if (this.field_190627_av == EntityFishHook.State.BOBBING)
                 {
                     this.motionX *= 0.9D;
                     this.motionZ *= 0.9D;
@@ -236,7 +249,7 @@ public class EntityFishHook extends Entity
 
                     if (!this.world.isRemote && f > 0.0F)
                     {
-                        this.catchingFish(blockpos);
+                        this.func_190621_a(blockpos);
                     }
                 }
             }
@@ -246,8 +259,8 @@ public class EntityFishHook extends Entity
                 this.motionY -= 0.03D;
             }
 
-            this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
-            this.updateRotation();
+            this.moveEntity(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
+            this.func_190623_q();
             double d1 = 0.92D;
             this.motionX *= 0.92D;
             this.motionY *= 0.92D;
@@ -256,7 +269,7 @@ public class EntityFishHook extends Entity
         }
     }
 
-    private boolean shouldStopFishing()
+    private boolean func_190625_o()
     {
         ItemStack itemstack = this.angler.getHeldItemMainhand();
         ItemStack itemstack1 = this.angler.getHeldItemOffhand();
@@ -274,7 +287,7 @@ public class EntityFishHook extends Entity
         }
     }
 
-    private void updateRotation()
+    private void func_190623_q()
     {
         float f = MathHelper.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
         this.rotationYaw = (float)(MathHelper.atan2(this.motionX, this.motionZ) * (180D / Math.PI));
@@ -303,7 +316,7 @@ public class EntityFishHook extends Entity
         this.rotationYaw = this.prevRotationYaw + (this.rotationYaw - this.prevRotationYaw) * 0.2F;
     }
 
-    private void checkCollision()
+    private void func_190624_r()
     {
         Vec3d vec3d = new Vec3d(this.posX, this.posY, this.posZ);
         Vec3d vec3d1 = new Vec3d(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
@@ -350,7 +363,7 @@ public class EntityFishHook extends Entity
             if (raytraceresult.typeOfHit == RayTraceResult.Type.ENTITY)
             {
                 this.caughtEntity = raytraceresult.entityHit;
-                this.setHookedEntity();
+                this.func_190622_s();
             }
             else
             {
@@ -359,12 +372,12 @@ public class EntityFishHook extends Entity
         }
     }
 
-    private void setHookedEntity()
+    private void func_190622_s()
     {
         this.getDataManager().set(DATA_HOOKED_ENTITY, Integer.valueOf(this.caughtEntity.getEntityId() + 1));
     }
 
-    private void catchingFish(BlockPos p_190621_1_)
+    private void func_190621_a(BlockPos p_190621_1_)
     {
         WorldServer worldserver = (WorldServer)this.world;
         int i = 1;
@@ -474,7 +487,7 @@ public class EntityFishHook extends Entity
         else
         {
             this.ticksCaughtDelay = MathHelper.getInt(this.rand, 100, 600);
-            this.ticksCaughtDelay -= EnchantmentHelper.getLureModifier(this.angler) * 20 * 5;
+            this.ticksCaughtDelay -= this.field_191519_ax * 20 * 5;
         }
     }
 
@@ -512,7 +525,7 @@ public class EntityFishHook extends Entity
             else if (this.ticksCatchable > 0)
             {
                 LootContext.Builder lootcontext$builder = new LootContext.Builder((WorldServer)this.world);
-                lootcontext$builder.withLuck((float)EnchantmentHelper.getLuckOfSeaModifier(this.angler) + this.angler.getLuck());
+                lootcontext$builder.withLuck((float)this.field_191518_aw + this.angler.getLuck());
 
                 for (ItemStack itemstack : this.world.getLootTableManager().getLootTableFromLocation(LootTableList.GAMEPLAY_FISHING).generateLootForPools(this.rand, lootcontext$builder.build()))
                 {
@@ -525,8 +538,14 @@ public class EntityFishHook extends Entity
                     entityitem.motionX = d0 * 0.1D;
                     entityitem.motionY = d1 * 0.1D + (double)MathHelper.sqrt(d3) * 0.08D;
                     entityitem.motionZ = d2 * 0.1D;
-                    this.world.spawnEntity(entityitem);
-                    this.angler.world.spawnEntity(new EntityXPOrb(this.angler.world, this.angler.posX, this.angler.posY + 0.5D, this.angler.posZ + 0.5D, this.rand.nextInt(6) + 1));
+                    this.world.spawnEntityInWorld(entityitem);
+                    this.angler.world.spawnEntityInWorld(new EntityXPOrb(this.angler.world, this.angler.posX, this.angler.posY + 0.5D, this.angler.posZ + 0.5D, this.rand.nextInt(6) + 1));
+                    Item item = itemstack.getItem();
+
+                    if (item == Items.FISH || item == Items.COOKED_FISH)
+                    {
+                        this.angler.addStat(StatList.FISH_CAUGHT, 1);
+                    }
                 }
 
                 i = 1;
@@ -592,7 +611,7 @@ public class EntityFishHook extends Entity
         }
     }
 
-    public EntityPlayer getAngler()
+    public EntityPlayer func_190619_l()
     {
         return this.angler;
     }

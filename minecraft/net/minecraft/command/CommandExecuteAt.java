@@ -17,7 +17,7 @@ public class CommandExecuteAt extends CommandBase
     /**
      * Gets the name of the command
      */
-    public String getName()
+    public String getCommandName()
     {
         return "execute";
     }
@@ -33,7 +33,7 @@ public class CommandExecuteAt extends CommandBase
     /**
      * Gets the usage string for the command.
      */
-    public String getUsage(ICommandSender sender)
+    public String getCommandUsage(ICommandSender sender)
     {
         return "commands.execute.usage";
     }
@@ -77,7 +77,7 @@ public class CommandExecuteAt extends CommandBase
                     throw new CommandException("commands.execute.failed", new Object[] {"detect", entity.getName()});
                 }
 
-                if (!CommandBase.convertArgToBlockStatePredicate(block, args[9]).apply(iblockstate))
+                if (!CommandBase.func_190791_b(block, args[9]).apply(iblockstate))
                 {
                     throw new CommandException("commands.execute.failed", new Object[] {"detect", entity.getName()});
                 }
@@ -96,13 +96,13 @@ public class CommandExecuteAt extends CommandBase
                 {
                     return entity.getDisplayName();
                 }
-                public void sendMessage(ITextComponent component)
+                public void addChatMessage(ITextComponent component)
                 {
-                    sender.sendMessage(component);
+                    sender.addChatMessage(component);
                 }
-                public boolean canUseCommand(int permLevel, String commandName)
+                public boolean canCommandSenderUseCommand(int permLevel, String commandName)
                 {
-                    return sender.canUseCommand(permLevel, commandName);
+                    return sender.canCommandSenderUseCommand(permLevel, commandName);
                 }
                 public BlockPos getPosition()
                 {
@@ -122,7 +122,7 @@ public class CommandExecuteAt extends CommandBase
                 }
                 public boolean sendCommandFeedback()
                 {
-                    return server == null || server.worlds[0].getGameRules().getBoolean("commandBlockOutput");
+                    return server == null || server.worldServers[0].getGameRules().getBoolean("commandBlockOutput");
                 }
                 public void setCommandStat(CommandResultStats.Type type, int amount)
                 {
@@ -151,9 +151,9 @@ public class CommandExecuteAt extends CommandBase
         }
     }
 
-    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
+    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
     {
-        return args.length == 1 ? getListOfStringsMatchingLastWord(args, server.getOnlinePlayerNames()) : (args.length > 1 && args.length <= 4 ? getTabCompletionCoordinate(args, 1, pos) : (args.length > 5 && args.length <= 8 && "detect".equals(args[4]) ? getTabCompletionCoordinate(args, 5, pos) : (args.length == 9 && "detect".equals(args[4]) ? getListOfStringsMatchingLastWord(args, Block.REGISTRY.getKeys()) : Collections.<String>emptyList())));
+        return args.length == 1 ? getListOfStringsMatchingLastWord(args, server.getAllUsernames()) : (args.length > 1 && args.length <= 4 ? getTabCompletionCoordinate(args, 1, pos) : (args.length > 5 && args.length <= 8 && "detect".equals(args[4]) ? getTabCompletionCoordinate(args, 5, pos) : (args.length == 9 && "detect".equals(args[4]) ? getListOfStringsMatchingLastWord(args, Block.REGISTRY.getKeys()) : Collections.<String>emptyList())));
     }
 
     /**

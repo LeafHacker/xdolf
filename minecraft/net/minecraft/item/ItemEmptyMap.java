@@ -15,24 +15,24 @@ public class ItemEmptyMap extends ItemMapBase
         this.setCreativeTab(CreativeTabs.MISC);
     }
 
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
+    public ActionResult<ItemStack> onItemRightClick(World itemStackIn, EntityPlayer worldIn, EnumHand playerIn)
     {
-        ItemStack itemstack = ItemMap.setupNewMap(worldIn, playerIn.posX, playerIn.posZ, (byte)0, true, false);
-        ItemStack itemstack1 = playerIn.getHeldItem(handIn);
-        itemstack1.shrink(1);
+        ItemStack itemstack = ItemMap.func_190906_a(itemStackIn, worldIn.posX, worldIn.posZ, (byte)0, true, false);
+        ItemStack itemstack1 = worldIn.getHeldItem(playerIn);
+        itemstack1.func_190918_g(1);
 
-        if (itemstack1.isEmpty())
+        if (itemstack1.func_190926_b())
         {
             return new ActionResult(EnumActionResult.SUCCESS, itemstack);
         }
         else
         {
-            if (!playerIn.inventory.addItemStackToInventory(itemstack.copy()))
+            if (!worldIn.inventory.addItemStackToInventory(itemstack.copy()))
             {
-                playerIn.dropItem(itemstack, false);
+                worldIn.dropItem(itemstack, false);
             }
 
-            playerIn.addStat(StatList.getObjectUseStats(this));
+            worldIn.addStat(StatList.getObjectUseStats(this));
             return new ActionResult(EnumActionResult.SUCCESS, itemstack1);
         }
     }

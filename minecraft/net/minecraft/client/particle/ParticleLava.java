@@ -36,11 +36,11 @@ public class ParticleLava extends Particle
     /**
      * Renders the particle
      */
-    public void renderParticle(VertexBuffer buffer, Entity entityIn, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ)
+    public void renderParticle(VertexBuffer worldRendererIn, Entity entityIn, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ)
     {
         float f = ((float)this.particleAge + partialTicks) / (float)this.particleMaxAge;
         this.particleScale = this.lavaParticleScale * (1.0F - f * f);
-        super.renderParticle(buffer, entityIn, partialTicks, rotationX, rotationZ, rotationYZ, rotationXY, rotationXZ);
+        super.renderParticle(worldRendererIn, entityIn, partialTicks, rotationX, rotationZ, rotationYZ, rotationXY, rotationXZ);
     }
 
     public void onUpdate()
@@ -58,16 +58,16 @@ public class ParticleLava extends Particle
 
         if (this.rand.nextFloat() > f)
         {
-            this.world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, this.posX, this.posY, this.posZ, this.motionX, this.motionY, this.motionZ, new int[0]);
+            this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, this.posX, this.posY, this.posZ, this.motionX, this.motionY, this.motionZ, new int[0]);
         }
 
         this.motionY -= 0.03D;
-        this.move(this.motionX, this.motionY, this.motionZ);
+        this.moveEntity(this.motionX, this.motionY, this.motionZ);
         this.motionX *= 0.9990000128746033D;
         this.motionY *= 0.9990000128746033D;
         this.motionZ *= 0.9990000128746033D;
 
-        if (this.onGround)
+        if (this.isCollided)
         {
             this.motionX *= 0.699999988079071D;
             this.motionZ *= 0.699999988079071D;

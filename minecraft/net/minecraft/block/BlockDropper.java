@@ -46,7 +46,7 @@ public class BlockDropper extends BlockDispenser
             {
                 ItemStack itemstack = tileentitydispenser.getStackInSlot(i);
 
-                if (!itemstack.isEmpty())
+                if (!itemstack.func_190926_b())
                 {
                     EnumFacing enumfacing = (EnumFacing)worldIn.getBlockState(pos).getValue(FACING);
                     BlockPos blockpos = pos.offset(enumfacing);
@@ -61,10 +61,10 @@ public class BlockDropper extends BlockDispenser
                     {
                         itemstack1 = TileEntityHopper.putStackInInventoryAllSlots(tileentitydispenser, iinventory, itemstack.copy().splitStack(1), enumfacing.getOpposite());
 
-                        if (itemstack1.isEmpty())
+                        if (itemstack1.func_190926_b())
                         {
                             itemstack1 = itemstack.copy();
-                            itemstack1.shrink(1);
+                            itemstack1.func_190918_g(1);
                         }
                         else
                         {

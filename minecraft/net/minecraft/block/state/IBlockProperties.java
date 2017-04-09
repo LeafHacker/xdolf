@@ -48,7 +48,7 @@ public interface IBlockProperties
 
     boolean isFullCube();
 
-    boolean hasCustomBreakingProgress();
+    boolean func_191057_i();
 
     EnumBlockRenderType getRenderType();
 
@@ -87,7 +87,7 @@ public interface IBlockProperties
     @Nullable
     AxisAlignedBB getCollisionBoundingBox(IBlockAccess worldIn, BlockPos pos);
 
-    void addCollisionBoxToList(World worldIn, BlockPos pos, AxisAlignedBB p_185908_3_, List<AxisAlignedBB> p_185908_4_, Entity p_185908_5_);
+    void addCollisionBoxToList(World worldIn, BlockPos pos, AxisAlignedBB p_185908_3_, List<AxisAlignedBB> p_185908_4_, Entity p_185908_5_, boolean p_185908_6_);
 
     AxisAlignedBB getBoundingBox(IBlockAccess blockAccess, BlockPos pos);
 
@@ -95,7 +95,7 @@ public interface IBlockProperties
 
     boolean isFullyOpaque();
 
-    Vec3d getOffset(IBlockAccess p_191059_1_, BlockPos p_191059_2_);
+    Vec3d func_191059_e(IBlockAccess p_191059_1_, BlockPos p_191059_2_);
 
-    boolean causesSuffocation();
+    boolean func_191058_s();
 }

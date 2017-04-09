@@ -8,7 +8,7 @@ import net.minecraft.src.StrUtils;
 
 public class ShaderOptionVariable extends ShaderOption
 {
-    private static final Pattern PATTERN_VARIABLE = Pattern.compile("^\\s*#define\\s+([A-Za-z0-9_]+)\\s+(-?[0-9\\.]*)F?f?\\s*(//.*)?$");
+    private static final Pattern PATTERN_VARIABLE = Pattern.compile("^\\s*#define\\s+(\\w+)\\s+(-?[0-9\\.Ff]+|\\w+)\\s*(//.*)?$");
 
     public ShaderOptionVariable(String name, String description, String value, String[] values, String path)
     {

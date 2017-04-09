@@ -1,20 +1,19 @@
 package shadersmod.client;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiVideoSettings;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.src.Config;
+import net.minecraft.src.GuiScreenOF;
 import net.minecraft.src.Lang;
 import net.minecraft.src.StrUtils;
 
-public class GuiShaderOptions extends GuiScreen
+public class GuiShaderOptions extends GuiScreenOF
 {
     private GuiScreen prevScreen;
     protected String title;
@@ -146,7 +145,15 @@ public class GuiShaderOptions extends GuiScreen
                     return;
                 }
 
-                shaderoption.nextValue();
+                if (isShiftKeyDown())
+                {
+                    shaderoption.resetValue();
+                }
+                else
+                {
+                    shaderoption.nextValue();
+                }
+
                 this.updateAllButtons();
                 this.changed = true;
             }
@@ -170,6 +177,7 @@ public class GuiShaderOptions extends GuiScreen
                 if (this.changed)
                 {
                     Shaders.saveShaderPackOptions();
+                    this.changed = false;
                     Shaders.uninit();
                 }
 
@@ -178,30 +186,39 @@ public class GuiShaderOptions extends GuiScreen
         }
     }
 
-    /**
-     * Called when the mouse is clicked. Args : mouseX, mouseY, clickedButton
-     */
-    protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException
+    protected void actionPerformedRightClick(GuiButton btn)
     {
-        super.mouseClicked(mouseX, mouseY, mouseButton);
-
-        if (mouseButton == 1)
+        if (btn instanceof GuiButtonShaderOption)
         {
-            GuiButton guibutton = this.getSelectedButton(mouseX, mouseY);
+            GuiButtonShaderOption guibuttonshaderoption = (GuiButtonShaderOption)btn;
+            ShaderOption shaderoption = guibuttonshaderoption.getShaderOption();
 
-            if (guibutton instanceof GuiButtonShaderOption)
+            if (isShiftKeyDown())
             {
-                GuiButtonShaderOption guibuttonshaderoption = (GuiButtonShaderOption)guibutton;
-                ShaderOption shaderoption = guibuttonshaderoption.getShaderOption();
-
-                if (shaderoption.isChanged())
-                {
-                    guibuttonshaderoption.playPressSound(this.mc.getSoundHandler());
-                    shaderoption.resetValue();
-                    this.changed = true;
-                    this.updateAllButtons();
-                }
+                shaderoption.resetValue();
             }
+            else
+            {
+                shaderoption.prevValue();
+            }
+
+            this.updateAllButtons();
+            this.changed = true;
+        }
+    }
+
+    /**
+     * Called when the screen is unloaded. Used to disable keyboard repeat events
+     */
+    public void onGuiClosed()
+    {
+        super.onGuiClosed();
+
+        if (this.changed)
+        {
+            Shaders.saveShaderPackOptions();
+            this.changed = false;
+            Shaders.uninit();
         }
     }
 
@@ -255,7 +272,7 @@ public class GuiShaderOptions extends GuiScreen
         }
     }
 
-    private void drawTooltips(int x, int y, List buttonList)
+    private void drawTooltips(int x, int y, List buttons)
     {
         int i = 700;
 
@@ -271,7 +288,7 @@ public class GuiShaderOptions extends GuiScreen
 
             int l = j + 150 + 150;
             int i1 = k + 84 + 10;
-            GuiButton guibutton = this.getSelectedButton(x, y);
+            GuiButton guibutton = getSelectedButton(buttons, x, y);
 
             if (guibutton instanceof GuiButtonShaderOption)
             {
@@ -400,22 +417,5 @@ public class GuiShaderOptions extends GuiScreen
 
         String[] astring = (String[])((String[])list.toArray(new String[list.size()]));
         return astring;
-    }
-
-    private GuiButton getSelectedButton(int x, int y)
-    {
-        for (int i = 0; i < this.buttonList.size(); ++i)
-        {
-            GuiButton guibutton = (GuiButton)this.buttonList.get(i);
-            int j = GuiVideoSettings.getButtonWidth(guibutton);
-            int k = GuiVideoSettings.getButtonHeight(guibutton);
-
-            if (x >= guibutton.xPosition && y >= guibutton.yPosition && x < guibutton.xPosition + j && y < guibutton.yPosition + k)
-            {
-                return guibutton;
-            }
-        }
-
-        return null;
     }
 }

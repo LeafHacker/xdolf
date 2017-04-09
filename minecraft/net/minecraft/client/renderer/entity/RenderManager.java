@@ -120,7 +120,7 @@ import net.optifine.entity.model.CustomEntityModels;
 
 public class RenderManager
 {
-    private final Map < Class <? extends Entity > , Render <? extends Entity >> entityRenderMap = Maps. < Class <? extends Entity > , Render <? extends Entity >> newHashMap();
+    private final Map  entityRenderMap = Maps.newHashMap();
     private final Map<String, RenderPlayer> skinMap = Maps.<String, RenderPlayer>newHashMap();
     private final RenderPlayer playerRenderer;
 
@@ -132,7 +132,7 @@ public class RenderManager
     public TextureManager renderEngine;
 
     /** Reference to the World object. */
-    public World world;
+    public World worldObj;
 
     /** RenderManager's field for the renderViewEntity */
     public Entity renderViewEntity;
@@ -284,7 +284,7 @@ public class RenderManager
 
     public void cacheActiveRenderInfo(World worldIn, FontRenderer textRendererIn, Entity livingPlayerIn, Entity pointedEntityIn, GameSettings optionsIn, float partialTicks)
     {
-        this.world = worldIn;
+        this.worldObj = worldIn;
         this.options = optionsIn;
         this.renderViewEntity = livingPlayerIn;
         this.pointedEntity = pointedEntityIn;
@@ -536,9 +536,9 @@ public class RenderManager
     /**
      * World sets this RenderManager's worldObj to the world provided
      */
-    public void setWorld(@Nullable World worldIn)
+    public void set(@Nullable World worldIn)
     {
-        this.world = worldIn;
+        this.worldObj = worldIn;
 
         if (worldIn == null)
         {
@@ -567,7 +567,7 @@ public class RenderManager
         this.renderOutlines = renderOutlinesIn;
     }
 
-    public Map<Class<? extends Entity>, Render<? extends Entity>> getEntityRenderMap()
+    public Map<Class, Render> getEntityRenderMap()
     {
         return this.entityRenderMap;
     }

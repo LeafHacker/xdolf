@@ -13,14 +13,14 @@ public class ContainerWorkbench extends Container
     /** The crafting matrix inventory (3x3). */
     public InventoryCrafting craftMatrix = new InventoryCrafting(this, 3, 3);
     public IInventory craftResult = new InventoryCraftResult();
-    private final World world;
+    private final World worldObj;
 
     /** Position of the workbench */
     private final BlockPos pos;
 
     public ContainerWorkbench(InventoryPlayer playerInventory, World worldIn, BlockPos posIn)
     {
-        this.world = worldIn;
+        this.worldObj = worldIn;
         this.pos = posIn;
         this.addSlotToContainer(new SlotCrafting(playerInventory.player, this.craftMatrix, this.craftResult, 0, 124, 35));
 
@@ -53,7 +53,7 @@ public class ContainerWorkbench extends Container
      */
     public void onCraftMatrixChanged(IInventory inventoryIn)
     {
-        this.craftResult.setInventorySlotContents(0, CraftingManager.getInstance().findMatchingRecipe(this.craftMatrix, this.world));
+        this.craftResult.setInventorySlotContents(0, CraftingManager.getInstance().findMatchingRecipe(this.craftMatrix, this.worldObj));
     }
 
     /**
@@ -63,13 +63,13 @@ public class ContainerWorkbench extends Container
     {
         super.onContainerClosed(playerIn);
 
-        if (!this.world.isRemote)
+        if (!this.worldObj.isRemote)
         {
             for (int i = 0; i < 9; ++i)
             {
                 ItemStack itemstack = this.craftMatrix.removeStackFromSlot(i);
 
-                if (!itemstack.isEmpty())
+                if (!itemstack.func_190926_b())
                 {
                     playerIn.dropItem(itemstack, false);
                 }
@@ -82,7 +82,7 @@ public class ContainerWorkbench extends Container
      */
     public boolean canInteractWith(EntityPlayer playerIn)
     {
-        return this.world.getBlockState(this.pos).getBlock() != Blocks.CRAFTING_TABLE ? false : playerIn.getDistanceSq((double)this.pos.getX() + 0.5D, (double)this.pos.getY() + 0.5D, (double)this.pos.getZ() + 0.5D) <= 64.0D;
+        return this.worldObj.getBlockState(this.pos).getBlock() != Blocks.CRAFTING_TABLE ? false : playerIn.getDistanceSq((double)this.pos.getX() + 0.5D, (double)this.pos.getY() + 0.5D, (double)this.pos.getZ() + 0.5D) <= 64.0D;
     }
 
     /**
@@ -90,7 +90,7 @@ public class ContainerWorkbench extends Container
      */
     public ItemStack transferStackInSlot(EntityPlayer playerIn, int index)
     {
-        ItemStack itemstack = ItemStack.EMPTY;
+        ItemStack itemstack = ItemStack.field_190927_a;
         Slot slot = (Slot)this.inventorySlots.get(index);
 
         if (slot != null && slot.getHasStack())
@@ -100,11 +100,11 @@ public class ContainerWorkbench extends Container
 
             if (index == 0)
             {
-                itemstack1.getItem().onCreated(itemstack1, this.world, playerIn);
+                itemstack1.getItem().onCreated(itemstack1, this.worldObj, playerIn);
 
                 if (!this.mergeItemStack(itemstack1, 10, 46, true))
                 {
-                    return ItemStack.EMPTY;
+                    return ItemStack.field_190927_a;
                 }
 
                 slot.onSlotChange(itemstack1, itemstack);
@@ -113,36 +113,36 @@ public class ContainerWorkbench extends Container
             {
                 if (!this.mergeItemStack(itemstack1, 37, 46, false))
                 {
-                    return ItemStack.EMPTY;
+                    return ItemStack.field_190927_a;
                 }
             }
             else if (index >= 37 && index < 46)
             {
                 if (!this.mergeItemStack(itemstack1, 10, 37, false))
                 {
-                    return ItemStack.EMPTY;
+                    return ItemStack.field_190927_a;
                 }
             }
             else if (!this.mergeItemStack(itemstack1, 10, 46, false))
             {
-                return ItemStack.EMPTY;
+                return ItemStack.field_190927_a;
             }
 
-            if (itemstack1.isEmpty())
+            if (itemstack1.func_190926_b())
             {
-                slot.putStack(ItemStack.EMPTY);
+                slot.putStack(ItemStack.field_190927_a);
             }
             else
             {
                 slot.onSlotChanged();
             }
 
-            if (itemstack1.getCount() == itemstack.getCount())
+            if (itemstack1.func_190916_E() == itemstack.func_190916_E())
             {
-                return ItemStack.EMPTY;
+                return ItemStack.field_190927_a;
             }
 
-            ItemStack itemstack2 = slot.onTake(playerIn, itemstack1);
+            ItemStack itemstack2 = slot.func_190901_a(playerIn, itemstack1);
 
             if (index == 0)
             {

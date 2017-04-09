@@ -36,7 +36,7 @@ public class SPacketEntityMetadata implements Packet<INetHandlerPlayClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.entityId = buf.readVarInt();
+        this.entityId = buf.readVarIntFromBuffer();
         this.dataManagerEntries = EntityDataManager.readEntries(buf);
     }
 
@@ -45,7 +45,7 @@ public class SPacketEntityMetadata implements Packet<INetHandlerPlayClient>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeVarInt(this.entityId);
+        buf.writeVarIntToBuffer(this.entityId);
         EntityDataManager.writeEntries(this.dataManagerEntries, buf);
     }
 

@@ -245,7 +245,7 @@ public class EntityEnderman extends EntityMob
     {
         if (this.isWet())
         {
-            this.attackEntityFrom(DamageSource.DROWN, 1.0F);
+            this.attackEntityFrom(DamageSource.drown, 1.0F);
         }
 
         if (this.world.isDaytime() && this.ticksExisted >= this.targetChangeTime + 600)

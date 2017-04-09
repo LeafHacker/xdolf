@@ -33,4 +33,12 @@ public class EnchantmentArrowInfinite extends Enchantment
     {
         return 1;
     }
+
+    /**
+     * Determines if the enchantment passed can be applyied together with this enchantment.
+     */
+    public boolean canApplyTogether(Enchantment ench)
+    {
+        return ench instanceof EnchantmentMending ? false : super.canApplyTogether(ench);
+    }
 }

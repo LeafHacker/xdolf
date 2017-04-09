@@ -14,6 +14,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -25,6 +26,7 @@ import net.minecraft.src.StrUtils;
 
 public class ShaderPackParser
 {
+    private static final Pattern PATTERN_VERSION = Pattern.compile("^\\s*#version\\s+.*$");
     private static final Pattern PATTERN_INCLUDE = Pattern.compile("^\\s*#include\\s+\"([A-Za-z0-9_/\\.]+)\".*$");
     private static final Set<String> setConstNames = makeSetConstNames();
 
@@ -86,7 +88,7 @@ public class ShaderPackParser
             String s = astring[i];
             ShaderOption shaderoption = getShaderOption(s, path);
 
-            if (shaderoption != null && (!shaderoption.checkUsed() || isOptionUsed(shaderoption, astring)))
+            if (shaderoption != null && !shaderoption.getName().startsWith(ShaderMacros.getPrefixMacro()) && (!shaderoption.checkUsed() || isOptionUsed(shaderoption, astring)))
             {
                 String s1 = shaderoption.getName();
                 ShaderOption shaderoption1 = (ShaderOption)mapOptions.get(s1);
@@ -235,13 +237,12 @@ public class ShaderPackParser
         String s = "profile.";
         List<ShaderProfile> list = new ArrayList();
 
-        for (Object s10 : props.keySet())
+        for (Object s1 : props.keySet())
         {
-        	String s1 = (String) s10;
-            if (s1.startsWith(s))
+            if (((String) s1).startsWith(s))
             {
-                String s2 = s1.substring(s.length());
-                props.getProperty(s1);
+                String s2 = ((String) s1).substring(s.length());
+                props.getProperty((String) s1);
                 Set<String> set = new HashSet();
                 ShaderProfile shaderprofile = parseProfile(s2, props, set, shaderOptions);
 
@@ -478,7 +479,9 @@ public class ShaderPackParser
         }
 
         CharArrayWriter chararraywriter = new CharArrayWriter();
-        int j = 1;
+        int j = -1;
+        Set<String> set = new LinkedHashSet();
+        int k = 1;
 
         while (true)
         {
@@ -486,25 +489,59 @@ public class ShaderPackParser
 
             if (s1 == null)
             {
-                CharArrayReader chararrayreader = new CharArrayReader(chararraywriter.toCharArray());
+                char[] achar = chararraywriter.toCharArray();
+
+                if (j >= 0 && set.size() > 0)
+                {
+                    StringBuilder stringbuilder = new StringBuilder();
+
+                    for (String s7 : set)
+                    {
+                        stringbuilder.append("#define ");
+                        stringbuilder.append(s7);
+                        stringbuilder.append("\n");
+                    }
+
+                    String s6 = stringbuilder.toString();
+                    StringBuilder stringbuilder1 = new StringBuilder(new String(achar));
+                    stringbuilder1.insert(j, s6);
+                    String s10 = stringbuilder1.toString();
+                    achar = s10.toCharArray();
+                }
+
+                CharArrayReader chararrayreader = new CharArrayReader(achar);
                 return new BufferedReader(chararrayreader);
             }
 
-            Matcher matcher = PATTERN_INCLUDE.matcher(s1);
-
-            if (matcher.matches())
+            if (j < 0)
             {
-                String s2 = matcher.group(1);
-                boolean flag = s2.startsWith("/");
-                String s3 = flag ? "/shaders" + s2 : s + "/" + s2;
+                Matcher matcher = PATTERN_VERSION.matcher(s1);
 
-                if (!listFiles.contains(s3))
+                if (matcher.matches())
                 {
-                    listFiles.add(s3);
+                    String s2 = "#define MC_GL_VERSION " + Config.getGlVersion().toInt() + "\n" + "#define " + "MC_GLSL_VERSION" + " " + Config.getGlslVersion().toInt() + "\n" + "#define " + ShaderMacros.getOs() + "\n" + "#define " + ShaderMacros.getVendor() + "\n" + "#define " + ShaderMacros.getRenderer() + "\n";
+                    String s3 = s1 + "\n" + s2;
+                    String s4 = "#line " + (k + 1) + " " + fileIndex;
+                    s1 = s3 + s4;
+                    j = chararraywriter.size() + s3.length();
+                }
+            }
+
+            Matcher matcher1 = PATTERN_INCLUDE.matcher(s1);
+
+            if (matcher1.matches())
+            {
+                String s5 = matcher1.group(1);
+                boolean flag = s5.startsWith("/");
+                String s8 = flag ? "/shaders" + s5 : s + "/" + s5;
+
+                if (!listFiles.contains(s8))
+                {
+                    listFiles.add(s8);
                 }
 
-                int k = listFiles.indexOf(s3) + 1;
-                s1 = loadFile(s3, shaderPack, k, listFiles, includeLevel);
+                int l = listFiles.indexOf(s8) + 1;
+                s1 = loadFile(s8, shaderPack, l, listFiles, includeLevel);
 
                 if (s1 == null)
                 {
@@ -516,13 +553,42 @@ public class ShaderPackParser
                     s1 = s1.substring(0, s1.length() - 1);
                 }
 
-                s1 = "#line 1 " + k + "\n" + s1 + "\n" + "#line " + (j + 1) + " " + fileIndex;
+                s1 = "#line 1 " + l + "\n" + s1 + "\n" + "#line " + (k + 1) + " " + fileIndex;
+            }
+
+            if (j >= 0 && s1.contains(ShaderMacros.getPrefixMacro()))
+            {
+                String[] astring = findExtensions(s1, ShaderMacros.getExtensions());
+
+                for (int i1 = 0; i1 < astring.length; ++i1)
+                {
+                    String s9 = astring[i1];
+                    set.add(s9);
+                }
             }
 
             chararraywriter.write(s1);
             chararraywriter.write("\n");
-            ++j;
+            ++k;
         }
+    }
+
+    private static String[] findExtensions(String line, String[] extensions)
+    {
+        List<String> list = new ArrayList();
+
+        for (int i = 0; i < extensions.length; ++i)
+        {
+            String s = extensions[i];
+
+            if (line.contains(s))
+            {
+                list.add(s);
+            }
+        }
+
+        String[] astring = (String[])((String[])list.toArray(new String[list.size()]));
+        return astring;
     }
 
     private static String loadFile(String filePath, IShaderPack shaderPack, int fileIndex, List<String> listFiles, int includeLevel) throws IOException

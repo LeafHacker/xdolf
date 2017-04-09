@@ -22,18 +22,18 @@ import net.minecraft.world.World;
 
 public abstract class AbstractChestHorse extends AbstractHorse
 {
-    private static final DataParameter<Boolean> DATA_ID_CHEST = EntityDataManager.<Boolean>createKey(AbstractChestHorse.class, DataSerializers.BOOLEAN);
+    private static final DataParameter<Boolean> field_190698_bG = EntityDataManager.<Boolean>createKey(AbstractChestHorse.class, DataSerializers.BOOLEAN);
 
-    public AbstractChestHorse(World worldIn)
+    public AbstractChestHorse(World p_i47300_1_)
     {
-        super(worldIn);
-        this.canGallop = false;
+        super(p_i47300_1_);
+        this.field_190688_bE = false;
     }
 
     protected void entityInit()
     {
         super.entityInit();
-        this.dataManager.register(DATA_ID_CHEST, Boolean.valueOf(false));
+        this.dataManager.register(field_190698_bG, Boolean.valueOf(false));
     }
 
     protected void applyEntityAttributes()
@@ -44,19 +44,19 @@ public abstract class AbstractChestHorse extends AbstractHorse
         this.getEntityAttribute(JUMP_STRENGTH).setBaseValue(0.5D);
     }
 
-    public boolean hasChest()
+    public boolean func_190695_dh()
     {
-        return ((Boolean)this.dataManager.get(DATA_ID_CHEST)).booleanValue();
+        return ((Boolean)this.dataManager.get(field_190698_bG)).booleanValue();
     }
 
     public void setChested(boolean chested)
     {
-        this.dataManager.set(DATA_ID_CHEST, Boolean.valueOf(chested));
+        this.dataManager.set(field_190698_bG, Boolean.valueOf(chested));
     }
 
-    protected int getInventorySize()
+    protected int func_190686_di()
     {
-        return this.hasChest() ? 17 : super.getInventorySize();
+        return this.func_190695_dh() ? 17 : super.func_190686_di();
     }
 
     /**
@@ -80,7 +80,7 @@ public abstract class AbstractChestHorse extends AbstractHorse
     {
         super.onDeath(cause);
 
-        if (this.hasChest())
+        if (this.func_190695_dh())
         {
             if (!this.world.isRemote)
             {
@@ -91,10 +91,10 @@ public abstract class AbstractChestHorse extends AbstractHorse
         }
     }
 
-    public static void registerFixesAbstractChestHorse(DataFixer fixer, Class<?> entityClass)
+    public static void func_190694_b(DataFixer p_190694_0_, Class<?> p_190694_1_)
     {
-        AbstractHorse.registerFixesAbstractHorse(fixer, entityClass);
-        fixer.registerWalker(FixTypes.ENTITY, new ItemStackDataLists(entityClass, new String[] {"Items"}));
+        AbstractHorse.func_190683_c(p_190694_0_, p_190694_1_);
+        p_190694_0_.registerWalker(FixTypes.ENTITY, new ItemStackDataLists(p_190694_1_, new String[] {"Items"}));
     }
 
     /**
@@ -103,9 +103,9 @@ public abstract class AbstractChestHorse extends AbstractHorse
     public void writeEntityToNBT(NBTTagCompound compound)
     {
         super.writeEntityToNBT(compound);
-        compound.setBoolean("ChestedHorse", this.hasChest());
+        compound.setBoolean("ChestedHorse", this.func_190695_dh());
 
-        if (this.hasChest())
+        if (this.func_190695_dh())
         {
             NBTTagList nbttaglist = new NBTTagList();
 
@@ -113,7 +113,7 @@ public abstract class AbstractChestHorse extends AbstractHorse
             {
                 ItemStack itemstack = this.horseChest.getStackInSlot(i);
 
-                if (!itemstack.isEmpty())
+                if (!itemstack.func_190926_b())
                 {
                     NBTTagCompound nbttagcompound = new NBTTagCompound();
                     nbttagcompound.setByte("Slot", (byte)i);
@@ -134,7 +134,7 @@ public abstract class AbstractChestHorse extends AbstractHorse
         super.readEntityFromNBT(compound);
         this.setChested(compound.getBoolean("ChestedHorse"));
 
-        if (this.hasChest())
+        if (this.func_190695_dh())
         {
             NBTTagList nbttaglist = compound.getTagList("Items", 10);
             this.initHorseChest();
@@ -158,14 +158,14 @@ public abstract class AbstractChestHorse extends AbstractHorse
     {
         if (inventorySlot == 499)
         {
-            if (this.hasChest() && itemStackIn.isEmpty())
+            if (this.func_190695_dh() && itemStackIn.func_190926_b())
             {
                 this.setChested(false);
                 this.initHorseChest();
                 return true;
             }
 
-            if (!this.hasChest() && itemStackIn.getItem() == Item.getItemFromBlock(Blocks.CHEST))
+            if (!this.func_190695_dh() && itemStackIn.getItem() == Item.getItemFromBlock(Blocks.CHEST))
             {
                 this.setChested(true);
                 this.initHorseChest();
@@ -200,9 +200,9 @@ public abstract class AbstractChestHorse extends AbstractHorse
                 }
             }
 
-            if (!itemstack.isEmpty())
+            if (!itemstack.func_190926_b())
             {
-                boolean flag = this.handleEating(player, itemstack);
+                boolean flag = this.func_190678_b(player, itemstack);
 
                 if (!flag && !this.isTame())
                 {
@@ -211,14 +211,14 @@ public abstract class AbstractChestHorse extends AbstractHorse
                         return true;
                     }
 
-                    this.makeMad();
+                    this.func_190687_dF();
                     return true;
                 }
 
-                if (!flag && !this.hasChest() && itemstack.getItem() == Item.getItemFromBlock(Blocks.CHEST))
+                if (!flag && !this.func_190695_dh() && itemstack.getItem() == Item.getItemFromBlock(Blocks.CHEST))
                 {
                     this.setChested(true);
-                    this.playChestEquipSound();
+                    this.func_190697_dk();
                     flag = true;
                     this.initHorseChest();
                 }
@@ -233,7 +233,7 @@ public abstract class AbstractChestHorse extends AbstractHorse
                 {
                     if (!player.capabilities.isCreativeMode)
                     {
-                        itemstack.shrink(1);
+                        itemstack.func_190918_g(1);
                     }
 
                     return true;
@@ -256,12 +256,12 @@ public abstract class AbstractChestHorse extends AbstractHorse
         }
     }
 
-    protected void playChestEquipSound()
+    protected void func_190697_dk()
     {
         this.playSound(SoundEvents.ENTITY_DONKEY_CHEST, 1.0F, (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
     }
 
-    public int getInventoryColumns()
+    public int func_190696_dl()
     {
         return 5;
     }

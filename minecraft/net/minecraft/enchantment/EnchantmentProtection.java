@@ -54,7 +54,7 @@ public class EnchantmentProtection extends Enchantment
      */
     public int calcModifierDamage(int level, DamageSource source)
     {
-        return source.canHarmInCreative() ? 0 : (this.protectionType == EnchantmentProtection.Type.ALL ? level : (this.protectionType == EnchantmentProtection.Type.FIRE && source.isFireDamage() ? level * 2 : (this.protectionType == EnchantmentProtection.Type.FALL && source == DamageSource.FALL ? level * 3 : (this.protectionType == EnchantmentProtection.Type.EXPLOSION && source.isExplosion() ? level * 2 : (this.protectionType == EnchantmentProtection.Type.PROJECTILE && source.isProjectile() ? level * 2 : 0)))));
+        return source.canHarmInCreative() ? 0 : (this.protectionType == EnchantmentProtection.Type.ALL ? level : (this.protectionType == EnchantmentProtection.Type.FIRE && source.isFireDamage() ? level * 2 : (this.protectionType == EnchantmentProtection.Type.FALL && source == DamageSource.fall ? level * 3 : (this.protectionType == EnchantmentProtection.Type.EXPLOSION && source.isExplosion() ? level * 2 : (this.protectionType == EnchantmentProtection.Type.PROJECTILE && source.isProjectile() ? level * 2 : 0)))));
     }
 
     /**

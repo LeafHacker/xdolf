@@ -48,11 +48,11 @@ public class EntityAIPanic extends EntityAIBase
                 }
             }
 
-            return this.findRandomPosition();
+            return this.func_190863_f();
         }
     }
 
-    private boolean findRandomPosition()
+    private boolean func_190863_f()
     {
         Vec3d vec3d = RandomPositionGenerator.findRandomTarget(this.theEntityCreature, 5, 4);
 

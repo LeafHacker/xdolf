@@ -53,10 +53,10 @@ public class ItemClock extends Item
                 {
                     this.lastUpdateTick = p_185087_1_.getTotalWorldTime();
                     double d0 = p_185087_2_ - this.rotation;
-                    d0 = MathHelper.positiveModulo(d0 + 0.5D, 1.0D) - 0.5D;
+                    d0 = MathHelper.func_191273_b(d0 + 0.5D, 1.0D) - 0.5D;
                     this.rota += d0 * 0.1D;
                     this.rota *= 0.9D;
-                    this.rotation = MathHelper.positiveModulo(this.rotation + this.rota, 1.0D);
+                    this.rotation = MathHelper.func_191273_b(this.rotation + this.rota, 1.0D);
                 }
 
                 return this.rotation;

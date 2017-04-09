@@ -440,7 +440,7 @@ public class DragonFightManager
         EntityDragon entitydragon = new EntityDragon(this.world);
         entitydragon.getPhaseManager().setPhase(PhaseList.HOLDING_PATTERN);
         entitydragon.setLocationAndAngles(0.0D, 128.0D, 0.0D, this.world.rand.nextFloat() * 360.0F, 0.0F);
-        this.world.spawnEntity(entitydragon);
+        this.world.spawnEntityInWorld(entitydragon);
         this.dragonUniqueId = entitydragon.getUniqueID();
     }
 

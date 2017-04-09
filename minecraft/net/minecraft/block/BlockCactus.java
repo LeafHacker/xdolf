@@ -104,7 +104,7 @@ public class BlockCactus extends Block
      * change. Cases may include when redstone power is updated, cactus blocks popping off due to a neighboring solid
      * block, etc.
      */
-    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos)
+    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos p_189540_5_)
     {
         if (!this.canBlockStay(worldIn, pos))
         {
@@ -133,7 +133,7 @@ public class BlockCactus extends Block
      */
     public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn)
     {
-        entityIn.attackEntityFrom(DamageSource.CACTUS, 1.0F);
+        entityIn.attackEntityFrom(DamageSource.cactus, 1.0F);
     }
 
     public BlockRenderLayer getBlockLayer()

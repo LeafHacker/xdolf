@@ -16,7 +16,7 @@ public class EntityAIFollowOwner extends EntityAIBase
 {
     private final EntityTameable thePet;
     private EntityLivingBase theOwner;
-    World world;
+    World theWorld;
     private final double followSpeed;
     private final PathNavigate petPathfinder;
     private int timeToRecalcPath;
@@ -27,7 +27,7 @@ public class EntityAIFollowOwner extends EntityAIBase
     public EntityAIFollowOwner(EntityTameable thePetIn, double followSpeedIn, float minDistIn, float maxDistIn)
     {
         this.thePet = thePetIn;
-        this.world = thePetIn.world;
+        this.theWorld = thePetIn.world;
         this.followSpeed = followSpeedIn;
         this.petPathfinder = thePetIn.getNavigator();
         this.minDist = minDistIn;
@@ -100,7 +100,7 @@ public class EntityAIFollowOwner extends EntityAIBase
 
     private boolean isEmptyBlock(BlockPos pos)
     {
-        IBlockState iblockstate = this.world.getBlockState(pos);
+        IBlockState iblockstate = this.theWorld.getBlockState(pos);
         return iblockstate.getMaterial() == Material.AIR ? true : !iblockstate.isFullCube();
     }
 
@@ -131,7 +131,7 @@ public class EntityAIFollowOwner extends EntityAIBase
                             {
                                 for (int i1 = 0; i1 <= 4; ++i1)
                                 {
-                                    if ((l < 1 || i1 < 1 || l > 3 || i1 > 3) && this.world.getBlockState(new BlockPos(i + l, k - 1, j + i1)).isFullyOpaque() && this.isEmptyBlock(new BlockPos(i + l, k, j + i1)) && this.isEmptyBlock(new BlockPos(i + l, k + 1, j + i1)))
+                                    if ((l < 1 || i1 < 1 || l > 3 || i1 > 3) && this.theWorld.getBlockState(new BlockPos(i + l, k - 1, j + i1)).isFullyOpaque() && this.isEmptyBlock(new BlockPos(i + l, k, j + i1)) && this.isEmptyBlock(new BlockPos(i + l, k + 1, j + i1)))
                                     {
                                         this.thePet.setLocationAndAngles((double)((float)(i + l) + 0.5F), (double)k, (double)((float)(j + i1) + 0.5F), this.thePet.rotationYaw, this.thePet.rotationPitch);
                                         this.petPathfinder.clearPathEntity();

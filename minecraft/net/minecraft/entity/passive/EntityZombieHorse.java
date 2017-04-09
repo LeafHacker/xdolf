@@ -16,14 +16,14 @@ import net.minecraft.world.storage.loot.LootTableList;
 
 public class EntityZombieHorse extends AbstractHorse
 {
-    public EntityZombieHorse(World worldIn)
+    public EntityZombieHorse(World p_i47293_1_)
     {
-        super(worldIn);
+        super(p_i47293_1_);
     }
 
-    public static void registerFixesZombieHorse(DataFixer fixer)
+    public static void func_190693_b(DataFixer p_190693_0_)
     {
-        AbstractHorse.registerFixesAbstractHorse(fixer, EntityZombieHorse.class);
+        AbstractHorse.func_190683_c(p_190693_0_, EntityZombieHorse.class);
     }
 
     protected void applyEntityAttributes()
@@ -69,7 +69,7 @@ public class EntityZombieHorse extends AbstractHorse
     public boolean processInteract(EntityPlayer player, EnumHand hand)
     {
         ItemStack itemstack = player.getHeldItem(hand);
-        boolean flag = !itemstack.isEmpty();
+        boolean flag = !itemstack.func_190926_b();
 
         if (flag && itemstack.getItem() == Items.SPAWN_EGG)
         {

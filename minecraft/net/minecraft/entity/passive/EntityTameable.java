@@ -98,7 +98,7 @@ public abstract class EntityTameable extends EntityAnimal implements IEntityOwna
 
     public boolean canBeLeashedTo(EntityPlayer player)
     {
-        return this.isTamed() && this.isOwner(player);
+        return !this.getLeashed();
     }
 
     /**
@@ -270,7 +270,7 @@ public abstract class EntityTameable extends EntityAnimal implements IEntityOwna
     {
         if (!this.world.isRemote && this.world.getGameRules().getBoolean("showDeathMessages") && this.getOwner() instanceof EntityPlayerMP)
         {
-            this.getOwner().sendMessage(this.getCombatTracker().getDeathMessage());
+            this.getOwner().addChatMessage(this.getCombatTracker().getDeathMessage());
         }
 
         super.onDeath(cause);

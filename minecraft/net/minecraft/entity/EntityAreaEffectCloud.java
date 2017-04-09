@@ -100,11 +100,11 @@ public class EntityAreaEffectCloud extends Entity
 
         if (!this.colorSet)
         {
-            this.updateFixedColor();
+            this.func_190618_C();
         }
     }
 
-    private void updateFixedColor()
+    private void func_190618_C()
     {
         if (this.potion == PotionTypes.EMPTY && this.effects.isEmpty())
         {
@@ -122,7 +122,7 @@ public class EntityAreaEffectCloud extends Entity
 
         if (!this.colorSet)
         {
-            this.updateFixedColor();
+            this.func_190618_C();
         }
     }
 
@@ -234,11 +234,11 @@ public class EntityAreaEffectCloud extends Entity
                             int k = j >> 16 & 255;
                             int l = j >> 8 & 255;
                             int i1 = j & 255;
-                            this.world.spawnAlwaysVisibleParticle(EnumParticleTypes.SPELL_MOB.getParticleID(), this.posX + (double)f3, this.posY, this.posZ + (double)f4, (double)((float)k / 255.0F), (double)((float)l / 255.0F), (double)((float)i1 / 255.0F), new int[0]);
+                            this.world.func_190523_a(EnumParticleTypes.SPELL_MOB.getParticleID(), this.posX + (double)f3, this.posY, this.posZ + (double)f4, (double)((float)k / 255.0F), (double)((float)l / 255.0F), (double)((float)i1 / 255.0F), new int[0]);
                         }
                         else
                         {
-                            this.world.spawnAlwaysVisibleParticle(enumparticletypes.getParticleID(), this.posX + (double)f3, this.posY, this.posZ + (double)f4, 0.0D, 0.0D, 0.0D, aint);
+                            this.world.func_190523_a(enumparticletypes.getParticleID(), this.posX + (double)f3, this.posY, this.posZ + (double)f4, 0.0D, 0.0D, 0.0D, aint);
                         }
                     }
                 }
@@ -260,11 +260,11 @@ public class EntityAreaEffectCloud extends Entity
                         int i2 = l1 >> 16 & 255;
                         int j2 = l1 >> 8 & 255;
                         int j1 = l1 & 255;
-                        this.world.spawnAlwaysVisibleParticle(EnumParticleTypes.SPELL_MOB.getParticleID(), this.posX + (double)f8, this.posY, this.posZ + (double)f9, (double)((float)i2 / 255.0F), (double)((float)j2 / 255.0F), (double)((float)j1 / 255.0F), new int[0]);
+                        this.world.func_190523_a(EnumParticleTypes.SPELL_MOB.getParticleID(), this.posX + (double)f8, this.posY, this.posZ + (double)f9, (double)((float)i2 / 255.0F), (double)((float)j2 / 255.0F), (double)((float)j1 / 255.0F), new int[0]);
                     }
                     else
                     {
-                        this.world.spawnAlwaysVisibleParticle(enumparticletypes.getParticleID(), this.posX + (double)f8, this.posY, this.posZ + (double)f9, (0.5D - this.rand.nextDouble()) * 0.15D, 0.009999999776482582D, (0.5D - this.rand.nextDouble()) * 0.15D, aint);
+                        this.world.func_190523_a(enumparticletypes.getParticleID(), this.posX + (double)f8, this.posY, this.posZ + (double)f9, (0.5D - this.rand.nextDouble()) * 0.15D, 0.009999999776482582D, (0.5D - this.rand.nextDouble()) * 0.15D, aint);
                     }
                 }
             }

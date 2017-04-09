@@ -6,14 +6,14 @@ import net.minecraft.util.math.Vec3d;
 
 public class EntityAILlamaFollowCaravan extends EntityAIBase
 {
-    public EntityLlama llama;
-    private double speedModifier;
-    private int distCheckCounter;
+    public EntityLlama field_190859_a;
+    private double field_190860_b;
+    private int field_190861_c;
 
-    public EntityAILlamaFollowCaravan(EntityLlama llamaIn, double speedModifierIn)
+    public EntityAILlamaFollowCaravan(EntityLlama p_i47305_1_, double p_i47305_2_)
     {
-        this.llama = llamaIn;
-        this.speedModifier = speedModifierIn;
+        this.field_190859_a = p_i47305_1_;
+        this.field_190860_b = p_i47305_2_;
         this.setMutexBits(1);
     }
 
@@ -22,17 +22,17 @@ public class EntityAILlamaFollowCaravan extends EntityAIBase
      */
     public boolean shouldExecute()
     {
-        if (!this.llama.getLeashed() && !this.llama.inCaravan())
+        if (!this.field_190859_a.getLeashed() && !this.field_190859_a.func_190718_dR())
         {
-            List<EntityLlama> list = this.llama.world.<EntityLlama>getEntitiesWithinAABB(this.llama.getClass(), this.llama.getEntityBoundingBox().expand(9.0D, 4.0D, 9.0D));
+            List<EntityLlama> list = this.field_190859_a.world.<EntityLlama>getEntitiesWithinAABB(this.field_190859_a.getClass(), this.field_190859_a.getEntityBoundingBox().expand(9.0D, 4.0D, 9.0D));
             EntityLlama entityllama = null;
             double d0 = Double.MAX_VALUE;
 
             for (EntityLlama entityllama1 : list)
             {
-                if (entityllama1.inCaravan() && !entityllama1.hasCaravanTrail())
+                if (entityllama1.func_190718_dR() && !entityllama1.func_190712_dQ())
                 {
-                    double d1 = this.llama.getDistanceSqToEntity(entityllama1);
+                    double d1 = this.field_190859_a.getDistanceSqToEntity(entityllama1);
 
                     if (d1 <= d0)
                     {
@@ -46,9 +46,9 @@ public class EntityAILlamaFollowCaravan extends EntityAIBase
             {
                 for (EntityLlama entityllama2 : list)
                 {
-                    if (entityllama2.getLeashed() && !entityllama2.hasCaravanTrail())
+                    if (entityllama2.getLeashed() && !entityllama2.func_190712_dQ())
                     {
-                        double d2 = this.llama.getDistanceSqToEntity(entityllama2);
+                        double d2 = this.field_190859_a.getDistanceSqToEntity(entityllama2);
 
                         if (d2 <= d0)
                         {
@@ -67,13 +67,13 @@ public class EntityAILlamaFollowCaravan extends EntityAIBase
             {
                 return false;
             }
-            else if (!entityllama.getLeashed() && !this.firstIsLeashed(entityllama, 1))
+            else if (!entityllama.getLeashed() && !this.func_190858_a(entityllama, 1))
             {
                 return false;
             }
             else
             {
-                this.llama.joinCaravan(entityllama);
+                this.field_190859_a.func_190715_a(entityllama);
                 return true;
             }
         }
@@ -88,28 +88,28 @@ public class EntityAILlamaFollowCaravan extends EntityAIBase
      */
     public boolean continueExecuting()
     {
-        if (this.llama.inCaravan() && this.llama.getCaravanHead().isEntityAlive() && this.firstIsLeashed(this.llama, 0))
+        if (this.field_190859_a.func_190718_dR() && this.field_190859_a.func_190716_dS().isEntityAlive() && this.func_190858_a(this.field_190859_a, 0))
         {
-            double d0 = this.llama.getDistanceSqToEntity(this.llama.getCaravanHead());
+            double d0 = this.field_190859_a.getDistanceSqToEntity(this.field_190859_a.func_190716_dS());
 
             if (d0 > 676.0D)
             {
-                if (this.speedModifier <= 3.0D)
+                if (this.field_190860_b <= 3.0D)
                 {
-                    this.speedModifier *= 1.2D;
-                    this.distCheckCounter = 40;
+                    this.field_190860_b *= 1.2D;
+                    this.field_190861_c = 40;
                     return true;
                 }
 
-                if (this.distCheckCounter == 0)
+                if (this.field_190861_c == 0)
                 {
                     return false;
                 }
             }
 
-            if (this.distCheckCounter > 0)
+            if (this.field_190861_c > 0)
             {
-                --this.distCheckCounter;
+                --this.field_190861_c;
             }
 
             return true;
@@ -125,8 +125,8 @@ public class EntityAILlamaFollowCaravan extends EntityAIBase
      */
     public void resetTask()
     {
-        this.llama.leaveCaravan();
-        this.speedModifier = 2.1D;
+        this.field_190859_a.func_190709_dP();
+        this.field_190860_b = 2.1D;
     }
 
     /**
@@ -134,33 +134,33 @@ public class EntityAILlamaFollowCaravan extends EntityAIBase
      */
     public void updateTask()
     {
-        if (this.llama.inCaravan())
+        if (this.field_190859_a.func_190718_dR())
         {
-            EntityLlama entityllama = this.llama.getCaravanHead();
-            double d0 = (double)this.llama.getDistanceToEntity(entityllama);
+            EntityLlama entityllama = this.field_190859_a.func_190716_dS();
+            double d0 = (double)this.field_190859_a.getDistanceToEntity(entityllama);
             float f = 2.0F;
-            Vec3d vec3d = (new Vec3d(entityllama.posX - this.llama.posX, entityllama.posY - this.llama.posY, entityllama.posZ - this.llama.posZ)).normalize().scale(Math.max(d0 - 2.0D, 0.0D));
-            this.llama.getNavigator().tryMoveToXYZ(this.llama.posX + vec3d.xCoord, this.llama.posY + vec3d.yCoord, this.llama.posZ + vec3d.zCoord, this.speedModifier);
+            Vec3d vec3d = (new Vec3d(entityllama.posX - this.field_190859_a.posX, entityllama.posY - this.field_190859_a.posY, entityllama.posZ - this.field_190859_a.posZ)).normalize().scale(Math.max(d0 - 2.0D, 0.0D));
+            this.field_190859_a.getNavigator().tryMoveToXYZ(this.field_190859_a.posX + vec3d.xCoord, this.field_190859_a.posY + vec3d.yCoord, this.field_190859_a.posZ + vec3d.zCoord, this.field_190860_b);
         }
     }
 
-    private boolean firstIsLeashed(EntityLlama p_190858_1_, int p_190858_2_)
+    private boolean func_190858_a(EntityLlama p_190858_1_, int p_190858_2_)
     {
         if (p_190858_2_ > 8)
         {
             return false;
         }
-        else if (p_190858_1_.inCaravan())
+        else if (p_190858_1_.func_190718_dR())
         {
-            if (p_190858_1_.getCaravanHead().getLeashed())
+            if (p_190858_1_.func_190716_dS().getLeashed())
             {
                 return true;
             }
             else
             {
-                EntityLlama entityllama = p_190858_1_.getCaravanHead();
+                EntityLlama entityllama = p_190858_1_.func_190716_dS();
                 ++p_190858_2_;
-                return this.firstIsLeashed(entityllama, p_190858_2_);
+                return this.func_190858_a(entityllama, p_190858_2_);
             }
         }
         else

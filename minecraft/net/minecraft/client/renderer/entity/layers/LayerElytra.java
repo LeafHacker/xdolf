@@ -51,19 +51,26 @@ public class LayerElytra implements LayerRenderer<EntityLivingBase>
                 }
                 else
                 {
-                    ResourceLocation resourcelocation = TEXTURE_ELYTRA;
+                    ResourceLocation resourcelocation1 = TEXTURE_ELYTRA;
 
                     if (Config.isCustomItems())
                     {
-                        resourcelocation = CustomItems.getCustomElytraTexture(itemstack, resourcelocation);
+                        resourcelocation1 = CustomItems.getCustomElytraTexture(itemstack, resourcelocation1);
                     }
 
-                    this.renderPlayer.bindTexture(resourcelocation);
+                    this.renderPlayer.bindTexture(resourcelocation1);
                 }
             }
             else
             {
-                this.renderPlayer.bindTexture(TEXTURE_ELYTRA);
+                ResourceLocation resourcelocation = TEXTURE_ELYTRA;
+
+                if (Config.isCustomItems())
+                {
+                    resourcelocation = CustomItems.getCustomElytraTexture(itemstack, resourcelocation);
+                }
+
+                this.renderPlayer.bindTexture(resourcelocation);
             }
 
             GlStateManager.pushMatrix();

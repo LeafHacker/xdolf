@@ -311,11 +311,11 @@ public class EntityDragon extends EntityLiving implements IEntityMultiPart, IMob
 
                         if (this.slowed)
                         {
-                            this.move(MoverType.SELF, this.motionX * 0.800000011920929D, this.motionY * 0.800000011920929D, this.motionZ * 0.800000011920929D);
+                            this.moveEntity(MoverType.SELF, this.motionX * 0.800000011920929D, this.motionY * 0.800000011920929D, this.motionZ * 0.800000011920929D);
                         }
                         else
                         {
-                            this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
+                            this.moveEntity(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
                         }
 
                         Vec3d vec3d3 = (new Vec3d(this.motionX, this.motionY, this.motionZ)).normalize();
@@ -716,7 +716,7 @@ public class EntityDragon extends EntityLiving implements IEntityMultiPart, IMob
             }
         }
 
-        this.move(MoverType.SELF, 0.0D, 0.10000000149011612D, 0.0D);
+        this.moveEntity(MoverType.SELF, 0.0D, 0.10000000149011612D, 0.0D);
         this.rotationYaw += 20.0F;
         this.renderYawOffset = this.rotationYaw;
 
@@ -742,7 +742,7 @@ public class EntityDragon extends EntityLiving implements IEntityMultiPart, IMob
         {
             int i = EntityXPOrb.getXPSplit(p_184668_1_);
             p_184668_1_ -= i;
-            this.world.spawnEntity(new EntityXPOrb(this.world, this.posX, this.posY, this.posZ, i));
+            this.world.spawnEntityInWorld(new EntityXPOrb(this.world, this.posX, this.posY, this.posZ, i));
         }
     }
 
@@ -1069,7 +1069,7 @@ public class EntityDragon extends EntityLiving implements IEntityMultiPart, IMob
     @Nullable
     protected ResourceLocation getLootTable()
     {
-        return LootTableList.ENTITIES_ENDER_DRAGON;
+        return LootTableList.field_191189_ay;
     }
 
     public float getHeadPartYOffset(int p_184667_1_, double[] p_184667_2_, double[] p_184667_3_)

@@ -25,7 +25,7 @@ public class CommandSetBlock extends CommandBase
     /**
      * Gets the name of the command
      */
-    public String getName()
+    public String getCommandName()
     {
         return "setblock";
     }
@@ -41,7 +41,7 @@ public class CommandSetBlock extends CommandBase
     /**
      * Gets the usage string for the command.
      */
-    public String getUsage(ICommandSender sender)
+    public String getCommandUsage(ICommandSender sender)
     {
         return "commands.setblock.usage";
     }
@@ -64,7 +64,7 @@ public class CommandSetBlock extends CommandBase
 
             if (args.length >= 5)
             {
-                iblockstate = convertArgToBlockState(block, args[4]);
+                iblockstate = func_190794_a(block, args[4]);
             }
             else
             {
@@ -154,7 +154,7 @@ public class CommandSetBlock extends CommandBase
         }
     }
 
-    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
+    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
     {
         return args.length > 0 && args.length <= 3 ? getTabCompletionCoordinate(args, 0, pos) : (args.length == 4 ? getListOfStringsMatchingLastWord(args, Block.REGISTRY.getKeys()) : (args.length == 6 ? getListOfStringsMatchingLastWord(args, new String[] {"replace", "destroy", "keep"}): Collections.<String>emptyList()));
     }

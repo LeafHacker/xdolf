@@ -16,7 +16,7 @@ import net.minecraft.world.IWorldNameable;
 
 public class TileEntityBanner extends TileEntity implements IWorldNameable
 {
-    private String name;
+    private String field_190617_a;
     private EnumDyeColor baseColor = EnumDyeColor.BLACK;
 
     /** A list of all the banner patterns. */
@@ -40,12 +40,12 @@ public class TileEntityBanner extends TileEntity implements IWorldNameable
             this.patterns = nbttagcompound.getTagList("Patterns", 10).copy();
         }
 
-        this.baseColor = p_175112_2_ ? getColor(stack) : ItemBanner.getBaseColor(stack);
+        this.baseColor = p_175112_2_ ? func_190616_d(stack) : ItemBanner.getBaseColor(stack);
         this.patternList = null;
         this.colorList = null;
         this.patternResourceLocation = "";
         this.patternDataSet = true;
-        this.name = stack.hasDisplayName() ? stack.getDisplayName() : null;
+        this.field_190617_a = stack.hasDisplayName() ? stack.getDisplayName() : null;
     }
 
     /**
@@ -53,7 +53,7 @@ public class TileEntityBanner extends TileEntity implements IWorldNameable
      */
     public String getName()
     {
-        return this.hasCustomName() ? this.name : "banner";
+        return this.hasCustomName() ? this.field_190617_a : "banner";
     }
 
     /**
@@ -61,7 +61,7 @@ public class TileEntityBanner extends TileEntity implements IWorldNameable
      */
     public boolean hasCustomName()
     {
-        return this.name != null && !this.name.isEmpty();
+        return this.field_190617_a != null && !this.field_190617_a.isEmpty();
     }
 
     /**
@@ -84,7 +84,7 @@ public class TileEntityBanner extends TileEntity implements IWorldNameable
 
         if (this.hasCustomName())
         {
-            compound.setString("CustomName", this.name);
+            compound.setString("CustomName", this.field_190617_a);
         }
 
         return compound;
@@ -96,7 +96,7 @@ public class TileEntityBanner extends TileEntity implements IWorldNameable
 
         if (compound.hasKey("CustomName", 8))
         {
-            this.name = compound.getString("CustomName");
+            this.field_190617_a = compound.getString("CustomName");
         }
 
         this.baseColor = EnumDyeColor.byDyeDamage(compound.getInteger("Base"));
@@ -170,14 +170,14 @@ public class TileEntityBanner extends TileEntity implements IWorldNameable
                     for (int i = 0; i < this.patterns.tagCount(); ++i)
                     {
                         NBTTagCompound nbttagcompound = this.patterns.getCompoundTagAt(i);
-                        BannerPattern bannerpattern = BannerPattern.byHash(nbttagcompound.getString("Pattern"));
+                        BannerPattern bannerpattern = BannerPattern.func_190994_a(nbttagcompound.getString("Pattern"));
 
                         if (bannerpattern != null)
                         {
                             this.patternList.add(bannerpattern);
                             int j = nbttagcompound.getInteger("Color");
                             this.colorList.add(EnumDyeColor.byDyeDamage(j));
-                            this.patternResourceLocation = this.patternResourceLocation + bannerpattern.getHashname() + j;
+                            this.patternResourceLocation = this.patternResourceLocation + bannerpattern.func_190993_b() + j;
                         }
                     }
                 }
@@ -213,9 +213,9 @@ public class TileEntityBanner extends TileEntity implements IWorldNameable
         }
     }
 
-    public ItemStack getItem()
+    public ItemStack func_190615_l()
     {
-        ItemStack itemstack = ItemBanner.makeBanner(this.baseColor, this.patterns);
+        ItemStack itemstack = ItemBanner.func_190910_a(this.baseColor, this.patterns);
 
         if (this.hasCustomName())
         {
@@ -225,7 +225,7 @@ public class TileEntityBanner extends TileEntity implements IWorldNameable
         return itemstack;
     }
 
-    public static EnumDyeColor getColor(ItemStack p_190616_0_)
+    public static EnumDyeColor func_190616_d(ItemStack p_190616_0_)
     {
         NBTTagCompound nbttagcompound = p_190616_0_.getSubCompound("BlockEntityTag");
         return nbttagcompound != null && nbttagcompound.hasKey("Base") ? EnumDyeColor.byDyeDamage(nbttagcompound.getInteger("Base")) : EnumDyeColor.BLACK;

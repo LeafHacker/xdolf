@@ -1,5 +1,8 @@
 package net.minecraft.src;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -20,14 +23,23 @@ public class CustomSkyLayer
     private float[] axis;
     private RangeListInt days;
     private int daysLoop;
+    private boolean weatherClear;
+    private boolean weatherRain;
+    private boolean weatherThunder;
     public int textureId;
     public static final float[] DEFAULT_AXIS = new float[] {1.0F, 0.0F, 0.0F};
+    private static final String WEATHER_CLEAR = "clear";
+    private static final String WEATHER_RAIN = "rain";
+    private static final String WEATHER_THUNDER = "thunder";
 
     public CustomSkyLayer(Properties p_i32_1_, String p_i32_2_)
     {
         this.axis = DEFAULT_AXIS;
         this.days = null;
         this.daysLoop = 8;
+        this.weatherClear = true;
+        this.weatherRain = false;
+        this.weatherThunder = false;
         this.textureId = -1;
         ConnectedParser connectedparser = new ConnectedParser("CustomSky");
         this.source = p_i32_1_.getProperty("source", p_i32_2_);
@@ -41,6 +53,33 @@ public class CustomSkyLayer
         this.axis = this.parseAxis(p_i32_1_.getProperty("axis"), DEFAULT_AXIS);
         this.days = connectedparser.parseRangeListInt(p_i32_1_.getProperty("days"));
         this.daysLoop = connectedparser.parseInt(p_i32_1_.getProperty("daysLoop"), 8);
+        List<String> list = this.parseWeatherList(p_i32_1_.getProperty("weather", "clear"));
+        this.weatherClear = list.contains("clear");
+        this.weatherRain = list.contains("rain");
+        this.weatherThunder = list.contains("thunder");
+    }
+
+    private List<String> parseWeatherList(String p_parseWeatherList_1_)
+    {
+        List<String> list = Arrays.<String>asList(new String[] {"clear", "rain", "thunder"});
+        List<String> list1 = new ArrayList();
+        String[] astring = Config.tokenize(p_parseWeatherList_1_, " ");
+
+        for (int i = 0; i < astring.length; ++i)
+        {
+            String s = astring[i];
+
+            if (!list.contains(s))
+            {
+                Config.warn("Unknown weather: " + s);
+            }
+            else
+            {
+                list1.add(s);
+            }
+        }
+
+        return list1;
     }
 
     private int parseTime(String p_parseTime_1_)
@@ -256,15 +295,35 @@ public class CustomSkyLayer
         return p_normalizeTime_1_;
     }
 
-    public void render(int p_render_1_, float p_render_2_, float p_render_3_)
+    public void render(int p_render_1_, float p_render_2_, float p_render_3_, float p_render_4_)
     {
-        float f = p_render_3_ * this.getFadeBrightness(p_render_1_);
-        f = Config.limit(f, 0.0F, 1.0F);
+        float f = 1.0F - p_render_3_;
+        float f1 = p_render_3_ - p_render_4_;
+        float f2 = 0.0F;
 
-        if (f >= 1.0E-4F)
+        if (this.weatherClear)
+        {
+            f2 += f;
+        }
+
+        if (this.weatherRain)
+        {
+            f2 += f1;
+        }
+
+        if (this.weatherThunder)
+        {
+            f2 += p_render_4_;
+        }
+
+        f2 = Config.limit(f2, 0.0F, 1.0F);
+        float f3 = f2 * this.getFadeBrightness(p_render_1_);
+        f3 = Config.limit(f3, 0.0F, 1.0F);
+
+        if (f3 >= 1.0E-4F)
         {
             GlStateManager.bindTexture(this.textureId);
-            Blender.setupBlend(this.blend, f);
+            Blender.setupBlend(this.blend, f3);
             GlStateManager.pushMatrix();
 
             if (this.rotate)
@@ -365,5 +424,10 @@ public class CustomSkyLayer
     private boolean timeBetween(int p_timeBetween_1_, int p_timeBetween_2_, int p_timeBetween_3_)
     {
         return p_timeBetween_2_ <= p_timeBetween_3_ ? p_timeBetween_1_ >= p_timeBetween_2_ && p_timeBetween_1_ <= p_timeBetween_3_ : p_timeBetween_1_ >= p_timeBetween_2_ || p_timeBetween_1_ <= p_timeBetween_3_;
+    }
+
+    public String toString()
+    {
+        return "" + this.source + ", " + this.startFadeIn + "-" + this.endFadeIn + " " + this.startFadeOut + "-" + this.endFadeOut;
     }
 }

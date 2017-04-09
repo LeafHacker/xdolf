@@ -196,7 +196,7 @@ public class BlockPos extends Vec3i
         return n == 0 ? this : new BlockPos(this.getX() + facing.getFrontOffsetX() * n, this.getY() + facing.getFrontOffsetY() * n, this.getZ() + facing.getFrontOffsetZ() * n);
     }
 
-    public BlockPos rotate(Rotation p_190942_1_)
+    public BlockPos func_190942_a(Rotation p_190942_1_)
     {
         switch (p_190942_1_)
         {
@@ -244,50 +244,54 @@ public class BlockPos extends Vec3i
 
     public static Iterable<BlockPos> getAllInBox(BlockPos from, BlockPos to)
     {
-        final BlockPos blockpos = new BlockPos(Math.min(from.getX(), to.getX()), Math.min(from.getY(), to.getY()), Math.min(from.getZ(), to.getZ()));
-        final BlockPos blockpos1 = new BlockPos(Math.max(from.getX(), to.getX()), Math.max(from.getY(), to.getY()), Math.max(from.getZ(), to.getZ()));
+        return func_191532_a(Math.min(from.getX(), to.getX()), Math.min(from.getY(), to.getY()), Math.min(from.getZ(), to.getZ()), Math.max(from.getX(), to.getX()), Math.max(from.getY(), to.getY()), Math.max(from.getZ(), to.getZ()));
+    }
+
+    public static Iterable<BlockPos> func_191532_a(final int p_191532_0_, final int p_191532_1_, final int p_191532_2_, final int p_191532_3_, final int p_191532_4_, final int p_191532_5_)
+    {
         return new Iterable<BlockPos>()
         {
             public Iterator<BlockPos> iterator()
             {
                 return new AbstractIterator<BlockPos>()
                 {
-                    private BlockPos lastReturned;
+                    private boolean field_191534_b = true;
+                    private int field_191535_c;
+                    private int field_191536_d;
+                    private int field_191537_e;
                     protected BlockPos computeNext()
                     {
-                        if (this.lastReturned == null)
+                        if (this.field_191534_b)
                         {
-                            this.lastReturned = blockpos;
-                            return this.lastReturned;
+                            this.field_191534_b = false;
+                            this.field_191535_c = p_191532_0_;
+                            this.field_191536_d = p_191532_1_;
+                            this.field_191537_e = p_191532_2_;
+                            return new BlockPos(p_191532_0_, p_191532_1_, p_191532_2_);
                         }
-                        else if (this.lastReturned.equals(blockpos1))
+                        else if (this.field_191535_c == p_191532_3_ && this.field_191536_d == p_191532_4_ && this.field_191537_e == p_191532_5_)
                         {
                             return (BlockPos)this.endOfData();
                         }
                         else
                         {
-                            int i = this.lastReturned.getX();
-                            int j = this.lastReturned.getY();
-                            int k = this.lastReturned.getZ();
-
-                            if (i < blockpos1.getX())
+                            if (this.field_191535_c < p_191532_3_)
                             {
-                                ++i;
+                                ++this.field_191535_c;
                             }
-                            else if (j < blockpos1.getY())
+                            else if (this.field_191536_d < p_191532_4_)
                             {
-                                i = blockpos.getX();
-                                ++j;
+                                this.field_191535_c = p_191532_0_;
+                                ++this.field_191536_d;
                             }
-                            else if (k < blockpos1.getZ())
+                            else if (this.field_191537_e < p_191532_5_)
                             {
-                                i = blockpos.getX();
-                                j = blockpos.getY();
-                                ++k;
+                                this.field_191535_c = p_191532_0_;
+                                this.field_191536_d = p_191532_1_;
+                                ++this.field_191537_e;
                             }
 
-                            this.lastReturned = new BlockPos(i, j, k);
-                            return this.lastReturned;
+                            return new BlockPos(this.field_191535_c, this.field_191536_d, this.field_191537_e);
                         }
                     }
                 };
@@ -308,8 +312,11 @@ public class BlockPos extends Vec3i
 
     public static Iterable<BlockPos.MutableBlockPos> getAllInBoxMutable(BlockPos from, BlockPos to)
     {
-        final BlockPos blockpos = new BlockPos(Math.min(from.getX(), to.getX()), Math.min(from.getY(), to.getY()), Math.min(from.getZ(), to.getZ()));
-        final BlockPos blockpos1 = new BlockPos(Math.max(from.getX(), to.getX()), Math.max(from.getY(), to.getY()), Math.max(from.getZ(), to.getZ()));
+        return func_191531_b(Math.min(from.getX(), to.getX()), Math.min(from.getY(), to.getY()), Math.min(from.getZ(), to.getZ()), Math.max(from.getX(), to.getX()), Math.max(from.getY(), to.getY()), Math.max(from.getZ(), to.getZ()));
+    }
+
+    public static Iterable<BlockPos.MutableBlockPos> func_191531_b(final int p_191531_0_, final int p_191531_1_, final int p_191531_2_, final int p_191531_3_, final int p_191531_4_, final int p_191531_5_)
+    {
         return new Iterable<BlockPos.MutableBlockPos>()
         {
             public Iterator<BlockPos.MutableBlockPos> iterator()
@@ -321,38 +328,31 @@ public class BlockPos extends Vec3i
                     {
                         if (this.theBlockPos == null)
                         {
-                            this.theBlockPos = new BlockPos.MutableBlockPos(blockpos.getX(), blockpos.getY(), blockpos.getZ());
+                            this.theBlockPos = new BlockPos.MutableBlockPos(p_191531_0_, p_191531_1_, p_191531_2_);
                             return this.theBlockPos;
                         }
-                        else if (this.theBlockPos.equals(blockpos1))
+                        else if (this.theBlockPos.x == p_191531_3_ && this.theBlockPos.y == p_191531_4_ && this.theBlockPos.z == p_191531_5_)
                         {
                             return (BlockPos.MutableBlockPos)this.endOfData();
                         }
                         else
                         {
-                            int i = this.theBlockPos.getX();
-                            int j = this.theBlockPos.getY();
-                            int k = this.theBlockPos.getZ();
-
-                            if (i < blockpos1.getX())
+                            if (this.theBlockPos.x < p_191531_3_)
                             {
-                                ++i;
+                                ++this.theBlockPos.x;
                             }
-                            else if (j < blockpos1.getY())
+                            else if (this.theBlockPos.y < p_191531_4_)
                             {
-                                i = blockpos.getX();
-                                ++j;
+                                this.theBlockPos.x = p_191531_0_;
+                                ++this.theBlockPos.y;
                             }
-                            else if (k < blockpos1.getZ())
+                            else if (this.theBlockPos.z < p_191531_5_)
                             {
-                                i = blockpos.getX();
-                                j = blockpos.getY();
-                                ++k;
+                                this.theBlockPos.x = p_191531_0_;
+                                this.theBlockPos.y = p_191531_1_;
+                                ++this.theBlockPos.z;
                             }
 
-                            this.theBlockPos.x = i;
-                            this.theBlockPos.y = j;
-                            this.theBlockPos.z = k;
                             return this.theBlockPos;
                         }
                     }
@@ -400,9 +400,9 @@ public class BlockPos extends Vec3i
             return super.offset(facing, n).toImmutable();
         }
 
-        public BlockPos rotate(Rotation p_190942_1_)
+        public BlockPos func_190942_a(Rotation p_190942_1_)
         {
-            return super.rotate(p_190942_1_).toImmutable();
+            return super.func_190942_a(p_190942_1_).toImmutable();
         }
 
         public int getX()

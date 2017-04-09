@@ -20,9 +20,9 @@ public class PlayerConfigurationParser
     public static final String ITEM_TYPE = "type";
     public static final String ITEM_ACTIVE = "active";
 
-    public PlayerConfigurationParser(String p_i64_1_)
+    public PlayerConfigurationParser(String p_i67_1_)
     {
-        this.player = p_i64_1_;
+        this.player = p_i67_1_;
     }
 
     public PlayerConfiguration parsePlayerConfiguration(JsonElement p_parsePlayerConfiguration_1_)

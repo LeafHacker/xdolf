@@ -54,7 +54,7 @@ public class PacketBuffer extends ByteBuf
 
     public PacketBuffer writeByteArray(byte[] array)
     {
-        this.writeVarInt(array.length);
+        this.writeVarIntToBuffer(array.length);
         this.writeBytes(array);
         return this;
     }
@@ -66,7 +66,7 @@ public class PacketBuffer extends ByteBuf
 
     public byte[] readByteArray(int maxLength)
     {
-        int i = this.readVarInt();
+        int i = this.readVarIntFromBuffer();
 
         if (i > maxLength)
         {
@@ -85,11 +85,11 @@ public class PacketBuffer extends ByteBuf
      */
     public PacketBuffer writeVarIntArray(int[] array)
     {
-        this.writeVarInt(array.length);
+        this.writeVarIntToBuffer(array.length);
 
         for (int i : array)
         {
-            this.writeVarInt(i);
+            this.writeVarIntToBuffer(i);
         }
 
         return this;
@@ -102,7 +102,7 @@ public class PacketBuffer extends ByteBuf
 
     public int[] readVarIntArray(int maxLength)
     {
-        int i = this.readVarInt();
+        int i = this.readVarIntFromBuffer();
 
         if (i > maxLength)
         {
@@ -114,7 +114,7 @@ public class PacketBuffer extends ByteBuf
 
             for (int j = 0; j < aint.length; ++j)
             {
-                aint[j] = this.readVarInt();
+                aint[j] = this.readVarIntFromBuffer();
             }
 
             return aint;
@@ -126,7 +126,7 @@ public class PacketBuffer extends ByteBuf
      */
     public PacketBuffer writeLongArray(long[] array)
     {
-        this.writeVarInt(array.length);
+        this.writeVarIntToBuffer(array.length);
 
         for (long i : array)
         {
@@ -146,7 +146,7 @@ public class PacketBuffer extends ByteBuf
 
     public long[] readLongArray(@Nullable long[] p_189423_1_, int p_189423_2_)
     {
-        int i = this.readVarInt();
+        int i = this.readVarIntFromBuffer();
 
         if (p_189423_1_ == null || p_189423_1_.length != i)
         {
@@ -179,7 +179,7 @@ public class PacketBuffer extends ByteBuf
 
     public ITextComponent readTextComponent() throws IOException
     {
-        return ITextComponent.Serializer.jsonToComponent(this.readString(32767));
+        return ITextComponent.Serializer.jsonToComponent(this.readStringFromBuffer(32767));
     }
 
     public PacketBuffer writeTextComponent(ITextComponent component)
@@ -189,19 +189,19 @@ public class PacketBuffer extends ByteBuf
 
     public <T extends Enum<T>> T readEnumValue(Class<T> enumClass)
     {
-        return (T)((Enum[])enumClass.getEnumConstants())[this.readVarInt()];
+        return (T)((Enum[])enumClass.getEnumConstants())[this.readVarIntFromBuffer()];
     }
 
     public PacketBuffer writeEnumValue(Enum<?> value)
     {
-        return this.writeVarInt(value.ordinal());
+        return this.writeVarIntToBuffer(value.ordinal());
     }
 
     /**
      * Reads a compressed int from the buffer. To do so it maximally reads 5 byte-sized chunks whose most significant
      * bit dictates whether another byte should be read.
      */
-    public int readVarInt()
+    public int readVarIntFromBuffer()
     {
         int i = 0;
         int j = 0;
@@ -249,14 +249,14 @@ public class PacketBuffer extends ByteBuf
         return i;
     }
 
-    public PacketBuffer writeUniqueId(UUID uuid)
+    public PacketBuffer writeUuid(UUID uuid)
     {
         this.writeLong(uuid.getMostSignificantBits());
         this.writeLong(uuid.getLeastSignificantBits());
         return this;
     }
 
-    public UUID readUniqueId()
+    public UUID readUuid()
     {
         return new UUID(this.readLong(), this.readLong());
     }
@@ -267,7 +267,7 @@ public class PacketBuffer extends ByteBuf
      * whether the next byte is part of that same int. Micro-optimization for int values that are expected to have
      * values below 128.
      */
-    public PacketBuffer writeVarInt(int input)
+    public PacketBuffer writeVarIntToBuffer(int input)
     {
         while ((input & -128) != 0)
         {
@@ -294,7 +294,7 @@ public class PacketBuffer extends ByteBuf
     /**
      * Writes a compressed NBTTagCompound to this buffer
      */
-    public PacketBuffer writeCompoundTag(@Nullable NBTTagCompound nbt)
+    public PacketBuffer writeNBTTagCompoundToBuffer(@Nullable NBTTagCompound nbt)
     {
         if (nbt == null)
         {
@@ -320,7 +320,7 @@ public class PacketBuffer extends ByteBuf
     /**
      * Reads a compressed NBTTagCompound from this buffer
      */
-    public NBTTagCompound readCompoundTag() throws IOException
+    public NBTTagCompound readNBTTagCompoundFromBuffer() throws IOException
     {
         int i = this.readerIndex();
         byte b0 = this.readByte();
@@ -347,16 +347,16 @@ public class PacketBuffer extends ByteBuf
     /**
      * Writes the ItemStack's ID (short), then size (byte), then damage. (short)
      */
-    public PacketBuffer writeItemStack(ItemStack stack)
+    public PacketBuffer writeItemStackToBuffer(ItemStack stack)
     {
-        if (stack.isEmpty())
+        if (stack.func_190926_b())
         {
             this.writeShort(-1);
         }
         else
         {
             this.writeShort(Item.getIdFromItem(stack.getItem()));
-            this.writeByte(stack.getCount());
+            this.writeByte(stack.func_190916_E());
             this.writeShort(stack.getMetadata());
             NBTTagCompound nbttagcompound = null;
 
@@ -365,7 +365,7 @@ public class PacketBuffer extends ByteBuf
                 nbttagcompound = stack.getTagCompound();
             }
 
-            this.writeCompoundTag(nbttagcompound);
+            this.writeNBTTagCompoundToBuffer(nbttagcompound);
         }
 
         return this;
@@ -374,20 +374,20 @@ public class PacketBuffer extends ByteBuf
     /**
      * Reads an ItemStack from this buffer
      */
-    public ItemStack readItemStack() throws IOException
+    public ItemStack readItemStackFromBuffer() throws IOException
     {
         int i = this.readShort();
 
         if (i < 0)
         {
-            return ItemStack.EMPTY;
+            return ItemStack.field_190927_a;
         }
         else
         {
             int j = this.readByte();
             int k = this.readShort();
             ItemStack itemstack = new ItemStack(Item.getItemById(i), j, k);
-            itemstack.setTagCompound(this.readCompoundTag());
+            itemstack.setTagCompound(this.readNBTTagCompoundFromBuffer());
             return itemstack;
         }
     }
@@ -396,9 +396,9 @@ public class PacketBuffer extends ByteBuf
      * Reads a string from this buffer. Expected parameter is maximum allowed string length. Will throw IOException if
      * string length exceeds this value!
      */
-    public String readString(int maxLength)
+    public String readStringFromBuffer(int maxLength)
     {
-        int i = this.readVarInt();
+        int i = this.readVarIntFromBuffer();
 
         if (i > maxLength * 4)
         {
@@ -433,7 +433,7 @@ public class PacketBuffer extends ByteBuf
         }
         else
         {
-            this.writeVarInt(abyte.length);
+            this.writeVarIntToBuffer(abyte.length);
             this.writeBytes(abyte);
             return this;
         }

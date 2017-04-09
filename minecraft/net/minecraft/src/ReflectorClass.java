@@ -6,31 +6,31 @@ public class ReflectorClass
     private boolean checked;
     private Class targetClass;
 
-    public ReflectorClass(String p_i75_1_)
+    public ReflectorClass(String p_i78_1_)
     {
-        this(p_i75_1_, false);
+        this(p_i78_1_, false);
     }
 
-    public ReflectorClass(String p_i76_1_, boolean p_i76_2_)
+    public ReflectorClass(String p_i79_1_, boolean p_i79_2_)
     {
         this.targetClassName = null;
         this.checked = false;
         this.targetClass = null;
-        this.targetClassName = p_i76_1_;
+        this.targetClassName = p_i79_1_;
 
-        if (!p_i76_2_)
+        if (!p_i79_2_)
         {
             Class oclass = this.getTargetClass();
         }
     }
 
-    public ReflectorClass(Class p_i77_1_)
+    public ReflectorClass(Class p_i80_1_)
     {
         this.targetClassName = null;
         this.checked = false;
         this.targetClass = null;
-        this.targetClass = p_i77_1_;
-        this.targetClassName = p_i77_1_.getName();
+        this.targetClass = p_i80_1_;
+        this.targetClassName = p_i80_1_.getName();
         this.checked = true;
     }
 

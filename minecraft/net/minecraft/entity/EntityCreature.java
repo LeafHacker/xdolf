@@ -130,12 +130,12 @@ public abstract class EntityCreature extends EntityLiving
                 this.tasks.enableControlFlag(1);
                 float f1 = 2.0F;
                 Vec3d vec3d = (new Vec3d(entity.posX - this.posX, entity.posY - this.posY, entity.posZ - this.posZ)).normalize().scale((double)Math.max(f - 2.0F, 0.0F));
-                this.getNavigator().tryMoveToXYZ(this.posX + vec3d.xCoord, this.posY + vec3d.yCoord, this.posZ + vec3d.zCoord, this.followLeashSpeed());
+                this.getNavigator().tryMoveToXYZ(this.posX + vec3d.xCoord, this.posY + vec3d.yCoord, this.posZ + vec3d.zCoord, this.func_190634_dg());
             }
         }
     }
 
-    protected double followLeashSpeed()
+    protected double func_190634_dg()
     {
         return 1.0D;
     }

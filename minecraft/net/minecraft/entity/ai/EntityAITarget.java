@@ -265,7 +265,7 @@ public abstract class EntityAITarget extends EntityAIBase
         }
     }
 
-    public EntityAITarget setUnseenMemoryTicks(int p_190882_1_)
+    public EntityAITarget func_190882_b(int p_190882_1_)
     {
         this.unseenMemoryTicks = p_190882_1_;
         return this;

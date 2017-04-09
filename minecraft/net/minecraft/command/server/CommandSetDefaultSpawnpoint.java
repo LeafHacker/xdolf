@@ -16,7 +16,7 @@ public class CommandSetDefaultSpawnpoint extends CommandBase
     /**
      * Gets the name of the command
      */
-    public String getName()
+    public String getCommandName()
     {
         return "setworldspawn";
     }
@@ -32,7 +32,7 @@ public class CommandSetDefaultSpawnpoint extends CommandBase
     /**
      * Gets the usage string for the command.
      */
-    public String getUsage(ICommandSender sender)
+    public String getCommandUsage(ICommandSender sender)
     {
         return "commands.setworldspawn.usage";
     }
@@ -63,7 +63,7 @@ public class CommandSetDefaultSpawnpoint extends CommandBase
         notifyCommandListener(sender, this, "commands.setworldspawn.success", new Object[] {Integer.valueOf(blockpos.getX()), Integer.valueOf(blockpos.getY()), Integer.valueOf(blockpos.getZ())});
     }
 
-    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
+    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
     {
         return args.length > 0 && args.length <= 3 ? getTabCompletionCoordinate(args, 0, pos) : Collections.<String>emptyList();
     }

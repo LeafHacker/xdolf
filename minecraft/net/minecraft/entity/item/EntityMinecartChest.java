@@ -27,7 +27,7 @@ public class EntityMinecartChest extends EntityMinecartContainer
 
     public static void registerFixesMinecartChest(DataFixer fixer)
     {
-        EntityMinecartContainer.addDataFixers(fixer, EntityMinecartChest.class);
+        EntityMinecartContainer.func_190574_b(fixer, EntityMinecartChest.class);
     }
 
     public void killMinecart(DamageSource source)

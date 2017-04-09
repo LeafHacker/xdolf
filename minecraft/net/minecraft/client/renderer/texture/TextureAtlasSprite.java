@@ -17,7 +17,7 @@ import net.minecraft.src.Config;
 import net.minecraft.src.TextureUtils;
 import net.minecraft.util.ReportedException;
 import net.minecraft.util.ResourceLocation;
-import shadersmod.client.ShadersTex;
+import shadersmod.client.Shaders;
 
 public class TextureAtlasSprite
 {
@@ -45,6 +45,9 @@ public class TextureAtlasSprite
     public TextureAtlasSprite spriteSingle = null;
     public boolean isSpriteSingle = false;
     public int mipmapLevels = 0;
+    public TextureAtlasSprite spriteNormal = null;
+    public TextureAtlasSprite spriteSpecular = null;
+    public boolean isShadersSprite = false;
 
     private TextureAtlasSprite(TextureAtlasSprite p_i4_1_)
     {
@@ -212,33 +215,29 @@ public class TextureAtlasSprite
 
     public void updateAnimation()
     {
-        ++this.tickCounter;
-
-        if (this.tickCounter >= this.animationMetadata.getFrameTimeSingle(this.frameCounter))
+        if (this.animationMetadata != null)
         {
-            int i = this.animationMetadata.getFrameIndex(this.frameCounter);
-            int j = this.animationMetadata.getFrameCount() == 0 ? this.framesTextureData.size() : this.animationMetadata.getFrameCount();
-            this.frameCounter = (this.frameCounter + 1) % j;
-            this.tickCounter = 0;
-            int k = this.animationMetadata.getFrameIndex(this.frameCounter);
-            boolean flag = false;
-            boolean flag1 = this.isSpriteSingle;
+            ++this.tickCounter;
 
-            if (i != k && k >= 0 && k < this.framesTextureData.size())
+            if (this.tickCounter >= this.animationMetadata.getFrameTimeSingle(this.frameCounter))
             {
-                if (Config.isShaders())
-                {
-                    ShadersTex.uploadTexSub((int[][])((int[][])this.framesTextureData.get(k)), this.width, this.height, this.originX, this.originY, flag, flag1);
-                }
-                else
+                int i = this.animationMetadata.getFrameIndex(this.frameCounter);
+                int j = this.animationMetadata.getFrameCount() == 0 ? this.framesTextureData.size() : this.animationMetadata.getFrameCount();
+                this.frameCounter = (this.frameCounter + 1) % j;
+                this.tickCounter = 0;
+                int k = this.animationMetadata.getFrameIndex(this.frameCounter);
+                boolean flag = false;
+                boolean flag1 = this.isSpriteSingle;
+
+                if (i != k && k >= 0 && k < this.framesTextureData.size())
                 {
                     TextureUtil.uploadTextureMipmap((int[][])((int[][])this.framesTextureData.get(k)), this.width, this.height, this.originX, this.originY, flag, flag1);
                 }
             }
-        }
-        else if (this.animationMetadata.isInterpolate())
-        {
-            this.updateAnimationInterpolated();
+            else if (this.animationMetadata.isInterpolate())
+            {
+                this.updateAnimationInterpolated();
+            }
         }
     }
 
@@ -396,24 +395,32 @@ public class TextureAtlasSprite
             }
         }
 
-        for (int k = 0; k < this.framesTextureData.size(); ++k)
+        if (!this.isShadersSprite)
         {
-            int[][] aint2 = (int[][])((int[][])this.framesTextureData.get(k));
-
-            if (aint2 != null && !this.iconName.startsWith("minecraft:blocks/leaves_"))
+            if (Config.isShaders())
             {
-                for (int i1 = 0; i1 < aint2.length; ++i1)
+                this.loadShadersSprites();
+            }
+
+            for (int k = 0; k < this.framesTextureData.size(); ++k)
+            {
+                int[][] aint2 = (int[][])((int[][])this.framesTextureData.get(k));
+
+                if (aint2 != null && !this.iconName.startsWith("minecraft:blocks/leaves_"))
                 {
-                    int[] aint1 = aint2[i1];
-                    this.fixTransparentColor(aint1);
+                    for (int i1 = 0; i1 < aint2.length; ++i1)
+                    {
+                        int[] aint1 = aint2[i1];
+                        this.fixTransparentColor(aint1);
+                    }
                 }
             }
-        }
 
-        if (this.spriteSingle != null)
-        {
-            IResource iresource = Config.getResourceManager().getResource(resource.getResourceLocation());
-            this.spriteSingle.loadSpriteFrames(iresource, mipmaplevels);
+            if (this.spriteSingle != null)
+            {
+                IResource iresource = Config.getResourceManager().getResource(resource.getResourceLocation());
+                this.spriteSingle.loadSpriteFrames(iresource, mipmaplevels);
+            }
         }
     }
 
@@ -676,5 +683,38 @@ public class TextureAtlasSprite
     public void setAnimationMetadata(AnimationMetadataSection p_setAnimationMetadata_1_)
     {
         this.animationMetadata = p_setAnimationMetadata_1_;
+    }
+
+    private void loadShadersSprites()
+    {
+        if (Shaders.configNormalMap)
+        {
+            String s = this.iconName + "_n";
+            ResourceLocation resourcelocation = new ResourceLocation(s);
+            resourcelocation = Config.getTextureMap().completeResourceLocation(resourcelocation);
+
+            if (Config.hasResource(resourcelocation))
+            {
+                this.spriteNormal = new TextureAtlasSprite(s);
+                this.spriteNormal.isShadersSprite = true;
+                this.spriteNormal.copyFrom(this);
+                Config.getTextureMap().generateMipmaps(Config.getResourceManager(), this.spriteNormal);
+            }
+        }
+
+        if (Shaders.configSpecularMap)
+        {
+            String s1 = this.iconName + "_s";
+            ResourceLocation resourcelocation1 = new ResourceLocation(s1);
+            resourcelocation1 = Config.getTextureMap().completeResourceLocation(resourcelocation1);
+
+            if (Config.hasResource(resourcelocation1))
+            {
+                this.spriteSpecular = new TextureAtlasSprite(s1);
+                this.spriteSpecular.isShadersSprite = true;
+                this.spriteSpecular.copyFrom(this);
+                Config.getTextureMap().generateMipmaps(Config.getResourceManager(), this.spriteSpecular);
+            }
+        }
     }
 }

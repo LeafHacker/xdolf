@@ -14,20 +14,20 @@ public class RandomMobsProperties
     public ResourceLocation[] resourceLocations = null;
     public RandomMobsRule[] rules = null;
 
-    public RandomMobsProperties(String p_i71_1_, ResourceLocation[] p_i71_2_)
+    public RandomMobsProperties(String p_i74_1_, ResourceLocation[] p_i74_2_)
     {
         ConnectedParser connectedparser = new ConnectedParser("RandomMobs");
-        this.name = connectedparser.parseName(p_i71_1_);
-        this.basePath = connectedparser.parseBasePath(p_i71_1_);
-        this.resourceLocations = p_i71_2_;
+        this.name = connectedparser.parseName(p_i74_1_);
+        this.basePath = connectedparser.parseBasePath(p_i74_1_);
+        this.resourceLocations = p_i74_2_;
     }
 
-    public RandomMobsProperties(Properties p_i72_1_, String p_i72_2_, ResourceLocation p_i72_3_)
+    public RandomMobsProperties(Properties p_i75_1_, String p_i75_2_, ResourceLocation p_i75_3_)
     {
         ConnectedParser connectedparser = new ConnectedParser("RandomMobs");
-        this.name = connectedparser.parseName(p_i72_2_);
-        this.basePath = connectedparser.parseBasePath(p_i72_2_);
-        this.rules = this.parseRules(p_i72_1_, p_i72_3_, connectedparser);
+        this.name = connectedparser.parseName(p_i75_2_);
+        this.basePath = connectedparser.parseBasePath(p_i75_2_);
+        this.rules = this.parseRules(p_i75_1_, p_i75_3_, connectedparser);
     }
 
     public ResourceLocation getTextureLocation(ResourceLocation p_getTextureLocation_1_, EntityLiving p_getTextureLocation_2_)

@@ -59,7 +59,7 @@ public class CrashReport
         {
             public String call()
             {
-                return "1.11";
+                return "1.11.2";
             }
         });
         this.theReportCategory.setDetail("Operating System", new ICrashReportDetail<String>()

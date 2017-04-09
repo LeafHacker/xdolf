@@ -7,25 +7,25 @@ public class MatchBlock
     private int blockId = -1;
     private int[] metadatas = null;
 
-    public MatchBlock(int p_i57_1_)
+    public MatchBlock(int p_i60_1_)
     {
-        this.blockId = p_i57_1_;
+        this.blockId = p_i60_1_;
     }
 
-    public MatchBlock(int p_i58_1_, int p_i58_2_)
+    public MatchBlock(int p_i61_1_, int p_i61_2_)
     {
-        this.blockId = p_i58_1_;
+        this.blockId = p_i61_1_;
 
-        if (p_i58_2_ >= 0 && p_i58_2_ <= 15)
+        if (p_i61_2_ >= 0 && p_i61_2_ <= 15)
         {
-            this.metadatas = new int[] {p_i58_2_};
+            this.metadatas = new int[] {p_i61_2_};
         }
     }
 
-    public MatchBlock(int p_i59_1_, int[] p_i59_2_)
+    public MatchBlock(int p_i62_1_, int[] p_i62_2_)
     {
-        this.blockId = p_i59_1_;
-        this.metadatas = p_i59_2_;
+        this.blockId = p_i62_1_;
+        this.metadatas = p_i62_2_;
     }
 
     public int getBlockId()

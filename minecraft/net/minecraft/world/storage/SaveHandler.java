@@ -231,6 +231,8 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData
         }
     }
 
+    @Nullable
+
     /**
      * Reads the player data from disk into the specified PlayerEntityMP.
      */

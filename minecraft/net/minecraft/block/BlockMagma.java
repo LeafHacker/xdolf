@@ -44,7 +44,7 @@ public class BlockMagma extends Block
     {
         if (!entityIn.isImmuneToFire() && entityIn instanceof EntityLivingBase && !EnchantmentHelper.hasFrostWalkerEnchantment((EntityLivingBase)entityIn))
         {
-            entityIn.attackEntityFrom(DamageSource.HOT_FLOOR, 1.0F);
+            entityIn.attackEntityFrom(DamageSource.hotFloor, 1.0F);
         }
 
         super.onEntityWalk(worldIn, pos, entityIn);

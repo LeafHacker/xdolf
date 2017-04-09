@@ -13,33 +13,33 @@ public class NaturalProperties
     public boolean flip = false;
     private Map[] quadMaps = new Map[8];
 
-    public NaturalProperties(String p_i62_1_)
+    public NaturalProperties(String p_i65_1_)
     {
-        if (p_i62_1_.equals("4"))
+        if (p_i65_1_.equals("4"))
         {
             this.rotation = 4;
         }
-        else if (p_i62_1_.equals("2"))
+        else if (p_i65_1_.equals("2"))
         {
             this.rotation = 2;
         }
-        else if (p_i62_1_.equals("F"))
+        else if (p_i65_1_.equals("F"))
         {
             this.flip = true;
         }
-        else if (p_i62_1_.equals("4F"))
+        else if (p_i65_1_.equals("4F"))
         {
             this.rotation = 4;
             this.flip = true;
         }
-        else if (p_i62_1_.equals("2F"))
+        else if (p_i65_1_.equals("2F"))
         {
             this.rotation = 2;
             this.flip = true;
         }
         else
         {
-            Config.warn("NaturalTextures: Unknown type: " + p_i62_1_);
+            Config.warn("NaturalTextures: Unknown type: " + p_i65_1_);
         }
     }
 

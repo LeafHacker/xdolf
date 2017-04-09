@@ -48,7 +48,7 @@ public class GuiRepair extends GuiContainer implements IContainerListener
         this.nameField.setTextColor(-1);
         this.nameField.setDisabledTextColour(-1);
         this.nameField.setEnableBackgroundDrawing(false);
-        this.nameField.setMaxStringLength(30);
+        this.nameField.setMaxStringLength(31);
         this.inventorySlots.removeListener(this);
         this.inventorySlots.addListener(this);
     }
@@ -201,10 +201,10 @@ public class GuiRepair extends GuiContainer implements IContainerListener
     {
         if (slotInd == 0)
         {
-            this.nameField.setText(stack.isEmpty() ? "" : stack.getDisplayName());
-            this.nameField.setEnabled(!stack.isEmpty());
+            this.nameField.setText(stack.func_190926_b() ? "" : stack.getDisplayName());
+            this.nameField.setEnabled(!stack.func_190926_b());
 
-            if (!stack.isEmpty())
+            if (!stack.func_190926_b())
             {
                 this.renameItem();
             }

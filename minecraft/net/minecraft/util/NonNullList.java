@@ -10,20 +10,20 @@ import org.apache.commons.lang3.Validate;
 
 public class NonNullList<E> extends AbstractList<E>
 {
-    private final List<E> delegate;
-    private final E defaultElement;
+    private final List<E> field_191198_a;
+    private final E field_191199_b;
 
-    public static <E> NonNullList<E> create()
+    public static <E> NonNullList<E> func_191196_a()
     {
         return new NonNullList();
     }
 
-    public static <E> NonNullList<E> withSize(int size, E fill)
+    public static <E> NonNullList<E> func_191197_a(int p_191197_0_, E p_191197_1_)
     {
-        Validate.notNull(fill);
-        Object[] aobject = new Object[size];
-        Arrays.fill(aobject, fill);
-        return new NonNullList(Arrays.asList(aobject), fill);
+        Validate.notNull(p_191197_1_);
+        Object[] aobject = new Object[p_191197_0_];
+        Arrays.fill(aobject, p_191197_1_);
+        return new NonNullList(Arrays.asList(aobject), p_191197_1_);
     }
 
     protected NonNullList()
@@ -31,43 +31,43 @@ public class NonNullList<E> extends AbstractList<E>
         this(new ArrayList(), null);
     }
 
-    protected NonNullList(List<E> delegateIn, @Nullable E p_i47327_2_)
+    protected NonNullList(List<E> p_i47327_1_, @Nullable E p_i47327_2_)
     {
-        this.delegate = delegateIn;
-        this.defaultElement = p_i47327_2_;
+        this.field_191198_a = p_i47327_1_;
+        this.field_191199_b = p_i47327_2_;
     }
 
     @Nonnull
     public E get(int p_get_1_)
     {
-        return this.delegate.get(p_get_1_);
+        return this.field_191198_a.get(p_get_1_);
     }
 
     public E set(int p_set_1_, E p_set_2_)
     {
         Validate.notNull(p_set_2_);
-        return this.delegate.set(p_set_1_, p_set_2_);
+        return this.field_191198_a.set(p_set_1_, p_set_2_);
     }
 
     public void add(int p_add_1_, E p_add_2_)
     {
         Validate.notNull(p_add_2_);
-        this.delegate.add(p_add_1_, p_add_2_);
+        this.field_191198_a.add(p_add_1_, p_add_2_);
     }
 
     public E remove(int p_remove_1_)
     {
-        return this.delegate.remove(p_remove_1_);
+        return this.field_191198_a.remove(p_remove_1_);
     }
 
     public int size()
     {
-        return this.delegate.size();
+        return this.field_191198_a.size();
     }
 
     public void clear()
     {
-        if (this.defaultElement == null)
+        if (this.field_191199_b == null)
         {
             super.clear();
         }
@@ -75,7 +75,7 @@ public class NonNullList<E> extends AbstractList<E>
         {
             for (int i = 0; i < this.size(); ++i)
             {
-                this.set(i, this.defaultElement);
+                this.set(i, this.field_191199_b);
             }
         }
     }

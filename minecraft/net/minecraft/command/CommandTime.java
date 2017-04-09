@@ -12,7 +12,7 @@ public class CommandTime extends CommandBase
     /**
      * Gets the name of the command
      */
-    public String getName()
+    public String getCommandName()
     {
         return "time";
     }
@@ -28,7 +28,7 @@ public class CommandTime extends CommandBase
     /**
      * Gets the usage string for the command.
      */
-    public String getUsage(ICommandSender sender)
+    public String getCommandUsage(ICommandSender sender)
     {
         return "commands.time.usage";
     }
@@ -101,24 +101,24 @@ public class CommandTime extends CommandBase
         throw new WrongUsageException("commands.time.usage", new Object[0]);
     }
 
-    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
+    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
     {
         return args.length == 1 ? getListOfStringsMatchingLastWord(args, new String[] {"set", "add", "query"}): (args.length == 2 && "set".equals(args[0]) ? getListOfStringsMatchingLastWord(args, new String[] {"day", "night"}): (args.length == 2 && "query".equals(args[0]) ? getListOfStringsMatchingLastWord(args, new String[] {"daytime", "gametime", "day"}): Collections.<String>emptyList()));
     }
 
     protected void setAllWorldTimes(MinecraftServer server, int time)
     {
-        for (int i = 0; i < server.worlds.length; ++i)
+        for (int i = 0; i < server.worldServers.length; ++i)
         {
-            server.worlds[i].setWorldTime((long)time);
+            server.worldServers[i].setWorldTime((long)time);
         }
     }
 
     protected void incrementAllWorldTimes(MinecraftServer server, int amount)
     {
-        for (int i = 0; i < server.worlds.length; ++i)
+        for (int i = 0; i < server.worldServers.length; ++i)
         {
-            WorldServer worldserver = server.worlds[i];
+            WorldServer worldserver = server.worldServers[i];
             worldserver.setWorldTime(worldserver.getWorldTime() + (long)amount);
         }
     }

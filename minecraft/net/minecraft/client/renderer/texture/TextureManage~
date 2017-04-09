@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.ITextureObject;
 import net.minecraft.client.renderer.texture.ITickable;
 import net.minecraft.client.renderer.texture.ITickableTextureObject;
+import net.minecraft.client.renderer.texture.LayeredColorMaskTexture;
 import net.minecraft.client.renderer.texture.SimpleTexture;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.resources.IResourceManager;
@@ -124,6 +125,7 @@ public class TextureManager implements ITickable, IResourceManagerReloadListener
    public void func_147645_c(ResourceLocation p_147645_1_) {
       ITextureObject itextureobject = this.func_110581_b(p_147645_1_);
       if(itextureobject != null) {
+         this.field_110585_a.remove(p_147645_1_);
          TextureUtil.func_147942_a(itextureobject.func_110552_b());
       }
 
@@ -150,6 +152,17 @@ public class TextureManager implements ITickable, IResourceManagerReloadListener
 
       for(Entry<ResourceLocation, ITextureObject> entry : this.field_110585_a.entrySet()) {
          this.func_110579_a((ResourceLocation)entry.getKey(), (ITextureObject)entry.getValue());
+      }
+
+   }
+
+   public void reloadBannerTextures() {
+      for(Entry<ResourceLocation, ITextureObject> entry : this.field_110585_a.entrySet()) {
+         ResourceLocation resourcelocation = (ResourceLocation)entry.getKey();
+         ITextureObject itextureobject = (ITextureObject)entry.getValue();
+         if(itextureobject instanceof LayeredColorMaskTexture) {
+            this.func_110579_a(resourcelocation, itextureobject);
+         }
       }
 
    }

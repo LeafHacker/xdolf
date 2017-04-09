@@ -1,6 +1,5 @@
 package net.minecraft.client.gui;
 
-import com.darkcart.xdolf.Client;
 import com.darkcart.xdolf.mods.Hacks;
 import com.darkcart.xdolf.mods.render.NoPumpkinBlur;
 import com.google.common.base.Predicate;
@@ -45,6 +44,7 @@ import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.src.Config;
 import net.minecraft.src.CustomColors;
+import net.minecraft.src.CustomItems;
 import net.minecraft.src.Reflector;
 import net.minecraft.src.ReflectorForge;
 import net.minecraft.util.EnumHandSide;
@@ -65,18 +65,18 @@ public class GuiIngame extends Gui
     private static final ResourceLocation PUMPKIN_BLUR_TEX_PATH = new ResourceLocation("textures/misc/pumpkinblur.png");
     private final Random rand = new Random();
     private final Minecraft mc;
-    public final RenderItem itemRenderer;
+    private final RenderItem itemRenderer;
 
     /** ChatGUI instance that retains all previous chat data */
     private final GuiNewChat persistantChatGUI;
     private int updateCounter;
 
     /** The string specifying which record music is playing */
-    private String overlayMessage = "";
+    private String recordPlaying = "";
 
     /** How many ticks the record playing message will be displayed */
-    private int overlayMessageTime;
-    private boolean animateOverlayMessageColor;
+    private int recordPlayingUpFor;
+    private boolean recordIsPlaying;
 
     /** Previous frame vignette brightness (slowly changes by 1% each frame) */
     public float prevVignetteBrightness = 1.0F;
@@ -85,7 +85,7 @@ public class GuiIngame extends Gui
     private int remainingHighlightTicks;
 
     /** The ItemStack that is currently being highlighted */
-    private ItemStack highlightingItemStack = ItemStack.EMPTY;
+    private ItemStack highlightingItemStack = ItemStack.field_190927_a;
     private final GuiOverlayDebug overlayDebug;
     private final GuiSubtitleOverlay overlaySubtitle;
 
@@ -165,9 +165,8 @@ public class GuiIngame extends Gui
 
         if (this.mc.gameSettings.thirdPersonView == 0 && itemstack.getItem() == Item.getItemFromBlock(Blocks.PUMPKIN))
         {
-        	if (!Hacks.findMod(NoPumpkinBlur.class).isEnabled()) {
+           	if (!Hacks.findMod(NoPumpkinBlur.class).isEnabled())
         		this.renderPumpkinOverlay(scaledresolution);
-        	}
         }
 
         if (!this.mc.player.isPotionActive(MobEffects.NAUSEA))
@@ -254,15 +253,17 @@ public class GuiIngame extends Gui
             this.renderDemo(scaledresolution);
         }
 
+        this.renderPotionEffects(scaledresolution);
+
         if (this.mc.gameSettings.showDebugInfo)
         {
             this.overlayDebug.renderDebugInfo(scaledresolution);
         }
 
-        if (this.overlayMessageTime > 0)
+        if (this.recordPlayingUpFor > 0)
         {
             this.mc.mcProfiler.startSection("overlayMessage");
-            float f2 = (float)this.overlayMessageTime - partialTicks;
+            float f2 = (float)this.recordPlayingUpFor - partialTicks;
             int l1 = (int)(f2 * 255.0F / 20.0F);
 
             if (l1 > 255)
@@ -278,12 +279,12 @@ public class GuiIngame extends Gui
                 GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
                 int l = 16777215;
 
-                if (this.animateOverlayMessageColor)
+                if (this.recordIsPlaying)
                 {
                     l = MathHelper.hsvToRGB(f2 / 50.0F, 0.7F, 0.6F) & 16777215;
                 }
 
-                fontrenderer.drawString(this.overlayMessage, -fontrenderer.getStringWidth(this.overlayMessage) / 2, -4, l + (l1 << 24 & -16777216));
+                fontrenderer.drawString(this.recordPlaying, -fontrenderer.getStringWidth(this.recordPlaying) / 2, -4, l + (l1 << 24 & -16777216));
                 GlStateManager.disableBlend();
                 GlStateManager.popMatrix();
             }
@@ -428,11 +429,23 @@ public class GuiIngame extends Gui
                 if (this.mc.gameSettings.attackIndicator == 1)
                 {
                     float f = this.mc.player.getCooledAttackStrength(0.0F);
+                    boolean flag = false;
 
-                    if (f < 1.0F)
+                    if (this.mc.pointedEntity != null && this.mc.pointedEntity instanceof EntityLivingBase && f >= 1.0F)
                     {
-                        int i = i1 / 2 - 7 + 16;
-                        int j = l / 2 - 7;
+                        flag = this.mc.player.getCooldownPeriod() > 5.0F;
+                        flag = flag & ((EntityLivingBase)this.mc.pointedEntity).isEntityAlive();
+                    }
+
+                    int i = i1 / 2 - 7 + 16;
+                    int j = l / 2 - 8;
+
+                    if (flag)
+                    {
+                        this.drawTexturedModalRect(j, i, 68, 94, 16, 16);
+                    }
+                    else if (f < 1.0F)
+                    {
                         int k = (int)(f * 17.0F);
                         this.drawTexturedModalRect(j, i, 36, 94, 16, 4);
                         this.drawTexturedModalRect(j, i, 52, 94, k, 4);
@@ -563,7 +576,7 @@ public class GuiIngame extends Gui
             this.drawTexturedModalRect(i - 91, sr.getScaledHeight() - 22, 0, 0, 182, 22);
             this.drawTexturedModalRect(i - 91 - 1 + entityplayer.inventory.currentItem * 20, sr.getScaledHeight() - 22 - 1, 0, 22, 24, 22);
 
-            if (!itemstack.isEmpty())
+            if (!itemstack.func_190926_b())
             {
                 if (enumhandside == EnumHandSide.LEFT)
                 {
@@ -580,6 +593,7 @@ public class GuiIngame extends Gui
             GlStateManager.enableBlend();
             GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
             RenderHelper.enableGUIStandardItemLighting();
+            CustomItems.setRenderOffHand(false);
 
             for (int l = 0; l < 9; ++l)
             {
@@ -588,8 +602,9 @@ public class GuiIngame extends Gui
                 this.renderHotbarItem(i1, j1, partialTicks, entityplayer, (ItemStack)entityplayer.inventory.mainInventory.get(l));
             }
 
-            if (!itemstack.isEmpty())
+            if (!itemstack.func_190926_b())
             {
+                CustomItems.setRenderOffHand(true);
                 int l1 = sr.getScaledHeight() - 16 - 3;
 
                 if (enumhandside == EnumHandSide.LEFT)
@@ -600,6 +615,8 @@ public class GuiIngame extends Gui
                 {
                     this.renderHotbarItem(i + 91 + 10, l1, partialTicks, entityplayer, itemstack);
                 }
+
+                CustomItems.setRenderOffHand(false);
             }
 
             if (this.mc.gameSettings.attackIndicator == 2)
@@ -695,7 +712,7 @@ public class GuiIngame extends Gui
     {
         this.mc.mcProfiler.startSection("selectedItemName");
 
-        if (this.remainingHighlightTicks > 0 && !this.highlightingItemStack.isEmpty())
+        if (this.remainingHighlightTicks > 0 && !this.highlightingItemStack.func_190926_b())
         {
             String s = this.highlightingItemStack.getDisplayName();
 
@@ -1198,9 +1215,9 @@ public class GuiIngame extends Gui
 
     private void renderHotbarItem(int p_184044_1_, int p_184044_2_, float p_184044_3_, EntityPlayer player, ItemStack stack)
     {
-        if (!stack.isEmpty())
+        if (!stack.func_190926_b())
         {
-            float f = (float)stack.getAnimationsToGo() - p_184044_3_;
+            float f = (float)stack.func_190921_D() - p_184044_3_;
 
             if (f > 0.0F)
             {
@@ -1227,9 +1244,9 @@ public class GuiIngame extends Gui
      */
     public void updateTick()
     {
-        if (this.overlayMessageTime > 0)
+        if (this.recordPlayingUpFor > 0)
         {
-            --this.overlayMessageTime;
+            --this.recordPlayingUpFor;
         }
 
         if (this.titlesTimer > 0)
@@ -1249,11 +1266,11 @@ public class GuiIngame extends Gui
         {
             ItemStack itemstack = this.mc.player.inventory.getCurrentItem();
 
-            if (itemstack.isEmpty())
+            if (itemstack.func_190926_b())
             {
                 this.remainingHighlightTicks = 0;
             }
-            else if (!this.highlightingItemStack.isEmpty() && itemstack.getItem() == this.highlightingItemStack.getItem() && ItemStack.areItemStackTagsEqual(itemstack, this.highlightingItemStack) && (itemstack.isItemStackDamageable() || itemstack.getMetadata() == this.highlightingItemStack.getMetadata()))
+            else if (!this.highlightingItemStack.func_190926_b() && itemstack.getItem() == this.highlightingItemStack.getItem() && ItemStack.areItemStackTagsEqual(itemstack, this.highlightingItemStack) && (itemstack.isItemStackDamageable() || itemstack.getMetadata() == this.highlightingItemStack.getMetadata()))
             {
                 if (this.remainingHighlightTicks > 0)
                 {
@@ -1271,14 +1288,14 @@ public class GuiIngame extends Gui
 
     public void setRecordPlayingMessage(String recordName)
     {
-        this.setOverlayMessage(I18n.format("record.nowPlaying", new Object[] {recordName}), true);
+        this.setRecordPlaying(I18n.format("record.nowPlaying", new Object[] {recordName}), true);
     }
 
-    public void setOverlayMessage(String message, boolean animateColor)
+    public void setRecordPlaying(String message, boolean isPlaying)
     {
-        this.overlayMessage = message;
-        this.overlayMessageTime = 60;
-        this.animateOverlayMessageColor = animateColor;
+        this.recordPlaying = message;
+        this.recordPlayingUpFor = 60;
+        this.recordIsPlaying = isPlaying;
     }
 
     public void displayTitle(String title, String subTitle, int timeFadeIn, int displayTime, int timeFadeOut)
@@ -1322,9 +1339,9 @@ public class GuiIngame extends Gui
         }
     }
 
-    public void setOverlayMessage(ITextComponent component, boolean animateColor)
+    public void setRecordPlaying(ITextComponent component, boolean isPlaying)
     {
-        this.setOverlayMessage(component.getUnformattedText(), animateColor);
+        this.setRecordPlaying(component.getUnformattedText(), isPlaying);
     }
 
     /**

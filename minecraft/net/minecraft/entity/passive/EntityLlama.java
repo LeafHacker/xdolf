@@ -49,35 +49,35 @@ import net.minecraft.world.storage.loot.LootTableList;
 
 public class EntityLlama extends AbstractChestHorse implements IRangedAttackMob
 {
-    private static final DataParameter<Integer> DATA_STRENGTH_ID = EntityDataManager.<Integer>createKey(EntityLlama.class, DataSerializers.VARINT);
-    private static final DataParameter<Integer> DATA_COLOR_ID = EntityDataManager.<Integer>createKey(EntityLlama.class, DataSerializers.VARINT);
-    private static final DataParameter<Integer> DATA_VARIANT_ID = EntityDataManager.<Integer>createKey(EntityLlama.class, DataSerializers.VARINT);
-    private boolean didSpit;
+    private static final DataParameter<Integer> field_190720_bG = EntityDataManager.<Integer>createKey(EntityLlama.class, DataSerializers.VARINT);
+    private static final DataParameter<Integer> field_190721_bH = EntityDataManager.<Integer>createKey(EntityLlama.class, DataSerializers.VARINT);
+    private static final DataParameter<Integer> field_190722_bI = EntityDataManager.<Integer>createKey(EntityLlama.class, DataSerializers.VARINT);
+    private boolean field_190723_bJ;
     @Nullable
-    private EntityLlama caravanHead;
+    private EntityLlama field_190724_bK;
     @Nullable
-    private EntityLlama caravanTail;
+    private EntityLlama field_190725_bL;
 
-    public EntityLlama(World worldIn)
+    public EntityLlama(World p_i47297_1_)
     {
-        super(worldIn);
+        super(p_i47297_1_);
         this.setSize(0.9F, 1.87F);
     }
 
-    private void setStrength(int strengthIn)
+    private void func_190706_p(int p_190706_1_)
     {
-        this.dataManager.set(DATA_STRENGTH_ID, Integer.valueOf(Math.max(1, Math.min(5, strengthIn))));
+        this.dataManager.set(field_190720_bG, Integer.valueOf(Math.max(1, Math.min(5, p_190706_1_))));
     }
 
-    private void setRandomStrength()
+    private void func_190705_dT()
     {
         int i = this.rand.nextFloat() < 0.04F ? 5 : 3;
-        this.setStrength(1 + this.rand.nextInt(i));
+        this.func_190706_p(1 + this.rand.nextInt(i));
     }
 
-    public int getStrength()
+    public int func_190707_dL()
     {
-        return ((Integer)this.dataManager.get(DATA_STRENGTH_ID)).intValue();
+        return ((Integer)this.dataManager.get(field_190720_bG)).intValue();
     }
 
     /**
@@ -86,10 +86,10 @@ public class EntityLlama extends AbstractChestHorse implements IRangedAttackMob
     public void writeEntityToNBT(NBTTagCompound compound)
     {
         super.writeEntityToNBT(compound);
-        compound.setInteger("Variant", this.getVariant());
-        compound.setInteger("Strength", this.getStrength());
+        compound.setInteger("Variant", this.func_190719_dM());
+        compound.setInteger("Strength", this.func_190707_dL());
 
-        if (!this.horseChest.getStackInSlot(1).isEmpty())
+        if (!this.horseChest.getStackInSlot(1).func_190926_b())
         {
             compound.setTag("DecorItem", this.horseChest.getStackInSlot(1).writeToNBT(new NBTTagCompound()));
         }
@@ -100,9 +100,9 @@ public class EntityLlama extends AbstractChestHorse implements IRangedAttackMob
      */
     public void readEntityFromNBT(NBTTagCompound compound)
     {
-        this.setStrength(compound.getInteger("Strength"));
+        this.func_190706_p(compound.getInteger("Strength"));
         super.readEntityFromNBT(compound);
-        this.setVariant(compound.getInteger("Variant"));
+        this.func_190710_o(compound.getInteger("Variant"));
 
         if (compound.hasKey("DecorItem", 10))
         {
@@ -137,24 +137,24 @@ public class EntityLlama extends AbstractChestHorse implements IRangedAttackMob
     protected void entityInit()
     {
         super.entityInit();
-        this.dataManager.register(DATA_STRENGTH_ID, Integer.valueOf(0));
-        this.dataManager.register(DATA_COLOR_ID, Integer.valueOf(-1));
-        this.dataManager.register(DATA_VARIANT_ID, Integer.valueOf(0));
+        this.dataManager.register(field_190720_bG, Integer.valueOf(0));
+        this.dataManager.register(field_190721_bH, Integer.valueOf(-1));
+        this.dataManager.register(field_190722_bI, Integer.valueOf(0));
     }
 
-    public int getVariant()
+    public int func_190719_dM()
     {
-        return MathHelper.clamp(((Integer)this.dataManager.get(DATA_VARIANT_ID)).intValue(), 0, 3);
+        return MathHelper.clamp(((Integer)this.dataManager.get(field_190722_bI)).intValue(), 0, 3);
     }
 
-    public void setVariant(int variantIn)
+    public void func_190710_o(int p_190710_1_)
     {
-        this.dataManager.set(DATA_VARIANT_ID, Integer.valueOf(variantIn));
+        this.dataManager.set(field_190722_bI, Integer.valueOf(p_190710_1_));
     }
 
-    protected int getInventorySize()
+    protected int func_190686_di()
     {
-        return this.hasChest() ? 2 + 3 * this.getInventoryColumns() : super.getInventorySize();
+        return this.func_190695_dh() ? 2 + 3 * this.func_190696_dl() : super.func_190686_di();
     }
 
     public void updatePassenger(Entity passenger)
@@ -185,13 +185,13 @@ public class EntityLlama extends AbstractChestHorse implements IRangedAttackMob
         return false;
     }
 
-    protected boolean handleEating(EntityPlayer player, ItemStack stack)
+    protected boolean func_190678_b(EntityPlayer p_190678_1_, ItemStack p_190678_2_)
     {
         int i = 0;
         int j = 0;
         float f = 0.0F;
         boolean flag = false;
-        Item item = stack.getItem();
+        Item item = p_190678_2_.getItem();
 
         if (item == Items.WHEAT)
         {
@@ -208,7 +208,7 @@ public class EntityLlama extends AbstractChestHorse implements IRangedAttackMob
             if (this.isTame() && this.getGrowingAge() == 0)
             {
                 flag = true;
-                this.setInLove(player);
+                this.setInLove(p_190678_1_);
             }
         }
 
@@ -230,7 +230,7 @@ public class EntityLlama extends AbstractChestHorse implements IRangedAttackMob
             flag = true;
         }
 
-        if (j > 0 && (flag || !this.isTame()) && this.getTemper() < this.getMaxTemper())
+        if (j > 0 && (flag || !this.isTame()) && this.getTemper() < this.func_190676_dC())
         {
             flag = true;
 
@@ -242,7 +242,7 @@ public class EntityLlama extends AbstractChestHorse implements IRangedAttackMob
 
         if (flag && !this.isSilent())
         {
-            this.world.playSound((EntityPlayer)null, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_LLAMA_EAT, this.getSoundCategory(), 1.0F, 1.0F + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
+            this.world.playSound((EntityPlayer)null, this.posX, this.posY, this.posZ, SoundEvents.field_191253_dD, this.getSoundCategory(), 1.0F, 1.0F + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
         }
 
         return flag;
@@ -265,12 +265,12 @@ public class EntityLlama extends AbstractChestHorse implements IRangedAttackMob
     public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata)
     {
         livingdata = super.onInitialSpawn(difficulty, livingdata);
-        this.setRandomStrength();
+        this.func_190705_dT();
         int i;
 
         if (livingdata instanceof EntityLlama.GroupData)
         {
-            i = ((EntityLlama.GroupData)livingdata).variant;
+            i = ((EntityLlama.GroupData)livingdata).field_190886_a;
         }
         else
         {
@@ -278,46 +278,46 @@ public class EntityLlama extends AbstractChestHorse implements IRangedAttackMob
             livingdata = new EntityLlama.GroupData(i);
         }
 
-        this.setVariant(i);
+        this.func_190710_o(i);
         return livingdata;
     }
 
-    public boolean hasColor()
+    public boolean func_190717_dN()
     {
-        return this.getColor() != null;
+        return this.func_190704_dO() != null;
     }
 
     protected SoundEvent getAngrySound()
     {
-        return SoundEvents.ENTITY_LLAMA_ANGRY;
+        return SoundEvents.field_191250_dA;
     }
 
     protected SoundEvent getAmbientSound()
     {
-        return SoundEvents.ENTITY_LLAMA_AMBIENT;
+        return SoundEvents.field_191260_dz;
     }
 
     protected SoundEvent getHurtSound()
     {
-        return SoundEvents.ENTITY_LLAMA_HURT;
+        return SoundEvents.field_191254_dE;
     }
 
     protected SoundEvent getDeathSound()
     {
-        return SoundEvents.ENTITY_LLAMA_DEATH;
+        return SoundEvents.field_191252_dC;
     }
 
     protected void playStepSound(BlockPos pos, Block blockIn)
     {
-        this.playSound(SoundEvents.ENTITY_LLAMA_STEP, 0.15F, 1.0F);
+        this.playSound(SoundEvents.field_191256_dG, 0.15F, 1.0F);
     }
 
-    protected void playChestEquipSound()
+    protected void func_190697_dk()
     {
-        this.playSound(SoundEvents.ENTITY_LLAMA_CHEST, 1.0F, (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+        this.playSound(SoundEvents.field_191251_dB, 1.0F, (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
     }
 
-    public void makeMad()
+    public void func_190687_dF()
     {
         SoundEvent soundevent = this.getAngrySound();
 
@@ -330,25 +330,25 @@ public class EntityLlama extends AbstractChestHorse implements IRangedAttackMob
     @Nullable
     protected ResourceLocation getLootTable()
     {
-        return LootTableList.ENTITIES_LLAMA;
+        return LootTableList.field_191187_aw;
     }
 
-    public int getInventoryColumns()
+    public int func_190696_dl()
     {
-        return this.getStrength();
+        return this.func_190707_dL();
     }
 
-    public boolean wearsArmor()
+    public boolean func_190677_dK()
     {
         return true;
     }
 
-    public boolean isArmor(ItemStack stack)
+    public boolean func_190682_f(ItemStack p_190682_1_)
     {
-        return stack.getItem() == Item.getItemFromBlock(Blocks.CARPET);
+        return p_190682_1_.getItem() == Item.getItemFromBlock(Blocks.CARPET);
     }
 
-    public boolean canBeSaddled()
+    public boolean func_190685_dA()
     {
         return false;
     }
@@ -358,13 +358,13 @@ public class EntityLlama extends AbstractChestHorse implements IRangedAttackMob
      */
     public void onInventoryChanged(IInventory invBasic)
     {
-        EnumDyeColor enumdyecolor = this.getColor();
+        EnumDyeColor enumdyecolor = this.func_190704_dO();
         super.onInventoryChanged(invBasic);
-        EnumDyeColor enumdyecolor1 = this.getColor();
+        EnumDyeColor enumdyecolor1 = this.func_190704_dO();
 
         if (this.ticksExisted > 20 && enumdyecolor1 != null && enumdyecolor1 != enumdyecolor)
         {
-            this.playSound(SoundEvents.ENTITY_LLAMA_SWAG, 0.5F, 1.0F);
+            this.playSound(SoundEvents.field_191257_dH, 0.5F, 1.0F);
         }
     }
 
@@ -376,35 +376,35 @@ public class EntityLlama extends AbstractChestHorse implements IRangedAttackMob
         if (!this.world.isRemote)
         {
             super.updateHorseSlots();
-            this.setColorByItem(this.horseChest.getStackInSlot(1));
+            this.func_190702_g(this.horseChest.getStackInSlot(1));
         }
     }
 
-    private void setColor(@Nullable EnumDyeColor color)
+    private void func_190711_a(@Nullable EnumDyeColor p_190711_1_)
     {
-        this.dataManager.set(DATA_COLOR_ID, Integer.valueOf(color == null ? -1 : color.getMetadata()));
+        this.dataManager.set(field_190721_bH, Integer.valueOf(p_190711_1_ == null ? -1 : p_190711_1_.getMetadata()));
     }
 
-    private void setColorByItem(ItemStack stack)
+    private void func_190702_g(ItemStack p_190702_1_)
     {
-        if (this.isArmor(stack))
+        if (this.func_190682_f(p_190702_1_))
         {
-            this.setColor(EnumDyeColor.byMetadata(stack.getMetadata()));
+            this.func_190711_a(EnumDyeColor.byMetadata(p_190702_1_.getMetadata()));
         }
         else
         {
-            this.setColor((EnumDyeColor)null);
+            this.func_190711_a((EnumDyeColor)null);
         }
     }
 
     @Nullable
-    public EnumDyeColor getColor()
+    public EnumDyeColor func_190704_dO()
     {
-        int i = ((Integer)this.dataManager.get(DATA_COLOR_ID)).intValue();
+        int i = ((Integer)this.dataManager.get(field_190721_bH)).intValue();
         return i == -1 ? null : EnumDyeColor.byMetadata(i);
     }
 
-    public int getMaxTemper()
+    public int func_190676_dC()
     {
         return 30;
     }
@@ -420,36 +420,36 @@ public class EntityLlama extends AbstractChestHorse implements IRangedAttackMob
     public EntityLlama createChild(EntityAgeable ageable)
     {
         EntityLlama entityllama = new EntityLlama(this.world);
-        this.setOffspringAttributes(ageable, entityllama);
+        this.func_190681_a(ageable, entityllama);
         EntityLlama entityllama1 = (EntityLlama)ageable;
-        int i = this.rand.nextInt(Math.max(this.getStrength(), entityllama1.getStrength())) + 1;
+        int i = this.rand.nextInt(Math.max(this.func_190707_dL(), entityllama1.func_190707_dL())) + 1;
 
         if (this.rand.nextFloat() < 0.03F)
         {
             ++i;
         }
 
-        entityllama.setStrength(i);
-        entityllama.setVariant(this.rand.nextBoolean() ? this.getVariant() : entityllama1.getVariant());
+        entityllama.func_190706_p(i);
+        entityllama.func_190710_o(this.rand.nextBoolean() ? this.func_190719_dM() : entityllama1.func_190719_dM());
         return entityllama;
     }
 
-    private void spit(EntityLivingBase target)
+    private void func_190713_e(EntityLivingBase p_190713_1_)
     {
         EntityLlamaSpit entityllamaspit = new EntityLlamaSpit(this.world, this);
-        double d0 = target.posX - this.posX;
-        double d1 = target.getEntityBoundingBox().minY + (double)(target.height / 3.0F) - entityllamaspit.posY;
-        double d2 = target.posZ - this.posZ;
+        double d0 = p_190713_1_.posX - this.posX;
+        double d1 = p_190713_1_.getEntityBoundingBox().minY + (double)(p_190713_1_.height / 3.0F) - entityllamaspit.posY;
+        double d2 = p_190713_1_.posZ - this.posZ;
         float f = MathHelper.sqrt(d0 * d0 + d2 * d2) * 0.2F;
         entityllamaspit.setThrowableHeading(d0, d1 + (double)f, d2, 1.5F, 10.0F);
-        this.world.playSound((EntityPlayer)null, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_LLAMA_SPIT, this.getSoundCategory(), 1.0F, 1.0F + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
-        this.world.spawnEntity(entityllamaspit);
-        this.didSpit = true;
+        this.world.playSound((EntityPlayer)null, this.posX, this.posY, this.posZ, SoundEvents.field_191255_dF, this.getSoundCategory(), 1.0F, 1.0F + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
+        this.world.spawnEntityInWorld(entityllamaspit);
+        this.field_190723_bJ = true;
     }
 
-    private void setDidSpit(boolean didSpitIn)
+    private void func_190714_x(boolean p_190714_1_)
     {
-        this.didSpit = didSpitIn;
+        this.field_190723_bJ = p_190714_1_;
     }
 
     public void fall(float distance, float damageMultiplier)
@@ -460,13 +460,13 @@ public class EntityLlama extends AbstractChestHorse implements IRangedAttackMob
         {
             if (distance >= 6.0F)
             {
-                this.attackEntityFrom(DamageSource.FALL, (float)i);
+                this.attackEntityFrom(DamageSource.fall, (float)i);
 
                 if (this.isBeingRidden())
                 {
                     for (Entity entity : this.getRecursivePassengers())
                     {
-                        entity.attackEntityFrom(DamageSource.FALL, (float)i);
+                        entity.attackEntityFrom(DamageSource.fall, (float)i);
                     }
                 }
             }
@@ -482,69 +482,71 @@ public class EntityLlama extends AbstractChestHorse implements IRangedAttackMob
         }
     }
 
-    public void leaveCaravan()
+    public void func_190709_dP()
     {
-        if (this.caravanHead != null)
+        if (this.field_190724_bK != null)
         {
-            this.caravanHead.caravanTail = null;
+            this.field_190724_bK.field_190725_bL = null;
         }
 
-        this.caravanHead = null;
+        this.field_190724_bK = null;
     }
 
-    public void joinCaravan(EntityLlama caravanHeadIn)
+    public void func_190715_a(EntityLlama p_190715_1_)
     {
-        this.caravanHead = caravanHeadIn;
-        this.caravanHead.caravanTail = this;
+        this.field_190724_bK = p_190715_1_;
+        this.field_190724_bK.field_190725_bL = this;
     }
 
-    public boolean hasCaravanTrail()
+    public boolean func_190712_dQ()
     {
-        return this.caravanTail != null;
+        return this.field_190725_bL != null;
     }
 
-    public boolean inCaravan()
+    public boolean func_190718_dR()
     {
-        return this.caravanHead != null;
+        return this.field_190724_bK != null;
     }
 
     @Nullable
-    public EntityLlama getCaravanHead()
+    public EntityLlama func_190716_dS()
     {
-        return this.caravanHead;
+        return this.field_190724_bK;
     }
 
-    protected double followLeashSpeed()
+    protected double func_190634_dg()
     {
         return 2.0D;
     }
 
-    protected void followMother()
+    protected void func_190679_dD()
     {
-        if (!this.inCaravan() && this.isChild())
+        if (!this.func_190718_dR() && this.isChild())
         {
-            super.followMother();
+            super.func_190679_dD();
         }
     }
 
-    public boolean canEatGrass()
+    public boolean func_190684_dE()
     {
         return false;
     }
 
     /**
      * Attack the specified entity using a ranged attack.
+     *  
+     * @param distanceFactor How far the target is, normalized and clamped between 0.1 and 1.0
      */
     public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor)
     {
-        this.spit(target);
+        this.func_190713_e(target);
     }
 
     static class AIDefendTarget extends EntityAINearestAttackableTarget<EntityWolf>
     {
-        public AIDefendTarget(EntityLlama llama)
+        public AIDefendTarget(EntityLlama p_i47285_1_)
         {
-            super(llama, EntityWolf.class, 16, false, true, null);
+            super(p_i47285_1_, EntityWolf.class, 16, false, true, null);
         }
 
         public boolean shouldExecute()
@@ -568,9 +570,9 @@ public class EntityLlama extends AbstractChestHorse implements IRangedAttackMob
 
     static class AIHurtByTarget extends EntityAIHurtByTarget
     {
-        public AIHurtByTarget(EntityLlama llama)
+        public AIHurtByTarget(EntityLlama p_i47282_1_)
         {
-            super(llama, false, new Class[0]);
+            super(p_i47282_1_, false, new Class[0]);
         }
 
         public boolean continueExecuting()
@@ -579,9 +581,9 @@ public class EntityLlama extends AbstractChestHorse implements IRangedAttackMob
             {
                 EntityLlama entityllama = (EntityLlama)this.taskOwner;
 
-                if (entityllama.didSpit)
+                if (entityllama.field_190723_bJ)
                 {
-                    entityllama.setDidSpit(false);
+                    entityllama.func_190714_x(false);
                     return false;
                 }
             }
@@ -592,11 +594,11 @@ public class EntityLlama extends AbstractChestHorse implements IRangedAttackMob
 
     static class GroupData implements IEntityLivingData
     {
-        public int variant;
+        public int field_190886_a;
 
-        private GroupData(int variantIn)
+        private GroupData(int p_i47283_1_)
         {
-            this.variant = variantIn;
+            this.field_190886_a = p_i47283_1_;
         }
     }
 }

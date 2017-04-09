@@ -2,7 +2,6 @@ package net.minecraft.client.renderer.entity;
 
 import org.lwjgl.opengl.GL11;
 
-import com.darkcart.xdolf.Client;
 import com.darkcart.xdolf.mods.Hacks;
 import com.darkcart.xdolf.mods.render.Chams;
 
@@ -72,8 +71,8 @@ public class RenderPlayer extends RenderLivingBase<AbstractClientPlayer>
             }
 
             this.setModelVisibilities(entity);
-            GlStateManager.enableBlendProfile(GlStateManager.Profile.PLAYER_SKIN);
             
+            GlStateManager.enableBlendProfile(GlStateManager.Profile.PLAYER_SKIN);
             if (Hacks.findMod(Chams.class).isEnabled()) {
             	GL11.glEnable(GL11.GL_POLYGON_OFFSET_FILL);
             	GlStateManager.enablePolygonOffset();
@@ -115,7 +114,7 @@ public class RenderPlayer extends RenderLivingBase<AbstractClientPlayer>
             ModelBiped.ArmPose modelbiped$armpose = ModelBiped.ArmPose.EMPTY;
             ModelBiped.ArmPose modelbiped$armpose1 = ModelBiped.ArmPose.EMPTY;
 
-            if (!itemstack.isEmpty())
+            if (!itemstack.func_190926_b())
             {
                 modelbiped$armpose = ModelBiped.ArmPose.ITEM;
 
@@ -134,7 +133,7 @@ public class RenderPlayer extends RenderLivingBase<AbstractClientPlayer>
                 }
             }
 
-            if (!itemstack1.isEmpty())
+            if (!itemstack1.func_190926_b())
             {
                 modelbiped$armpose1 = ModelBiped.ArmPose.ITEM;
 
@@ -253,7 +252,7 @@ public class RenderPlayer extends RenderLivingBase<AbstractClientPlayer>
         }
     }
 
-    protected void applyRotations(AbstractClientPlayer entityLiving, float p_77043_2_, float p_77043_3_, float partialTicks)
+    protected void rotateCorpse(AbstractClientPlayer entityLiving, float p_77043_2_, float p_77043_3_, float partialTicks)
     {
         if (entityLiving.isEntityAlive() && entityLiving.isPlayerSleeping())
         {
@@ -263,7 +262,7 @@ public class RenderPlayer extends RenderLivingBase<AbstractClientPlayer>
         }
         else if (entityLiving.isElytraFlying())
         {
-            super.applyRotations(entityLiving, p_77043_2_, p_77043_3_, partialTicks);
+            super.rotateCorpse(entityLiving, p_77043_2_, p_77043_3_, partialTicks);
             float f = (float)entityLiving.getTicksElytraFlying() + partialTicks;
             float f1 = MathHelper.clamp(f * f / 100.0F, 0.0F, 1.0F);
             GlStateManager.rotate(f1 * (-90.0F - entityLiving.rotationPitch), 1.0F, 0.0F, 0.0F);
@@ -280,7 +279,7 @@ public class RenderPlayer extends RenderLivingBase<AbstractClientPlayer>
         }
         else
         {
-            super.applyRotations(entityLiving, p_77043_2_, p_77043_3_, partialTicks);
+            super.rotateCorpse(entityLiving, p_77043_2_, p_77043_3_, partialTicks);
         }
     }
 }

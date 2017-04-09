@@ -14,10 +14,10 @@ public class GuiAnimationSettingsOF extends GuiScreen
     private GameSettings settings;
     private static GameSettings.Options[] enumOptions = new GameSettings.Options[] {GameSettings.Options.ANIMATED_WATER, GameSettings.Options.ANIMATED_LAVA, GameSettings.Options.ANIMATED_FIRE, GameSettings.Options.ANIMATED_PORTAL, GameSettings.Options.ANIMATED_REDSTONE, GameSettings.Options.ANIMATED_EXPLOSION, GameSettings.Options.ANIMATED_FLAME, GameSettings.Options.ANIMATED_SMOKE, GameSettings.Options.VOID_PARTICLES, GameSettings.Options.WATER_PARTICLES, GameSettings.Options.RAIN_SPLASH, GameSettings.Options.PORTAL_PARTICLES, GameSettings.Options.POTION_PARTICLES, GameSettings.Options.DRIPPING_WATER_LAVA, GameSettings.Options.ANIMATED_TERRAIN, GameSettings.Options.ANIMATED_TEXTURES, GameSettings.Options.FIREWORK_PARTICLES, GameSettings.Options.PARTICLES};
 
-    public GuiAnimationSettingsOF(GuiScreen p_i40_1_, GameSettings p_i40_2_)
+    public GuiAnimationSettingsOF(GuiScreen p_i43_1_, GameSettings p_i43_2_)
     {
-        this.prevScreen = p_i40_1_;
-        this.settings = p_i40_2_;
+        this.prevScreen = p_i43_1_;
+        this.settings = p_i43_2_;
     }
 
     /**

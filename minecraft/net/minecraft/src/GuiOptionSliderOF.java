@@ -7,10 +7,10 @@ public class GuiOptionSliderOF extends GuiOptionSlider implements IOptionControl
 {
     private GameSettings.Options option = null;
 
-    public GuiOptionSliderOF(int p_i44_1_, int p_i44_2_, int p_i44_3_, GameSettings.Options p_i44_4_)
+    public GuiOptionSliderOF(int p_i47_1_, int p_i47_2_, int p_i47_3_, GameSettings.Options p_i47_4_)
     {
-        super(p_i44_1_, p_i44_2_, p_i44_3_, p_i44_4_);
-        this.option = p_i44_4_;
+        super(p_i47_1_, p_i47_2_, p_i47_3_, p_i47_4_);
+        this.option = p_i47_4_;
     }
 
     public GameSettings.Options getOption()

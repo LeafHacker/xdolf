@@ -28,7 +28,7 @@ public class CommandSummon extends CommandBase
     /**
      * Gets the name of the command
      */
-    public String getName()
+    public String getCommandName()
     {
         return "summon";
     }
@@ -44,7 +44,7 @@ public class CommandSummon extends CommandBase
     /**
      * Gets the usage string for the command.
      */
-    public String getUsage(ICommandSender sender)
+    public String getCommandUsage(ICommandSender sender)
     {
         return "commands.summon.usage";
     }
@@ -81,7 +81,7 @@ public class CommandSummon extends CommandBase
             {
                 throw new CommandException("commands.summon.outOfWorld", new Object[0]);
             }
-            else if (EntityList.LIGHTNING_BOLT.equals(new ResourceLocation(s)))
+            else if (EntityList.field_191307_a.equals(new ResourceLocation(s)))
             {
                 world.addWeatherEffect(new EntityLightningBolt(world, d0, d1, d2, false));
                 notifyCommandListener(sender, this, "commands.summon.success", new Object[0]);
@@ -128,7 +128,7 @@ public class CommandSummon extends CommandBase
         }
     }
 
-    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
+    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
     {
         return args.length == 1 ? getListOfStringsMatchingLastWord(args, EntityList.getEntityNameList()) : (args.length > 1 && args.length <= 4 ? getTabCompletionCoordinate(args, 1, pos) : Collections.<String>emptyList());
     }

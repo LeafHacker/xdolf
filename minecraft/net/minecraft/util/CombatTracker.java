@@ -89,18 +89,18 @@ public class CombatTracker
             Entity entity = combatentry1.getDamageSrc().getEntity();
             ITextComponent itextcomponent;
 
-            if (combatentry != null && combatentry1.getDamageSrc() == DamageSource.FALL)
+            if (combatentry != null && combatentry1.getDamageSrc() == DamageSource.fall)
             {
                 ITextComponent itextcomponent2 = combatentry.getDamageSrcDisplayName();
 
-                if (combatentry.getDamageSrc() != DamageSource.FALL && combatentry.getDamageSrc() != DamageSource.OUT_OF_WORLD)
+                if (combatentry.getDamageSrc() != DamageSource.fall && combatentry.getDamageSrc() != DamageSource.outOfWorld)
                 {
                     if (itextcomponent2 != null && (itextcomponent1 == null || !itextcomponent2.equals(itextcomponent1)))
                     {
                         Entity entity1 = combatentry.getDamageSrc().getEntity();
-                        ItemStack itemstack1 = entity1 instanceof EntityLivingBase ? ((EntityLivingBase)entity1).getHeldItemMainhand() : ItemStack.EMPTY;
+                        ItemStack itemstack1 = entity1 instanceof EntityLivingBase ? ((EntityLivingBase)entity1).getHeldItemMainhand() : ItemStack.field_190927_a;
 
-                        if (!itemstack1.isEmpty() && itemstack1.hasDisplayName())
+                        if (!itemstack1.func_190926_b() && itemstack1.hasDisplayName())
                         {
                             itextcomponent = new TextComponentTranslation("death.fell.assist.item", new Object[] {this.fighter.getDisplayName(), itextcomponent2, itemstack1.getTextComponent()});
                         }
@@ -111,9 +111,9 @@ public class CombatTracker
                     }
                     else if (itextcomponent1 != null)
                     {
-                        ItemStack itemstack = entity instanceof EntityLivingBase ? ((EntityLivingBase)entity).getHeldItemMainhand() : ItemStack.EMPTY;
+                        ItemStack itemstack = entity instanceof EntityLivingBase ? ((EntityLivingBase)entity).getHeldItemMainhand() : ItemStack.field_190927_a;
 
-                        if (!itemstack.isEmpty() && itemstack.hasDisplayName())
+                        if (!itemstack.func_190926_b() && itemstack.hasDisplayName())
                         {
                             itextcomponent = new TextComponentTranslation("death.fell.finish.item", new Object[] {this.fighter.getDisplayName(), itextcomponent1, itemstack.getTextComponent()});
                         }
@@ -187,7 +187,7 @@ public class CombatTracker
             CombatEntry combatentry2 = (CombatEntry)this.combatEntries.get(i);
             CombatEntry combatentry3 = i > 0 ? (CombatEntry)this.combatEntries.get(i - 1) : null;
 
-            if ((combatentry2.getDamageSrc() == DamageSource.FALL || combatentry2.getDamageSrc() == DamageSource.OUT_OF_WORLD) && combatentry2.getDamageAmount() > 0.0F && (combatentry == null || combatentry2.getDamageAmount() > f1))
+            if ((combatentry2.getDamageSrc() == DamageSource.fall || combatentry2.getDamageSrc() == DamageSource.outOfWorld) && combatentry2.getDamageAmount() > 0.0F && (combatentry == null || combatentry2.getDamageAmount() > f1))
             {
                 if (i > 0)
                 {

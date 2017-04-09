@@ -4,7 +4,7 @@ import javax.annotation.Nullable;
 
 public interface IAttribute
 {
-    String getName();
+    String getAttributeUnlocalizedName();
 
     double clampValue(double value);
 

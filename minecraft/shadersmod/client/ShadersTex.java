@@ -23,6 +23,7 @@ import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.resources.IResource;
 import net.minecraft.client.resources.IResourceManager;
+import net.minecraft.src.Config;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
@@ -422,15 +423,13 @@ public class ShadersTex
     {
         try
         {
-            IResource iresource = resManager.getResource(resLoc);
-
-            if (iresource == null)
+            if (!Config.hasResource(resLoc))
             {
                 return null;
             }
             else
             {
-                InputStream inputstream = iresource.getInputStream();
+                InputStream inputstream = Config.getResourceStream(resLoc);
 
                 if (inputstream == null)
                 {
@@ -444,7 +443,7 @@ public class ShadersTex
                 }
             }
         }
-        catch (IOException var4)
+        catch (IOException var3)
         {
             return null;
         }

@@ -17,7 +17,7 @@ public class CommandOp extends CommandBase
     /**
      * Gets the name of the command
      */
-    public String getName()
+    public String getCommandName()
     {
         return "op";
     }
@@ -33,7 +33,7 @@ public class CommandOp extends CommandBase
     /**
      * Gets the usage string for the command.
      */
-    public String getUsage(ICommandSender sender)
+    public String getCommandUsage(ICommandSender sender)
     {
         return "commands.op.usage";
     }
@@ -63,14 +63,14 @@ public class CommandOp extends CommandBase
         }
     }
 
-    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
+    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
     {
         if (args.length == 1)
         {
             String s = args[args.length - 1];
             List<String> list = Lists.<String>newArrayList();
 
-            for (GameProfile gameprofile : server.getOnlinePlayerProfiles())
+            for (GameProfile gameprofile : server.getGameProfiles())
             {
                 if (!server.getPlayerList().canSendCommands(gameprofile) && doesStringStartWith(s, gameprofile.getName()))
                 {

@@ -239,7 +239,7 @@ public class BlockStateContainer
             this.propertyValueTable = p_i8_3_;
         }
 
-        public Collection < IProperty<? >> getPropertyKeys()
+        public Collection < IProperty<? >> getPropertyNames()
         {
             return Collections. < IProperty<? >> unmodifiableCollection(this.properties.keySet());
         }
@@ -396,9 +396,9 @@ public class BlockStateContainer
             return this.block.isFullCube(this);
         }
 
-        public boolean hasCustomBreakingProgress()
+        public boolean func_191057_i()
         {
-            return this.block.hasCustomBreakingProgress(this);
+            return this.block.func_190946_v(this);
         }
 
         public EnumBlockRenderType getRenderType()
@@ -492,9 +492,9 @@ public class BlockStateContainer
             return this.block.getCollisionBoundingBox(this, worldIn, pos);
         }
 
-        public void addCollisionBoxToList(World worldIn, BlockPos pos, AxisAlignedBB p_185908_3_, List<AxisAlignedBB> p_185908_4_, @Nullable Entity p_185908_5_)
+        public void addCollisionBoxToList(World worldIn, BlockPos pos, AxisAlignedBB p_185908_3_, List<AxisAlignedBB> p_185908_4_, @Nullable Entity p_185908_5_, boolean p_185908_6_)
         {
-            this.block.addCollisionBoxToList(this, worldIn, pos, p_185908_3_, p_185908_4_, p_185908_5_);
+            this.block.addCollisionBoxToList(this, worldIn, pos, p_185908_3_, p_185908_4_, p_185908_5_, p_185908_6_);
         }
 
         public AxisAlignedBB getBoundingBox(IBlockAccess blockAccess, BlockPos pos)
@@ -523,9 +523,9 @@ public class BlockStateContainer
             return this.block.isFullyOpaque(this);
         }
 
-        public Vec3d getOffset(IBlockAccess p_191059_1_, BlockPos p_191059_2_)
+        public Vec3d func_191059_e(IBlockAccess p_191059_1_, BlockPos p_191059_2_)
         {
-            return this.block.getOffset(this, p_191059_1_, p_191059_2_);
+            return this.block.func_190949_e(this, p_191059_1_, p_191059_2_);
         }
 
         public boolean onBlockEventReceived(World worldIn, BlockPos pos, int id, int param)
@@ -533,12 +533,12 @@ public class BlockStateContainer
             return this.block.eventReceived(this, worldIn, pos, id, param);
         }
 
-        public void neighborChanged(World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos)
+        public void neighborChanged(World worldIn, BlockPos pos, Block blockIn, BlockPos p_189546_4_)
         {
-            this.block.neighborChanged(this, worldIn, pos, blockIn, fromPos);
+            this.block.neighborChanged(this, worldIn, pos, blockIn, p_189546_4_);
         }
 
-        public boolean causesSuffocation()
+        public boolean func_191058_s()
         {
             return this.block.causesSuffocation(this);
         }

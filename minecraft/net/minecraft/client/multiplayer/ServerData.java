@@ -28,7 +28,7 @@ public class ServerData
     public int version = GuiScreenProtocol.proto;
 
     /** Game version for this server. */
-    public String gameVersion = "1.11";
+    public String gameVersion = "1.11.2";
     public boolean pinged;
     public String playerList;
     private ServerData.ServerResourceMode resourceMode = ServerData.ServerResourceMode.PROMPT;

@@ -272,7 +272,7 @@ public class ConnectedParser
             else
             {
                 IBlockState iblockstate = p_parseBlockMetadatas_1_.getDefaultState();
-                Collection collection = iblockstate.getPropertyKeys();
+                Collection collection = iblockstate.getPropertyNames();
                 Map<IProperty, List<Comparable>> map = new HashMap();
 
                 for (int i = 0; i < p_parseBlockMetadatas_2_.length; ++i)

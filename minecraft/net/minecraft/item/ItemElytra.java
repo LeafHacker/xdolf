@@ -44,16 +44,16 @@ public class ItemElytra extends Item
         return repair.getItem() == Items.LEATHER;
     }
 
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
+    public ActionResult<ItemStack> onItemRightClick(World itemStackIn, EntityPlayer worldIn, EnumHand playerIn)
     {
-        ItemStack itemstack = playerIn.getHeldItem(handIn);
+        ItemStack itemstack = worldIn.getHeldItem(playerIn);
         EntityEquipmentSlot entityequipmentslot = EntityLiving.getSlotForItemStack(itemstack);
-        ItemStack itemstack1 = playerIn.getItemStackFromSlot(entityequipmentslot);
+        ItemStack itemstack1 = worldIn.getItemStackFromSlot(entityequipmentslot);
 
-        if (itemstack1.isEmpty())
+        if (itemstack1.func_190926_b())
         {
-            playerIn.setItemStackToSlot(entityequipmentslot, itemstack.copy());
-            itemstack.setCount(0);
+            worldIn.setItemStackToSlot(entityequipmentslot, itemstack.copy());
+            itemstack.func_190920_e(0);
             return new ActionResult(EnumActionResult.SUCCESS, itemstack);
         }
         else

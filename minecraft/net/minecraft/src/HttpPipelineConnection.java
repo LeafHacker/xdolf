@@ -34,12 +34,12 @@ public class HttpPipelineConnection
     public static final int TIMEOUT_READ_MS = 5000;
     private static final Pattern patternFullUrl = Pattern.compile("^[a-zA-Z]+://.*");
 
-    public HttpPipelineConnection(String p_i49_1_, int p_i49_2_)
+    public HttpPipelineConnection(String p_i52_1_, int p_i52_2_)
     {
-        this(p_i49_1_, p_i49_2_, Proxy.NO_PROXY);
+        this(p_i52_1_, p_i52_2_, Proxy.NO_PROXY);
     }
 
-    public HttpPipelineConnection(String p_i50_1_, int p_i50_2_, Proxy p_i50_3_)
+    public HttpPipelineConnection(String p_i53_1_, int p_i53_2_, Proxy p_i53_3_)
     {
         this.host = null;
         this.port = 0;
@@ -57,9 +57,9 @@ public class HttpPipelineConnection
         this.keepaliveMaxCount = 1000;
         this.timeLastActivityMs = System.currentTimeMillis();
         this.terminated = false;
-        this.host = p_i50_1_;
-        this.port = p_i50_2_;
-        this.proxy = p_i50_3_;
+        this.host = p_i53_1_;
+        this.port = p_i53_2_;
+        this.proxy = p_i53_3_;
         this.httpPipelineSender = new HttpPipelineSender(this);
         this.httpPipelineSender.start();
         this.httpPipelineReceiver = new HttpPipelineReceiver(this);

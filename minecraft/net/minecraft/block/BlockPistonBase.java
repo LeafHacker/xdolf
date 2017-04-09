@@ -51,9 +51,9 @@ public class BlockPistonBase extends BlockDirectional
         this.setCreativeTab(CreativeTabs.REDSTONE);
     }
 
-    public boolean causesSuffocation(IBlockState state)
+    public boolean causesSuffocation(IBlockState p_176214_1_)
     {
-        return !((Boolean)state.getValue(EXTENDED)).booleanValue();
+        return !((Boolean)p_176214_1_.getValue(EXTENDED)).booleanValue();
     }
 
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
@@ -96,7 +96,7 @@ public class BlockPistonBase extends BlockDirectional
         return !((Boolean)state.getValue(EXTENDED)).booleanValue() || state.getValue(FACING) == EnumFacing.DOWN;
     }
 
-    public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn)
+    public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn, boolean p_185477_7_)
     {
         addCollisionBoxToList(pos, entityBox, collidingBoxes, state.getBoundingBox(worldIn, pos));
     }
@@ -114,7 +114,7 @@ public class BlockPistonBase extends BlockDirectional
      */
     public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)
     {
-        worldIn.setBlockState(pos, state.withProperty(FACING, EnumFacing.getDirectionFromEntityLiving(pos, placer)), 2);
+        worldIn.setBlockState(pos, state.withProperty(FACING, EnumFacing.func_190914_a(pos, placer)), 2);
 
         if (!worldIn.isRemote)
         {
@@ -127,7 +127,7 @@ public class BlockPistonBase extends BlockDirectional
      * change. Cases may include when redstone power is updated, cactus blocks popping off due to a neighboring solid
      * block, etc.
      */
-    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos)
+    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos p_189540_5_)
     {
         if (!worldIn.isRemote)
         {
@@ -150,9 +150,9 @@ public class BlockPistonBase extends BlockDirectional
      * Called by ItemBlocks just before a block is actually set in the world, to allow for adjustments to the
      * IBlockstate
      */
-    public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
+    public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
     {
-        return this.getDefaultState().withProperty(FACING, EnumFacing.getDirectionFromEntityLiving(pos, placer)).withProperty(EXTENDED, Boolean.valueOf(false));
+        return this.getDefaultState().withProperty(FACING, EnumFacing.func_190914_a(pos, placer)).withProperty(EXTENDED, Boolean.valueOf(false));
     }
 
     private void checkForMove(World worldIn, BlockPos pos, IBlockState state)
@@ -236,7 +236,7 @@ public class BlockPistonBase extends BlockDirectional
                 return false;
             }
 
-            worldIn.setBlockState(pos, state.withProperty(EXTENDED, Boolean.valueOf(true)), 2);
+            worldIn.setBlockState(pos, state.withProperty(EXTENDED, Boolean.valueOf(true)), 3);
             worldIn.playSound((EntityPlayer)null, pos, SoundEvents.BLOCK_PISTON_EXTEND, SoundCategory.BLOCKS, 0.5F, worldIn.rand.nextFloat() * 0.25F + 0.6F);
         }
         else if (id == 1)
@@ -390,7 +390,7 @@ public class BlockPistonBase extends BlockDirectional
                 BlockPos blockpos1 = (BlockPos)list2.get(j);
                 IBlockState iblockstate = worldIn.getBlockState(blockpos1);
                 iblockstate.getBlock().dropBlockAsItem(worldIn, blockpos1, iblockstate, 0);
-                worldIn.setBlockToAir(blockpos1);
+                worldIn.setBlockState(blockpos1, Blocks.AIR.getDefaultState(), 4);
                 --k;
                 aiblockstate[k] = iblockstate;
             }
@@ -431,7 +431,6 @@ public class BlockPistonBase extends BlockDirectional
             if (extending)
             {
                 worldIn.notifyNeighborsOfStateChange(blockpos2, Blocks.PISTON_HEAD, false);
-                worldIn.notifyNeighborsOfStateChange(pos, this, false);
             }
 
             return true;

@@ -16,14 +16,14 @@ import net.minecraft.world.gen.ChunkProviderOverworld;
 
 public class WoodlandMansion extends MapGenStructure
 {
-    private final int featureSpacing = 80;
-    private final int minFeatureSeparation = 20;
-    public static final List<Biome> ALLOWED_BIOMES = Arrays.<Biome>asList(new Biome[] {Biomes.ROOFED_FOREST, Biomes.MUTATED_ROOFED_FOREST});
-    private final ChunkProviderOverworld provider;
+    private final int field_191073_b = 80;
+    private final int field_191074_d = 20;
+    public static final List<Biome> field_191072_a = Arrays.<Biome>asList(new Biome[] {Biomes.ROOFED_FOREST, Biomes.MUTATED_ROOFED_FOREST});
+    private final ChunkProviderOverworld field_191075_h;
 
     public WoodlandMansion(ChunkProviderOverworld p_i47240_1_)
     {
-        this.provider = p_i47240_1_;
+        this.field_191075_h = p_i47240_1_;
     }
 
     public String getStructureName()
@@ -48,7 +48,7 @@ public class WoodlandMansion extends MapGenStructure
 
         int k = i / 80;
         int l = j / 80;
-        Random random = this.world.setRandomSeed(k, l, 10387319);
+        Random random = this.worldObj.setRandomSeed(k, l, 10387319);
         k = k * 80;
         l = l * 80;
         k = k + (random.nextInt(60) + random.nextInt(60)) / 2;
@@ -56,7 +56,7 @@ public class WoodlandMansion extends MapGenStructure
 
         if (chunkX == k && chunkZ == l)
         {
-            boolean flag = this.world.getBiomeProvider().areBiomesViable(chunkX * 16 + 8, chunkZ * 16 + 8, 32, ALLOWED_BIOMES);
+            boolean flag = this.worldObj.getBiomeProvider().areBiomesViable(chunkX * 16 + 8, chunkZ * 16 + 8, 32, field_191072_a);
 
             if (flag)
             {
@@ -69,19 +69,19 @@ public class WoodlandMansion extends MapGenStructure
 
     public BlockPos getClosestStrongholdPos(World worldIn, BlockPos pos, boolean p_180706_3_)
     {
-        this.world = worldIn;
+        this.worldObj = worldIn;
         BiomeProvider biomeprovider = worldIn.getBiomeProvider();
-        return biomeprovider.isFixedBiome() && biomeprovider.getFixedBiome() != Biomes.ROOFED_FOREST ? null : findNearestStructurePosBySpacing(worldIn, this, pos, 80, 20, 10387319, true, 100, p_180706_3_);
+        return biomeprovider.func_190944_c() && biomeprovider.func_190943_d() != Biomes.ROOFED_FOREST ? null : func_191069_a(worldIn, this, pos, 80, 20, 10387319, true, 100, p_180706_3_);
     }
 
     protected StructureStart getStructureStart(int chunkX, int chunkZ)
     {
-        return new WoodlandMansion.Start(this.world, this.provider, this.rand, chunkX, chunkZ);
+        return new WoodlandMansion.Start(this.worldObj, this.field_191075_h, this.rand, chunkX, chunkZ);
     }
 
     public static class Start extends StructureStart
     {
-        private boolean isValid;
+        private boolean field_191093_c;
 
         public Start()
         {
@@ -90,10 +90,10 @@ public class WoodlandMansion extends MapGenStructure
         public Start(World p_i47235_1_, ChunkProviderOverworld p_i47235_2_, Random p_i47235_3_, int p_i47235_4_, int p_i47235_5_)
         {
             super(p_i47235_4_, p_i47235_5_);
-            this.create(p_i47235_1_, p_i47235_2_, p_i47235_3_, p_i47235_4_, p_i47235_5_);
+            this.func_191092_a(p_i47235_1_, p_i47235_2_, p_i47235_3_, p_i47235_4_, p_i47235_5_);
         }
 
-        private void create(World p_191092_1_, ChunkProviderOverworld p_191092_2_, Random p_191092_3_, int p_191092_4_, int p_191092_5_)
+        private void func_191092_a(World p_191092_1_, ChunkProviderOverworld p_191092_2_, Random p_191092_3_, int p_191092_4_, int p_191092_5_)
         {
             Rotation rotation = Rotation.values()[p_191092_3_.nextInt(Rotation.values().length)];
             ChunkPrimer chunkprimer = new ChunkPrimer();
@@ -123,16 +123,16 @@ public class WoodlandMansion extends MapGenStructure
 
             if (k1 < 60)
             {
-                this.isValid = false;
+                this.field_191093_c = false;
             }
             else
             {
                 BlockPos blockpos = new BlockPos(p_191092_4_ * 16 + 8, k1 + 1, p_191092_5_ * 16 + 8);
                 List<WoodlandMansionPieces.MansionTemplate> list = Lists.<WoodlandMansionPieces.MansionTemplate>newLinkedList();
-                WoodlandMansionPieces.generateMansion(p_191092_1_.getSaveHandler().getStructureTemplateManager(), blockpos, rotation, list, p_191092_3_);
+                WoodlandMansionPieces.func_191152_a(p_191092_1_.getSaveHandler().getStructureTemplateManager(), blockpos, rotation, list, p_191092_3_);
                 this.components.addAll(list);
                 this.updateBoundingBox();
-                this.isValid = true;
+                this.field_191093_c = true;
             }
         }
 
@@ -181,7 +181,7 @@ public class WoodlandMansion extends MapGenStructure
 
         public boolean isSizeableStructure()
         {
-            return this.isValid;
+            return this.field_191093_c;
         }
     }
 }

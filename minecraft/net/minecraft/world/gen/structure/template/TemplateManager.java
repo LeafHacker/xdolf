@@ -25,12 +25,12 @@ public class TemplateManager
      * the folder in the assets folder where the structure templates are found.
      */
     private final String baseFolder;
-    private final DataFixer fixer;
+    private final DataFixer field_191154_c;
 
     public TemplateManager(String p_i47239_1_, DataFixer p_i47239_2_)
     {
         this.baseFolder = p_i47239_1_;
-        this.fixer = p_i47239_2_;
+        this.field_191154_c = p_i47239_2_;
     }
 
     public Template getTemplate(@Nullable MinecraftServer server, ResourceLocation id)
@@ -149,7 +149,7 @@ public class TemplateManager
         }
 
         Template template = new Template();
-        template.read(this.fixer.process(FixTypes.STRUCTURE, nbttagcompound));
+        template.read(this.field_191154_c.process(FixTypes.STRUCTURE, nbttagcompound));
         this.templates.put(id, template);
     }
 

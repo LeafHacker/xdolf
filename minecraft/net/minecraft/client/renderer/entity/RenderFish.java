@@ -28,7 +28,7 @@ public class RenderFish extends Render<EntityFishHook>
      */
     public void doRender(EntityFishHook entity, double x, double y, double z, float entityYaw, float partialTicks)
     {
-        EntityPlayer entityplayer = entity.getAngler();
+        EntityPlayer entityplayer = entity.func_190619_l();
 
         if (entityplayer != null && !this.renderOutlines)
         {

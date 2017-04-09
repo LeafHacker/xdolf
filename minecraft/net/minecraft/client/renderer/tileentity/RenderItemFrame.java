@@ -58,7 +58,7 @@ public class RenderItemFrame extends Render<EntityItemFrame>
         ModelManager modelmanager = blockrendererdispatcher.getBlockModelShapes().getModelManager();
         IBakedModel ibakedmodel;
 
-        if (!entity.getDisplayedItem().isEmpty() && entity.getDisplayedItem().getItem() == Items.FILLED_MAP)
+        if (!entity.getDisplayedItem().func_190926_b() && entity.getDisplayedItem().getItem() == Items.FILLED_MAP)
         {
             ibakedmodel = modelmanager.getModel(this.mapModel);
         }
@@ -105,7 +105,7 @@ public class RenderItemFrame extends Render<EntityItemFrame>
     {
         ItemStack itemstack = itemFrame.getDisplayedItem();
 
-        if (!itemstack.isEmpty())
+        if (!itemstack.func_190926_b())
         {
             if (!Config.zoomMode)
             {
@@ -120,7 +120,7 @@ public class RenderItemFrame extends Render<EntityItemFrame>
 
             EntityItem entityitem = new EntityItem(itemFrame.world, 0.0D, 0.0D, 0.0D, itemstack);
             Item item = entityitem.getEntityItem().getItem();
-            entityitem.getEntityItem().setCount(1);
+            entityitem.getEntityItem().func_190920_e(1);
             entityitem.hoverStart = 0.0F;
             GlStateManager.pushMatrix();
             GlStateManager.disableLighting();
@@ -172,7 +172,7 @@ public class RenderItemFrame extends Render<EntityItemFrame>
 
     protected void renderName(EntityItemFrame entity, double x, double y, double z)
     {
-        if (Minecraft.isGuiEnabled() && !entity.getDisplayedItem().isEmpty() && entity.getDisplayedItem().hasDisplayName() && this.renderManager.pointedEntity == entity)
+        if (Minecraft.isGuiEnabled() && !entity.getDisplayedItem().func_190926_b() && entity.getDisplayedItem().hasDisplayName() && this.renderManager.pointedEntity == entity)
         {
             double d0 = entity.getDistanceSqToEntity(this.renderManager.renderViewEntity);
             float f = entity.isSneaking() ? 32.0F : 64.0F;

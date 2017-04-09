@@ -27,9 +27,9 @@ public class ItemEndCrystal extends Item
     /**
      * Called when a Block is right-clicked with this Item
      */
-    public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+    public EnumActionResult onItemUse(EntityPlayer stack, World playerIn, BlockPos worldIn, EnumHand pos, EnumFacing hand, float facing, float hitX, float hitY)
     {
-        IBlockState iblockstate = worldIn.getBlockState(pos);
+        IBlockState iblockstate = playerIn.getBlockState(worldIn);
 
         if (iblockstate.getBlock() != Blocks.OBSIDIAN && iblockstate.getBlock() != Blocks.BEDROCK)
         {
@@ -37,18 +37,18 @@ public class ItemEndCrystal extends Item
         }
         else
         {
-            BlockPos blockpos = pos.up();
-            ItemStack itemstack = player.getHeldItem(hand);
+            BlockPos blockpos = worldIn.up();
+            ItemStack itemstack = stack.getHeldItem(pos);
 
-            if (!player.canPlayerEdit(blockpos, facing, itemstack))
+            if (!stack.canPlayerEdit(blockpos, hand, itemstack))
             {
                 return EnumActionResult.FAIL;
             }
             else
             {
                 BlockPos blockpos1 = blockpos.up();
-                boolean flag = !worldIn.isAirBlock(blockpos) && !worldIn.getBlockState(blockpos).getBlock().isReplaceable(worldIn, blockpos);
-                flag = flag | (!worldIn.isAirBlock(blockpos1) && !worldIn.getBlockState(blockpos1).getBlock().isReplaceable(worldIn, blockpos1));
+                boolean flag = !playerIn.isAirBlock(blockpos) && !playerIn.getBlockState(blockpos).getBlock().isReplaceable(playerIn, blockpos);
+                flag = flag | (!playerIn.isAirBlock(blockpos1) && !playerIn.getBlockState(blockpos1).getBlock().isReplaceable(playerIn, blockpos1));
 
                 if (flag)
                 {
@@ -59,7 +59,7 @@ public class ItemEndCrystal extends Item
                     double d0 = (double)blockpos.getX();
                     double d1 = (double)blockpos.getY();
                     double d2 = (double)blockpos.getZ();
-                    List<Entity> list = worldIn.getEntitiesWithinAABBExcludingEntity((Entity)null, new AxisAlignedBB(d0, d1, d2, d0 + 1.0D, d1 + 2.0D, d2 + 1.0D));
+                    List<Entity> list = playerIn.getEntitiesWithinAABBExcludingEntity((Entity)null, new AxisAlignedBB(d0, d1, d2, d0 + 1.0D, d1 + 2.0D, d2 + 1.0D));
 
                     if (!list.isEmpty())
                     {
@@ -67,20 +67,20 @@ public class ItemEndCrystal extends Item
                     }
                     else
                     {
-                        if (!worldIn.isRemote)
+                        if (!playerIn.isRemote)
                         {
-                            EntityEnderCrystal entityendercrystal = new EntityEnderCrystal(worldIn, (double)((float)pos.getX() + 0.5F), (double)(pos.getY() + 1), (double)((float)pos.getZ() + 0.5F));
+                            EntityEnderCrystal entityendercrystal = new EntityEnderCrystal(playerIn, (double)((float)worldIn.getX() + 0.5F), (double)(worldIn.getY() + 1), (double)((float)worldIn.getZ() + 0.5F));
                             entityendercrystal.setShowBottom(false);
-                            worldIn.spawnEntity(entityendercrystal);
+                            playerIn.spawnEntityInWorld(entityendercrystal);
 
-                            if (worldIn.provider instanceof WorldProviderEnd)
+                            if (playerIn.provider instanceof WorldProviderEnd)
                             {
-                                DragonFightManager dragonfightmanager = ((WorldProviderEnd)worldIn.provider).getDragonFightManager();
+                                DragonFightManager dragonfightmanager = ((WorldProviderEnd)playerIn.provider).getDragonFightManager();
                                 dragonfightmanager.respawnDragon();
                             }
                         }
 
-                        itemstack.shrink(1);
+                        itemstack.func_190918_g(1);
                         return EnumActionResult.SUCCESS;
                     }
                 }

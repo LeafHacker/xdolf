@@ -33,7 +33,7 @@ public class SPacketSetPassengers implements Packet<INetHandlerPlayClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.entityId = buf.readVarInt();
+        this.entityId = buf.readVarIntFromBuffer();
         this.passengerIds = buf.readVarIntArray();
     }
 
@@ -42,7 +42,7 @@ public class SPacketSetPassengers implements Packet<INetHandlerPlayClient>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeVarInt(this.entityId);
+        buf.writeVarIntToBuffer(this.entityId);
         buf.writeVarIntArray(this.passengerIds);
     }
 

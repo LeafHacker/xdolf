@@ -25,22 +25,22 @@ public class ModelSprite
     private float maxU = 0.0F;
     private float maxV = 0.0F;
 
-    public ModelSprite(ModelRenderer p_i61_1_, int p_i61_2_, int p_i61_3_, float p_i61_4_, float p_i61_5_, float p_i61_6_, int p_i61_7_, int p_i61_8_, int p_i61_9_, float p_i61_10_)
+    public ModelSprite(ModelRenderer p_i64_1_, int p_i64_2_, int p_i64_3_, float p_i64_4_, float p_i64_5_, float p_i64_6_, int p_i64_7_, int p_i64_8_, int p_i64_9_, float p_i64_10_)
     {
-        this.modelRenderer = p_i61_1_;
-        this.textureOffsetX = p_i61_2_;
-        this.textureOffsetY = p_i61_3_;
-        this.posX = p_i61_4_;
-        this.posY = p_i61_5_;
-        this.posZ = p_i61_6_;
-        this.sizeX = p_i61_7_;
-        this.sizeY = p_i61_8_;
-        this.sizeZ = p_i61_9_;
-        this.sizeAdd = p_i61_10_;
-        this.minU = (float)p_i61_2_ / p_i61_1_.textureWidth;
-        this.minV = (float)p_i61_3_ / p_i61_1_.textureHeight;
-        this.maxU = (float)(p_i61_2_ + p_i61_7_) / p_i61_1_.textureWidth;
-        this.maxV = (float)(p_i61_3_ + p_i61_8_) / p_i61_1_.textureHeight;
+        this.modelRenderer = p_i64_1_;
+        this.textureOffsetX = p_i64_2_;
+        this.textureOffsetY = p_i64_3_;
+        this.posX = p_i64_4_;
+        this.posY = p_i64_5_;
+        this.posZ = p_i64_6_;
+        this.sizeX = p_i64_7_;
+        this.sizeY = p_i64_8_;
+        this.sizeZ = p_i64_9_;
+        this.sizeAdd = p_i64_10_;
+        this.minU = (float)p_i64_2_ / p_i64_1_.textureWidth;
+        this.minV = (float)p_i64_3_ / p_i64_1_.textureHeight;
+        this.maxU = (float)(p_i64_2_ + p_i64_7_) / p_i64_1_.textureWidth;
+        this.maxV = (float)(p_i64_3_ + p_i64_8_) / p_i64_1_.textureHeight;
     }
 
     public void render(Tessellator p_render_1_, float p_render_2_)

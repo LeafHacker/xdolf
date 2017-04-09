@@ -37,21 +37,21 @@ public class LootEntryItem extends LootEntry
             }
         }
 
-        if (!itemstack.isEmpty())
+        if (!itemstack.func_190926_b())
         {
-            if (itemstack.getCount() < this.item.getItemStackLimit())
+            if (itemstack.func_190916_E() < this.item.getItemStackLimit())
             {
                 stacks.add(itemstack);
             }
             else
             {
-                int i = itemstack.getCount();
+                int i = itemstack.func_190916_E();
 
                 while (i > 0)
                 {
                     ItemStack itemstack1 = itemstack.copy();
-                    itemstack1.setCount(Math.min(itemstack.getMaxStackSize(), i));
-                    i -= itemstack1.getCount();
+                    itemstack1.func_190920_e(Math.min(itemstack.getMaxStackSize(), i));
+                    i -= itemstack1.func_190916_E();
                     stacks.add(itemstack1);
                 }
             }

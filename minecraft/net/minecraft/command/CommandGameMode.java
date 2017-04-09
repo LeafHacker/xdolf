@@ -16,7 +16,7 @@ public class CommandGameMode extends CommandBase
     /**
      * Gets the name of the command
      */
-    public String getName()
+    public String getCommandName()
     {
         return "gamemode";
     }
@@ -32,7 +32,7 @@ public class CommandGameMode extends CommandBase
     /**
      * Gets the usage string for the command.
      */
-    public String getUsage(ICommandSender sender)
+    public String getCommandUsage(ICommandSender sender)
     {
         return "commands.gamemode.usage";
     }
@@ -55,7 +55,7 @@ public class CommandGameMode extends CommandBase
 
             if (sender.getEntityWorld().getGameRules().getBoolean("sendCommandFeedback"))
             {
-                entityplayer.sendMessage(new TextComponentTranslation("gameMode.changed", new Object[] {itextcomponent}));
+                entityplayer.addChatMessage(new TextComponentTranslation("gameMode.changed", new Object[] {itextcomponent}));
             }
 
             if (entityplayer == sender)
@@ -78,9 +78,9 @@ public class CommandGameMode extends CommandBase
         return gametype == GameType.NOT_SET ? WorldSettings.getGameTypeById(parseInt(gameModeString, 0, GameType.values().length - 2)) : gametype;
     }
 
-    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
+    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
     {
-        return args.length == 1 ? getListOfStringsMatchingLastWord(args, new String[] {"survival", "creative", "adventure", "spectator"}): (args.length == 2 ? getListOfStringsMatchingLastWord(args, server.getOnlinePlayerNames()) : Collections.<String>emptyList());
+        return args.length == 1 ? getListOfStringsMatchingLastWord(args, new String[] {"survival", "creative", "adventure", "spectator"}): (args.length == 2 ? getListOfStringsMatchingLastWord(args, server.getAllUsernames()) : Collections.<String>emptyList());
     }
 
     /**

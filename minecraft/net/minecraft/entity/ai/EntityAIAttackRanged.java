@@ -124,7 +124,7 @@ public class EntityAIAttackRanged extends EntityAIBase
 
         if (--this.rangedAttackTime == 0)
         {
-            if (d0 > (double)this.maxAttackDistance || !flag)
+            if (!flag)
             {
                 return;
             }

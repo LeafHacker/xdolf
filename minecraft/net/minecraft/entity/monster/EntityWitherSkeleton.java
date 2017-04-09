@@ -23,16 +23,16 @@ import net.minecraft.world.storage.loot.LootTableList;
 
 public class EntityWitherSkeleton extends AbstractSkeleton
 {
-    public EntityWitherSkeleton(World worldIn)
+    public EntityWitherSkeleton(World p_i47278_1_)
     {
-        super(worldIn);
+        super(p_i47278_1_);
         this.setSize(0.7F, 2.4F);
         this.isImmuneToFire = true;
     }
 
-    public static void registerFixesWitherSkeleton(DataFixer fixer)
+    public static void func_190729_b(DataFixer p_190729_0_)
     {
-        EntityLiving.registerFixesMob(fixer, EntityWitherSkeleton.class);
+        EntityLiving.registerFixesMob(p_190729_0_, EntityWitherSkeleton.class);
     }
 
     @Nullable
@@ -56,7 +56,7 @@ public class EntityWitherSkeleton extends AbstractSkeleton
         return SoundEvents.ENTITY_WITHER_SKELETON_DEATH;
     }
 
-    SoundEvent getStepSound()
+    SoundEvent func_190727_o()
     {
         return SoundEvents.ENTITY_WITHER_SKELETON_STEP;
     }
@@ -131,9 +131,9 @@ public class EntityWitherSkeleton extends AbstractSkeleton
         }
     }
 
-    protected EntityArrow getArrow(float p_190726_1_)
+    protected EntityArrow func_190726_a(float p_190726_1_)
     {
-        EntityArrow entityarrow = super.getArrow(p_190726_1_);
+        EntityArrow entityarrow = super.func_190726_a(p_190726_1_);
         entityarrow.setFire(100);
         return entityarrow;
     }

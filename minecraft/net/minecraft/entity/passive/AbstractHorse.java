@@ -65,7 +65,7 @@ public abstract class AbstractHorse extends EntityAnimal implements IInventoryCh
     protected static final IAttribute JUMP_STRENGTH = (new RangedAttribute((IAttribute)null, "horse.jumpStrength", 0.7D, 0.0D, 2.0D)).setDescription("Jump Strength").setShouldWatch(true);
     private static final DataParameter<Byte> STATUS = EntityDataManager.<Byte>createKey(AbstractHorse.class, DataSerializers.BYTE);
     private static final DataParameter<Optional<UUID>> OWNER_UNIQUE_ID = EntityDataManager.<Optional<UUID>>createKey(AbstractHorse.class, DataSerializers.OPTIONAL_UNIQUE_ID);
-    private int eatingCounter;
+    private int field_190689_bJ;
     private int openMouthCounter;
     private int jumpRearingCounter;
     public int tailCounter;
@@ -85,14 +85,14 @@ public abstract class AbstractHorse extends EntityAnimal implements IInventoryCh
     private float prevRearingAmount;
     private float mouthOpenness;
     private float prevMouthOpenness;
-    protected boolean canGallop = true;
+    protected boolean field_190688_bE = true;
 
     /** Used to determine the sound that the horse should make when it steps */
     protected int gallopTime;
 
-    public AbstractHorse(World worldIn)
+    public AbstractHorse(World p_i47299_1_)
     {
-        super(worldIn);
+        super(p_i47299_1_);
         this.setSize(1.3964844F, 1.6F);
         this.stepHeight = 1.0F;
         this.initHorseChest();
@@ -230,7 +230,7 @@ public abstract class AbstractHorse extends EntityAnimal implements IInventoryCh
 
     public int increaseTemper(int p_110198_1_)
     {
-        int i = MathHelper.clamp(this.getTemper() + p_110198_1_, 0, this.getMaxTemper());
+        int i = MathHelper.clamp(this.getTemper() + p_110198_1_, 0, this.func_190676_dC());
         this.setTemper(i);
         return i;
     }
@@ -273,13 +273,13 @@ public abstract class AbstractHorse extends EntityAnimal implements IInventoryCh
 
         if (i > 0)
         {
-            this.attackEntityFrom(DamageSource.FALL, (float)i);
+            this.attackEntityFrom(DamageSource.fall, (float)i);
 
             if (this.isBeingRidden())
             {
                 for (Entity entity : this.getRecursivePassengers())
                 {
-                    entity.attackEntityFrom(DamageSource.FALL, (float)i);
+                    entity.attackEntityFrom(DamageSource.fall, (float)i);
                 }
             }
 
@@ -294,7 +294,7 @@ public abstract class AbstractHorse extends EntityAnimal implements IInventoryCh
         }
     }
 
-    protected int getInventorySize()
+    protected int func_190686_di()
     {
         return 2;
     }
@@ -302,7 +302,7 @@ public abstract class AbstractHorse extends EntityAnimal implements IInventoryCh
     protected void initHorseChest()
     {
         ContainerHorseChest containerhorsechest = this.horseChest;
-        this.horseChest = new ContainerHorseChest("HorseChest", this.getInventorySize());
+        this.horseChest = new ContainerHorseChest("HorseChest", this.func_190686_di());
         this.horseChest.setCustomName(this.getName());
 
         if (containerhorsechest != null)
@@ -314,7 +314,7 @@ public abstract class AbstractHorse extends EntityAnimal implements IInventoryCh
             {
                 ItemStack itemstack = containerhorsechest.getStackInSlot(j);
 
-                if (!itemstack.isEmpty())
+                if (!itemstack.func_190926_b())
                 {
                     this.horseChest.setInventorySlotContents(j, itemstack.copy());
                 }
@@ -332,7 +332,7 @@ public abstract class AbstractHorse extends EntityAnimal implements IInventoryCh
     {
         if (!this.world.isRemote)
         {
-            this.setHorseSaddled(!this.horseChest.getStackInSlot(0).isEmpty() && this.canBeSaddled());
+            this.setHorseSaddled(!this.horseChest.getStackInSlot(0).func_190926_b() && this.func_190685_dA());
         }
     }
 
@@ -408,7 +408,7 @@ public abstract class AbstractHorse extends EntityAnimal implements IInventoryCh
         return null;
     }
 
-    public boolean canBeSaddled()
+    public boolean func_190685_dA()
     {
         return true;
     }
@@ -437,13 +437,13 @@ public abstract class AbstractHorse extends EntityAnimal implements IInventoryCh
                 soundtype = Blocks.SNOW_LAYER.getSoundType();
             }
 
-            if (this.isBeingRidden() && this.canGallop)
+            if (this.isBeingRidden() && this.field_190688_bE)
             {
                 ++this.gallopTime;
 
                 if (this.gallopTime > 5 && this.gallopTime % 3 == 0)
                 {
-                    this.playGallopSound(soundtype);
+                    this.func_190680_a(soundtype);
                 }
                 else if (this.gallopTime <= 5)
                 {
@@ -461,7 +461,7 @@ public abstract class AbstractHorse extends EntityAnimal implements IInventoryCh
         }
     }
 
-    protected void playGallopSound(SoundType p_190680_1_)
+    protected void func_190680_a(SoundType p_190680_1_)
     {
         this.playSound(SoundEvents.ENTITY_HORSE_GALLOP, p_190680_1_.getVolume() * 0.15F, p_190680_1_.getPitch());
     }
@@ -482,7 +482,7 @@ public abstract class AbstractHorse extends EntityAnimal implements IInventoryCh
         return 6;
     }
 
-    public int getMaxTemper()
+    public int func_190676_dC()
     {
         return 100;
     }
@@ -512,13 +512,13 @@ public abstract class AbstractHorse extends EntityAnimal implements IInventoryCh
         }
     }
 
-    protected boolean handleEating(EntityPlayer player, ItemStack stack)
+    protected boolean func_190678_b(EntityPlayer p_190678_1_, ItemStack p_190678_2_)
     {
         boolean flag = false;
         float f = 0.0F;
         int i = 0;
         int j = 0;
-        Item item = stack.getItem();
+        Item item = p_190678_2_.getItem();
 
         if (item == Items.WHEAT)
         {
@@ -552,7 +552,7 @@ public abstract class AbstractHorse extends EntityAnimal implements IInventoryCh
             if (this.isTame() && this.getGrowingAge() == 0 && !this.isInLove())
             {
                 flag = true;
-                this.setInLove(player);
+                this.setInLove(p_190678_1_);
             }
         }
         else if (item == Items.GOLDEN_APPLE)
@@ -564,7 +564,7 @@ public abstract class AbstractHorse extends EntityAnimal implements IInventoryCh
             if (this.isTame() && this.getGrowingAge() == 0 && !this.isInLove())
             {
                 flag = true;
-                this.setInLove(player);
+                this.setInLove(p_190678_1_);
             }
         }
 
@@ -586,7 +586,7 @@ public abstract class AbstractHorse extends EntityAnimal implements IInventoryCh
             flag = true;
         }
 
-        if (j > 0 && (flag || !this.isTame()) && this.getTemper() < this.getMaxTemper())
+        if (j > 0 && (flag || !this.isTame()) && this.getTemper() < this.func_190676_dC())
         {
             flag = true;
 
@@ -652,7 +652,7 @@ public abstract class AbstractHorse extends EntityAnimal implements IInventoryCh
             {
                 ItemStack itemstack = this.horseChest.getStackInSlot(i);
 
-                if (!itemstack.isEmpty())
+                if (!itemstack.func_190926_b())
                 {
                     this.entityDropItem(itemstack, 0.0F);
                 }
@@ -680,25 +680,25 @@ public abstract class AbstractHorse extends EntityAnimal implements IInventoryCh
                 this.heal(1.0F);
             }
 
-            if (this.canEatGrass())
+            if (this.func_190684_dE())
             {
                 if (!this.isEatingHaystack() && !this.isBeingRidden() && this.rand.nextInt(300) == 0 && this.world.getBlockState(new BlockPos(MathHelper.floor(this.posX), MathHelper.floor(this.posY) - 1, MathHelper.floor(this.posZ))).getBlock() == Blocks.GRASS)
                 {
                     this.setEatingHaystack(true);
                 }
 
-                if (this.isEatingHaystack() && ++this.eatingCounter > 50)
+                if (this.isEatingHaystack() && ++this.field_190689_bJ > 50)
                 {
-                    this.eatingCounter = 0;
+                    this.field_190689_bJ = 0;
                     this.setEatingHaystack(false);
                 }
             }
 
-            this.followMother();
+            this.func_190679_dD();
         }
     }
 
-    protected void followMother()
+    protected void func_190679_dD()
     {
         if (this.isBreeding() && this.isChild() && !this.isEatingHaystack())
         {
@@ -711,7 +711,7 @@ public abstract class AbstractHorse extends EntityAnimal implements IInventoryCh
         }
     }
 
-    public boolean canEatGrass()
+    public boolean func_190684_dE()
     {
         return true;
     }
@@ -850,7 +850,7 @@ public abstract class AbstractHorse extends EntityAnimal implements IInventoryCh
         }
     }
 
-    public void makeMad()
+    public void func_190687_dF()
     {
         this.makeHorseRear();
         SoundEvent soundevent = this.getAngrySound();
@@ -962,10 +962,10 @@ public abstract class AbstractHorse extends EntityAnimal implements IInventoryCh
         }
     }
 
-    public static void registerFixesAbstractHorse(DataFixer fixer, Class<?> entityClass)
+    public static void func_190683_c(DataFixer p_190683_0_, Class<?> p_190683_1_)
     {
-        EntityLiving.registerFixesMob(fixer, entityClass);
-        fixer.registerWalker(FixTypes.ENTITY, new ItemStackData(entityClass, new String[] {"SaddleItem"}));
+        EntityLiving.registerFixesMob(p_190683_0_, p_190683_1_);
+        p_190683_0_.registerWalker(FixTypes.ENTITY, new ItemStackData(p_190683_1_, new String[] {"SaddleItem"}));
     }
 
     /**
@@ -984,7 +984,7 @@ public abstract class AbstractHorse extends EntityAnimal implements IInventoryCh
             compound.setString("OwnerUUID", this.getOwnerUniqueId().toString());
         }
 
-        if (!this.horseChest.getStackInSlot(0).isEmpty())
+        if (!this.horseChest.getStackInSlot(0).func_190926_b())
         {
             compound.setTag("SaddleItem", this.horseChest.getStackInSlot(0).writeToNBT(new NBTTagCompound()));
         }
@@ -1059,7 +1059,7 @@ public abstract class AbstractHorse extends EntityAnimal implements IInventoryCh
         return null;
     }
 
-    protected void setOffspringAttributes(EntityAgeable p_190681_1_, AbstractHorse p_190681_2_)
+    protected void func_190681_a(EntityAgeable p_190681_1_, AbstractHorse p_190681_2_)
     {
         double d0 = this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).getBaseValue() + p_190681_1_.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).getBaseValue() + (double)this.getModifiedMaxHealth();
         p_190681_2_.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(d0 / 3.0D);
@@ -1227,12 +1227,12 @@ public abstract class AbstractHorse extends EntityAnimal implements IInventoryCh
         return this.height;
     }
 
-    public boolean wearsArmor()
+    public boolean func_190677_dK()
     {
         return false;
     }
 
-    public boolean isArmor(ItemStack stack)
+    public boolean func_190682_f(ItemStack p_190682_1_)
     {
         return false;
     }
@@ -1247,7 +1247,7 @@ public abstract class AbstractHorse extends EntityAnimal implements IInventoryCh
             {
                 return false;
             }
-            else if (i != 1 || this.wearsArmor() && this.isArmor(itemStackIn))
+            else if (i != 1 || this.func_190677_dK() && this.func_190682_f(itemStackIn))
             {
                 this.horseChest.setInventorySlotContents(i, itemStackIn);
                 this.updateHorseSlots();

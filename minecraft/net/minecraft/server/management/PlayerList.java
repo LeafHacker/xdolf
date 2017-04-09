@@ -164,7 +164,7 @@ public abstract class PlayerList
         }
 
         textcomponenttranslation.getStyle().setColor(TextFormatting.YELLOW);
-        this.sendMessage(textcomponenttranslation);
+        this.sendChatMsg(textcomponenttranslation);
         this.playerLoggedIn(playerIn);
         nethandlerplayserver.setPlayerLocation(playerIn.posX, playerIn.posY, playerIn.posZ, playerIn.rotationYaw, playerIn.rotationPitch);
         this.updateTimeAndWeatherForPlayer(playerIn, worldserver);
@@ -179,52 +179,40 @@ public abstract class PlayerList
             nethandlerplayserver.sendPacket(new SPacketEntityEffect(playerIn.getEntityId(), potioneffect));
         }
 
-        if (nbttagcompound != null)
+        if (nbttagcompound != null && nbttagcompound.hasKey("RootVehicle", 10))
         {
-            if (nbttagcompound.hasKey("RootVehicle", 10))
+            NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("RootVehicle");
+            Entity entity1 = AnvilChunkLoader.readWorldEntity(nbttagcompound1.getCompoundTag("Entity"), worldserver, true);
+
+            if (entity1 != null)
             {
-                NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("RootVehicle");
-                Entity entity2 = AnvilChunkLoader.readWorldEntity(nbttagcompound1.getCompoundTag("Entity"), worldserver, true);
+                UUID uuid = nbttagcompound1.getUniqueId("Attach");
 
-                if (entity2 != null)
+                if (entity1.getUniqueID().equals(uuid))
                 {
-                    UUID uuid = nbttagcompound1.getUniqueId("Attach");
-
-                    if (entity2.getUniqueID().equals(uuid))
+                    playerIn.startRiding(entity1, true);
+                }
+                else
+                {
+                    for (Entity entity : entity1.getRecursivePassengers())
                     {
-                        playerIn.startRiding(entity2, true);
-                    }
-                    else
-                    {
-                        for (Entity entity : entity2.getRecursivePassengers())
+                        if (entity.getUniqueID().equals(uuid))
                         {
-                            if (entity.getUniqueID().equals(uuid))
-                            {
-                                playerIn.startRiding(entity, true);
-                                break;
-                            }
-                        }
-                    }
-
-                    if (!playerIn.isRiding())
-                    {
-                        LOG.warn("Couldn\'t reattach entity to player");
-                        worldserver.removeEntityDangerously(entity2);
-
-                        for (Entity entity3 : entity2.getRecursivePassengers())
-                        {
-                            worldserver.removeEntityDangerously(entity3);
+                            playerIn.startRiding(entity, true);
+                            break;
                         }
                     }
                 }
-            }
-            else if (nbttagcompound.hasKey("Riding", 10))
-            {
-                Entity entity1 = AnvilChunkLoader.readWorldEntity(nbttagcompound.getCompoundTag("Riding"), worldserver, true);
 
-                if (entity1 != null)
+                if (!playerIn.isRiding())
                 {
-                    playerIn.startRiding(entity1, true);
+                    LOG.warn("Couldn\'t reattach entity to player");
+                    worldserver.removeEntityDangerously(entity1);
+
+                    for (Entity entity2 : entity1.getRecursivePassengers())
+                    {
+                        worldserver.removeEntityDangerously(entity2);
+                    }
                 }
             }
         }
@@ -312,12 +300,14 @@ public abstract class PlayerList
         return PlayerChunkMap.getFurthestViewableBlock(this.getViewDistance());
     }
 
+    @Nullable
+
     /**
      * called during player login. reads the player information from disk.
      */
     public NBTTagCompound readPlayerDataFromFile(EntityPlayerMP playerIn)
     {
-        NBTTagCompound nbttagcompound = this.mcServer.worlds[0].getWorldInfo().getPlayerNBTTagCompound();
+        NBTTagCompound nbttagcompound = this.mcServer.worldServers[0].getWorldInfo().getPlayerNBTTagCompound();
         NBTTagCompound nbttagcompound1;
 
         if (playerIn.getName().equals(this.mcServer.getServerOwner()) && nbttagcompound != null)
@@ -363,7 +353,7 @@ public abstract class PlayerList
             playerIn.connection.sendPacket(new SPacketPlayerListItem(SPacketPlayerListItem.Action.ADD_PLAYER, new EntityPlayerMP[] {(EntityPlayerMP)this.playerEntityList.get(i)}));
         }
 
-        worldserver.spawnEntity(playerIn);
+        worldserver.spawnEntityInWorld(playerIn);
         this.preparePlayer(playerIn, (WorldServer)null);
     }
 
@@ -484,7 +474,7 @@ public abstract class PlayerList
 
         for (EntityPlayerMP entityplayermp1 : list)
         {
-            entityplayermp1.connection.disconnect("You logged in from another location");
+            entityplayermp1.connection.kickPlayerFromServer("You logged in from another location");
         }
 
         PlayerInteractionManager playerinteractionmanager;
@@ -507,7 +497,7 @@ public abstract class PlayerList
     public EntityPlayerMP recreatePlayerEntity(EntityPlayerMP playerIn, int dimension, boolean conqueredEnd)
     {
         playerIn.getServerWorld().getEntityTracker().removePlayerFromTrackers(playerIn);
-        playerIn.getServerWorld().getEntityTracker().untrack(playerIn);
+        playerIn.getServerWorld().getEntityTracker().untrackEntity(playerIn);
         playerIn.getServerWorld().getPlayerChunkMap().removePlayer(playerIn);
         this.playerEntityList.remove(playerIn);
         this.mcServer.worldServerForDimension(playerIn.dimension).removeEntityDangerously(playerIn);
@@ -570,7 +560,7 @@ public abstract class PlayerList
         this.updateTimeAndWeatherForPlayer(entityplayermp, worldserver);
         this.updatePermissionLevel(entityplayermp);
         worldserver.getPlayerChunkMap().addPlayer(entityplayermp);
-        worldserver.spawnEntity(entityplayermp);
+        worldserver.spawnEntityInWorld(entityplayermp);
         this.playerEntityList.add(entityplayermp);
         this.uuidToPlayerMap.put(entityplayermp.getUniqueID(), entityplayermp);
         entityplayermp.addSelfToInternalCraftingInventory();
@@ -582,7 +572,7 @@ public abstract class PlayerList
     {
         GameProfile gameprofile = player.getGameProfile();
         int i = this.canSendCommands(gameprofile) ? this.ops.getPermissionLevel(gameprofile) : 0;
-        i = this.mcServer.isSinglePlayer() && this.mcServer.worlds[0].getWorldInfo().areCommandsAllowed() ? 4 : i;
+        i = this.mcServer.isSinglePlayer() && this.mcServer.worldServers[0].getWorldInfo().areCommandsAllowed() ? 4 : i;
         i = this.commandsAllowedForAll ? 4 : i;
         this.sendPlayerPermissionLevel(player, i);
     }
@@ -680,7 +670,7 @@ public abstract class PlayerList
             {
                 entityIn.setLocationAndAngles(d0, entityIn.posY, d1, entityIn.rotationYaw, entityIn.rotationPitch);
                 toWorldIn.getDefaultTeleporter().placeInPortal(entityIn, f);
-                toWorldIn.spawnEntity(entityIn);
+                toWorldIn.spawnEntityInWorld(entityIn);
                 toWorldIn.updateEntityWithOptionalForce(entityIn, false);
             }
 
@@ -735,7 +725,7 @@ public abstract class PlayerList
 
                 if (entityplayermp != null && entityplayermp != player)
                 {
-                    entityplayermp.sendMessage(message);
+                    entityplayermp.addChatMessage(message);
                 }
             }
         }
@@ -747,7 +737,7 @@ public abstract class PlayerList
 
         if (team == null)
         {
-            this.sendMessage(message);
+            this.sendChatMsg(message);
         }
         else
         {
@@ -757,7 +747,7 @@ public abstract class PlayerList
 
                 if (entityplayermp.getTeam() != team)
                 {
-                    entityplayermp.sendMessage(message);
+                    entityplayermp.addChatMessage(message);
                 }
             }
         }
@@ -792,7 +782,7 @@ public abstract class PlayerList
     /**
      * Returns an array of the usernames of all the connected players.
      */
-    public String[] getOnlinePlayerNames()
+    public String[] getAllUsernames()
     {
         String[] astring = new String[this.playerEntityList.size()];
 
@@ -804,7 +794,7 @@ public abstract class PlayerList
         return astring;
     }
 
-    public GameProfile[] getOnlinePlayerProfiles()
+    public GameProfile[] getAllProfiles()
     {
         GameProfile[] agameprofile = new GameProfile[this.playerEntityList.size()];
 
@@ -869,7 +859,7 @@ public abstract class PlayerList
 
     public boolean canSendCommands(GameProfile profile)
     {
-        return this.ops.hasEntry(profile) || this.mcServer.isSinglePlayer() && this.mcServer.worlds[0].getWorldInfo().areCommandsAllowed() && this.mcServer.getServerOwner().equalsIgnoreCase(profile.getName()) || this.commandsAllowedForAll;
+        return this.ops.hasEntry(profile) || this.mcServer.isSinglePlayer() && this.mcServer.worldServers[0].getWorldInfo().areCommandsAllowed() && this.mcServer.getServerOwner().equalsIgnoreCase(profile.getName()) || this.commandsAllowedForAll;
     }
 
     @Nullable
@@ -960,7 +950,7 @@ public abstract class PlayerList
      */
     public void updateTimeAndWeatherForPlayer(EntityPlayerMP playerIn, WorldServer worldIn)
     {
-        WorldBorder worldborder = this.mcServer.worlds[0].getWorldBorder();
+        WorldBorder worldborder = this.mcServer.worldServers[0].getWorldBorder();
         playerIn.connection.sendPacket(new SPacketWorldBorder(worldborder, SPacketWorldBorder.Action.INITIALIZE));
         playerIn.connection.sendPacket(new SPacketTimeUpdate(worldIn.getTotalWorldTime(), worldIn.getWorldTime(), worldIn.getGameRules().getBoolean("doDaylightCycle")));
         BlockPos blockpos = worldIn.getSpawnPoint();
@@ -1005,7 +995,7 @@ public abstract class PlayerList
      */
     public String[] getAvailablePlayerDat()
     {
-        return this.mcServer.worlds[0].getSaveHandler().getPlayerNBTManager().getAvailablePlayerDat();
+        return this.mcServer.worldServers[0].getSaveHandler().getPlayerNBTManager().getAvailablePlayerDat();
     }
 
     public void setWhiteListEnabled(boolean whitelistEnabled)
@@ -1083,13 +1073,13 @@ public abstract class PlayerList
     {
         for (int i = 0; i < this.playerEntityList.size(); ++i)
         {
-            ((EntityPlayerMP)this.playerEntityList.get(i)).connection.disconnect("Server closed");
+            ((EntityPlayerMP)this.playerEntityList.get(i)).connection.kickPlayerFromServer("Server closed");
         }
     }
 
-    public void sendMessage(ITextComponent component, boolean isSystem)
+    public void sendChatMsgImpl(ITextComponent component, boolean isSystem)
     {
-        this.mcServer.sendMessage(component);
+        this.mcServer.addChatMessage(component);
         byte b0 = (byte)(isSystem ? 1 : 0);
         this.sendPacketToAllPlayers(new SPacketChat(component, b0));
     }
@@ -1097,9 +1087,9 @@ public abstract class PlayerList
     /**
      * Sends the given string to every player as chat message.
      */
-    public void sendMessage(ITextComponent component)
+    public void sendChatMsg(ITextComponent component)
     {
-        this.sendMessage(component, true);
+        this.sendChatMsgImpl(component, true);
     }
 
     public StatisticsManagerServer getPlayerStatsFile(EntityPlayer playerIn)
@@ -1134,9 +1124,9 @@ public abstract class PlayerList
     {
         this.viewDistance = distance;
 
-        if (this.mcServer.worlds != null)
+        if (this.mcServer.worldServers != null)
         {
-            for (WorldServer worldserver : this.mcServer.worlds)
+            for (WorldServer worldserver : this.mcServer.worldServers)
             {
                 if (worldserver != null)
                 {
@@ -1147,7 +1137,7 @@ public abstract class PlayerList
         }
     }
 
-    public List<EntityPlayerMP> getPlayers()
+    public List<EntityPlayerMP> getPlayerList()
     {
         return this.playerEntityList;
     }

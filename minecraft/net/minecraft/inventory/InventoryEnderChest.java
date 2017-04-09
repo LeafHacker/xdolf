@@ -24,7 +24,7 @@ public class InventoryEnderChest extends InventoryBasic
     {
         for (int i = 0; i < this.getSizeInventory(); ++i)
         {
-            this.setInventorySlotContents(i, ItemStack.EMPTY);
+            this.setInventorySlotContents(i, ItemStack.field_190927_a);
         }
 
         for (int k = 0; k < p_70486_1_.tagCount(); ++k)
@@ -47,7 +47,7 @@ public class InventoryEnderChest extends InventoryBasic
         {
             ItemStack itemstack = this.getStackInSlot(i);
 
-            if (!itemstack.isEmpty())
+            if (!itemstack.func_190926_b())
             {
                 NBTTagCompound nbttagcompound = new NBTTagCompound();
                 nbttagcompound.setByte("Slot", (byte)i);

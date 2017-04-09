@@ -57,6 +57,7 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
     private int iconGridCountY;
     private double iconGridSizeU;
     private double iconGridSizeV;
+    private int counterIndexInMap;
     public int atlasWidth;
     public int atlasHeight;
 
@@ -84,6 +85,7 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
         this.iconGridCountY = -1;
         this.iconGridSizeU = -1.0D;
         this.iconGridSizeV = -1.0D;
+        this.counterIndexInMap = 0;
         this.atlasWidth = 0;
         this.atlasHeight = 0;
         this.listAnimatedSprites = Lists.<TextureAtlasSprite>newArrayList();
@@ -104,7 +106,7 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
         int[][] aint1 = new int[this.mipmapLevels + 1][];
         aint1[0] = aint;
         this.missingImage.setFramesTextureData(Lists.newArrayList(new int[][][] {aint1}));
-        this.missingImage.setIndexInMap(0);
+        this.missingImage.setIndexInMap(this.counterIndexInMap++);
     }
 
     public void loadTexture(IResourceManager resourceManager) throws IOException
@@ -120,6 +122,7 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
     public void loadSprites(IResourceManager resourceManager, ITextureMapPopulator iconCreatorIn)
     {
         this.mapRegisteredSprites.clear();
+        this.counterIndexInMap = 0;
         Reflector.callVoid(Reflector.ForgeHooksClient_onTextureStitchedPre, new Object[] {this});
         iconCreatorIn.registerSprites(this);
 
@@ -169,6 +172,11 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
             TextureAtlasSprite textureatlassprite1 = (TextureAtlasSprite)entry.getValue();
             ResourceLocation resourcelocation = this.getResourceLocation(textureatlassprite1);
             IResource iresource = null;
+
+            if (textureatlassprite1.getIndexInMap() < 0)
+            {
+                textureatlassprite1.setIndexInMap(this.counterIndexInMap++);
+            }
 
             if (textureatlassprite1.hasCustomLoader(resourceManager, resourcelocation))
             {
@@ -401,7 +409,7 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
         }
     }
 
-    private boolean generateMipmaps(IResourceManager resourceManager, final TextureAtlasSprite texture)
+    public boolean generateMipmaps(IResourceManager resourceManager, final TextureAtlasSprite texture)
     {
         ResourceLocation resourcelocation = this.getResourceLocation(texture);
         IResource iresource = null;
@@ -508,6 +516,8 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
             ShadersTex.updatingTex = this.getMultiTexID();
         }
 
+        boolean flag = false;
+        boolean flag1 = false;
         TextureUtil.bindTexture(this.getGlTextureId());
 
         for (TextureAtlasSprite textureatlassprite : this.listAnimatedSprites)
@@ -515,6 +525,16 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
             if (this.isTerrainAnimationActive(textureatlassprite))
             {
                 textureatlassprite.updateAnimation();
+
+                if (textureatlassprite.spriteNormal != null)
+                {
+                    flag = true;
+                }
+
+                if (textureatlassprite.spriteSpecular != null)
+                {
+                    flag1 = true;
+                }
             }
         }
 
@@ -544,6 +564,50 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 
         if (Config.isShaders())
         {
+            if (flag)
+            {
+                TextureUtil.bindTexture(this.getMultiTexID().norm);
+
+                for (TextureAtlasSprite textureatlassprite3 : this.listAnimatedSprites)
+                {
+                    if (textureatlassprite3.spriteNormal != null && this.isTerrainAnimationActive(textureatlassprite3))
+                    {
+                        if (textureatlassprite3 == TextureUtils.iconClock || textureatlassprite3 == TextureUtils.iconCompass)
+                        {
+                            textureatlassprite3.spriteNormal.frameCounter = textureatlassprite3.frameCounter;
+                        }
+
+                        textureatlassprite3.spriteNormal.updateAnimation();
+                    }
+                }
+            }
+
+            if (flag1)
+            {
+                TextureUtil.bindTexture(this.getMultiTexID().spec);
+
+                for (TextureAtlasSprite textureatlassprite4 : this.listAnimatedSprites)
+                {
+                    if (textureatlassprite4.spriteSpecular != null && this.isTerrainAnimationActive(textureatlassprite4))
+                    {
+                        if (textureatlassprite4 == TextureUtils.iconClock || textureatlassprite4 == TextureUtils.iconCompass)
+                        {
+                            textureatlassprite4.spriteNormal.frameCounter = textureatlassprite4.frameCounter;
+                        }
+
+                        textureatlassprite4.spriteSpecular.updateAnimation();
+                    }
+                }
+            }
+
+            if (flag || flag1)
+            {
+                TextureUtil.bindTexture(this.getGlTextureId());
+            }
+        }
+
+        if (Config.isShaders())
+        {
             ShadersTex.updatingTex = null;
         }
     }
@@ -563,9 +627,9 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
                 textureatlassprite = TextureAtlasSprite.makeAtlasSprite(location);
                 this.mapRegisteredSprites.put(location.toString(), textureatlassprite);
 
-                if (textureatlassprite instanceof TextureAtlasSprite && textureatlassprite.getIndexInMap() < 0)
+                if (textureatlassprite.getIndexInMap() < 0)
                 {
-                    textureatlassprite.setIndexInMap(this.mapRegisteredSprites.size());
+                    textureatlassprite.setIndexInMap(this.counterIndexInMap++);
                 }
             }
 
@@ -604,7 +668,7 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 
             if (p_setTextureEntry_1_.getIndexInMap() < 0)
             {
-                p_setTextureEntry_1_.setIndexInMap(this.mapRegisteredSprites.size());
+                p_setTextureEntry_1_.setIndexInMap(this.counterIndexInMap++);
             }
 
             return true;
@@ -650,7 +714,7 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 
     public int getCountRegisteredSprites()
     {
-        return this.mapRegisteredSprites.size();
+        return this.counterIndexInMap;
     }
 
     private int detectMaxMipmapLevel(Map p_detectMaxMipmapLevel_1_, IResourceManager p_detectMaxMipmapLevel_2_)

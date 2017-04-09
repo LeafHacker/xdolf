@@ -7,7 +7,6 @@ import net.minecraft.client.model.ModelShulker;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderShulker;
 import net.minecraft.entity.monster.EntityShulker;
-import net.minecraft.src.Reflector;
 
 public class ModelAdapterShulker extends ModelAdapter
 {
@@ -30,7 +29,7 @@ public class ModelAdapterShulker extends ModelAdapter
         else
         {
             ModelShulker modelshulker = (ModelShulker)model;
-            return modelPart.equals("head") ? modelshulker.head : (modelPart.equals("base") ? (ModelRenderer)Reflector.getFieldValue(modelshulker, Reflector.ModelShulker_base) : (modelPart.equals("lid") ? (ModelRenderer)Reflector.getFieldValue(modelshulker, Reflector.ModelShulker_lid) : null));
+            return modelPart.equals("head") ? modelshulker.head : (modelPart.equals("base") ? modelshulker.base : (modelPart.equals("lid") ? modelshulker.lid : null));
         }
     }
 

@@ -24,7 +24,7 @@ public class LayerHeldItemWitch implements LayerRenderer<EntityWitch>
     {
         ItemStack itemstack = entitylivingbaseIn.getHeldItemMainhand();
 
-        if (!itemstack.isEmpty())
+        if (!itemstack.func_190926_b())
         {
             GlStateManager.color(1.0F, 1.0F, 1.0F);
             GlStateManager.pushMatrix();

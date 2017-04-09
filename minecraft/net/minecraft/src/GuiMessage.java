@@ -17,11 +17,11 @@ public class GuiMessage extends GuiScreen
     protected String confirmButtonText;
     private int ticksUntilEnable;
 
-    public GuiMessage(GuiScreen p_i42_1_, String p_i42_2_, String p_i42_3_)
+    public GuiMessage(GuiScreen p_i45_1_, String p_i45_2_, String p_i45_3_)
     {
-        this.parentScreen = p_i42_1_;
-        this.messageLine1 = p_i42_2_;
-        this.messageLine2 = p_i42_3_;
+        this.parentScreen = p_i45_1_;
+        this.messageLine1 = p_i45_2_;
+        this.messageLine2 = p_i45_3_;
         this.confirmButtonText = I18n.format("gui.done", new Object[0]);
     }
 
@@ -53,10 +53,9 @@ public class GuiMessage extends GuiScreen
         this.drawCenteredString(this.fontRendererObj, this.messageLine1, this.width / 2, 70, 16777215);
         int i = 90;
 
-        for (Object s0 : this.listLines2)
+        for (Object s : this.listLines2)
         {
-        	String s = (String) s0;
-            this.drawCenteredString(this.fontRendererObj, s, this.width / 2, i, 16777215);
+            this.drawCenteredString(this.fontRendererObj, (String) s, this.width / 2, i, 16777215);
             i += this.fontRendererObj.FONT_HEIGHT;
         }
 

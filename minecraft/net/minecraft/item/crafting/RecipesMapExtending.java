@@ -26,9 +26,9 @@ public class RecipesMapExtending extends ShapedRecipes
         }
         else
         {
-            ItemStack itemstack = ItemStack.EMPTY;
+            ItemStack itemstack = ItemStack.field_190927_a;
 
-            for (int i = 0; i < inv.getSizeInventory() && itemstack.isEmpty(); ++i)
+            for (int i = 0; i < inv.getSizeInventory() && itemstack.func_190926_b(); ++i)
             {
                 ItemStack itemstack1 = inv.getStackInSlot(i);
 
@@ -38,25 +38,25 @@ public class RecipesMapExtending extends ShapedRecipes
                 }
             }
 
-            if (itemstack.isEmpty())
+            if (itemstack.func_190926_b())
             {
                 return false;
             }
             else
             {
                 MapData mapdata = Items.FILLED_MAP.getMapData(itemstack, worldIn);
-                return mapdata == null ? false : (this.isExplorationMap(mapdata) ? false : mapdata.scale < 4);
+                return mapdata == null ? false : (this.func_190934_a(mapdata) ? false : mapdata.scale < 4);
             }
         }
     }
 
-    private boolean isExplorationMap(MapData p_190934_1_)
+    private boolean func_190934_a(MapData p_190934_1_)
     {
         if (p_190934_1_.mapDecorations != null)
         {
             for (MapDecoration mapdecoration : p_190934_1_.mapDecorations.values())
             {
-                if (mapdecoration.getType() == MapDecoration.Type.MANSION || mapdecoration.getType() == MapDecoration.Type.MONUMENT)
+                if (mapdecoration.func_191179_b() == MapDecoration.Type.MANSION || mapdecoration.func_191179_b() == MapDecoration.Type.MONUMENT)
                 {
                     return true;
                 }
@@ -71,9 +71,9 @@ public class RecipesMapExtending extends ShapedRecipes
      */
     public ItemStack getCraftingResult(InventoryCrafting inv)
     {
-        ItemStack itemstack = ItemStack.EMPTY;
+        ItemStack itemstack = ItemStack.field_190927_a;
 
-        for (int i = 0; i < inv.getSizeInventory() && itemstack.isEmpty(); ++i)
+        for (int i = 0; i < inv.getSizeInventory() && itemstack.func_190926_b(); ++i)
         {
             ItemStack itemstack1 = inv.getStackInSlot(i);
 
@@ -84,7 +84,7 @@ public class RecipesMapExtending extends ShapedRecipes
         }
 
         itemstack = itemstack.copy();
-        itemstack.setCount(1);
+        itemstack.func_190920_e(1);
 
         if (itemstack.getTagCompound() == null)
         {

@@ -349,9 +349,9 @@ public abstract class World implements IBlockAccess
         return this.chunkProvider.provideChunk(chunkX, chunkZ);
     }
 
-    public boolean isChunkGeneratedAt(int p_190526_1_, int p_190526_2_)
+    public boolean func_190526_b(int p_190526_1_, int p_190526_2_)
     {
-        return this.isChunkLoaded(p_190526_1_, p_190526_2_, false) ? true : this.chunkProvider.isChunkGeneratedAt(p_190526_1_, p_190526_2_);
+        return this.isChunkLoaded(p_190526_1_, p_190526_2_, false) ? true : this.chunkProvider.func_191062_e(p_190526_1_, p_190526_2_);
     }
 
     /**
@@ -404,7 +404,7 @@ public abstract class World implements IBlockAccess
                 }
                 else if (!this.isRemote && (flags & 16) == 0)
                 {
-                    this.updateObservingBlocksAt(pos, block);
+                    this.func_190522_c(pos, block);
                 }
 
                 return true;
@@ -478,7 +478,7 @@ public abstract class World implements IBlockAccess
             x2 = i;
         }
 
-        if (this.provider.hasSkyLight())
+        if (this.provider.func_191066_m())
         {
             for (int j = x2; j <= z2; ++j)
             {
@@ -505,28 +505,28 @@ public abstract class World implements IBlockAccess
         }
     }
 
-    public void updateObservingBlocksAt(BlockPos p_190522_1_, Block p_190522_2_)
+    public void func_190522_c(BlockPos p_190522_1_, Block p_190522_2_)
     {
-        this.observedNeighborChanged(p_190522_1_.west(), p_190522_2_, p_190522_1_);
-        this.observedNeighborChanged(p_190522_1_.east(), p_190522_2_, p_190522_1_);
-        this.observedNeighborChanged(p_190522_1_.down(), p_190522_2_, p_190522_1_);
-        this.observedNeighborChanged(p_190522_1_.up(), p_190522_2_, p_190522_1_);
-        this.observedNeighborChanged(p_190522_1_.north(), p_190522_2_, p_190522_1_);
-        this.observedNeighborChanged(p_190522_1_.south(), p_190522_2_, p_190522_1_);
+        this.func_190529_b(p_190522_1_.west(), p_190522_2_, p_190522_1_);
+        this.func_190529_b(p_190522_1_.east(), p_190522_2_, p_190522_1_);
+        this.func_190529_b(p_190522_1_.down(), p_190522_2_, p_190522_1_);
+        this.func_190529_b(p_190522_1_.up(), p_190522_2_, p_190522_1_);
+        this.func_190529_b(p_190522_1_.north(), p_190522_2_, p_190522_1_);
+        this.func_190529_b(p_190522_1_.south(), p_190522_2_, p_190522_1_);
     }
 
-    public void notifyNeighborsOfStateChange(BlockPos pos, Block blockType, boolean updateObservers)
+    public void notifyNeighborsOfStateChange(BlockPos pos, Block blockType, boolean p_175685_3_)
     {
-        this.neighborChanged(pos.west(), blockType, pos);
-        this.neighborChanged(pos.east(), blockType, pos);
-        this.neighborChanged(pos.down(), blockType, pos);
-        this.neighborChanged(pos.up(), blockType, pos);
-        this.neighborChanged(pos.north(), blockType, pos);
-        this.neighborChanged(pos.south(), blockType, pos);
+        this.func_190524_a(pos.west(), blockType, pos);
+        this.func_190524_a(pos.east(), blockType, pos);
+        this.func_190524_a(pos.down(), blockType, pos);
+        this.func_190524_a(pos.up(), blockType, pos);
+        this.func_190524_a(pos.north(), blockType, pos);
+        this.func_190524_a(pos.south(), blockType, pos);
 
-        if (updateObservers)
+        if (p_175685_3_)
         {
-            this.updateObservingBlocksAt(pos, blockType);
+            this.func_190522_c(pos, blockType);
         }
     }
 
@@ -534,36 +534,36 @@ public abstract class World implements IBlockAccess
     {
         if (skipSide != EnumFacing.WEST)
         {
-            this.neighborChanged(pos.west(), blockType, pos);
+            this.func_190524_a(pos.west(), blockType, pos);
         }
 
         if (skipSide != EnumFacing.EAST)
         {
-            this.neighborChanged(pos.east(), blockType, pos);
+            this.func_190524_a(pos.east(), blockType, pos);
         }
 
         if (skipSide != EnumFacing.DOWN)
         {
-            this.neighborChanged(pos.down(), blockType, pos);
+            this.func_190524_a(pos.down(), blockType, pos);
         }
 
         if (skipSide != EnumFacing.UP)
         {
-            this.neighborChanged(pos.up(), blockType, pos);
+            this.func_190524_a(pos.up(), blockType, pos);
         }
 
         if (skipSide != EnumFacing.NORTH)
         {
-            this.neighborChanged(pos.north(), blockType, pos);
+            this.func_190524_a(pos.north(), blockType, pos);
         }
 
         if (skipSide != EnumFacing.SOUTH)
         {
-            this.neighborChanged(pos.south(), blockType, pos);
+            this.func_190524_a(pos.south(), blockType, pos);
         }
     }
 
-    public void neighborChanged(BlockPos p_190524_1_, final Block p_190524_2_, BlockPos p_190524_3_)
+    public void func_190524_a(BlockPos p_190524_1_, final Block p_190524_2_, BlockPos p_190524_3_)
     {
         if (!this.isRemote)
         {
@@ -597,17 +597,17 @@ public abstract class World implements IBlockAccess
         }
     }
 
-    public void observedNeighborChanged(BlockPos p_190529_1_, final Block p_190529_2_, BlockPos p_190529_3_)
+    public void func_190529_b(BlockPos p_190529_1_, final Block p_190529_2_, BlockPos p_190529_3_)
     {
         if (!this.isRemote)
         {
             IBlockState iblockstate = this.getBlockState(p_190529_1_);
 
-            if (iblockstate.getBlock() == Blocks.OBSERVER)
+            if (iblockstate.getBlock() == Blocks.field_190976_dk)
             {
                 try
                 {
-                    ((BlockObserver)iblockstate.getBlock()).observedNeighborChanged(iblockstate, this, p_190529_1_, p_190529_2_, p_190529_3_);
+                    ((BlockObserver)iblockstate.getBlock()).func_190962_b(iblockstate, this, p_190529_1_, p_190529_2_, p_190529_3_);
                 }
                 catch (Throwable throwable)
                 {
@@ -813,7 +813,7 @@ public abstract class World implements IBlockAccess
 
     public int getLightFromNeighborsFor(EnumSkyBlock type, BlockPos pos)
     {
-        if (!this.provider.hasSkyLight() && type == EnumSkyBlock.SKY)
+        if (!this.provider.func_191066_m() && type == EnumSkyBlock.SKY)
         {
             return 0;
         }
@@ -1187,11 +1187,11 @@ public abstract class World implements IBlockAccess
         this.spawnParticle(particleType.getParticleID(), particleType.getShouldIgnoreRange(), xCoord, yCoord, zCoord, xSpeed, ySpeed, zSpeed, parameters);
     }
 
-    public void spawnAlwaysVisibleParticle(int p_190523_1_, double p_190523_2_, double p_190523_4_, double p_190523_6_, double p_190523_8_, double p_190523_10_, double p_190523_12_, int... p_190523_14_)
+    public void func_190523_a(int p_190523_1_, double p_190523_2_, double p_190523_4_, double p_190523_6_, double p_190523_8_, double p_190523_10_, double p_190523_12_, int... p_190523_14_)
     {
         for (int i = 0; i < this.eventListeners.size(); ++i)
         {
-            ((IWorldEventListener)this.eventListeners.get(i)).spawnParticle(p_190523_1_, false, true, p_190523_2_, p_190523_4_, p_190523_6_, p_190523_8_, p_190523_10_, p_190523_12_, p_190523_14_);
+            ((IWorldEventListener)this.eventListeners.get(i)).func_190570_a(p_190523_1_, false, true, p_190523_2_, p_190523_4_, p_190523_6_, p_190523_8_, p_190523_10_, p_190523_12_, p_190523_14_);
         }
     }
 
@@ -1220,7 +1220,7 @@ public abstract class World implements IBlockAccess
     /**
      * Called when an entity is spawned in the world. This includes players.
      */
-    public boolean spawnEntity(Entity entityIn)
+    public boolean spawnEntityInWorld(Entity entityIn)
     {
         int i = MathHelper.floor(entityIn.posX / 16.0D);
         int j = MathHelper.floor(entityIn.posZ / 16.0D);
@@ -1334,70 +1334,93 @@ public abstract class World implements IBlockAccess
         this.eventListeners.remove(listener);
     }
 
-    public List<AxisAlignedBB> getCollisionBoxes(@Nullable Entity entityIn, AxisAlignedBB aabb)
+    private boolean func_191504_a(@Nullable Entity p_191504_1_, AxisAlignedBB p_191504_2_, boolean p_191504_3_, @Nullable List<AxisAlignedBB> p_191504_4_)
     {
-        List<AxisAlignedBB> list = Lists.<AxisAlignedBB>newArrayList();
-        int i = MathHelper.floor(aabb.minX) - 1;
-        int j = MathHelper.ceil(aabb.maxX) + 1;
-        int k = MathHelper.floor(aabb.minY) - 1;
-        int l = MathHelper.ceil(aabb.maxY) + 1;
-        int i1 = MathHelper.floor(aabb.minZ) - 1;
-        int j1 = MathHelper.ceil(aabb.maxZ) + 1;
+        int i = MathHelper.floor(p_191504_2_.minX) - 1;
+        int j = MathHelper.ceil(p_191504_2_.maxX) + 1;
+        int k = MathHelper.floor(p_191504_2_.minY) - 1;
+        int l = MathHelper.ceil(p_191504_2_.maxY) + 1;
+        int i1 = MathHelper.floor(p_191504_2_.minZ) - 1;
+        int j1 = MathHelper.ceil(p_191504_2_.maxZ) + 1;
         WorldBorder worldborder = this.getWorldBorder();
-        boolean flag = entityIn != null && entityIn.isOutsideBorder();
-        boolean flag1 = entityIn != null && this.isInsideBorder(worldborder, entityIn);
+        boolean flag = p_191504_1_ != null && p_191504_1_.isOutsideBorder();
+        boolean flag1 = p_191504_1_ != null && this.func_191503_g(p_191504_1_);
         IBlockState iblockstate = Blocks.STONE.getDefaultState();
         BlockPos.PooledMutableBlockPos blockpos$pooledmutableblockpos = BlockPos.PooledMutableBlockPos.retain();
 
-        for (int k1 = i; k1 < j; ++k1)
+        try
         {
-            for (int l1 = i1; l1 < j1; ++l1)
+            for (int k1 = i; k1 < j; ++k1)
             {
-                int i2 = (k1 != i && k1 != j - 1 ? 0 : 1) + (l1 != i1 && l1 != j1 - 1 ? 0 : 1);
-
-                if (i2 != 2 && this.isBlockLoaded(blockpos$pooledmutableblockpos.setPos(k1, 64, l1)))
+                for (int l1 = i1; l1 < j1; ++l1)
                 {
-                    for (int j2 = k; j2 < l; ++j2)
+                    boolean flag2 = k1 == i || k1 == j - 1;
+                    boolean flag3 = l1 == i1 || l1 == j1 - 1;
+
+                    if ((!flag2 || !flag3) && this.isBlockLoaded(blockpos$pooledmutableblockpos.setPos(k1, 64, l1)))
                     {
-                        if (i2 <= 0 || j2 != k && j2 != l - 1)
+                        for (int i2 = k; i2 < l; ++i2)
                         {
-                            blockpos$pooledmutableblockpos.setPos(k1, j2, l1);
-
-                            if (entityIn != null)
+                            if (!flag2 && !flag3 || i2 != l - 1)
                             {
-                                if (flag && flag1)
+                                if (p_191504_3_)
                                 {
-                                    entityIn.setOutsideBorder(false);
+                                    if (k1 < -30000000 || k1 >= 30000000 || l1 < -30000000 || l1 >= 30000000)
+                                    {
+                                        boolean lvt_21_1_ = true;
+                                        return lvt_21_1_;
+                                    }
                                 }
-                                else if (!flag && !flag1)
+                                else if (p_191504_1_ != null && flag == flag1)
                                 {
-                                    entityIn.setOutsideBorder(true);
+                                    p_191504_1_.setOutsideBorder(!flag1);
+                                }
+
+                                blockpos$pooledmutableblockpos.setPos(k1, i2, l1);
+                                IBlockState iblockstate1;
+
+                                if (!p_191504_3_ && !worldborder.contains(blockpos$pooledmutableblockpos) && flag1)
+                                {
+                                    iblockstate1 = iblockstate;
+                                }
+                                else
+                                {
+                                    iblockstate1 = this.getBlockState(blockpos$pooledmutableblockpos);
+                                }
+
+                                iblockstate1.addCollisionBoxToList(this, blockpos$pooledmutableblockpos, p_191504_2_, p_191504_4_, p_191504_1_, false);
+
+                                if (p_191504_3_ && !p_191504_4_.isEmpty())
+                                {
+                                    boolean flag5 = true;
+                                    return flag5;
                                 }
                             }
-
-                            IBlockState iblockstate1 = iblockstate;
-
-                            if (worldborder.contains(blockpos$pooledmutableblockpos) || !flag1)
-                            {
-                                iblockstate1 = this.getBlockState(blockpos$pooledmutableblockpos);
-                            }
-
-                            iblockstate1.addCollisionBoxToList(this, blockpos$pooledmutableblockpos, aabb, list, entityIn);
                         }
                     }
                 }
             }
         }
+        finally
+        {
+            blockpos$pooledmutableblockpos.release();
+        }
 
-        blockpos$pooledmutableblockpos.release();
+        return !p_191504_4_.isEmpty();
+    }
+
+    public List<AxisAlignedBB> getCollisionBoxes(@Nullable Entity entityIn, AxisAlignedBB aabb)
+    {
+        List<AxisAlignedBB> list = Lists.<AxisAlignedBB>newArrayList();
+        this.func_191504_a(entityIn, aabb, false, list);
 
         if (entityIn != null)
         {
             List<Entity> list1 = this.getEntitiesWithinAABBExcludingEntity(entityIn, aabb.expandXyz(0.25D));
 
-            for (int k2 = 0; k2 < list1.size(); ++k2)
+            for (int i = 0; i < list1.size(); ++i)
             {
-                Entity entity = (Entity)list1.get(k2);
+                Entity entity = (Entity)list1.get(i);
 
                 if (!entityIn.isRidingSameEntity(entity))
                 {
@@ -1421,14 +1444,14 @@ public abstract class World implements IBlockAccess
         return list;
     }
 
-    public boolean isInsideBorder(WorldBorder worldBorderIn, Entity entityIn)
+    public boolean func_191503_g(Entity p_191503_1_)
     {
-        double d0 = worldBorderIn.minX();
-        double d1 = worldBorderIn.minZ();
-        double d2 = worldBorderIn.maxX();
-        double d3 = worldBorderIn.maxZ();
+        double d0 = this.worldBorder.minX();
+        double d1 = this.worldBorder.minZ();
+        double d2 = this.worldBorder.maxX();
+        double d3 = this.worldBorder.maxZ();
 
-        if (entityIn.isOutsideBorder())
+        if (p_191503_1_.isOutsideBorder())
         {
             ++d0;
             ++d1;
@@ -1443,7 +1466,7 @@ public abstract class World implements IBlockAccess
             ++d3;
         }
 
-        return entityIn.posX > d0 && entityIn.posX < d2 && entityIn.posZ > d1 && entityIn.posZ < d3;
+        return p_191503_1_.posX > d0 && p_191503_1_.posX < d2 && p_191503_1_.posZ > d1 && p_191503_1_.posZ < d3;
     }
 
     /**
@@ -1451,57 +1474,7 @@ public abstract class World implements IBlockAccess
      */
     public boolean collidesWithAnyBlock(AxisAlignedBB bbox)
     {
-        List<AxisAlignedBB> list = Lists.<AxisAlignedBB>newArrayList();
-        int i = MathHelper.floor(bbox.minX) - 1;
-        int j = MathHelper.ceil(bbox.maxX) + 1;
-        int k = MathHelper.floor(bbox.minY) - 1;
-        int l = MathHelper.ceil(bbox.maxY) + 1;
-        int i1 = MathHelper.floor(bbox.minZ) - 1;
-        int j1 = MathHelper.ceil(bbox.maxZ) + 1;
-        BlockPos.PooledMutableBlockPos blockpos$pooledmutableblockpos = BlockPos.PooledMutableBlockPos.retain();
-
-        try
-        {
-            for (int k1 = i; k1 < j; ++k1)
-            {
-                for (int l1 = i1; l1 < j1; ++l1)
-                {
-                    int i2 = (k1 != i && k1 != j - 1 ? 0 : 1) + (l1 != i1 && l1 != j1 - 1 ? 0 : 1);
-
-                    if (i2 != 2 && this.isBlockLoaded(blockpos$pooledmutableblockpos.setPos(k1, 64, l1)))
-                    {
-                        for (int j2 = k; j2 < l; ++j2)
-                        {
-                            if (i2 <= 0 || j2 != k && j2 != l - 1)
-                            {
-                                blockpos$pooledmutableblockpos.setPos(k1, j2, l1);
-
-                                if (k1 < -30000000 || k1 >= 30000000 || l1 < -30000000 || l1 >= 30000000)
-                                {
-                                    boolean flag1 = true;
-                                    return flag1;
-                                }
-
-                                IBlockState iblockstate = this.getBlockState(blockpos$pooledmutableblockpos);
-                                iblockstate.addCollisionBoxToList(this, blockpos$pooledmutableblockpos, bbox, list, (Entity)null);
-
-                                if (!list.isEmpty())
-                                {
-                                    boolean flag = true;
-                                    return flag;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            return false;
-        }
-        finally
-        {
-            blockpos$pooledmutableblockpos.release();
-        }
+        return this.func_191504_a((Entity)null, bbox, true, Lists.<AxisAlignedBB>newArrayList());
     }
 
     /**
@@ -1852,7 +1825,7 @@ public abstract class World implements IBlockAccess
         {
             TileEntity tileentity = (TileEntity)iterator.next();
 
-            if (!tileentity.isInvalid() && tileentity.hasWorld())
+            if (!tileentity.isInvalid() && tileentity.hasWorldObj())
             {
                 BlockPos blockpos = tileentity.getPos();
 
@@ -2585,7 +2558,7 @@ public abstract class World implements IBlockAccess
      */
     protected void updateWeather()
     {
-        if (this.provider.hasSkyLight())
+        if (this.provider.func_191066_m())
         {
             if (!this.isRemote)
             {
@@ -2786,7 +2759,7 @@ public abstract class World implements IBlockAccess
     {
         boolean flag = false;
 
-        if (this.provider.hasSkyLight())
+        if (this.provider.func_191066_m())
         {
             flag |= this.checkLightFor(EnumSkyBlock.SKY, pos);
         }
@@ -3178,7 +3151,7 @@ public abstract class World implements IBlockAccess
         this.unloadedEntityList.addAll(entityCollection);
     }
 
-    public boolean mayPlace(Block p_190527_1_, BlockPos p_190527_2_, boolean p_190527_3_, EnumFacing p_190527_4_, @Nullable Entity p_190527_5_)
+    public boolean func_190527_a(Block p_190527_1_, BlockPos p_190527_2_, boolean p_190527_3_, EnumFacing p_190527_4_, @Nullable Entity p_190527_5_)
     {
         IBlockState iblockstate = this.getBlockState(p_190527_2_);
         AxisAlignedBB axisalignedbb = p_190527_3_ ? null : p_190527_1_.getDefaultState().getCollisionBoundingBox(this, p_190527_2_);
@@ -3325,11 +3298,11 @@ public abstract class World implements IBlockAccess
     public EntityPlayer getClosestPlayer(double posX, double posY, double posZ, double distance, boolean spectator)
     {
         Predicate<Entity> predicate = spectator ? EntitySelectors.CAN_AI_TARGET : EntitySelectors.NOT_SPECTATING;
-        return this.getClosestPlayer(posX, posY, posZ, distance, predicate);
+        return this.func_190525_a(posX, posY, posZ, distance, predicate);
     }
 
     @Nullable
-    public EntityPlayer getClosestPlayer(double p_190525_1_, double p_190525_3_, double p_190525_5_, double p_190525_7_, Predicate<Entity> p_190525_9_)
+    public EntityPlayer func_190525_a(double p_190525_1_, double p_190525_3_, double p_190525_5_, double p_190525_7_, Predicate<Entity> p_190525_9_)
     {
         double d0 = -1.0D;
         EntityPlayer entityplayer = null;
@@ -3701,7 +3674,7 @@ public abstract class World implements IBlockAccess
      * Assigns the given String id to the given MapDataBase using the MapStorage, removing any existing ones of the same
      * id.
      */
-    public void setData(String dataID, WorldSavedData worldSavedDataIn)
+    public void setItemData(String dataID, WorldSavedData worldSavedDataIn)
     {
         this.mapStorage.setData(dataID, worldSavedDataIn);
     }
@@ -3712,7 +3685,7 @@ public abstract class World implements IBlockAccess
      * Loads an existing MapDataBase corresponding to the given String id from disk using the MapStorage, instantiating
      * the given Class, or returns null if none such file exists.
      */
-    public WorldSavedData loadData(Class <? extends WorldSavedData > clazz, String dataID)
+    public WorldSavedData loadItemData(Class <? extends WorldSavedData > clazz, String dataID)
     {
         return this.mapStorage.getOrLoadData(clazz, dataID);
     }
@@ -3773,7 +3746,7 @@ public abstract class World implements IBlockAccess
      */
     public int getActualHeight()
     {
-        return this.provider.hasNoSky() ? 128 : 256;
+        return this.provider.getHasNoSky() ? 128 : 256;
     }
 
     /**
@@ -3959,7 +3932,7 @@ public abstract class World implements IBlockAccess
     }
 
     @Nullable
-    public BlockPos findNearestStructure(String p_190528_1_, BlockPos p_190528_2_, boolean p_190528_3_)
+    public BlockPos func_190528_a(String p_190528_1_, BlockPos p_190528_2_, boolean p_190528_3_)
     {
         return null;
     }

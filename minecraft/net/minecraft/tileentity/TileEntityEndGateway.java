@@ -315,7 +315,7 @@ public class TileEntityEndGateway extends TileEntityEndPortal implements ITickab
         return i;
     }
 
-    public void setExactPosition(BlockPos p_190603_1_)
+    public void func_190603_b(BlockPos p_190603_1_)
     {
         this.exactTeleport = true;
         this.exitPortal = p_190603_1_;

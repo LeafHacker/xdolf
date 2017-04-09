@@ -75,12 +75,12 @@ public class BiomeProviderSingle extends BiomeProvider
         return allowed.contains(this.biome);
     }
 
-    public boolean isFixedBiome()
+    public boolean func_190944_c()
     {
         return true;
     }
 
-    public Biome getFixedBiome()
+    public Biome func_190943_d()
     {
         return this.biome;
     }

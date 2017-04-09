@@ -114,7 +114,7 @@ public abstract class CommandBlockBaseLogic implements ICommandSender
     /**
      * Returns {@code true} if the CommandSender is allowed to execute the command, {@code false} if not
      */
-    public boolean canUseCommand(int permLevel, String commandName)
+    public boolean canCommandSenderUseCommand(int permLevel, String commandName)
     {
         return permLevel <= 2;
     }
@@ -212,7 +212,7 @@ public abstract class CommandBlockBaseLogic implements ICommandSender
     /**
      * Send a chat message to the CommandSender
      */
-    public void sendMessage(ITextComponent component)
+    public void addChatMessage(ITextComponent component)
     {
         if (this.trackOutput && this.getEntityWorld() != null && !this.getEntityWorld().isRemote)
         {
@@ -227,7 +227,7 @@ public abstract class CommandBlockBaseLogic implements ICommandSender
     public boolean sendCommandFeedback()
     {
         MinecraftServer minecraftserver = this.getServer();
-        return minecraftserver == null || !minecraftserver.isAnvilFileSet() || minecraftserver.worlds[0].getGameRules().getBoolean("commandBlockOutput");
+        return minecraftserver == null || !minecraftserver.isAnvilFileSet() || minecraftserver.worldServers[0].getGameRules().getBoolean("commandBlockOutput");
     }
 
     public void setCommandStat(CommandResultStats.Type type, int amount)

@@ -39,7 +39,7 @@ public class SPacketSoundEffect implements Packet<INetHandlerPlayClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.sound = (SoundEvent)SoundEvent.REGISTRY.getObjectById(buf.readVarInt());
+        this.sound = (SoundEvent)SoundEvent.REGISTRY.getObjectById(buf.readVarIntFromBuffer());
         this.category = (SoundCategory)buf.readEnumValue(SoundCategory.class);
         this.posX = buf.readInt();
         this.posY = buf.readInt();
@@ -53,7 +53,7 @@ public class SPacketSoundEffect implements Packet<INetHandlerPlayClient>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeVarInt(SoundEvent.REGISTRY.getIDForObject(this.sound));
+        buf.writeVarIntToBuffer(SoundEvent.REGISTRY.getIDForObject(this.sound));
         buf.writeEnumValue(this.category);
         buf.writeInt(this.posX);
         buf.writeInt(this.posY);

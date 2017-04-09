@@ -69,7 +69,7 @@ public class SPacketParticles implements Packet<INetHandlerPlayClient>
 
         for (int j = 0; j < i; ++j)
         {
-            this.particleArguments[j] = buf.readVarInt();
+            this.particleArguments[j] = buf.readVarIntFromBuffer();
         }
     }
 
@@ -92,7 +92,7 @@ public class SPacketParticles implements Packet<INetHandlerPlayClient>
 
         for (int j = 0; j < i; ++j)
         {
-            buf.writeVarInt(this.particleArguments[j]);
+            buf.writeVarIntToBuffer(this.particleArguments[j]);
         }
     }
 

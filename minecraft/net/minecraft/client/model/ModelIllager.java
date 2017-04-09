@@ -6,47 +6,47 @@ import net.minecraft.util.math.MathHelper;
 
 public class ModelIllager extends ModelBase
 {
-    public ModelRenderer head;
-    public ModelRenderer body;
-    public ModelRenderer arms;
-    public ModelRenderer leg0;
-    public ModelRenderer leg1;
-    public ModelRenderer nose;
-    public ModelRenderer rightArm;
-    public ModelRenderer leftArm;
+    public ModelRenderer field_191217_a;
+    public ModelRenderer field_191218_b;
+    public ModelRenderer field_191219_c;
+    public ModelRenderer field_191220_d;
+    public ModelRenderer field_191221_e;
+    public ModelRenderer field_191222_f;
+    public ModelRenderer field_191223_g;
+    public ModelRenderer field_191224_h;
 
     public ModelIllager(float p_i47227_1_, float p_i47227_2_, int p_i47227_3_, int p_i47227_4_)
     {
-        this.head = (new ModelRenderer(this)).setTextureSize(p_i47227_3_, p_i47227_4_);
-        this.head.setRotationPoint(0.0F, 0.0F + p_i47227_2_, 0.0F);
-        this.head.setTextureOffset(0, 0).addBox(-4.0F, -10.0F, -4.0F, 8, 10, 8, p_i47227_1_);
-        this.nose = (new ModelRenderer(this)).setTextureSize(p_i47227_3_, p_i47227_4_);
-        this.nose.setRotationPoint(0.0F, p_i47227_2_ - 2.0F, 0.0F);
-        this.nose.setTextureOffset(24, 0).addBox(-1.0F, -1.0F, -6.0F, 2, 4, 2, p_i47227_1_);
-        this.head.addChild(this.nose);
-        this.body = (new ModelRenderer(this)).setTextureSize(p_i47227_3_, p_i47227_4_);
-        this.body.setRotationPoint(0.0F, 0.0F + p_i47227_2_, 0.0F);
-        this.body.setTextureOffset(16, 20).addBox(-4.0F, 0.0F, -3.0F, 8, 12, 6, p_i47227_1_);
-        this.body.setTextureOffset(0, 38).addBox(-4.0F, 0.0F, -3.0F, 8, 18, 6, p_i47227_1_ + 0.5F);
-        this.arms = (new ModelRenderer(this)).setTextureSize(p_i47227_3_, p_i47227_4_);
-        this.arms.setRotationPoint(0.0F, 0.0F + p_i47227_2_ + 2.0F, 0.0F);
-        this.arms.setTextureOffset(44, 22).addBox(-8.0F, -2.0F, -2.0F, 4, 8, 4, p_i47227_1_);
-        this.arms.setTextureOffset(44, 22).addBox(4.0F, -2.0F, -2.0F, 4, 8, 4, p_i47227_1_);
-        this.arms.setTextureOffset(40, 38).addBox(-4.0F, 2.0F, -2.0F, 8, 4, 4, p_i47227_1_);
-        this.leg0 = (new ModelRenderer(this, 0, 22)).setTextureSize(p_i47227_3_, p_i47227_4_);
-        this.leg0.setRotationPoint(-2.0F, 12.0F + p_i47227_2_, 0.0F);
-        this.leg0.addBox(-2.0F, 0.0F, -2.0F, 4, 12, 4, p_i47227_1_);
-        this.leg1 = (new ModelRenderer(this, 0, 22)).setTextureSize(p_i47227_3_, p_i47227_4_);
-        this.leg1.mirror = true;
-        this.leg1.setRotationPoint(2.0F, 12.0F + p_i47227_2_, 0.0F);
-        this.leg1.addBox(-2.0F, 0.0F, -2.0F, 4, 12, 4, p_i47227_1_);
-        this.rightArm = (new ModelRenderer(this, 40, 46)).setTextureSize(p_i47227_3_, p_i47227_4_);
-        this.rightArm.addBox(-3.0F, -2.0F, -2.0F, 4, 12, 4, p_i47227_1_);
-        this.rightArm.setRotationPoint(-5.0F, 2.0F + p_i47227_2_, 0.0F);
-        this.leftArm = (new ModelRenderer(this, 40, 46)).setTextureSize(p_i47227_3_, p_i47227_4_);
-        this.leftArm.mirror = true;
-        this.leftArm.addBox(-1.0F, -2.0F, -2.0F, 4, 12, 4, p_i47227_1_);
-        this.leftArm.setRotationPoint(5.0F, 2.0F + p_i47227_2_, 0.0F);
+        this.field_191217_a = (new ModelRenderer(this)).setTextureSize(p_i47227_3_, p_i47227_4_);
+        this.field_191217_a.setRotationPoint(0.0F, 0.0F + p_i47227_2_, 0.0F);
+        this.field_191217_a.setTextureOffset(0, 0).addBox(-4.0F, -10.0F, -4.0F, 8, 10, 8, p_i47227_1_);
+        this.field_191222_f = (new ModelRenderer(this)).setTextureSize(p_i47227_3_, p_i47227_4_);
+        this.field_191222_f.setRotationPoint(0.0F, p_i47227_2_ - 2.0F, 0.0F);
+        this.field_191222_f.setTextureOffset(24, 0).addBox(-1.0F, -1.0F, -6.0F, 2, 4, 2, p_i47227_1_);
+        this.field_191217_a.addChild(this.field_191222_f);
+        this.field_191218_b = (new ModelRenderer(this)).setTextureSize(p_i47227_3_, p_i47227_4_);
+        this.field_191218_b.setRotationPoint(0.0F, 0.0F + p_i47227_2_, 0.0F);
+        this.field_191218_b.setTextureOffset(16, 20).addBox(-4.0F, 0.0F, -3.0F, 8, 12, 6, p_i47227_1_);
+        this.field_191218_b.setTextureOffset(0, 38).addBox(-4.0F, 0.0F, -3.0F, 8, 18, 6, p_i47227_1_ + 0.5F);
+        this.field_191219_c = (new ModelRenderer(this)).setTextureSize(p_i47227_3_, p_i47227_4_);
+        this.field_191219_c.setRotationPoint(0.0F, 0.0F + p_i47227_2_ + 2.0F, 0.0F);
+        this.field_191219_c.setTextureOffset(44, 22).addBox(-8.0F, -2.0F, -2.0F, 4, 8, 4, p_i47227_1_);
+        this.field_191219_c.setTextureOffset(44, 22).addBox(4.0F, -2.0F, -2.0F, 4, 8, 4, p_i47227_1_);
+        this.field_191219_c.setTextureOffset(40, 38).addBox(-4.0F, 2.0F, -2.0F, 8, 4, 4, p_i47227_1_);
+        this.field_191220_d = (new ModelRenderer(this, 0, 22)).setTextureSize(p_i47227_3_, p_i47227_4_);
+        this.field_191220_d.setRotationPoint(-2.0F, 12.0F + p_i47227_2_, 0.0F);
+        this.field_191220_d.addBox(-2.0F, 0.0F, -2.0F, 4, 12, 4, p_i47227_1_);
+        this.field_191221_e = (new ModelRenderer(this, 0, 22)).setTextureSize(p_i47227_3_, p_i47227_4_);
+        this.field_191221_e.mirror = true;
+        this.field_191221_e.setRotationPoint(2.0F, 12.0F + p_i47227_2_, 0.0F);
+        this.field_191221_e.addBox(-2.0F, 0.0F, -2.0F, 4, 12, 4, p_i47227_1_);
+        this.field_191223_g = (new ModelRenderer(this, 40, 46)).setTextureSize(p_i47227_3_, p_i47227_4_);
+        this.field_191223_g.addBox(-3.0F, -2.0F, -2.0F, 4, 12, 4, p_i47227_1_);
+        this.field_191223_g.setRotationPoint(-5.0F, 2.0F + p_i47227_2_, 0.0F);
+        this.field_191224_h = (new ModelRenderer(this, 40, 46)).setTextureSize(p_i47227_3_, p_i47227_4_);
+        this.field_191224_h.mirror = true;
+        this.field_191224_h.addBox(-1.0F, -2.0F, -2.0F, 4, 12, 4, p_i47227_1_);
+        this.field_191224_h.setRotationPoint(5.0F, 2.0F + p_i47227_2_, 0.0F);
     }
 
     /**
@@ -55,10 +55,10 @@ public class ModelIllager extends ModelBase
     public void render(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale)
     {
         this.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale, entityIn);
-        this.head.render(scale);
-        this.body.render(scale);
-        this.leg0.render(scale);
-        this.leg1.render(scale);
+        this.field_191217_a.render(scale);
+        this.field_191218_b.render(scale);
+        this.field_191220_d.render(scale);
+        this.field_191221_e.render(scale);
     }
 
     /**
@@ -68,19 +68,19 @@ public class ModelIllager extends ModelBase
      */
     public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn)
     {
-        this.head.rotateAngleY = netHeadYaw * 0.017453292F;
-        this.head.rotateAngleX = headPitch * 0.017453292F;
-        this.arms.rotationPointY = 3.0F;
-        this.arms.rotationPointZ = -1.0F;
-        this.arms.rotateAngleX = -0.75F;
-        this.leg0.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount * 0.5F;
-        this.leg1.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount * 0.5F;
-        this.leg0.rotateAngleY = 0.0F;
-        this.leg1.rotateAngleY = 0.0F;
+        this.field_191217_a.rotateAngleY = netHeadYaw * 0.017453292F;
+        this.field_191217_a.rotateAngleX = headPitch * 0.017453292F;
+        this.field_191219_c.rotationPointY = 3.0F;
+        this.field_191219_c.rotationPointZ = -1.0F;
+        this.field_191219_c.rotateAngleX = -0.75F;
+        this.field_191220_d.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount * 0.5F;
+        this.field_191221_e.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount * 0.5F;
+        this.field_191220_d.rotateAngleY = 0.0F;
+        this.field_191221_e.rotateAngleY = 0.0F;
     }
 
-    public ModelRenderer getArm(EnumHandSide p_191216_1_)
+    public ModelRenderer func_191216_a(EnumHandSide p_191216_1_)
     {
-        return p_191216_1_ == EnumHandSide.LEFT ? this.leftArm : this.rightArm;
+        return p_191216_1_ == EnumHandSide.LEFT ? this.field_191224_h : this.field_191223_g;
     }
 }

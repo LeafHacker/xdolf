@@ -311,11 +311,11 @@ public class EntityCreeper extends EntityMob
             this.dead = true;
             this.world.createExplosion(this, this.posX, this.posY, this.posZ, (float)this.explosionRadius * f, flag);
             this.setDead();
-            this.spawnLingeringCloud();
+            this.func_190741_do();
         }
     }
 
-    private void spawnLingeringCloud()
+    private void func_190741_do()
     {
         Collection<PotionEffect> collection = this.getActivePotionEffects();
 
@@ -333,7 +333,7 @@ public class EntityCreeper extends EntityMob
                 entityareaeffectcloud.addEffect(new PotionEffect(potioneffect));
             }
 
-            this.world.spawnEntity(entityareaeffectcloud);
+            this.world.spawnEntityInWorld(entityareaeffectcloud);
         }
     }
 

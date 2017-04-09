@@ -23,7 +23,7 @@ public class CommandAchievement extends CommandBase
     /**
      * Gets the name of the command
      */
-    public String getName()
+    public String getCommandName()
     {
         return "achievement";
     }
@@ -39,7 +39,7 @@ public class CommandAchievement extends CommandBase
     /**
      * Gets the usage string for the command.
      */
-    public String getUsage(ICommandSender sender)
+    public String getCommandUsage(ICommandSender sender)
     {
         return "commands.achievement.usage";
     }
@@ -176,7 +176,7 @@ public class CommandAchievement extends CommandBase
         }
     }
 
-    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
+    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
     {
         if (args.length == 1)
         {
@@ -184,7 +184,7 @@ public class CommandAchievement extends CommandBase
         }
         else if (args.length != 2)
         {
-            return args.length == 3 ? getListOfStringsMatchingLastWord(args, server.getOnlinePlayerNames()) : Collections.<String>emptyList();
+            return args.length == 3 ? getListOfStringsMatchingLastWord(args, server.getAllUsernames()) : Collections.<String>emptyList();
         }
         else
         {

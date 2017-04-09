@@ -58,6 +58,6 @@ public class CombatEntry
 
     public float getDamageAmount()
     {
-        return this.damageSrc == DamageSource.OUT_OF_WORLD ? Float.MAX_VALUE : this.fallDistance;
+        return this.damageSrc == DamageSource.outOfWorld ? Float.MAX_VALUE : this.fallDistance;
     }
 }

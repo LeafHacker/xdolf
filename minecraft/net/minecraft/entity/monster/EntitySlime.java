@@ -240,7 +240,7 @@ public class EntitySlime extends EntityLiving implements IMob
 
                 entityslime.setSlimeSize(i / 2, true);
                 entityslime.setLocationAndAngles(this.posX + (double)f, this.posY + 0.5D, this.posZ + (double)f1, this.rand.nextFloat() * 360.0F, 0.0F);
-                this.world.spawnEntity(entityslime);
+                this.world.spawnEntityInWorld(entityslime);
             }
         }
 

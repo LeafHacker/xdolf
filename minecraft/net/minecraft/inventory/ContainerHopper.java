@@ -46,7 +46,7 @@ public class ContainerHopper extends Container
      */
     public ItemStack transferStackInSlot(EntityPlayer playerIn, int index)
     {
-        ItemStack itemstack = ItemStack.EMPTY;
+        ItemStack itemstack = ItemStack.field_190927_a;
         Slot slot = (Slot)this.inventorySlots.get(index);
 
         if (slot != null && slot.getHasStack())
@@ -58,17 +58,17 @@ public class ContainerHopper extends Container
             {
                 if (!this.mergeItemStack(itemstack1, this.hopperInventory.getSizeInventory(), this.inventorySlots.size(), true))
                 {
-                    return ItemStack.EMPTY;
+                    return ItemStack.field_190927_a;
                 }
             }
             else if (!this.mergeItemStack(itemstack1, 0, this.hopperInventory.getSizeInventory(), false))
             {
-                return ItemStack.EMPTY;
+                return ItemStack.field_190927_a;
             }
 
-            if (itemstack1.isEmpty())
+            if (itemstack1.func_190926_b())
             {
-                slot.putStack(ItemStack.EMPTY);
+                slot.putStack(ItemStack.field_190927_a);
             }
             else
             {

@@ -56,8 +56,8 @@ public class EntityAIWatchClosest extends EntityAIBase
 
             if (this.watchedClass == EntityPlayer.class)
             {
-                Predicate<Entity> predicate = Predicates.<Entity> and (EntitySelectors.NOT_SPECTATING, EntitySelectors.notRiding(this.theWatcher));
-                this.closestEntity = this.theWatcher.world.getClosestPlayer(this.theWatcher.posX, this.theWatcher.posY, this.theWatcher.posZ, (double)this.maxDistanceForPlayer, predicate);
+                Predicate<Entity> predicate = Predicates.<Entity> and (EntitySelectors.NOT_SPECTATING, EntitySelectors.func_191324_b(this.theWatcher));
+                this.closestEntity = this.theWatcher.world.func_190525_a(this.theWatcher.posX, this.theWatcher.posY, this.theWatcher.posZ, (double)this.maxDistanceForPlayer, predicate);
             }
             else
             {

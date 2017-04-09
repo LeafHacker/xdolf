@@ -1,5 +1,19 @@
 package net.minecraft.server;
 
+import com.google.common.base.Charsets;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Queues;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.ListenableFutureTask;
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.GameProfileRepository;
+import com.mojang.authlib.minecraft.MinecraftSessionService;
+import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufOutputStream;
+import io.netty.buffer.Unpooled;
+import io.netty.handler.codec.base64.Base64;
 import java.awt.GraphicsEnvironment;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -20,30 +34,8 @@ import java.util.UUID;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
-
 import javax.annotation.Nullable;
 import javax.imageio.ImageIO;
-
-import org.apache.commons.lang3.Validate;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import com.darkcart.xdolf.gui.GuiScreenProtocol;
-import com.google.common.base.Charsets;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Queues;
-import com.google.common.util.concurrent.Futures;
-import com.google.common.util.concurrent.ListenableFuture;
-import com.google.common.util.concurrent.ListenableFutureTask;
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.GameProfileRepository;
-import com.mojang.authlib.minecraft.MinecraftSessionService;
-import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
-
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufOutputStream;
-import io.netty.buffer.Unpooled;
-import io.netty.handler.codec.base64.Base64;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandResultStats;
 import net.minecraft.command.ICommandManager;
@@ -87,6 +79,9 @@ import net.minecraft.world.demo.DemoWorldServer;
 import net.minecraft.world.storage.ISaveFormat;
 import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.WorldInfo;
+import org.apache.commons.lang3.Validate;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public abstract class MinecraftServer implements Runnable, ICommandSender, IThreadListener, ISnooperInfo
 {
@@ -109,7 +104,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
     private int serverPort = -1;
 
     /** The server world instances. */
-    public WorldServer[] worlds;
+    public WorldServer[] worldServers;
 
     /** The player list for this server */
     private PlayerList playerList;
@@ -136,7 +131,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 
     /** True if the server is in online mode. */
     private boolean onlineMode;
-    private boolean preventProxyConnections;
+    private boolean field_190519_A;
 
     /** True if the server has animals turned on. */
     private boolean canSpawnAnimals;
@@ -198,12 +193,12 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
         this.profileCache = profileCacheIn;
         this.anvilFile = anvilFileIn;
         this.networkSystem = new NetworkSystem(this);
-        this.commandManager = this.createCommandManager();
+        this.commandManager = this.createNewCommandManager();
         this.anvilConverterForAnvilFile = new AnvilSaveConverter(anvilFileIn, dataFixerIn);
         this.dataFixer = dataFixerIn;
     }
 
-    public ServerCommandManager createCommandManager()
+    public ServerCommandManager createNewCommandManager()
     {
         return new ServerCommandManager(this);
     }
@@ -211,7 +206,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
     /**
      * Initialises the server and starts it.
      */
-    public abstract boolean init() throws IOException;
+    public abstract boolean startServer() throws IOException;
 
     public void convertMapIfNeeded(String worldNameIn)
     {
@@ -265,8 +260,8 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
     {
         this.convertMapIfNeeded(saveName);
         this.setUserMessage("menu.loadingLevel");
-        this.worlds = new WorldServer[3];
-        this.timeOfLastDimensionTick = new long[this.worlds.length][100];
+        this.worldServers = new WorldServer[3];
+        this.timeOfLastDimensionTick = new long[this.worldServers.length][100];
         ISaveHandler isavehandler = this.anvilConverterForAnvilFile.getSaveLoader(saveName, true);
         this.setResourcePackFromWorld(this.getFolderName(), isavehandler);
         WorldInfo worldinfo = isavehandler.loadWorldInfo();
@@ -297,7 +292,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
             worldsettings = new WorldSettings(worldinfo);
         }
 
-        for (int i = 0; i < this.worlds.length; ++i)
+        for (int i = 0; i < this.worldServers.length; ++i)
         {
             int j = 0;
 
@@ -315,29 +310,29 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
             {
                 if (this.isDemo())
                 {
-                    this.worlds[i] = (WorldServer)(new DemoWorldServer(this, isavehandler, worldinfo, j, this.theProfiler)).init();
+                    this.worldServers[i] = (WorldServer)(new DemoWorldServer(this, isavehandler, worldinfo, j, this.theProfiler)).init();
                 }
                 else
                 {
-                    this.worlds[i] = (WorldServer)(new WorldServer(this, isavehandler, worldinfo, j, this.theProfiler)).init();
+                    this.worldServers[i] = (WorldServer)(new WorldServer(this, isavehandler, worldinfo, j, this.theProfiler)).init();
                 }
 
-                this.worlds[i].initialize(worldsettings);
+                this.worldServers[i].initialize(worldsettings);
             }
             else
             {
-                this.worlds[i] = (WorldServer)(new WorldServerMulti(this, isavehandler, j, this.worlds[0], this.theProfiler)).init();
+                this.worldServers[i] = (WorldServer)(new WorldServerMulti(this, isavehandler, j, this.worldServers[0], this.theProfiler)).init();
             }
 
-            this.worlds[i].addEventListener(new ServerWorldEventHandler(this, this.worlds[i]));
+            this.worldServers[i].addEventListener(new ServerWorldEventHandler(this, this.worldServers[i]));
 
             if (!this.isSinglePlayer())
             {
-                this.worlds[i].getWorldInfo().setGameType(this.getGameType());
+                this.worldServers[i].getWorldInfo().setGameType(this.getGameType());
             }
         }
 
-        this.playerList.setPlayerManager(this.worlds);
+        this.playerList.setPlayerManager(this.worldServers);
         this.setDifficultyForAllWorlds(this.getDifficulty());
         this.initialWorldChunkLoad();
     }
@@ -352,7 +347,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
         this.setUserMessage("menu.generatingTerrain");
         int j1 = 0;
         LOG.info("Preparing start region for level 0");
-        WorldServer worldserver = this.worlds[0];
+        WorldServer worldserver = this.worldServers[0];
         BlockPos blockpos = worldserver.getSpawnPoint();
         long k1 = getCurrentTimeMillis();
 
@@ -443,7 +438,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
      */
     public void saveAllWorlds(boolean isSilent)
     {
-        for (WorldServer worldserver : this.worlds)
+        for (WorldServer worldserver : this.worldServers)
         {
             if (worldserver != null)
             {
@@ -483,11 +478,11 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
             this.playerList.removeAllPlayers();
         }
 
-        if (this.worlds != null)
+        if (this.worldServers != null)
         {
             LOG.info("Saving worlds");
 
-            for (WorldServer worldserver : this.worlds)
+            for (WorldServer worldserver : this.worldServers)
             {
                 if (worldserver != null)
                 {
@@ -497,7 +492,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 
             this.saveAllWorlds(false);
 
-            for (WorldServer worldserver1 : this.worlds)
+            for (WorldServer worldserver1 : this.worldServers)
             {
                 if (worldserver1 != null)
                 {
@@ -529,12 +524,12 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
     {
         try
         {
-            if (this.init())
+            if (this.startServer())
             {
                 this.currentTime = getCurrentTimeMillis();
                 long i = 0L;
                 this.statusResponse.setServerDescription(new TextComponentString(this.motd));
-                this.statusResponse.setVersion(new ServerStatusResponse.Version("1.11", GuiScreenProtocol.proto));
+                this.statusResponse.setVersion(new ServerStatusResponse.Version("1.11.2", 316));
                 this.applyServerIconToResponse(this.statusResponse);
 
                 while (this.serverRunning)
@@ -558,7 +553,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
                     i += j;
                     this.currentTime = k;
 
-                    if (this.worlds[0].areAllPlayersAsleep())
+                    if (this.worldServers[0].areAllPlayersAsleep())
                     {
                         this.tick();
                         i = 0L;
@@ -716,7 +711,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 
             for (int k = 0; k < agameprofile.length; ++k)
             {
-                agameprofile[k] = ((EntityPlayerMP)this.playerList.getPlayers().get(j + k)).getGameProfile();
+                agameprofile[k] = ((EntityPlayerMP)this.playerList.getPlayerList().get(j + k)).getGameProfile();
             }
 
             Collections.shuffle(Arrays.asList(agameprofile));
@@ -764,13 +759,13 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 
         this.theProfiler.endStartSection("levels");
 
-        for (int j = 0; j < this.worlds.length; ++j)
+        for (int j = 0; j < this.worldServers.length; ++j)
         {
             long i = System.nanoTime();
 
             if (j == 0 || this.getAllowNether())
             {
-                WorldServer worldserver = this.worlds[j];
+                WorldServer worldserver = this.worldServers[j];
                 this.theProfiler.startSection(worldserver.getWorldInfo().getWorldName());
 
                 if (this.tickCounter % 20 == 0)
@@ -806,7 +801,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 
                 this.theProfiler.endSection();
                 this.theProfiler.startSection("tracker");
-                worldserver.getEntityTracker().tick();
+                worldserver.getEntityTracker().updateTrackedEntities();
                 this.theProfiler.endSection();
                 this.theProfiler.endSection();
             }
@@ -860,7 +855,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
      */
     public WorldServer worldServerForDimension(int dimension)
     {
-        return dimension == -1 ? this.worlds[1] : (dimension == 1 ? this.worlds[2] : this.worlds[0]);
+        return dimension == -1 ? this.worldServers[1] : (dimension == 1 ? this.worldServers[2] : this.worldServers[0]);
     }
 
     /**
@@ -868,7 +863,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
      */
     public String getMinecraftVersion()
     {
-        return "1.11";
+        return "1.11.2";
     }
 
     /**
@@ -890,17 +885,17 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
     /**
      * Returns an array of the usernames of all the connected players.
      */
-    public String[] getOnlinePlayerNames()
+    public String[] getAllUsernames()
     {
-        return this.playerList.getOnlinePlayerNames();
+        return this.playerList.getAllUsernames();
     }
 
     /**
      * Returns an array of the GameProfiles of all the connected players
      */
-    public GameProfile[] getOnlinePlayerProfiles()
+    public GameProfile[] getGameProfiles()
     {
-        return this.playerList.getOnlinePlayerProfiles();
+        return this.playerList.getAllProfiles();
     }
 
     public String getServerModName()
@@ -927,7 +922,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
             {
                 public String call()
                 {
-                    return MinecraftServer.this.playerList.getCurrentPlayerCount() + " / " + MinecraftServer.this.playerList.getMaxPlayers() + "; " + MinecraftServer.this.playerList.getPlayers();
+                    return MinecraftServer.this.playerList.getCurrentPlayerCount() + " / " + MinecraftServer.this.playerList.getMaxPlayers() + "; " + MinecraftServer.this.playerList.getPlayerList();
                 }
             });
         }
@@ -950,7 +945,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
             String[] astring = input.split(" ", -1);
             String s2 = astring[astring.length - 1];
 
-            for (String s1 : this.playerList.getOnlinePlayerNames())
+            for (String s1 : this.playerList.getAllUsernames())
             {
                 if (CommandBase.doesStringStartWith(s2, s1))
                 {
@@ -963,7 +958,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
         else
         {
             boolean flag1 = !input.contains(" ");
-            List<String> list1 = this.commandManager.getTabCompletions(sender, input, pos);
+            List<String> list1 = this.commandManager.getTabCompletionOptions(sender, input, pos);
 
             if (!list1.isEmpty())
             {
@@ -1000,7 +995,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
     /**
      * Send a chat message to the CommandSender
      */
-    public void sendMessage(ITextComponent component)
+    public void addChatMessage(ITextComponent component)
     {
         LOG.info(component.getUnformattedText());
     }
@@ -1008,7 +1003,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
     /**
      * Returns {@code true} if the CommandSender is allowed to execute the command, {@code false} if not
      */
-    public boolean canUseCommand(int permLevel, String commandName)
+    public boolean canCommandSenderUseCommand(int permLevel, String commandName)
     {
         return true;
     }
@@ -1074,7 +1069,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 
     public void setDifficultyForAllWorlds(EnumDifficulty difficulty)
     {
-        for (WorldServer worldserver : this.worlds)
+        for (WorldServer worldserver : this.worldServers)
         {
             if (worldserver != null)
             {
@@ -1162,9 +1157,9 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
         playerSnooper.addClientStat("avg_tick_ms", Integer.valueOf((int)(MathHelper.average(this.tickTimeArray) * 1.0E-6D)));
         int i = 0;
 
-        if (this.worlds != null)
+        if (this.worldServers != null)
         {
-            for (WorldServer worldserver : this.worlds)
+            for (WorldServer worldserver : this.worldServers)
             {
                 if (worldserver != null)
                 {
@@ -1173,7 +1168,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
                     playerSnooper.addClientStat("world[" + i + "][mode]", worldinfo.getGameType());
                     playerSnooper.addClientStat("world[" + i + "][difficulty]", worldserver.getDifficulty());
                     playerSnooper.addClientStat("world[" + i + "][hardcore]", Boolean.valueOf(worldinfo.isHardcoreModeEnabled()));
-                    playerSnooper.addClientStat("world[" + i + "][generator_name]", worldinfo.getTerrainType().getName());
+                    playerSnooper.addClientStat("world[" + i + "][generator_name]", worldinfo.getTerrainType().getWorldTypeName());
                     playerSnooper.addClientStat("world[" + i + "][generator_version]", Integer.valueOf(worldinfo.getTerrainType().getGeneratorVersion()));
                     playerSnooper.addClientStat("world[" + i + "][height]", Integer.valueOf(this.buildLimit));
                     playerSnooper.addClientStat("world[" + i + "][chunks_loaded]", Integer.valueOf(worldserver.getChunkProvider().getLoadedChunkCount()));
@@ -1213,9 +1208,9 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
         this.onlineMode = online;
     }
 
-    public boolean getPreventProxyConnections()
+    public boolean func_190518_ac()
     {
-        return this.preventProxyConnections;
+        return this.field_190519_A;
     }
 
     public boolean getCanSpawnAnimals()
@@ -1309,7 +1304,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
      */
     public void setGameType(GameType gameMode)
     {
-        for (WorldServer worldserver : this.worlds)
+        for (WorldServer worldserver : this.worldServers)
         {
             worldserver.getWorldInfo().setGameType(gameMode);
         }
@@ -1374,7 +1369,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
      */
     public World getEntityWorld()
     {
-        return this.worlds[0];
+        return this.worldServers[0];
     }
 
     /**
@@ -1459,7 +1454,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
     @Nullable
     public Entity getEntityFromUuid(UUID uuid)
     {
-        for (WorldServer worldserver : this.worlds)
+        for (WorldServer worldserver : this.worldServers)
         {
             if (worldserver != null)
             {
@@ -1480,7 +1475,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
      */
     public boolean sendCommandFeedback()
     {
-        return this.worlds[0].getGameRules().getBoolean("sendCommandFeedback");
+        return this.worldServers[0].getGameRules().getBoolean("sendCommandFeedback");
     }
 
     public void setCommandStat(CommandResultStats.Type type, int amount)

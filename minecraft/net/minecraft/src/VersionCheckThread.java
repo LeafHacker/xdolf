@@ -14,15 +14,15 @@ public class VersionCheckThread extends Thread
         try
         {
             Config.dbg("Checking for new version");
-            URL url = new URL("http://optifine.net/version/1.11/HD_U.txt");
+            URL url = new URL("http://optifine.net/version/1.11.2/HD_U.txt");
             httpurlconnection = (HttpURLConnection)url.openConnection();
 
             if (Config.getGameSettings().snooperEnabled)
             {
-                httpurlconnection.setRequestProperty("OF-MC-Version", "1.11");
+                httpurlconnection.setRequestProperty("OF-MC-Version", "1.11.2");
                 httpurlconnection.setRequestProperty("OF-MC-Brand", "" + ClientBrandRetriever.getClientModName());
                 httpurlconnection.setRequestProperty("OF-Edition", "HD_U");
-                httpurlconnection.setRequestProperty("OF-Release", "B5");
+                httpurlconnection.setRequestProperty("OF-Release", "B7");
                 httpurlconnection.setRequestProperty("OF-Java-Version", "" + System.getProperty("java.version"));
                 httpurlconnection.setRequestProperty("OF-CpuCount", "" + Config.getAvailableProcessors());
                 httpurlconnection.setRequestProperty("OF-OpenGL-Version", "" + Config.openGlVersion);
@@ -45,7 +45,7 @@ public class VersionCheckThread extends Thread
                     String s1 = astring[0].trim();
                     Config.dbg("Version found: " + s1);
 
-                    if (Config.compareRelease(s1, "B5") <= 0)
+                    if (Config.compareRelease(s1, "B7") <= 0)
                     {
                         return;
                     }

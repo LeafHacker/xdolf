@@ -7,9 +7,9 @@ public class PlayerConfigurationReceiver implements IFileDownloadListener
 {
     private String player = null;
 
-    public PlayerConfigurationReceiver(String p_i65_1_)
+    public PlayerConfigurationReceiver(String p_i68_1_)
     {
-        this.player = p_i65_1_;
+        this.player = p_i68_1_;
     }
 
     public void fileDownloadFinished(String p_fileDownloadFinished_1_, byte[] p_fileDownloadFinished_2_, Throwable p_fileDownloadFinished_3_)

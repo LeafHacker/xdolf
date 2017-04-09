@@ -217,7 +217,7 @@ public class ModelHorse extends ModelBase
         boolean flag = abstracthorse.isChild();
         boolean flag1 = !flag && abstracthorse.isHorseSaddled();
         boolean flag2 = abstracthorse instanceof AbstractChestHorse;
-        boolean flag3 = !flag && flag2 && ((AbstractChestHorse)abstracthorse).hasChest();
+        boolean flag3 = !flag && flag2 && ((AbstractChestHorse)abstracthorse).func_190695_dh();
         float f1 = abstracthorse.getHorseSize();
         boolean flag4 = abstracthorse.isBeingRidden();
 
@@ -342,9 +342,9 @@ public class ModelHorse extends ModelBase
      * Used for easily adding entity-dependent animations. The second and third float params here are the same second
      * and third as in the setRotationAngles method.
      */
-    public void setLivingAnimations(EntityLivingBase entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTickTime)
+    public void setLivingAnimations(EntityLivingBase entitylivingbaseIn, float p_78086_2_, float p_78086_3_, float partialTickTime)
     {
-        super.setLivingAnimations(entitylivingbaseIn, limbSwing, limbSwingAmount, partialTickTime);
+        super.setLivingAnimations(entitylivingbaseIn, p_78086_2_, p_78086_3_, partialTickTime);
         float f = this.updateHorseRotation(entitylivingbaseIn.prevRenderYawOffset, entitylivingbaseIn.renderYawOffset, partialTickTime);
         float f1 = this.updateHorseRotation(entitylivingbaseIn.prevRotationYawHead, entitylivingbaseIn.rotationYawHead, partialTickTime);
         float f2 = entitylivingbaseIn.prevRotationPitch + (entitylivingbaseIn.rotationPitch - entitylivingbaseIn.prevRotationPitch) * partialTickTime;
@@ -361,9 +361,9 @@ public class ModelHorse extends ModelBase
             f3 = -20.0F;
         }
 
-        if (limbSwingAmount > 0.2F)
+        if (p_78086_3_ > 0.2F)
         {
-            f4 += MathHelper.cos(limbSwing * 0.4F) * 0.15F * limbSwingAmount;
+            f4 += MathHelper.cos(p_78086_2_ * 0.4F) * 0.15F * p_78086_3_;
         }
 
         AbstractHorse abstracthorse = (AbstractHorse)entitylivingbaseIn;
@@ -375,8 +375,8 @@ public class ModelHorse extends ModelBase
         boolean flag1 = abstracthorse.isHorseSaddled();
         boolean flag2 = abstracthorse.isBeingRidden();
         float f9 = (float)entitylivingbaseIn.ticksExisted + partialTickTime;
-        float f10 = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI);
-        float f11 = f10 * 0.8F * limbSwingAmount;
+        float f10 = MathHelper.cos(p_78086_2_ * 0.6662F + (float)Math.PI);
+        float f11 = f10 * 0.8F * p_78086_3_;
         this.head.rotationPointY = 4.0F;
         this.head.rotationPointZ = -10.0F;
         this.tailBase.rotationPointY = 3.0F;
@@ -435,27 +435,27 @@ public class ModelHorse extends ModelBase
         this.frontLeftLeg.rotationPointZ = -2.0F * f6 + -8.0F * f7;
         this.frontRightLeg.rotationPointY = this.frontLeftLeg.rotationPointY;
         this.frontRightLeg.rotationPointZ = this.frontLeftLeg.rotationPointZ;
-        this.backLeftShin.rotationPointY = this.backLeftLeg.rotationPointY + MathHelper.sin(((float)Math.PI / 2F) + f12 + f7 * -f10 * 0.5F * limbSwingAmount) * 7.0F;
-        this.backLeftShin.rotationPointZ = this.backLeftLeg.rotationPointZ + MathHelper.cos(-((float)Math.PI / 2F) + f12 + f7 * -f10 * 0.5F * limbSwingAmount) * 7.0F;
-        this.backRightShin.rotationPointY = this.backRightLeg.rotationPointY + MathHelper.sin(((float)Math.PI / 2F) + f12 + f7 * f10 * 0.5F * limbSwingAmount) * 7.0F;
-        this.backRightShin.rotationPointZ = this.backRightLeg.rotationPointZ + MathHelper.cos(-((float)Math.PI / 2F) + f12 + f7 * f10 * 0.5F * limbSwingAmount) * 7.0F;
+        this.backLeftShin.rotationPointY = this.backLeftLeg.rotationPointY + MathHelper.sin(((float)Math.PI / 2F) + f12 + f7 * -f10 * 0.5F * p_78086_3_) * 7.0F;
+        this.backLeftShin.rotationPointZ = this.backLeftLeg.rotationPointZ + MathHelper.cos(-((float)Math.PI / 2F) + f12 + f7 * -f10 * 0.5F * p_78086_3_) * 7.0F;
+        this.backRightShin.rotationPointY = this.backRightLeg.rotationPointY + MathHelper.sin(((float)Math.PI / 2F) + f12 + f7 * f10 * 0.5F * p_78086_3_) * 7.0F;
+        this.backRightShin.rotationPointZ = this.backRightLeg.rotationPointZ + MathHelper.cos(-((float)Math.PI / 2F) + f12 + f7 * f10 * 0.5F * p_78086_3_) * 7.0F;
         float f14 = (-1.0471976F + f13) * f6 + f11 * f7;
         float f15 = (-1.0471976F - f13) * f6 + -f11 * f7;
         this.frontLeftShin.rotationPointY = this.frontLeftLeg.rotationPointY + MathHelper.sin(((float)Math.PI / 2F) + f14) * 7.0F;
         this.frontLeftShin.rotationPointZ = this.frontLeftLeg.rotationPointZ + MathHelper.cos(-((float)Math.PI / 2F) + f14) * 7.0F;
         this.frontRightShin.rotationPointY = this.frontRightLeg.rotationPointY + MathHelper.sin(((float)Math.PI / 2F) + f15) * 7.0F;
         this.frontRightShin.rotationPointZ = this.frontRightLeg.rotationPointZ + MathHelper.cos(-((float)Math.PI / 2F) + f15) * 7.0F;
-        this.backLeftLeg.rotateAngleX = f12 + -f10 * 0.5F * limbSwingAmount * f7;
-        this.backLeftShin.rotateAngleX = -0.08726646F * f6 + (-f10 * 0.5F * limbSwingAmount - Math.max(0.0F, f10 * 0.5F * limbSwingAmount)) * f7;
+        this.backLeftLeg.rotateAngleX = f12 + -f10 * 0.5F * p_78086_3_ * f7;
+        this.backLeftShin.rotateAngleX = -0.08726646F * f6 + (-f10 * 0.5F * p_78086_3_ - Math.max(0.0F, f10 * 0.5F * p_78086_3_)) * f7;
         this.backLeftHoof.rotateAngleX = this.backLeftShin.rotateAngleX;
-        this.backRightLeg.rotateAngleX = f12 + f10 * 0.5F * limbSwingAmount * f7;
-        this.backRightShin.rotateAngleX = -0.08726646F * f6 + (f10 * 0.5F * limbSwingAmount - Math.max(0.0F, -f10 * 0.5F * limbSwingAmount)) * f7;
+        this.backRightLeg.rotateAngleX = f12 + f10 * 0.5F * p_78086_3_ * f7;
+        this.backRightShin.rotateAngleX = -0.08726646F * f6 + (f10 * 0.5F * p_78086_3_ - Math.max(0.0F, -f10 * 0.5F * p_78086_3_)) * f7;
         this.backRightHoof.rotateAngleX = this.backRightShin.rotateAngleX;
         this.frontLeftLeg.rotateAngleX = f14;
-        this.frontLeftShin.rotateAngleX = (this.frontLeftLeg.rotateAngleX + (float)Math.PI * Math.max(0.0F, 0.2F + f13 * 0.2F)) * f6 + (f11 + Math.max(0.0F, f10 * 0.5F * limbSwingAmount)) * f7;
+        this.frontLeftShin.rotateAngleX = (this.frontLeftLeg.rotateAngleX + (float)Math.PI * Math.max(0.0F, 0.2F + f13 * 0.2F)) * f6 + (f11 + Math.max(0.0F, f10 * 0.5F * p_78086_3_)) * f7;
         this.frontLeftHoof.rotateAngleX = this.frontLeftShin.rotateAngleX;
         this.frontRightLeg.rotateAngleX = f15;
-        this.frontRightShin.rotateAngleX = (this.frontRightLeg.rotateAngleX + (float)Math.PI * Math.max(0.0F, 0.2F - f13 * 0.2F)) * f6 + (-f11 + Math.max(0.0F, -f10 * 0.5F * limbSwingAmount)) * f7;
+        this.frontRightShin.rotateAngleX = (this.frontRightLeg.rotateAngleX + (float)Math.PI * Math.max(0.0F, 0.2F - f13 * 0.2F)) * f6 + (-f11 + Math.max(0.0F, -f10 * 0.5F * p_78086_3_)) * f7;
         this.frontRightHoof.rotateAngleX = this.frontRightShin.rotateAngleX;
         this.backLeftHoof.rotationPointY = this.backLeftShin.rotationPointY;
         this.backLeftHoof.rotationPointZ = this.backLeftShin.rotationPointZ;
@@ -532,7 +532,7 @@ public class ModelHorse extends ModelBase
             }
         }
 
-        f12 = -1.3089969F + limbSwingAmount * 1.5F;
+        f12 = -1.3089969F + p_78086_3_ * 1.5F;
 
         if (f12 > 0.0F)
         {

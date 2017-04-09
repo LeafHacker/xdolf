@@ -13,10 +13,10 @@ import net.minecraft.world.World;
 
 public class ShulkerBoxRecipes
 {
-    void addRecipes(CraftingManager manager)
+    void func_190935_a(CraftingManager p_190935_1_)
     {
-        manager.addRecipe(BlockShulkerBox.getColoredItemStack(EntityShulker.DEFAULT_COLOR), new Object[] {"-", "#", "-", '-', Items.SHULKER_SHELL, '#', Blocks.CHEST});
-        manager.addRecipe(new ShulkerBoxRecipes.ShulkerBoxColoring());
+        p_190935_1_.addRecipe(BlockShulkerBox.func_190953_b(EntityShulker.field_190771_bx), new Object[] {"-", "#", "-", '-', Items.field_190930_cZ, '#', Blocks.CHEST});
+        p_190935_1_.addRecipe(new ShulkerBoxRecipes.ShulkerBoxColoring());
     }
 
     static class ShulkerBoxColoring implements IRecipe
@@ -34,7 +34,7 @@ public class ShulkerBoxRecipes
             {
                 ItemStack itemstack = inv.getStackInSlot(k);
 
-                if (!itemstack.isEmpty())
+                if (!itemstack.func_190926_b())
                 {
                     if (Block.getBlockFromItem(itemstack.getItem()) instanceof BlockShulkerBox)
                     {
@@ -62,14 +62,14 @@ public class ShulkerBoxRecipes
 
         public ItemStack getCraftingResult(InventoryCrafting inv)
         {
-            ItemStack itemstack = ItemStack.EMPTY;
-            ItemStack itemstack1 = ItemStack.EMPTY;
+            ItemStack itemstack = ItemStack.field_190927_a;
+            ItemStack itemstack1 = ItemStack.field_190927_a;
 
             for (int i = 0; i < inv.getSizeInventory(); ++i)
             {
                 ItemStack itemstack2 = inv.getStackInSlot(i);
 
-                if (!itemstack2.isEmpty())
+                if (!itemstack2.func_190926_b())
                 {
                     if (Block.getBlockFromItem(itemstack2.getItem()) instanceof BlockShulkerBox)
                     {
@@ -82,7 +82,7 @@ public class ShulkerBoxRecipes
                 }
             }
 
-            ItemStack itemstack3 = BlockShulkerBox.getColoredItemStack(EnumDyeColor.byDyeDamage(itemstack1.getMetadata()));
+            ItemStack itemstack3 = BlockShulkerBox.func_190953_b(EnumDyeColor.byDyeDamage(itemstack1.getMetadata()));
 
             if (itemstack.hasTagCompound())
             {
@@ -99,12 +99,12 @@ public class ShulkerBoxRecipes
 
         public ItemStack getRecipeOutput()
         {
-            return ItemStack.EMPTY;
+            return ItemStack.field_190927_a;
         }
 
         public NonNullList<ItemStack> getRemainingItems(InventoryCrafting inv)
         {
-            NonNullList<ItemStack> nonnulllist = NonNullList.<ItemStack>withSize(inv.getSizeInventory(), ItemStack.EMPTY);
+            NonNullList<ItemStack> nonnulllist = NonNullList.<ItemStack>func_191197_a(inv.getSizeInventory(), ItemStack.field_190927_a);
 
             for (int i = 0; i < nonnulllist.size(); ++i)
             {

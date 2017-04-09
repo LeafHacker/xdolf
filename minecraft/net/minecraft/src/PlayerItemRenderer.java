@@ -8,10 +8,10 @@ public class PlayerItemRenderer
     private int attachTo = 0;
     private ModelRenderer modelRenderer = null;
 
-    public PlayerItemRenderer(int p_i68_1_, ModelRenderer p_i68_2_)
+    public PlayerItemRenderer(int p_i71_1_, ModelRenderer p_i71_2_)
     {
-        this.attachTo = p_i68_1_;
-        this.modelRenderer = p_i68_2_;
+        this.attachTo = p_i71_1_;
+        this.modelRenderer = p_i71_2_;
     }
 
     public ModelRenderer getModelRenderer()

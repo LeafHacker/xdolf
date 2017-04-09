@@ -11,10 +11,10 @@ public class WorldServerOF extends WorldServer
 {
     private MinecraftServer mcServer;
 
-    public WorldServerOF(MinecraftServer p_i92_1_, ISaveHandler p_i92_2_, WorldInfo p_i92_3_, int p_i92_4_, Profiler p_i92_5_)
+    public WorldServerOF(MinecraftServer p_i95_1_, ISaveHandler p_i95_2_, WorldInfo p_i95_3_, int p_i95_4_, Profiler p_i95_5_)
     {
-        super(p_i92_1_, p_i92_2_, p_i92_3_, p_i92_4_, p_i92_5_);
-        this.mcServer = p_i92_1_;
+        super(p_i95_1_, p_i95_2_, p_i95_3_, p_i95_4_, p_i95_5_);
+        this.mcServer = p_i95_1_;
     }
 
     /**

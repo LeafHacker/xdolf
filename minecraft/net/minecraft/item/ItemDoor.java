@@ -26,34 +26,34 @@ public class ItemDoor extends Item
     /**
      * Called when a Block is right-clicked with this Item
      */
-    public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+    public EnumActionResult onItemUse(EntityPlayer stack, World playerIn, BlockPos worldIn, EnumHand pos, EnumFacing hand, float facing, float hitX, float hitY)
     {
-        if (facing != EnumFacing.UP)
+        if (hand != EnumFacing.UP)
         {
             return EnumActionResult.FAIL;
         }
         else
         {
-            IBlockState iblockstate = worldIn.getBlockState(pos);
+            IBlockState iblockstate = playerIn.getBlockState(worldIn);
             Block block = iblockstate.getBlock();
 
-            if (!block.isReplaceable(worldIn, pos))
+            if (!block.isReplaceable(playerIn, worldIn))
             {
-                pos = pos.offset(facing);
+                worldIn = worldIn.offset(hand);
             }
 
-            ItemStack itemstack = player.getHeldItem(hand);
+            ItemStack itemstack = stack.getHeldItem(pos);
 
-            if (player.canPlayerEdit(pos, facing, itemstack) && this.block.canPlaceBlockAt(worldIn, pos))
+            if (stack.canPlayerEdit(worldIn, hand, itemstack) && this.block.canPlaceBlockAt(playerIn, worldIn))
             {
-                EnumFacing enumfacing = EnumFacing.fromAngle((double)player.rotationYaw);
+                EnumFacing enumfacing = EnumFacing.fromAngle((double)stack.rotationYaw);
                 int i = enumfacing.getFrontOffsetX();
                 int j = enumfacing.getFrontOffsetZ();
-                boolean flag = i < 0 && hitZ < 0.5F || i > 0 && hitZ > 0.5F || j < 0 && hitX > 0.5F || j > 0 && hitX < 0.5F;
-                placeDoor(worldIn, pos, enumfacing, this.block, flag);
+                boolean flag = i < 0 && hitY < 0.5F || i > 0 && hitY > 0.5F || j < 0 && facing > 0.5F || j > 0 && facing < 0.5F;
+                placeDoor(playerIn, worldIn, enumfacing, this.block, flag);
                 SoundType soundtype = this.block.getSoundType();
-                worldIn.playSound(player, pos, soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
-                itemstack.shrink(1);
+                playerIn.playSound(stack, worldIn, soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
+                itemstack.func_190918_g(1);
                 return EnumActionResult.SUCCESS;
             }
             else

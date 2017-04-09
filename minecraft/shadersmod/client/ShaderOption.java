@@ -97,6 +97,17 @@ public abstract class ShaderOption
         }
     }
 
+    public void prevValue()
+    {
+        int i = getIndex(this.value, this.values);
+
+        if (i >= 0)
+        {
+            i = (i - 1 + this.values.length) % this.values.length;
+            this.value = this.values[i];
+        }
+    }
+
     private static int getIndex(String str, String[] strs)
     {
         for (int i = 0; i < strs.length; ++i)
@@ -169,7 +180,7 @@ public abstract class ShaderOption
 
     public String getValueText(String val)
     {
-        return val;
+        return Shaders.translate("value." + this.name + "." + val, val);
     }
 
     public String getValueColor(String val)

@@ -11,11 +11,12 @@ import net.minecraft.src.GuiOptionSliderOF;
 import net.minecraft.src.GuiOtherSettingsOF;
 import net.minecraft.src.GuiPerformanceSettingsOF;
 import net.minecraft.src.GuiQualitySettingsOF;
+import net.minecraft.src.GuiScreenOF;
 import net.minecraft.src.Lang;
 import net.minecraft.src.TooltipManager;
 import shadersmod.client.GuiShaders;
 
-public class GuiVideoSettings extends GuiScreen
+public class GuiVideoSettings extends GuiScreenOF
 {
     private GuiScreen parentGuiScreen;
     protected String screenTitle = "Video Settings";
@@ -84,17 +85,30 @@ public class GuiVideoSettings extends GuiScreen
      */
     protected void actionPerformed(GuiButton button) throws IOException
     {
-        if (button.enabled)
+        this.actionPerformed(button, 1);
+    }
+
+    protected void actionPerformedRightClick(GuiButton p_actionPerformedRightClick_1_)
+    {
+        if (p_actionPerformedRightClick_1_.id == GameSettings.Options.GUI_SCALE.ordinal())
+        {
+            this.actionPerformed(p_actionPerformedRightClick_1_, -1);
+        }
+    }
+
+    private void actionPerformed(GuiButton p_actionPerformed_1_, int p_actionPerformed_2_)
+    {
+        if (p_actionPerformed_1_.enabled)
         {
             int i = this.guiGameSettings.guiScale;
 
-            if (button.id < 200 && button instanceof GuiOptionButton)
+            if (p_actionPerformed_1_.id < 200 && p_actionPerformed_1_ instanceof GuiOptionButton)
             {
-                this.guiGameSettings.setOptionValue(((GuiOptionButton)button).returnEnumOptions(), 1);
-                button.displayString = this.guiGameSettings.getKeyBinding(GameSettings.Options.getEnumOptions(button.id));
+                this.guiGameSettings.setOptionValue(((GuiOptionButton)p_actionPerformed_1_).returnEnumOptions(), p_actionPerformed_2_);
+                p_actionPerformed_1_.displayString = this.guiGameSettings.getKeyBinding(GameSettings.Options.getEnumOptions(p_actionPerformed_1_.id));
             }
 
-            if (button.id == 200)
+            if (p_actionPerformed_1_.id == 200)
             {
                 this.mc.gameSettings.saveOptions();
                 this.mc.displayGuiScreen(this.parentGuiScreen);
@@ -108,42 +122,42 @@ public class GuiVideoSettings extends GuiScreen
                 this.setWorldAndResolution(this.mc, j, k);
             }
 
-            if (button.id == 201)
+            if (p_actionPerformed_1_.id == 201)
             {
                 this.mc.gameSettings.saveOptions();
                 GuiDetailSettingsOF guidetailsettingsof = new GuiDetailSettingsOF(this, this.guiGameSettings);
                 this.mc.displayGuiScreen(guidetailsettingsof);
             }
 
-            if (button.id == 202)
+            if (p_actionPerformed_1_.id == 202)
             {
                 this.mc.gameSettings.saveOptions();
                 GuiQualitySettingsOF guiqualitysettingsof = new GuiQualitySettingsOF(this, this.guiGameSettings);
                 this.mc.displayGuiScreen(guiqualitysettingsof);
             }
 
-            if (button.id == 211)
+            if (p_actionPerformed_1_.id == 211)
             {
                 this.mc.gameSettings.saveOptions();
                 GuiAnimationSettingsOF guianimationsettingsof = new GuiAnimationSettingsOF(this, this.guiGameSettings);
                 this.mc.displayGuiScreen(guianimationsettingsof);
             }
 
-            if (button.id == 212)
+            if (p_actionPerformed_1_.id == 212)
             {
                 this.mc.gameSettings.saveOptions();
                 GuiPerformanceSettingsOF guiperformancesettingsof = new GuiPerformanceSettingsOF(this, this.guiGameSettings);
                 this.mc.displayGuiScreen(guiperformancesettingsof);
             }
 
-            if (button.id == 222)
+            if (p_actionPerformed_1_.id == 222)
             {
                 this.mc.gameSettings.saveOptions();
                 GuiOtherSettingsOF guiothersettingsof = new GuiOtherSettingsOF(this, this.guiGameSettings);
                 this.mc.displayGuiScreen(guiothersettingsof);
             }
 
-            if (button.id == 231)
+            if (p_actionPerformed_1_.id == 231)
             {
                 if (Config.isAntialiasing() || Config.isAntialiasingConfigured())
                 {
@@ -188,21 +202,21 @@ public class GuiVideoSettings extends GuiScreen
 
         if (s1.equals("HD"))
         {
-            s = "OptiFine HD B5";
+            s = "OptiFine HD B7";
         }
 
         if (s1.equals("HD_U"))
         {
-            s = "OptiFine HD B5 Ultra";
+            s = "OptiFine HD B7 Ultra";
         }
 
         if (s1.equals("L"))
         {
-            s = "OptiFine B5 Light";
+            s = "OptiFine B7 Light";
         }
 
         this.drawString(this.fontRendererObj, s, 2, this.height - 10, 8421504);
-        String s2 = "Minecraft 1.11";
+        String s2 = "Minecraft 1.11.2";
         int i = this.fontRendererObj.getStringWidth(s2);
         this.drawString(this.fontRendererObj, s2, this.width - i - 2, this.height - 10, 8421504);
         super.drawScreen(mouseX, mouseY, partialTicks);

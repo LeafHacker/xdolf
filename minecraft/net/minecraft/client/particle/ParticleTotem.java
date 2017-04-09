@@ -22,7 +22,7 @@ public class ParticleTotem extends ParticleSimpleAnimated
             this.setRBGColorF(0.1F + this.rand.nextFloat() * 0.2F, 0.4F + this.rand.nextFloat() * 0.3F, this.rand.nextFloat() * 0.2F);
         }
 
-        this.setBaseAirFriction(0.6F);
+        this.func_191238_f(0.6F);
     }
 
     public static class Factory implements IParticleFactory

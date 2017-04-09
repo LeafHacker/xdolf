@@ -2,6 +2,7 @@ package net.minecraft.client.renderer.entity.layers;
 
 import com.google.common.collect.Maps;
 import java.util.Map;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLivingBase;
@@ -165,6 +166,7 @@ public abstract class LayerArmorBase<T extends ModelBase> implements LayerRender
                 ShadersRender.renderEnchantedGlintBegin();
             }
 
+            Minecraft.getMinecraft().entityRenderer.func_191514_d(true);
             GlStateManager.enableBlend();
             GlStateManager.depthFunc(514);
             GlStateManager.depthMask(false);
@@ -195,6 +197,7 @@ public abstract class LayerArmorBase<T extends ModelBase> implements LayerRender
             GlStateManager.depthMask(true);
             GlStateManager.depthFunc(515);
             GlStateManager.disableBlend();
+            Minecraft.getMinecraft().entityRenderer.func_191514_d(false);
 
             if (Config.isShaders())
             {

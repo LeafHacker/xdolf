@@ -93,7 +93,7 @@ public class PhaseSittingFlaming extends PhaseSittingBase
             this.areaEffectCloud.setDuration(200);
             this.areaEffectCloud.setParticle(EnumParticleTypes.DRAGON_BREATH);
             this.areaEffectCloud.addEffect(new PotionEffect(MobEffects.INSTANT_DAMAGE));
-            this.dragon.world.spawnEntity(this.areaEffectCloud);
+            this.dragon.world.spawnEntityInWorld(this.areaEffectCloud);
         }
     }
 

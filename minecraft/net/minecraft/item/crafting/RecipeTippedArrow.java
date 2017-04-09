@@ -23,7 +23,7 @@ public class RecipeTippedArrow implements IRecipe
                 {
                     ItemStack itemstack = inv.getStackInRowAndColumn(i, j);
 
-                    if (itemstack.isEmpty())
+                    if (itemstack.func_190926_b())
                     {
                         return false;
                     }
@@ -61,7 +61,7 @@ public class RecipeTippedArrow implements IRecipe
 
         if (itemstack.getItem() != Items.LINGERING_POTION)
         {
-            return ItemStack.EMPTY;
+            return ItemStack.field_190927_a;
         }
         else
         {
@@ -82,11 +82,11 @@ public class RecipeTippedArrow implements IRecipe
 
     public ItemStack getRecipeOutput()
     {
-        return ItemStack.EMPTY;
+        return ItemStack.field_190927_a;
     }
 
     public NonNullList<ItemStack> getRemainingItems(InventoryCrafting inv)
     {
-        return NonNullList.<ItemStack>withSize(inv.getSizeInventory(), ItemStack.EMPTY);
+        return NonNullList.<ItemStack>func_191197_a(inv.getSizeInventory(), ItemStack.field_190927_a);
     }
 }

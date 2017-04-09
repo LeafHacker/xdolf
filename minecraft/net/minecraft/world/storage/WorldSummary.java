@@ -107,6 +107,6 @@ public class WorldSummary implements Comparable<WorldSummary>
 
     public boolean askToOpenWorld()
     {
-        return this.versionId > 819;
+        return this.versionId > 922;
     }
 }

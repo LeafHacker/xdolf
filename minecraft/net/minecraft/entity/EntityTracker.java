@@ -49,20 +49,20 @@ import org.apache.logging.log4j.Logger;
 public class EntityTracker
 {
     private static final Logger LOGGER = LogManager.getLogger();
-    private final WorldServer world;
-    private final Set<EntityTrackerEntry> entries = Sets.<EntityTrackerEntry>newHashSet();
+    private final WorldServer theWorld;
+    private final Set<EntityTrackerEntry> trackedEntities = Sets.<EntityTrackerEntry>newHashSet();
     private final IntHashMap<EntityTrackerEntry> trackedEntityHashTable = new IntHashMap();
     private int maxTrackingDistanceThreshold;
 
     public EntityTracker(WorldServer theWorldIn)
     {
-        this.world = theWorldIn;
+        this.theWorld = theWorldIn;
         this.maxTrackingDistanceThreshold = theWorldIn.getMinecraftServer().getPlayerList().getEntityViewDistance();
     }
 
     public static long getPositionLong(double value)
     {
-        return MathHelper.lfloor(value * 4096.0D);
+        return MathHelper.lFloor(value * 4096.0D);
     }
 
     public static void updateServerPosition(Entity entityIn, double x, double y, double z)
@@ -72,14 +72,14 @@ public class EntityTracker
         entityIn.serverPosZ = getPositionLong(z);
     }
 
-    public void track(Entity entityIn)
+    public void trackEntity(Entity entityIn)
     {
         if (entityIn instanceof EntityPlayerMP)
         {
-            this.track(entityIn, 512, 2);
+            this.trackEntity(entityIn, 512, 2);
             EntityPlayerMP entityplayermp = (EntityPlayerMP)entityIn;
 
-            for (EntityTrackerEntry entitytrackerentry : this.entries)
+            for (EntityTrackerEntry entitytrackerentry : this.trackedEntities)
             {
                 if (entitytrackerentry.getTrackedEntity() != entityplayermp)
                 {
@@ -89,131 +89,131 @@ public class EntityTracker
         }
         else if (entityIn instanceof EntityFishHook)
         {
-            this.track(entityIn, 64, 5, true);
+            this.addEntityToTracker(entityIn, 64, 5, true);
         }
         else if (entityIn instanceof EntityArrow)
         {
-            this.track(entityIn, 64, 20, false);
+            this.addEntityToTracker(entityIn, 64, 20, false);
         }
         else if (entityIn instanceof EntitySmallFireball)
         {
-            this.track(entityIn, 64, 10, false);
+            this.addEntityToTracker(entityIn, 64, 10, false);
         }
         else if (entityIn instanceof EntityFireball)
         {
-            this.track(entityIn, 64, 10, true);
+            this.addEntityToTracker(entityIn, 64, 10, true);
         }
         else if (entityIn instanceof EntitySnowball)
         {
-            this.track(entityIn, 64, 10, true);
+            this.addEntityToTracker(entityIn, 64, 10, true);
         }
         else if (entityIn instanceof EntityLlamaSpit)
         {
-            this.track(entityIn, 64, 10, false);
+            this.addEntityToTracker(entityIn, 64, 10, false);
         }
         else if (entityIn instanceof EntityEnderPearl)
         {
-            this.track(entityIn, 64, 10, true);
+            this.addEntityToTracker(entityIn, 64, 10, true);
         }
         else if (entityIn instanceof EntityEnderEye)
         {
-            this.track(entityIn, 64, 4, true);
+            this.addEntityToTracker(entityIn, 64, 4, true);
         }
         else if (entityIn instanceof EntityEgg)
         {
-            this.track(entityIn, 64, 10, true);
+            this.addEntityToTracker(entityIn, 64, 10, true);
         }
         else if (entityIn instanceof EntityPotion)
         {
-            this.track(entityIn, 64, 10, true);
+            this.addEntityToTracker(entityIn, 64, 10, true);
         }
         else if (entityIn instanceof EntityExpBottle)
         {
-            this.track(entityIn, 64, 10, true);
+            this.addEntityToTracker(entityIn, 64, 10, true);
         }
         else if (entityIn instanceof EntityFireworkRocket)
         {
-            this.track(entityIn, 64, 10, true);
+            this.addEntityToTracker(entityIn, 64, 10, true);
         }
         else if (entityIn instanceof EntityItem)
         {
-            this.track(entityIn, 64, 20, true);
+            this.addEntityToTracker(entityIn, 64, 20, true);
         }
         else if (entityIn instanceof EntityMinecart)
         {
-            this.track(entityIn, 80, 3, true);
+            this.addEntityToTracker(entityIn, 80, 3, true);
         }
         else if (entityIn instanceof EntityBoat)
         {
-            this.track(entityIn, 80, 3, true);
+            this.addEntityToTracker(entityIn, 80, 3, true);
         }
         else if (entityIn instanceof EntitySquid)
         {
-            this.track(entityIn, 64, 3, true);
+            this.addEntityToTracker(entityIn, 64, 3, true);
         }
         else if (entityIn instanceof EntityWither)
         {
-            this.track(entityIn, 80, 3, false);
+            this.addEntityToTracker(entityIn, 80, 3, false);
         }
         else if (entityIn instanceof EntityShulkerBullet)
         {
-            this.track(entityIn, 80, 3, true);
+            this.addEntityToTracker(entityIn, 80, 3, true);
         }
         else if (entityIn instanceof EntityBat)
         {
-            this.track(entityIn, 80, 3, false);
+            this.addEntityToTracker(entityIn, 80, 3, false);
         }
         else if (entityIn instanceof EntityDragon)
         {
-            this.track(entityIn, 160, 3, true);
+            this.addEntityToTracker(entityIn, 160, 3, true);
         }
         else if (entityIn instanceof IAnimals)
         {
-            this.track(entityIn, 80, 3, true);
+            this.addEntityToTracker(entityIn, 80, 3, true);
         }
         else if (entityIn instanceof EntityTNTPrimed)
         {
-            this.track(entityIn, 160, 10, true);
+            this.addEntityToTracker(entityIn, 160, 10, true);
         }
         else if (entityIn instanceof EntityFallingBlock)
         {
-            this.track(entityIn, 160, 20, true);
+            this.addEntityToTracker(entityIn, 160, 20, true);
         }
         else if (entityIn instanceof EntityHanging)
         {
-            this.track(entityIn, 160, Integer.MAX_VALUE, false);
+            this.addEntityToTracker(entityIn, 160, Integer.MAX_VALUE, false);
         }
         else if (entityIn instanceof EntityArmorStand)
         {
-            this.track(entityIn, 160, 3, true);
+            this.addEntityToTracker(entityIn, 160, 3, true);
         }
         else if (entityIn instanceof EntityXPOrb)
         {
-            this.track(entityIn, 160, 20, true);
+            this.addEntityToTracker(entityIn, 160, 20, true);
         }
         else if (entityIn instanceof EntityAreaEffectCloud)
         {
-            this.track(entityIn, 160, Integer.MAX_VALUE, true);
+            this.addEntityToTracker(entityIn, 160, Integer.MAX_VALUE, true);
         }
         else if (entityIn instanceof EntityEnderCrystal)
         {
-            this.track(entityIn, 256, Integer.MAX_VALUE, false);
+            this.addEntityToTracker(entityIn, 256, Integer.MAX_VALUE, false);
         }
         else if (entityIn instanceof EntityEvokerFangs)
         {
-            this.track(entityIn, 160, 2, false);
+            this.addEntityToTracker(entityIn, 160, 2, false);
         }
     }
 
-    public void track(Entity entityIn, int trackingRange, int updateFrequency)
+    public void trackEntity(Entity entityIn, int trackingRange, int updateFrequency)
     {
-        this.track(entityIn, trackingRange, updateFrequency, false);
+        this.addEntityToTracker(entityIn, trackingRange, updateFrequency, false);
     }
 
     /**
      * Args : Entity, trackingRange, updateFrequency, sendVelocityUpdates
      */
-    public void track(Entity entityIn, int trackingRange, final int updateFrequency, boolean sendVelocityUpdates)
+    public void addEntityToTracker(Entity entityIn, int trackingRange, final int updateFrequency, boolean sendVelocityUpdates)
     {
         try
         {
@@ -223,9 +223,9 @@ public class EntityTracker
             }
 
             EntityTrackerEntry entitytrackerentry = new EntityTrackerEntry(entityIn, trackingRange, this.maxTrackingDistanceThreshold, updateFrequency, sendVelocityUpdates);
-            this.entries.add(entitytrackerentry);
+            this.trackedEntities.add(entitytrackerentry);
             this.trackedEntityHashTable.addKey(entityIn.getEntityId(), entitytrackerentry);
-            entitytrackerentry.updatePlayerEntities(this.world.playerEntities);
+            entitytrackerentry.updatePlayerEntities(this.theWorld.playerEntities);
         }
         catch (Throwable throwable)
         {
@@ -260,13 +260,13 @@ public class EntityTracker
         }
     }
 
-    public void untrack(Entity entityIn)
+    public void untrackEntity(Entity entityIn)
     {
         if (entityIn instanceof EntityPlayerMP)
         {
             EntityPlayerMP entityplayermp = (EntityPlayerMP)entityIn;
 
-            for (EntityTrackerEntry entitytrackerentry : this.entries)
+            for (EntityTrackerEntry entitytrackerentry : this.trackedEntities)
             {
                 entitytrackerentry.removeFromTrackedPlayers(entityplayermp);
             }
@@ -276,18 +276,18 @@ public class EntityTracker
 
         if (entitytrackerentry1 != null)
         {
-            this.entries.remove(entitytrackerentry1);
+            this.trackedEntities.remove(entitytrackerentry1);
             entitytrackerentry1.sendDestroyEntityPacketToTrackedPlayers();
         }
     }
 
-    public void tick()
+    public void updateTrackedEntities()
     {
         List<EntityPlayerMP> list = Lists.<EntityPlayerMP>newArrayList();
 
-        for (EntityTrackerEntry entitytrackerentry : this.entries)
+        for (EntityTrackerEntry entitytrackerentry : this.trackedEntities)
         {
-            entitytrackerentry.updatePlayerList(this.world.playerEntities);
+            entitytrackerentry.updatePlayerList(this.theWorld.playerEntities);
 
             if (entitytrackerentry.playerEntitiesUpdated)
             {
@@ -304,7 +304,7 @@ public class EntityTracker
         {
             EntityPlayerMP entityplayermp = (EntityPlayerMP)list.get(i);
 
-            for (EntityTrackerEntry entitytrackerentry1 : this.entries)
+            for (EntityTrackerEntry entitytrackerentry1 : this.trackedEntities)
             {
                 if (entitytrackerentry1.getTrackedEntity() != entityplayermp)
                 {
@@ -316,11 +316,11 @@ public class EntityTracker
 
     public void updateVisibility(EntityPlayerMP player)
     {
-        for (EntityTrackerEntry entitytrackerentry : this.entries)
+        for (EntityTrackerEntry entitytrackerentry : this.trackedEntities)
         {
             if (entitytrackerentry.getTrackedEntity() == player)
             {
-                entitytrackerentry.updatePlayerEntities(this.world.playerEntities);
+                entitytrackerentry.updatePlayerEntities(this.theWorld.playerEntities);
             }
             else
             {
@@ -329,7 +329,7 @@ public class EntityTracker
         }
     }
 
-    public void sendToTracking(Entity entityIn, Packet<?> packetIn)
+    public void sendToAllTrackingEntity(Entity entityIn, Packet<?> packetIn)
     {
         EntityTrackerEntry entitytrackerentry = (EntityTrackerEntry)this.trackedEntityHashTable.lookup(entityIn.getEntityId());
 
@@ -351,7 +351,7 @@ public class EntityTracker
 
     public void removePlayerFromTrackers(EntityPlayerMP player)
     {
-        for (EntityTrackerEntry entitytrackerentry : this.entries)
+        for (EntityTrackerEntry entitytrackerentry : this.trackedEntities)
         {
             entitytrackerentry.removeTrackedPlayerSymmetric(player);
         }
@@ -366,7 +366,7 @@ public class EntityTracker
         List<Entity> list = Lists.<Entity>newArrayList();
         List<Entity> list1 = Lists.<Entity>newArrayList();
 
-        for (EntityTrackerEntry entitytrackerentry : this.entries)
+        for (EntityTrackerEntry entitytrackerentry : this.trackedEntities)
         {
             Entity entity = entitytrackerentry.getTrackedEntity();
 
@@ -407,7 +407,7 @@ public class EntityTracker
     {
         this.maxTrackingDistanceThreshold = (p_187252_1_ - 1) * 16;
 
-        for (EntityTrackerEntry entitytrackerentry : this.entries)
+        for (EntityTrackerEntry entitytrackerentry : this.trackedEntities)
         {
             entitytrackerentry.setMaxRange(this.maxTrackingDistanceThreshold);
         }

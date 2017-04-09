@@ -14,10 +14,10 @@ public class GuiDetailSettingsOF extends GuiScreen
     private static GameSettings.Options[] enumOptions = new GameSettings.Options[] {GameSettings.Options.CLOUDS, GameSettings.Options.CLOUD_HEIGHT, GameSettings.Options.TREES, GameSettings.Options.RAIN, GameSettings.Options.SKY, GameSettings.Options.STARS, GameSettings.Options.SUN_MOON, GameSettings.Options.SHOW_CAPES, GameSettings.Options.FOG_FANCY, GameSettings.Options.FOG_START, GameSettings.Options.TRANSLUCENT_BLOCKS, GameSettings.Options.HELD_ITEM_TOOLTIPS, GameSettings.Options.DROPPED_ITEMS, GameSettings.Options.ENTITY_SHADOWS, GameSettings.Options.VIGNETTE, GameSettings.Options.ALTERNATE_BLOCKS};
     private TooltipManager tooltipManager = new TooltipManager(this);
 
-    public GuiDetailSettingsOF(GuiScreen p_i41_1_, GameSettings p_i41_2_)
+    public GuiDetailSettingsOF(GuiScreen p_i44_1_, GameSettings p_i44_2_)
     {
-        this.prevScreen = p_i41_1_;
-        this.settings = p_i41_2_;
+        this.prevScreen = p_i44_1_;
+        this.settings = p_i44_2_;
     }
 
     /**

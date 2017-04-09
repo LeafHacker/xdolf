@@ -15,21 +15,21 @@ import org.apache.commons.io.filefilter.DirectoryFileFilter;
 
 public class FolderResourcePack extends AbstractResourcePack
 {
-    private static final boolean ON_WINDOWS = Util.getOSType() == Util.EnumOS.WINDOWS;
-    private static final CharMatcher BACKSLASH_MATCHER = CharMatcher.is('\\');
+    private static final boolean field_191386_b = Util.getOSType() == Util.EnumOS.WINDOWS;
+    private static final CharMatcher field_191387_c = CharMatcher.is('\\');
 
     public FolderResourcePack(File resourcePackFileIn)
     {
         super(resourcePackFileIn);
     }
 
-    protected static boolean validatePath(File p_191384_0_, String p_191384_1_) throws IOException
+    protected static boolean func_191384_a(File p_191384_0_, String p_191384_1_) throws IOException
     {
         String s = p_191384_0_.getCanonicalPath();
 
-        if (ON_WINDOWS)
+        if (field_191386_b)
         {
-            s = BACKSLASH_MATCHER.replaceFrom(s, '/');
+            s = field_191387_c.replaceFrom(s, '/');
         }
 
         return s.endsWith(p_191384_1_);
@@ -37,7 +37,7 @@ public class FolderResourcePack extends AbstractResourcePack
 
     protected InputStream getInputStreamByName(String name) throws IOException
     {
-        File file1 = this.getFile(name);
+        File file1 = this.func_191385_d(name);
 
         if (file1 == null)
         {
@@ -51,17 +51,17 @@ public class FolderResourcePack extends AbstractResourcePack
 
     protected boolean hasResourceName(String name)
     {
-        return this.getFile(name) != null;
+        return this.func_191385_d(name) != null;
     }
 
     @Nullable
-    private File getFile(String p_191385_1_)
+    private File func_191385_d(String p_191385_1_)
     {
         try
         {
             File file1 = new File(this.resourcePackFile, p_191385_1_);
 
-            if (file1.isFile() && validatePath(file1, p_191385_1_))
+            if (file1.isFile() && func_191384_a(file1, p_191385_1_))
             {
                 return file1;
             }

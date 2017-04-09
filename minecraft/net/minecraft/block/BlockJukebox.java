@@ -40,7 +40,7 @@ public class BlockJukebox extends BlockContainer
         this.setCreativeTab(CreativeTabs.DECORATIONS);
     }
 
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing heldItem, float side, float hitX, float hitY)
     {
         if (((Boolean)state.getValue(HAS_RECORD)).booleanValue())
         {
@@ -80,11 +80,11 @@ public class BlockJukebox extends BlockContainer
                 BlockJukebox.TileEntityJukebox blockjukebox$tileentityjukebox = (BlockJukebox.TileEntityJukebox)tileentity;
                 ItemStack itemstack = blockjukebox$tileentityjukebox.getRecord();
 
-                if (!itemstack.isEmpty())
+                if (!itemstack.func_190926_b())
                 {
                     worldIn.playEvent(1010, pos, 0);
                     worldIn.playRecord(pos, (SoundEvent)null);
-                    blockjukebox$tileentityjukebox.setRecord(ItemStack.EMPTY);
+                    blockjukebox$tileentityjukebox.setRecord(ItemStack.field_190927_a);
                     float f = 0.7F;
                     double d0 = (double)(worldIn.rand.nextFloat() * 0.7F) + 0.15000000596046448D;
                     double d1 = (double)(worldIn.rand.nextFloat() * 0.7F) + 0.06000000238418579D + 0.6D;
@@ -92,7 +92,7 @@ public class BlockJukebox extends BlockContainer
                     ItemStack itemstack1 = itemstack.copy();
                     EntityItem entityitem = new EntityItem(worldIn, (double)pos.getX() + d0, (double)pos.getY() + d1, (double)pos.getZ() + d2, itemstack1);
                     entityitem.setDefaultPickupDelay();
-                    worldIn.spawnEntity(entityitem);
+                    worldIn.spawnEntityInWorld(entityitem);
                 }
             }
         }
@@ -139,7 +139,7 @@ public class BlockJukebox extends BlockContainer
         {
             ItemStack itemstack = ((BlockJukebox.TileEntityJukebox)tileentity).getRecord();
 
-            if (!itemstack.isEmpty())
+            if (!itemstack.func_190926_b())
             {
                 return Item.getIdFromItem(itemstack.getItem()) + 1 - Item.getIdFromItem(Items.RECORD_13);
             }
@@ -180,7 +180,7 @@ public class BlockJukebox extends BlockContainer
 
     public static class TileEntityJukebox extends TileEntity
     {
-        private ItemStack record = ItemStack.EMPTY;
+        private ItemStack record = ItemStack.field_190927_a;
 
         public void readFromNBT(NBTTagCompound compound)
         {
@@ -200,7 +200,7 @@ public class BlockJukebox extends BlockContainer
         {
             super.writeToNBT(compound);
 
-            if (!this.getRecord().isEmpty())
+            if (!this.getRecord().func_190926_b())
             {
                 compound.setTag("RecordItem", this.getRecord().writeToNBT(new NBTTagCompound()));
             }

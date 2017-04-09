@@ -76,11 +76,11 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO
         return this.checkedReadChunkFromNBT(worldIn, x, z, nbttagcompound);
     }
 
-    public boolean isChunkGeneratedAt(int p_191063_1_, int p_191063_2_)
+    public boolean func_191063_a(int p_191063_1_, int p_191063_2_)
     {
         ChunkPos chunkpos = new ChunkPos(p_191063_1_, p_191063_2_);
         NBTTagCompound nbttagcompound = (NBTTagCompound)this.chunksToRemove.get(chunkpos);
-        return nbttagcompound != null ? true : RegionFileCache.chunkExists(this.chunkSaveLocation, p_191063_1_, p_191063_2_);
+        return nbttagcompound != null ? true : RegionFileCache.func_191064_f(this.chunkSaveLocation, p_191063_1_, p_191063_2_);
     }
 
     @Nullable
@@ -130,7 +130,7 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO
             NBTTagCompound nbttagcompound = new NBTTagCompound();
             NBTTagCompound nbttagcompound1 = new NBTTagCompound();
             nbttagcompound.setTag("Level", nbttagcompound1);
-            nbttagcompound.setInteger("DataVersion", 819);
+            nbttagcompound.setInteger("DataVersion", 922);
             this.writeChunkToNBT(chunkIn, worldIn, nbttagcompound1);
             this.addChunkToPending(chunkIn.getChunkCoordIntPair(), nbttagcompound);
         }
@@ -288,7 +288,7 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO
         compound.setLong("InhabitedTime", chunkIn.getInhabitedTime());
         ExtendedBlockStorage[] aextendedblockstorage = chunkIn.getBlockStorageArray();
         NBTTagList nbttaglist = new NBTTagList();
-        boolean flag = worldIn.provider.hasSkyLight();
+        boolean flag = worldIn.provider.func_191066_m();
 
         for (ExtendedBlockStorage extendedblockstorage : aextendedblockstorage)
         {
@@ -391,7 +391,7 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO
         NBTTagList nbttaglist = compound.getTagList("Sections", 10);
         int k = 16;
         ExtendedBlockStorage[] aextendedblockstorage = new ExtendedBlockStorage[16];
-        boolean flag = worldIn.provider.hasSkyLight();
+        boolean flag = worldIn.provider.func_191066_m();
 
         for (int l = 0; l < nbttaglist.tagCount(); ++l)
         {
@@ -512,7 +512,7 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO
         {
             entity.setLocationAndAngles(x, y, z, entity.rotationYaw, entity.rotationPitch);
 
-            if (attemptSpawn && !worldIn.spawnEntity(entity))
+            if (attemptSpawn && !worldIn.spawnEntityInWorld(entity))
             {
                 return null;
             }
@@ -553,7 +553,7 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO
 
     public static void spawnEntity(Entity entityIn, World worldIn)
     {
-        if (worldIn.spawnEntity(entityIn) && entityIn.isBeingRidden())
+        if (worldIn.spawnEntityInWorld(entityIn) && entityIn.isBeingRidden())
         {
             for (Entity entity : entityIn.getPassengers())
             {
@@ -571,7 +571,7 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO
         {
             return null;
         }
-        else if (p_186051_2_ && !worldIn.spawnEntity(entity))
+        else if (p_186051_2_ && !worldIn.spawnEntityInWorld(entity))
         {
             return null;
         }

@@ -14,25 +14,26 @@ import net.minecraft.world.Explosion;
 
 public class DamageSource
 {
-    public static final DamageSource IN_FIRE = (new DamageSource("inFire")).setFireDamage();
-    public static final DamageSource LIGHTNING_BOLT = new DamageSource("lightningBolt");
-    public static final DamageSource ON_FIRE = (new DamageSource("onFire")).setDamageBypassesArmor().setFireDamage();
-    public static final DamageSource LAVA = (new DamageSource("lava")).setFireDamage();
-    public static final DamageSource HOT_FLOOR = (new DamageSource("hotFloor")).setFireDamage();
-    public static final DamageSource IN_WALL = (new DamageSource("inWall")).setDamageBypassesArmor();
-    public static final DamageSource CRAMMING = (new DamageSource("cramming")).setDamageBypassesArmor();
-    public static final DamageSource DROWN = (new DamageSource("drown")).setDamageBypassesArmor();
-    public static final DamageSource STARVE = (new DamageSource("starve")).setDamageBypassesArmor().setDamageIsAbsolute();
-    public static final DamageSource CACTUS = new DamageSource("cactus");
-    public static final DamageSource FALL = (new DamageSource("fall")).setDamageBypassesArmor();
-    public static final DamageSource FLY_INTO_WALL = (new DamageSource("flyIntoWall")).setDamageBypassesArmor();
-    public static final DamageSource OUT_OF_WORLD = (new DamageSource("outOfWorld")).setDamageBypassesArmor().setDamageAllowedInCreativeMode();
-    public static final DamageSource GENERIC = (new DamageSource("generic")).setDamageBypassesArmor();
-    public static final DamageSource MAGIC = (new DamageSource("magic")).setDamageBypassesArmor().setMagicDamage();
-    public static final DamageSource WITHER = (new DamageSource("wither")).setDamageBypassesArmor();
-    public static final DamageSource ANVIL = new DamageSource("anvil");
-    public static final DamageSource FALLING_BLOCK = new DamageSource("fallingBlock");
-    public static final DamageSource DRAGON_BREATH = (new DamageSource("dragonBreath")).setDamageBypassesArmor();
+    public static final DamageSource inFire = (new DamageSource("inFire")).setFireDamage();
+    public static final DamageSource lightningBolt = new DamageSource("lightningBolt");
+    public static final DamageSource onFire = (new DamageSource("onFire")).setDamageBypassesArmor().setFireDamage();
+    public static final DamageSource lava = (new DamageSource("lava")).setFireDamage();
+    public static final DamageSource hotFloor = (new DamageSource("hotFloor")).setFireDamage();
+    public static final DamageSource inWall = (new DamageSource("inWall")).setDamageBypassesArmor();
+    public static final DamageSource field_191291_g = (new DamageSource("cramming")).setDamageBypassesArmor();
+    public static final DamageSource drown = (new DamageSource("drown")).setDamageBypassesArmor();
+    public static final DamageSource starve = (new DamageSource("starve")).setDamageBypassesArmor().setDamageIsAbsolute();
+    public static final DamageSource cactus = new DamageSource("cactus");
+    public static final DamageSource fall = (new DamageSource("fall")).setDamageBypassesArmor();
+    public static final DamageSource flyIntoWall = (new DamageSource("flyIntoWall")).setDamageBypassesArmor();
+    public static final DamageSource outOfWorld = (new DamageSource("outOfWorld")).setDamageBypassesArmor().setDamageAllowedInCreativeMode();
+    public static final DamageSource generic = (new DamageSource("generic")).setDamageBypassesArmor();
+    public static final DamageSource magic = (new DamageSource("magic")).setDamageBypassesArmor().setMagicDamage();
+    public static final DamageSource wither = (new DamageSource("wither")).setDamageBypassesArmor();
+    public static final DamageSource anvil = new DamageSource("anvil");
+    public static final DamageSource fallingBlock = new DamageSource("fallingBlock");
+    public static final DamageSource dragonBreath = (new DamageSource("dragonBreath")).setDamageBypassesArmor();
+    public static final DamageSource field_191552_t = (new DamageSource("fireworks")).setExplosion();
 
     /** This kind of damage can be blocked or not. */
     private boolean isUnblockable;

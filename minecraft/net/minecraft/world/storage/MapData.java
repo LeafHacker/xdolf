@@ -23,7 +23,7 @@ public class MapData extends WorldSavedData
     public int zCenter;
     public byte dimension;
     public boolean trackingPosition;
-    public boolean unlimitedTracking;
+    public boolean field_191096_f;
     public byte scale;
 
     /** colours */
@@ -66,7 +66,7 @@ public class MapData extends WorldSavedData
             this.trackingPosition = true;
         }
 
-        this.unlimitedTracking = nbt.getBoolean("unlimitedTracking");
+        this.field_191096_f = nbt.getBoolean("unlimitedTracking");
         int i = nbt.getShort("width");
         int j = nbt.getShort("height");
 
@@ -111,7 +111,7 @@ public class MapData extends WorldSavedData
         compound.setShort("height", (short)128);
         compound.setByteArray("colors", this.colors);
         compound.setBoolean("trackingPosition", this.trackingPosition);
-        compound.setBoolean("unlimitedTracking", this.unlimitedTracking);
+        compound.setBoolean("unlimitedTracking", this.field_191096_f);
         return compound;
     }
 
@@ -140,7 +140,7 @@ public class MapData extends WorldSavedData
             {
                 if (!mapStack.isOnItemFrame() && mapdata$mapinfo1.entityplayerObj.dimension == this.dimension && this.trackingPosition)
                 {
-                    this.addDecoration(MapDecoration.Type.PLAYER, mapdata$mapinfo1.entityplayerObj.world, mapdata$mapinfo1.entityplayerObj.getName(), mapdata$mapinfo1.entityplayerObj.posX, mapdata$mapinfo1.entityplayerObj.posZ, (double)mapdata$mapinfo1.entityplayerObj.rotationYaw);
+                    this.func_191095_a(MapDecoration.Type.PLAYER, mapdata$mapinfo1.entityplayerObj.world, mapdata$mapinfo1.entityplayerObj.getName(), mapdata$mapinfo1.entityplayerObj.posX, mapdata$mapinfo1.entityplayerObj.posZ, (double)mapdata$mapinfo1.entityplayerObj.rotationYaw);
                 }
             }
             else
@@ -154,7 +154,7 @@ public class MapData extends WorldSavedData
         {
             EntityItemFrame entityitemframe = mapStack.getItemFrame();
             BlockPos blockpos = entityitemframe.getHangingPosition();
-            this.addDecoration(MapDecoration.Type.FRAME, player.world, "frame-" + entityitemframe.getEntityId(), (double)blockpos.getX(), (double)blockpos.getZ(), (double)(entityitemframe.facingDirection.getHorizontalIndex() * 90));
+            this.func_191095_a(MapDecoration.Type.FRAME, player.world, "frame-" + entityitemframe.getEntityId(), (double)blockpos.getX(), (double)blockpos.getZ(), (double)(entityitemframe.facingDirection.getHorizontalIndex() * 90));
         }
 
         if (mapStack.hasTagCompound() && mapStack.getTagCompound().hasKey("Decorations", 9))
@@ -167,13 +167,13 @@ public class MapData extends WorldSavedData
 
                 if (!this.mapDecorations.containsKey(nbttagcompound.getString("id")))
                 {
-                    this.addDecoration(MapDecoration.Type.byIcon(nbttagcompound.getByte("type")), player.world, nbttagcompound.getString("id"), nbttagcompound.getDouble("x"), nbttagcompound.getDouble("z"), nbttagcompound.getDouble("rot"));
+                    this.func_191095_a(MapDecoration.Type.func_191159_a(nbttagcompound.getByte("type")), player.world, nbttagcompound.getString("id"), nbttagcompound.getDouble("x"), nbttagcompound.getDouble("z"), nbttagcompound.getDouble("rot"));
                 }
             }
         }
     }
 
-    public static void addTargetDecoration(ItemStack p_191094_0_, BlockPos p_191094_1_, String p_191094_2_, MapDecoration.Type p_191094_3_)
+    public static void func_191094_a(ItemStack p_191094_0_, BlockPos p_191094_1_, String p_191094_2_, MapDecoration.Type p_191094_3_)
     {
         NBTTagList nbttaglist;
 
@@ -188,21 +188,21 @@ public class MapData extends WorldSavedData
         }
 
         NBTTagCompound nbttagcompound = new NBTTagCompound();
-        nbttagcompound.setByte("type", p_191094_3_.getIcon());
+        nbttagcompound.setByte("type", p_191094_3_.func_191163_a());
         nbttagcompound.setString("id", p_191094_2_);
         nbttagcompound.setDouble("x", (double)p_191094_1_.getX());
         nbttagcompound.setDouble("z", (double)p_191094_1_.getZ());
         nbttagcompound.setDouble("rot", 180.0D);
         nbttaglist.appendTag(nbttagcompound);
 
-        if (p_191094_3_.hasMapColor())
+        if (p_191094_3_.func_191162_c())
         {
-            NBTTagCompound nbttagcompound1 = p_191094_0_.getOrCreateSubCompound("display");
-            nbttagcompound1.setInteger("MapColor", p_191094_3_.getMapColor());
+            NBTTagCompound nbttagcompound1 = p_191094_0_.func_190925_c("display");
+            nbttagcompound1.setInteger("MapColor", p_191094_3_.func_191161_d());
         }
     }
 
-    private void addDecoration(MapDecoration.Type p_191095_1_, World p_191095_2_, String p_191095_3_, double p_191095_4_, double p_191095_6_, double p_191095_8_)
+    private void func_191095_a(MapDecoration.Type p_191095_1_, World p_191095_2_, String p_191095_3_, double p_191095_4_, double p_191095_6_, double p_191095_8_)
     {
         int i = 1 << this.scale;
         float f = (float)(p_191095_4_ - (double)this.xCenter) / (float)i;
@@ -239,7 +239,7 @@ public class MapData extends WorldSavedData
             }
             else
             {
-                if (!this.unlimitedTracking)
+                if (!this.field_191096_f)
                 {
                     this.mapDecorations.remove(p_191095_3_);
                     return;

@@ -53,7 +53,7 @@ public class BlockFrostedIce extends BlockIce
      * change. Cases may include when redstone power is updated, cactus blocks popping off due to a neighboring solid
      * block, etc.
      */
-    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos)
+    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos p_189540_5_)
     {
         if (blockIn == this)
         {
@@ -122,6 +122,6 @@ public class BlockFrostedIce extends BlockIce
 
     public ItemStack getItem(World worldIn, BlockPos pos, IBlockState state)
     {
-        return ItemStack.EMPTY;
+        return ItemStack.field_190927_a;
     }
 }

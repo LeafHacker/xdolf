@@ -242,54 +242,55 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry
         return true;
     }
 
-    private void prepareServerIcon() {
+    private void prepareServerIcon()
+    {
+        if (this.server.getBase64EncodedIconData() == null)
+        {
+            this.mc.getTextureManager().deleteTexture(this.serverIcon);
+            this.icon = null;
+        }
+        else
+        {
+            ByteBuf bytebuf = Unpooled.copiedBuffer((CharSequence)this.server.getBase64EncodedIconData(), Charsets.UTF_8);
+            ByteBuf bytebuf1 = null;
+            BufferedImage bufferedimage;
+            label103:
+            {
+                try
+                {
+                    bytebuf1 = Base64.decode(bytebuf);
+                    bufferedimage = TextureUtil.readBufferedImage(new ByteBufInputStream(bytebuf1));
+                    Validate.validState(bufferedimage.getWidth() == 64, "Must be 64 pixels wide", new Object[0]);
+                    Validate.validState(bufferedimage.getHeight() == 64, "Must be 64 pixels high", new Object[0]);
+                    break label103;
+                }
+                catch (Throwable throwable)
+                {
+                    LOGGER.error("Invalid icon for server {} ({})", new Object[] {this.server.serverName, this.server.serverIP, throwable});
+                    this.server.setBase64EncodedIconData((String)null);
+                }
+                finally
+                {
+                    bytebuf.release();
 
-		if (this.server.getBase64EncodedIconData() == null) {
-			this.mc.getTextureManager().deleteTexture(this.serverIcon);
-			this.icon = null;
-		} else {
-			ByteBuf bytebuf = null;
-			if (this.server.serverIP.equals("2b2t.org")) {
-				bytebuf = Unpooled.copiedBuffer(
-						"iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAArElEQVR42u3YOw6AIAwAUA7i6P1v5hl0dVI+VUFe0sWkafMGCyWlPY0d549tWW/jolZRMsCfADmNo3IAAAAALsZo44jMmcLxNoC+AeEncbwEoEtAXRsAgMbqANMCoooCAAAARAHqLvSf7QMAI6yUYzyvAzT0AADIKf1EDgAAAMBDyMzhCzAnoOgk7vEfAPgIUHeHAwBovP0DTAuI2hsBAAAA3nxyKpUA/BjwShyj5VutebGjZgAAAABJRU5ErkJggg==",
-						Charsets.UTF_8);
-			} else {
-				bytebuf = Unpooled.copiedBuffer(this.server.getBase64EncodedIconData(), Charsets.UTF_8);
-			}
-			
-			ByteBuf bytebuf1 = null;
-			BufferedImage bufferedimage;
-			label103: {
-				try {
-					bytebuf1 = Base64.decode(bytebuf);
-					bufferedimage = TextureUtil.readBufferedImage(new ByteBufInputStream(bytebuf1));
-					Validate.validState(bufferedimage.getWidth() == 64, "Must be 64 pixels wide", new Object[0]);
-					Validate.validState(bufferedimage.getHeight() == 64, "Must be 64 pixels high", new Object[0]);
-					break label103;
-				} catch (Throwable throwable) {
-					LOGGER.error("Invalid icon for server {} ({})",
-							new Object[] { this.server.serverName, this.server.serverIP, throwable });
-					this.server.setBase64EncodedIconData((String) null);
-				} finally {
-					bytebuf.release();
+                    if (bytebuf1 != null)
+                    {
+                        bytebuf1.release();
+                    }
+                }
 
-					if (bytebuf1 != null) {
-						bytebuf1.release();
-					}
-				}
+                return;
+            }
 
-				return;
-			}
+            if (this.icon == null)
+            {
+                this.icon = new DynamicTexture(bufferedimage.getWidth(), bufferedimage.getHeight());
+                this.mc.getTextureManager().loadTexture(this.serverIcon, this.icon);
+            }
 
-			if (this.icon == null) {
-				this.icon = new DynamicTexture(bufferedimage.getWidth(), bufferedimage.getHeight());
-				this.mc.getTextureManager().loadTexture(this.serverIcon, this.icon);
-			}
-
-			bufferedimage.getRGB(0, 0, bufferedimage.getWidth(), bufferedimage.getHeight(), this.icon.getTextureData(),
-					0, bufferedimage.getWidth());
-			this.icon.updateDynamicTexture();
-		}
+            bufferedimage.getRGB(0, 0, bufferedimage.getWidth(), bufferedimage.getHeight(), this.icon.getTextureData(), 0, bufferedimage.getWidth());
+            this.icon.updateDynamicTexture();
+        }
     }
 
     /**

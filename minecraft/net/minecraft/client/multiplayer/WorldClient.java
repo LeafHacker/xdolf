@@ -75,7 +75,7 @@ public class WorldClient extends World
         this.viewableChunks = Sets.<ChunkPos>newHashSet();
         this.connection = netHandler;
         this.getWorldInfo().setDifficulty(difficulty);
-        this.provider.setWorld(this);
+        this.provider.registerWorld(this);
         this.setSpawnPoint(new BlockPos(8, 64, 8));
         this.chunkProvider = this.createChunkProvider();
         this.mapStorage = new SaveDataMemoryStorage();
@@ -117,12 +117,12 @@ public class WorldClient extends World
 
             if (!this.loadedEntityList.contains(entity))
             {
-                this.spawnEntity(entity);
+                this.spawnEntityInWorld(entity);
             }
         }
 
         this.theProfiler.endStartSection("chunkCache");
-        this.clientChunkProvider.tick();
+        this.clientChunkProvider.unloadQueuedChunks();
         this.theProfiler.endStartSection("blocks");
         this.updateBlocks();
         this.theProfiler.endSection();
@@ -232,9 +232,9 @@ public class WorldClient extends World
     /**
      * Called when an entity is spawned in the world. This includes players.
      */
-    public boolean spawnEntity(Entity entityIn)
+    public boolean spawnEntityInWorld(Entity entityIn)
     {
-        boolean flag = super.spawnEntity(entityIn);
+        boolean flag = super.spawnEntityInWorld(entityIn);
         this.entityList.add(entityIn);
 
         if (flag)
@@ -303,7 +303,7 @@ public class WorldClient extends World
         this.entityList.add(entityToSpawn);
         entityToSpawn.setEntityId(entityID);
 
-        if (!this.spawnEntity(entityToSpawn))
+        if (!this.spawnEntityInWorld(entityToSpawn))
         {
             this.entitySpawnQueue.add(entityToSpawn);
         }
@@ -428,7 +428,7 @@ public class WorldClient extends World
             itemstack = this.mc.player.getHeldItemOffhand();
         }
 
-        boolean flag = this.mc.playerController.getCurrentGameType() == GameType.CREATIVE && !itemstack.isEmpty() && itemstack.getItem() == Item.getItemFromBlock(Blocks.BARRIER);
+        boolean flag = this.mc.playerController.getCurrentGameType() == GameType.CREATIVE && !itemstack.func_190926_b() && itemstack.getItem() == Item.getItemFromBlock(Blocks.BARRIER);
         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
 
         for (int j = 0; j < 667; ++j)

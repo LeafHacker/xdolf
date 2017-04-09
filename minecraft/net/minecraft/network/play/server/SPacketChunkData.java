@@ -33,7 +33,7 @@ public class SPacketChunkData implements Packet<INetHandlerPlayClient>
         this.chunkX = p_i47124_1_.xPosition;
         this.chunkZ = p_i47124_1_.zPosition;
         this.loadChunk = p_i47124_2_ == 65535;
-        boolean flag = p_i47124_1_.getWorld().provider.hasSkyLight();
+        boolean flag = p_i47124_1_.getWorld().provider.func_191066_m();
         this.buffer = new byte[this.calculateChunkSize(p_i47124_1_, flag, p_i47124_2_)];
         this.availableSections = this.extractChunkData(new PacketBuffer(this.getWriteBuffer()), p_i47124_1_, flag, p_i47124_2_);
         this.tileEntityTags = Lists.<NBTTagCompound>newArrayList();
@@ -60,8 +60,8 @@ public class SPacketChunkData implements Packet<INetHandlerPlayClient>
         this.chunkX = buf.readInt();
         this.chunkZ = buf.readInt();
         this.loadChunk = buf.readBoolean();
-        this.availableSections = buf.readVarInt();
-        int i = buf.readVarInt();
+        this.availableSections = buf.readVarIntFromBuffer();
+        int i = buf.readVarIntFromBuffer();
 
         if (i > 2097152)
         {
@@ -71,12 +71,12 @@ public class SPacketChunkData implements Packet<INetHandlerPlayClient>
         {
             this.buffer = new byte[i];
             buf.readBytes(this.buffer);
-            int j = buf.readVarInt();
+            int j = buf.readVarIntFromBuffer();
             this.tileEntityTags = Lists.<NBTTagCompound>newArrayList();
 
             for (int k = 0; k < j; ++k)
             {
-                this.tileEntityTags.add(buf.readCompoundTag());
+                this.tileEntityTags.add(buf.readNBTTagCompoundFromBuffer());
             }
         }
     }
@@ -89,14 +89,14 @@ public class SPacketChunkData implements Packet<INetHandlerPlayClient>
         buf.writeInt(this.chunkX);
         buf.writeInt(this.chunkZ);
         buf.writeBoolean(this.loadChunk);
-        buf.writeVarInt(this.availableSections);
-        buf.writeVarInt(this.buffer.length);
+        buf.writeVarIntToBuffer(this.availableSections);
+        buf.writeVarIntToBuffer(this.buffer.length);
         buf.writeBytes(this.buffer);
-        buf.writeVarInt(this.tileEntityTags.size());
+        buf.writeVarIntToBuffer(this.tileEntityTags.size());
 
         for (NBTTagCompound nbttagcompound : this.tileEntityTags)
         {
-            buf.writeCompoundTag(nbttagcompound);
+            buf.writeNBTTagCompoundToBuffer(nbttagcompound);
         }
     }
 

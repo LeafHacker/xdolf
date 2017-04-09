@@ -10,7 +10,7 @@ public class CommandStop extends CommandBase
     /**
      * Gets the name of the command
      */
-    public String getName()
+    public String getCommandName()
     {
         return "stop";
     }
@@ -18,7 +18,7 @@ public class CommandStop extends CommandBase
     /**
      * Gets the usage string for the command.
      */
-    public String getUsage(ICommandSender sender)
+    public String getCommandUsage(ICommandSender sender)
     {
         return "commands.stop.usage";
     }
@@ -28,7 +28,7 @@ public class CommandStop extends CommandBase
      */
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
     {
-        if (server.worlds != null)
+        if (server.worldServers != null)
         {
             notifyCommandListener(sender, this, "commands.stop.start", new Object[0]);
         }

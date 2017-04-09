@@ -22,7 +22,7 @@ public class InventoryBasic implements IInventory
         this.inventoryTitle = title;
         this.hasCustomName = customName;
         this.slotsCount = slotCount;
-        this.inventoryContents = NonNullList.<ItemStack>withSize(slotCount, ItemStack.EMPTY);
+        this.inventoryContents = NonNullList.<ItemStack>func_191197_a(slotCount, ItemStack.field_190927_a);
     }
 
     public InventoryBasic(ITextComponent title, int slotCount)
@@ -56,7 +56,7 @@ public class InventoryBasic implements IInventory
      */
     public ItemStack getStackInSlot(int index)
     {
-        return index >= 0 && index < this.inventoryContents.size() ? (ItemStack)this.inventoryContents.get(index) : ItemStack.EMPTY;
+        return index >= 0 && index < this.inventoryContents.size() ? (ItemStack)this.inventoryContents.get(index) : ItemStack.field_190927_a;
     }
 
     /**
@@ -66,7 +66,7 @@ public class InventoryBasic implements IInventory
     {
         ItemStack itemstack = ItemStackHelper.getAndSplit(this.inventoryContents, index, count);
 
-        if (!itemstack.isEmpty())
+        if (!itemstack.func_190926_b())
         {
             this.markDirty();
         }
@@ -82,33 +82,33 @@ public class InventoryBasic implements IInventory
         {
             ItemStack itemstack1 = this.getStackInSlot(i);
 
-            if (itemstack1.isEmpty())
+            if (itemstack1.func_190926_b())
             {
                 this.setInventorySlotContents(i, itemstack);
                 this.markDirty();
-                return ItemStack.EMPTY;
+                return ItemStack.field_190927_a;
             }
 
             if (ItemStack.areItemsEqual(itemstack1, itemstack))
             {
                 int j = Math.min(this.getInventoryStackLimit(), itemstack1.getMaxStackSize());
-                int k = Math.min(itemstack.getCount(), j - itemstack1.getCount());
+                int k = Math.min(itemstack.func_190916_E(), j - itemstack1.func_190916_E());
 
                 if (k > 0)
                 {
-                    itemstack1.grow(k);
-                    itemstack.shrink(k);
+                    itemstack1.func_190917_f(k);
+                    itemstack.func_190918_g(k);
 
-                    if (itemstack.isEmpty())
+                    if (itemstack.func_190926_b())
                     {
                         this.markDirty();
-                        return ItemStack.EMPTY;
+                        return ItemStack.field_190927_a;
                     }
                 }
             }
         }
 
-        if (itemstack.getCount() != stack.getCount())
+        if (itemstack.func_190916_E() != stack.func_190916_E())
         {
             this.markDirty();
         }
@@ -123,13 +123,13 @@ public class InventoryBasic implements IInventory
     {
         ItemStack itemstack = (ItemStack)this.inventoryContents.get(index);
 
-        if (itemstack.isEmpty())
+        if (itemstack.func_190926_b())
         {
-            return ItemStack.EMPTY;
+            return ItemStack.field_190927_a;
         }
         else
         {
-            this.inventoryContents.set(index, ItemStack.EMPTY);
+            this.inventoryContents.set(index, ItemStack.field_190927_a);
             return itemstack;
         }
     }
@@ -141,9 +141,9 @@ public class InventoryBasic implements IInventory
     {
         this.inventoryContents.set(index, stack);
 
-        if (!stack.isEmpty() && stack.getCount() > this.getInventoryStackLimit())
+        if (!stack.func_190926_b() && stack.func_190916_E() > this.getInventoryStackLimit())
         {
-            stack.setCount(this.getInventoryStackLimit());
+            stack.func_190920_e(this.getInventoryStackLimit());
         }
 
         this.markDirty();
@@ -157,11 +157,11 @@ public class InventoryBasic implements IInventory
         return this.slotsCount;
     }
 
-    public boolean isEmpty()
+    public boolean func_191420_l()
     {
         for (ItemStack itemstack : this.inventoryContents)
         {
-            if (!itemstack.isEmpty())
+            if (!itemstack.func_190926_b())
             {
                 return false;
             }

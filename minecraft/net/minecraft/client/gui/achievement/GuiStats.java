@@ -186,7 +186,7 @@ public class GuiStats extends GuiScreen implements IProgressMeter
         this.drawButtonBackground(p_146521_1_ + 1, p_146521_2_ + 1);
         GlStateManager.enableRescaleNormal();
         RenderHelper.enableGUIStandardItemLighting();
-        this.itemRender.renderItemIntoGUI(p_146521_3_.getDefaultInstance(), p_146521_1_ + 2, p_146521_2_ + 2);
+        this.itemRender.renderItemIntoGUI(p_146521_3_.func_190903_i(), p_146521_1_ + 2, p_146521_2_ + 2);
         RenderHelper.disableStandardItemLighting();
         GlStateManager.disableRescaleNormal();
     }
@@ -926,7 +926,7 @@ public class GuiStats extends GuiScreen implements IProgressMeter
         protected void drawSlot(int entryID, int insideLeft, int yPos, int insideSlotHeight, int mouseXIn, int mouseYIn)
         {
             EntityList.EntityEggInfo entitylist$entityegginfo = (EntityList.EntityEggInfo)this.mobs.get(entryID);
-            String s = I18n.format("entity." + EntityList.getTranslationName(entitylist$entityegginfo.spawnedID) + ".name", new Object[0]);
+            String s = I18n.format("entity." + EntityList.func_191302_a(entitylist$entityegginfo.spawnedID) + ".name", new Object[0]);
             int i = GuiStats.this.stats.readStat(entitylist$entityegginfo.killEntityStat);
             int j = GuiStats.this.stats.readStat(entitylist$entityegginfo.entityKilledByStat);
             String s1 = I18n.format("stat.entityKills", new Object[] {Integer.valueOf(i), s});

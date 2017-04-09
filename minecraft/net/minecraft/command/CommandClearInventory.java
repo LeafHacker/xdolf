@@ -17,7 +17,7 @@ public class CommandClearInventory extends CommandBase
     /**
      * Gets the name of the command
      */
-    public String getName()
+    public String getCommandName()
     {
         return "clear";
     }
@@ -25,7 +25,7 @@ public class CommandClearInventory extends CommandBase
     /**
      * Gets the usage string for the command.
      */
-    public String getUsage(ICommandSender sender)
+    public String getCommandUsage(ICommandSender sender)
     {
         return "commands.clear.usage";
     }
@@ -85,7 +85,7 @@ public class CommandClearInventory extends CommandBase
             {
                 if (j == 0)
                 {
-                    sender.sendMessage(new TextComponentTranslation("commands.clear.testing", new Object[] {entityplayermp.getName(), Integer.valueOf(k)}));
+                    sender.addChatMessage(new TextComponentTranslation("commands.clear.testing", new Object[] {entityplayermp.getName(), Integer.valueOf(k)}));
                 }
                 else
                 {
@@ -95,9 +95,9 @@ public class CommandClearInventory extends CommandBase
         }
     }
 
-    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
+    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
     {
-        return args.length == 1 ? getListOfStringsMatchingLastWord(args, server.getOnlinePlayerNames()) : (args.length == 2 ? getListOfStringsMatchingLastWord(args, Item.REGISTRY.getKeys()) : Collections.<String>emptyList());
+        return args.length == 1 ? getListOfStringsMatchingLastWord(args, server.getAllUsernames()) : (args.length == 2 ? getListOfStringsMatchingLastWord(args, Item.REGISTRY.getKeys()) : Collections.<String>emptyList());
     }
 
     /**

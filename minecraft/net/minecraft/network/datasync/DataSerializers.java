@@ -36,11 +36,11 @@ public class DataSerializers
     {
         public void write(PacketBuffer buf, Integer value)
         {
-            buf.writeVarInt(value.intValue());
+            buf.writeVarIntToBuffer(value.intValue());
         }
         public Integer read(PacketBuffer buf) throws IOException
         {
-            return Integer.valueOf(buf.readVarInt());
+            return Integer.valueOf(buf.readVarIntFromBuffer());
         }
         public DataParameter<Integer> createKey(int id)
         {
@@ -70,7 +70,7 @@ public class DataSerializers
         }
         public String read(PacketBuffer buf) throws IOException
         {
-            return buf.readString(32767);
+            return buf.readStringFromBuffer(32767);
         }
         public DataParameter<String> createKey(int id)
         {
@@ -96,11 +96,11 @@ public class DataSerializers
     {
         public void write(PacketBuffer buf, ItemStack value)
         {
-            buf.writeItemStack(value);
+            buf.writeItemStackToBuffer(value);
         }
         public ItemStack read(PacketBuffer buf) throws IOException
         {
-            return buf.readItemStack();
+            return buf.readItemStackFromBuffer();
         }
         public DataParameter<ItemStack> createKey(int id)
         {
@@ -113,16 +113,16 @@ public class DataSerializers
         {
             if (value.isPresent())
             {
-                buf.writeVarInt(Block.getStateId((IBlockState)value.get()));
+                buf.writeVarIntToBuffer(Block.getStateId((IBlockState)value.get()));
             }
             else
             {
-                buf.writeVarInt(0);
+                buf.writeVarIntToBuffer(0);
             }
         }
         public Optional<IBlockState> read(PacketBuffer buf) throws IOException
         {
-            int i = buf.readVarInt();
+            int i = buf.readVarIntFromBuffer();
             return i == 0 ? Optional.<IBlockState>absent() : Optional.of(Block.getStateById(i));
         }
         public DataParameter<Optional<IBlockState>> createKey(int id)
@@ -220,12 +220,12 @@ public class DataSerializers
 
             if (value.isPresent())
             {
-                buf.writeUniqueId((UUID)value.get());
+                buf.writeUuid((UUID)value.get());
             }
         }
         public Optional<UUID> read(PacketBuffer buf) throws IOException
         {
-            return !buf.readBoolean() ? Optional.<UUID>absent() : Optional.of(buf.readUniqueId());
+            return !buf.readBoolean() ? Optional.<UUID>absent() : Optional.of(buf.readUuid());
         }
         public DataParameter<Optional<UUID>> createKey(int id)
         {

@@ -33,7 +33,7 @@ public class FontRenderer implements IResourceManagerReloadListener
     private static final ResourceLocation[] UNICODE_PAGE_LOCATIONS = new ResourceLocation[256];
 
     /** Array of width of all the characters in default.png */
-    private float[] charWidth = new float[256];
+    private final int[] charWidth = new int[256];
 
     /** the height in pixels of default text */
     public int FONT_HEIGHT = 9;
@@ -107,6 +107,7 @@ public class FontRenderer implements IResourceManagerReloadListener
     public ResourceLocation locationFontTextureBase;
     public boolean enabled = true;
     public float offsetBold = 1.0F;
+    private float[] charWidthFloat = new float[256];
 
     public FontRenderer(GameSettings gameSettingsIn, ResourceLocation location, TextureManager textureManagerIn, boolean unicode)
     {
@@ -232,6 +233,11 @@ public class FontRenderer implements IResourceManagerReloadListener
                 }
             }
 
+            if (i1 == 65)
+            {
+                i1 = i1;
+            }
+
             if (i1 == 32)
             {
                 if (charW <= 8)
@@ -244,10 +250,15 @@ public class FontRenderer implements IResourceManagerReloadListener
                 }
             }
 
-            this.charWidth[i1] = (float)(l1 + 1) / kx + 1.0F;
+            this.charWidthFloat[i1] = (float)(l1 + 1) / kx + 1.0F;
         }
 
-        FontUtils.readCustomCharWidths(ioexception, this.charWidth);
+        FontUtils.readCustomCharWidths(ioexception, this.charWidthFloat);
+
+        for (int j3 = 0; j3 < this.charWidth.length; ++j3)
+        {
+            this.charWidth[j3] = Math.round(this.charWidthFloat[j3]);
+        }
     }
 
     private void readGlyphSizes()
@@ -281,7 +292,7 @@ public class FontRenderer implements IResourceManagerReloadListener
         }
         else
         {
-            return !this.unicodeFlag ? this.charWidth[ch] : 4.0F;
+            return !this.unicodeFlag ? this.charWidthFloat[ch] : 4.0F;
         }
     }
 
@@ -294,7 +305,7 @@ public class FontRenderer implements IResourceManagerReloadListener
         int j = ch / 16 * 8;
         int k = italic ? 1 : 0;
         this.bindTexture(this.locationFontTexture);
-        float f = this.charWidth[ch];
+        float f = this.charWidthFloat[ch];
         float f1 = 7.99F;
         GlStateManager.glBegin(5);
         GlStateManager.glTexCoord2f((float)i / 128.0F, (float)j / 128.0F);
@@ -443,7 +454,7 @@ public class FontRenderer implements IResourceManagerReloadListener
 
             if (c0 == 167 && i + 1 < text.length())
             {
-                int i1 = "0123456789abcdefklmnor".indexOf(text.toLowerCase(Locale.ENGLISH).charAt(i + 1));
+                int i1 = "0123456789abcdefklmnor".indexOf(String.valueOf(text.charAt(i + 1)).toLowerCase(Locale.ROOT).charAt(0));
 
                 if (i1 < 16)
                 {
@@ -724,7 +735,7 @@ public class FontRenderer implements IResourceManagerReloadListener
 
             if (p_getCharWidthFloat_1_ > 0 && i != -1 && !this.unicodeFlag)
             {
-                return this.charWidth[i];
+                return this.charWidthFloat[i];
             }
             else if (this.glyphWidth[p_getCharWidthFloat_1_] != 0)
             {
@@ -741,15 +752,12 @@ public class FontRenderer implements IResourceManagerReloadListener
         }
         else
         {
-            return this.charWidth[32];
+            return this.charWidthFloat[32];
         }
     }
 
     /**
      * Trims a string to fit a specified Width.
-     *  
-     * @param text The text to trim
-     * @param width The width to trim to (in pixels)
      */
     public String trimStringToWidth(String text, int width)
     {
@@ -757,37 +765,7 @@ public class FontRenderer implements IResourceManagerReloadListener
     }
 
     /**
-     * Trims a string to a specified width, optionally starting from the end and working backwards.
-     * <h3>Samples:</h3>
-     * (Assuming that {@link #getCharWidth(char)} returns <code>6</code> for all of the characters in
-     * <code>0123456789</code> on the current resource pack)
-     * <dl>
-     * <dt><code>trimStringToWidth("0123456789", 1, false)</code></dt>
-     * <dd><samp>""</samp></dd>
-     * <dt><code>trimStringToWidth("0123456789", 6, false)</code></dt>
-     * <dd><samp>"0"</samp></dd>
-     * <dt><code>trimStringToWidth("0123456789", 29, false)</code></dt>
-     * <dd><samp>"0123"</samp></dd>
-     * <dt><code>trimStringToWidth("0123456789", 30, false)</code></dt>
-     * <dd><samp>"01234"</samp></dd>
-     * <dt><code>trimStringToWidth("0123456789", 9001, false)</code></dt>
-     * <dd><samp>"0123456789"</samp></dd>
-     * <dt><code>trimStringToWidth("0123456789", 1, true)</code></dt>
-     * <dd><samp>""</samp></dd>
-     * <dt><code>trimStringToWidth("0123456789", 6, true)</code></dt>
-     * <dd><samp>"9"</samp></dd>
-     * <dt><code>trimStringToWidth("0123456789", 29, true)</code></dt>
-     * <dd><samp>"6789"</samp></dd>
-     * <dt><code>trimStringToWidth("0123456789", 30, true)</code></dt>
-     * <dd><samp>"56789"</samp></dd>
-     * <dt><code>trimStringToWidth("0123456789", 9001, true)</code></dt>
-     * <dd><samp>"0123456789"</samp></dd>
-     * </dl>
-     *  
-     * @param text The text to trim
-     * @param width The width to trim to (in pixels)
-     * @param reverse If true, starts from the end of the string and works backwords, rather than starting from the
-     * start and working forwards. Even if true, the final string will be in the correct order.
+     * Trims a string to a specified width, and will reverse it if par3 is set.
      */
     public String trimStringToWidth(String text, int width, boolean reverse)
     {
@@ -930,7 +908,7 @@ public class FontRenderer implements IResourceManagerReloadListener
     /**
      * Inserts newline and formatting into a string to wrap it within the specified width.
      */
-    protected String wrapFormattedStringToWidth(String str, int wrapWidth)
+    String wrapFormattedStringToWidth(String str, int wrapWidth)
     {
         int i = this.sizeStringToWidth(str, wrapWidth);
 

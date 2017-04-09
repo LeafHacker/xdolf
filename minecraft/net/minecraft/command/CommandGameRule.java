@@ -15,7 +15,7 @@ public class CommandGameRule extends CommandBase
     /**
      * Gets the name of the command
      */
-    public String getName()
+    public String getCommandName()
     {
         return "gamerule";
     }
@@ -31,7 +31,7 @@ public class CommandGameRule extends CommandBase
     /**
      * Gets the usage string for the command.
      */
-    public String getUsage(ICommandSender sender)
+    public String getCommandUsage(ICommandSender sender)
     {
         return "commands.gamerule.usage";
     }
@@ -48,7 +48,7 @@ public class CommandGameRule extends CommandBase
         switch (args.length)
         {
             case 0:
-                sender.sendMessage(new TextComponentString(joinNiceString(gamerules.getRules())));
+                sender.addChatMessage(new TextComponentString(joinNiceString(gamerules.getRules())));
                 break;
 
             case 1:
@@ -58,7 +58,7 @@ public class CommandGameRule extends CommandBase
                 }
 
                 String s2 = gamerules.getString(s);
-                sender.sendMessage((new TextComponentString(s)).appendText(" = ").appendText(s2));
+                sender.addChatMessage((new TextComponentString(s)).appendText(" = ").appendText(s2));
                 sender.setCommandStat(CommandResultStats.Type.QUERY_RESULT, gamerules.getInt(s));
                 break;
 
@@ -80,14 +80,14 @@ public class CommandGameRule extends CommandBase
         {
             byte b0 = (byte)(rules.getBoolean(p_184898_1_) ? 22 : 23);
 
-            for (EntityPlayerMP entityplayermp : server.getPlayerList().getPlayers())
+            for (EntityPlayerMP entityplayermp : server.getPlayerList().getPlayerList())
             {
                 entityplayermp.connection.sendPacket(new SPacketEntityStatus(entityplayermp, b0));
             }
         }
     }
 
-    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
+    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
     {
         if (args.length == 1)
         {

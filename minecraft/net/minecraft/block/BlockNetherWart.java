@@ -92,7 +92,7 @@ public class BlockNetherWart extends BlockBush
      */
     public Item getItemDropped(IBlockState state, Random rand, int fortune)
     {
-        return Items.AIR;
+        return Items.field_190931_a;
     }
 
     /**

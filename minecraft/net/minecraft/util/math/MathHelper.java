@@ -93,7 +93,7 @@ public class MathHelper
     /**
      * Long version of floor()
      */
-    public static long lfloor(double value)
+    public static long lFloor(double value)
     {
         long i = (long)value;
         return value < (double)i ? i - 1L : i;
@@ -225,9 +225,9 @@ public class MathHelper
         return (numerator % denominator + denominator) % denominator;
     }
 
-    public static double positiveModulo(double numerator, double denominator)
+    public static double func_191273_b(double p_191273_0_, double p_191273_2_)
     {
-        return (numerator % denominator + denominator) % denominator;
+        return (p_191273_0_ % p_191273_2_ + p_191273_2_) % p_191273_2_;
     }
 
     /**

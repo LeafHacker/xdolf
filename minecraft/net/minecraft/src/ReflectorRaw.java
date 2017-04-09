@@ -1,7 +1,9 @@
 package net.minecraft.src;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ReflectorRaw
@@ -33,15 +35,26 @@ public class ReflectorRaw
 
     public static Field[] getFields(Class p_getFields_0_, Class p_getFields_1_)
     {
-        List list = new ArrayList();
-
         try
         {
             Field[] afield = p_getFields_0_.getDeclaredFields();
+            return getFields(afield, p_getFields_1_);
+        }
+        catch (Exception var3)
+        {
+            return null;
+        }
+    }
 
-            for (int i = 0; i < afield.length; ++i)
+    public static Field[] getFields(Field[] p_getFields_0_, Class p_getFields_1_)
+    {
+        try
+        {
+            List list = new ArrayList();
+
+            for (int i = 0; i < p_getFields_0_.length; ++i)
             {
-                Field field = afield[i];
+                Field field = p_getFields_0_[i];
 
                 if (field.getType() == p_getFields_1_)
                 {
@@ -50,10 +63,75 @@ public class ReflectorRaw
                 }
             }
 
-            Field[] afield1 = (Field[])((Field[])list.toArray(new Field[list.size()]));
-            return afield1;
+            Field[] afield = (Field[])((Field[])list.toArray(new Field[list.size()]));
+            return afield;
         }
-        catch (Exception var6)
+        catch (Exception var5)
+        {
+            return null;
+        }
+    }
+
+    public static Field[] getFieldsAfter(Class p_getFieldsAfter_0_, Field p_getFieldsAfter_1_, Class p_getFieldsAfter_2_)
+    {
+        try
+        {
+            Field[] afield = p_getFieldsAfter_0_.getDeclaredFields();
+            List<Field> list = Arrays.<Field>asList(afield);
+            int i = list.indexOf(p_getFieldsAfter_1_);
+
+            if (i < 0)
+            {
+                return new Field[0];
+            }
+            else
+            {
+                List<Field> list1 = list.subList(i + 1, list.size());
+                Field[] afield1 = (Field[])((Field[])list1.toArray(new Field[list1.size()]));
+                return getFields(afield1, p_getFieldsAfter_2_);
+            }
+        }
+        catch (Exception var8)
+        {
+            return null;
+        }
+    }
+
+    public static Field[] getFields(Object p_getFields_0_, Field[] p_getFields_1_, Class p_getFields_2_, Object p_getFields_3_)
+    {
+        try
+        {
+            List<Field> list = new ArrayList();
+
+            for (int i = 0; i < p_getFields_1_.length; ++i)
+            {
+                Field field = p_getFields_1_[i];
+
+                if (field.getType() == p_getFields_2_)
+                {
+                    boolean flag = Modifier.isStatic(field.getModifiers());
+
+                    if ((p_getFields_0_ != null || flag) && (p_getFields_0_ == null || !flag))
+                    {
+                        field.setAccessible(true);
+                        Object object = field.get(p_getFields_0_);
+
+                        if (object == p_getFields_3_)
+                        {
+                            list.add(field);
+                        }
+                        else if (object != null && p_getFields_3_ != null && object.equals(p_getFields_3_))
+                        {
+                            list.add(field);
+                        }
+                    }
+                }
+            }
+
+            Field[] afield = (Field[])((Field[])list.toArray(new Field[list.size()]));
+            return afield;
+        }
+        catch (Exception var9)
         {
             return null;
         }
@@ -63,6 +141,12 @@ public class ReflectorRaw
     {
         Field[] afield = getFields(p_getField_0_, p_getField_1_);
         return p_getField_2_ >= 0 && p_getField_2_ < afield.length ? afield[p_getField_2_] : null;
+    }
+
+    public static Field getFieldAfter(Class p_getFieldAfter_0_, Field p_getFieldAfter_1_, Class p_getFieldAfter_2_, int p_getFieldAfter_3_)
+    {
+        Field[] afield = getFieldsAfter(p_getFieldAfter_0_, p_getFieldAfter_1_, p_getFieldAfter_2_);
+        return p_getFieldAfter_3_ >= 0 && p_getFieldAfter_3_ < afield.length ? afield[p_getFieldAfter_3_] : null;
     }
 
     public static Object getFieldValue(Object p_getFieldValue_0_, Class p_getFieldValue_1_, Class p_getFieldValue_2_)

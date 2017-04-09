@@ -102,7 +102,7 @@ public class BlockEndGateway extends BlockContainer
 
     public ItemStack getItem(World worldIn, BlockPos pos, IBlockState state)
     {
-        return ItemStack.EMPTY;
+        return ItemStack.field_190927_a;
     }
 
     /**

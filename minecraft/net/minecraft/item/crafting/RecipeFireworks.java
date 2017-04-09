@@ -13,14 +13,14 @@ import net.minecraft.world.World;
 
 public class RecipeFireworks implements IRecipe
 {
-    private ItemStack resultItem = ItemStack.EMPTY;
+    private ItemStack resultItem = ItemStack.field_190927_a;
 
     /**
      * Used to check if a recipe matches current crafting inventory
      */
     public boolean matches(InventoryCrafting inv, World worldIn)
     {
-        this.resultItem = ItemStack.EMPTY;
+        this.resultItem = ItemStack.field_190927_a;
         int i = 0;
         int j = 0;
         int k = 0;
@@ -32,7 +32,7 @@ public class RecipeFireworks implements IRecipe
         {
             ItemStack itemstack = inv.getStackInSlot(k1);
 
-            if (!itemstack.isEmpty())
+            if (!itemstack.func_190926_b())
             {
                 if (itemstack.getItem() == Items.GUNPOWDER)
                 {
@@ -89,11 +89,10 @@ public class RecipeFireworks implements IRecipe
             if (j >= 1 && i == 1 && i1 == 0)
             {
                 this.resultItem = new ItemStack(Items.FIREWORKS, 3);
+                NBTTagCompound nbttagcompound1 = new NBTTagCompound();
 
                 if (l > 0)
                 {
-                    NBTTagCompound nbttagcompound1 = new NBTTagCompound();
-                    NBTTagCompound nbttagcompound3 = new NBTTagCompound();
                     NBTTagList nbttaglist = new NBTTagList();
 
                     for (int k2 = 0; k2 < inv.getSizeInventory(); ++k2)
@@ -106,12 +105,13 @@ public class RecipeFireworks implements IRecipe
                         }
                     }
 
-                    nbttagcompound3.setTag("Explosions", nbttaglist);
-                    nbttagcompound3.setByte("Flight", (byte)j);
-                    nbttagcompound1.setTag("Fireworks", nbttagcompound3);
-                    this.resultItem.setTagCompound(nbttagcompound1);
+                    nbttagcompound1.setTag("Explosions", nbttaglist);
                 }
 
+                nbttagcompound1.setByte("Flight", (byte)j);
+                NBTTagCompound nbttagcompound3 = new NBTTagCompound();
+                nbttagcompound3.setTag("Fireworks", nbttagcompound1);
+                this.resultItem.setTagCompound(nbttagcompound3);
                 return true;
             }
             else if (j == 1 && i == 0 && l == 0 && k > 0 && j1 <= 1)
@@ -126,7 +126,7 @@ public class RecipeFireworks implements IRecipe
                 {
                     ItemStack itemstack2 = inv.getStackInSlot(l1);
 
-                    if (!itemstack2.isEmpty())
+                    if (!itemstack2.func_190926_b())
                     {
                         if (itemstack2.getItem() == Items.DYE)
                         {
@@ -180,7 +180,7 @@ public class RecipeFireworks implements IRecipe
                 {
                     ItemStack itemstack1 = inv.getStackInSlot(i2);
 
-                    if (!itemstack1.isEmpty())
+                    if (!itemstack1.func_190926_b())
                     {
                         if (itemstack1.getItem() == Items.DYE)
                         {
@@ -189,7 +189,7 @@ public class RecipeFireworks implements IRecipe
                         else if (itemstack1.getItem() == Items.FIREWORK_CHARGE)
                         {
                             this.resultItem = itemstack1.copy();
-                            this.resultItem.setCount(1);
+                            this.resultItem.func_190920_e(1);
                         }
                     }
                 }
@@ -201,7 +201,7 @@ public class RecipeFireworks implements IRecipe
                     aint[j2] = ((Integer)list1.get(j2)).intValue();
                 }
 
-                if (!this.resultItem.isEmpty() && this.resultItem.hasTagCompound())
+                if (!this.resultItem.func_190926_b() && this.resultItem.hasTagCompound())
                 {
                     NBTTagCompound nbttagcompound4 = this.resultItem.getTagCompound().getCompoundTag("Explosion");
 
@@ -254,7 +254,7 @@ public class RecipeFireworks implements IRecipe
 
     public NonNullList<ItemStack> getRemainingItems(InventoryCrafting inv)
     {
-        NonNullList<ItemStack> nonnulllist = NonNullList.<ItemStack>withSize(inv.getSizeInventory(), ItemStack.EMPTY);
+        NonNullList<ItemStack> nonnulllist = NonNullList.<ItemStack>func_191197_a(inv.getSizeInventory(), ItemStack.field_190927_a);
 
         for (int i = 0; i < nonnulllist.size(); ++i)
         {

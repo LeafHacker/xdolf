@@ -25,9 +25,9 @@ public class ItemPotion extends Item
         this.setCreativeTab(CreativeTabs.BREWING);
     }
 
-    public ItemStack getDefaultInstance()
+    public ItemStack func_190903_i()
     {
-        return PotionUtils.addPotionToItemStack(super.getDefaultInstance(), PotionTypes.WATER);
+        return PotionUtils.addPotionToItemStack(super.func_190903_i(), PotionTypes.WATER);
     }
 
     /**
@@ -40,7 +40,7 @@ public class ItemPotion extends Item
 
         if (entityplayer == null || !entityplayer.capabilities.isCreativeMode)
         {
-            stack.shrink(1);
+            stack.func_190918_g(1);
         }
 
         if (!worldIn.isRemote)
@@ -65,7 +65,7 @@ public class ItemPotion extends Item
 
         if (entityplayer == null || !entityplayer.capabilities.isCreativeMode)
         {
-            if (stack.isEmpty())
+            if (stack.func_190926_b())
             {
                 return new ItemStack(Items.GLASS_BOTTLE);
             }
@@ -95,10 +95,10 @@ public class ItemPotion extends Item
         return EnumAction.DRINK;
     }
 
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
+    public ActionResult<ItemStack> onItemRightClick(World itemStackIn, EntityPlayer worldIn, EnumHand playerIn)
     {
-        playerIn.setActiveHand(handIn);
-        return new ActionResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
+        worldIn.setActiveHand(playerIn);
+        return new ActionResult(EnumActionResult.SUCCESS, worldIn.getHeldItem(playerIn));
     }
 
     public String getItemStackDisplayName(ItemStack stack)
@@ -116,7 +116,7 @@ public class ItemPotion extends Item
 
     public boolean hasEffect(ItemStack stack)
     {
-        return !PotionUtils.getEffectsFromStack(stack).isEmpty();
+        return super.hasEffect(stack) || !PotionUtils.getEffectsFromStack(stack).isEmpty();
     }
 
     /**

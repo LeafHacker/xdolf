@@ -143,7 +143,7 @@ public abstract class RenderLivingBase<T extends EntityLivingBase> extends Rende
                 float f7 = entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks;
                 this.renderLivingAt(entity, x, y, z);
                 float f8 = this.handleRotationFloat(entity, partialTicks);
-                this.applyRotations(entity, f8, f, partialTicks);
+                this.rotateCorpse(entity, f8, f, partialTicks);
                 float f4 = this.prepareScale(entity, partialTicks);
                 float f5 = 0.0F;
                 float f6 = 0.0F;
@@ -447,7 +447,7 @@ public abstract class RenderLivingBase<T extends EntityLivingBase> extends Rende
         GlStateManager.translate((float)x, (float)y, (float)z);
     }
 
-    protected void applyRotations(T entityLiving, float p_77043_2_, float p_77043_3_, float partialTicks)
+    protected void rotateCorpse(T entityLiving, float p_77043_2_, float p_77043_3_, float partialTicks)
     {
         GlStateManager.rotate(180.0F - p_77043_3_, 0.0F, 1.0F, 0.0F);
 

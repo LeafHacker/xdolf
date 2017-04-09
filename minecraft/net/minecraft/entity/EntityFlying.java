@@ -28,7 +28,7 @@ public abstract class EntityFlying extends EntityLiving
         if (this.isInWater())
         {
             this.moveRelative(strafe, forward, 0.02F);
-            this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
+            this.moveEntity(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
             this.motionX *= 0.800000011920929D;
             this.motionY *= 0.800000011920929D;
             this.motionZ *= 0.800000011920929D;
@@ -36,7 +36,7 @@ public abstract class EntityFlying extends EntityLiving
         else if (this.isInLava())
         {
             this.moveRelative(strafe, forward, 0.02F);
-            this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
+            this.moveEntity(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
             this.motionX *= 0.5D;
             this.motionY *= 0.5D;
             this.motionZ *= 0.5D;
@@ -59,7 +59,7 @@ public abstract class EntityFlying extends EntityLiving
                 f = this.world.getBlockState(new BlockPos(MathHelper.floor(this.posX), MathHelper.floor(this.getEntityBoundingBox().minY) - 1, MathHelper.floor(this.posZ))).getBlock().slipperiness * 0.91F;
             }
 
-            this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
+            this.moveEntity(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
             this.motionX *= (double)f;
             this.motionY *= (double)f;
             this.motionZ *= (double)f;

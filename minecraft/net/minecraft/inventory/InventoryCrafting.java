@@ -22,7 +22,7 @@ public class InventoryCrafting implements IInventory
 
     public InventoryCrafting(Container eventHandlerIn, int width, int height)
     {
-        this.stackList = NonNullList.<ItemStack>withSize(width * height, ItemStack.EMPTY);
+        this.stackList = NonNullList.<ItemStack>func_191197_a(width * height, ItemStack.field_190927_a);
         this.eventHandler = eventHandlerIn;
         this.inventoryWidth = width;
         this.inventoryHeight = height;
@@ -36,11 +36,11 @@ public class InventoryCrafting implements IInventory
         return this.stackList.size();
     }
 
-    public boolean isEmpty()
+    public boolean func_191420_l()
     {
         for (ItemStack itemstack : this.stackList)
         {
-            if (!itemstack.isEmpty())
+            if (!itemstack.func_190926_b())
             {
                 return false;
             }
@@ -54,7 +54,7 @@ public class InventoryCrafting implements IInventory
      */
     public ItemStack getStackInSlot(int index)
     {
-        return index >= this.getSizeInventory() ? ItemStack.EMPTY : (ItemStack)this.stackList.get(index);
+        return index >= this.getSizeInventory() ? ItemStack.field_190927_a : (ItemStack)this.stackList.get(index);
     }
 
     /**
@@ -62,7 +62,7 @@ public class InventoryCrafting implements IInventory
      */
     public ItemStack getStackInRowAndColumn(int row, int column)
     {
-        return row >= 0 && row < this.inventoryWidth && column >= 0 && column <= this.inventoryHeight ? this.getStackInSlot(row + column * this.inventoryWidth) : ItemStack.EMPTY;
+        return row >= 0 && row < this.inventoryWidth && column >= 0 && column <= this.inventoryHeight ? this.getStackInSlot(row + column * this.inventoryWidth) : ItemStack.field_190927_a;
     }
 
     /**
@@ -104,7 +104,7 @@ public class InventoryCrafting implements IInventory
     {
         ItemStack itemstack = ItemStackHelper.getAndSplit(this.stackList, index, count);
 
-        if (!itemstack.isEmpty())
+        if (!itemstack.func_190926_b())
         {
             this.eventHandler.onCraftMatrixChanged(this);
         }

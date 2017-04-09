@@ -87,21 +87,21 @@ public class PlacementSettings
         return this;
     }
 
-    public PlacementSettings setSeed(@Nullable Long seedIn)
+    public PlacementSettings setSeed(@Nullable Long p_189949_1_)
     {
-        this.setSeed = seedIn;
+        this.setSeed = p_189949_1_;
         return this;
     }
 
-    public PlacementSettings setRandom(@Nullable Random randomIn)
+    public PlacementSettings setRandom(@Nullable Random p_189950_1_)
     {
-        this.random = randomIn;
+        this.random = p_189950_1_;
         return this;
     }
 
-    public PlacementSettings setIntegrity(float integrityIn)
+    public PlacementSettings setIntegrity(float p_189946_1_)
     {
-        this.integrity = integrityIn;
+        this.integrity = p_189946_1_;
         return this;
     }
 

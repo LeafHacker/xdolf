@@ -159,7 +159,7 @@ public class ContainerEnchantment extends Container
         {
             ItemStack itemstack = inventoryIn.getStackInSlot(0);
 
-            if (!itemstack.isEmpty() && itemstack.isItemEnchantable())
+            if (!itemstack.func_190926_b() && itemstack.isItemEnchantable())
             {
                 if (!this.worldPointer.isRemote)
                 {
@@ -260,11 +260,11 @@ public class ContainerEnchantment extends Container
         ItemStack itemstack1 = this.tableInventory.getStackInSlot(1);
         int i = id + 1;
 
-        if ((itemstack1.isEmpty() || itemstack1.getCount() < i) && !playerIn.capabilities.isCreativeMode)
+        if ((itemstack1.func_190926_b() || itemstack1.func_190916_E() < i) && !playerIn.capabilities.isCreativeMode)
         {
             return false;
         }
-        else if (this.enchantLevels[id] > 0 && !itemstack.isEmpty() && (playerIn.experienceLevel >= i && playerIn.experienceLevel >= this.enchantLevels[id] || playerIn.capabilities.isCreativeMode))
+        else if (this.enchantLevels[id] > 0 && !itemstack.func_190926_b() && (playerIn.experienceLevel >= i && playerIn.experienceLevel >= this.enchantLevels[id] || playerIn.capabilities.isCreativeMode))
         {
             if (!this.worldPointer.isRemote)
             {
@@ -297,11 +297,11 @@ public class ContainerEnchantment extends Container
 
                     if (!playerIn.capabilities.isCreativeMode)
                     {
-                        itemstack1.shrink(i);
+                        itemstack1.func_190918_g(i);
 
-                        if (itemstack1.isEmpty())
+                        if (itemstack1.func_190926_b())
                         {
-                            this.tableInventory.setInventorySlotContents(1, ItemStack.EMPTY);
+                            this.tableInventory.setInventorySlotContents(1, ItemStack.field_190927_a);
                         }
                     }
 
@@ -337,7 +337,7 @@ public class ContainerEnchantment extends Container
     public int getLapisAmount()
     {
         ItemStack itemstack = this.tableInventory.getStackInSlot(1);
-        return itemstack.isEmpty() ? 0 : itemstack.getCount();
+        return itemstack.func_190926_b() ? 0 : itemstack.func_190916_E();
     }
 
     /**
@@ -353,7 +353,7 @@ public class ContainerEnchantment extends Container
             {
                 ItemStack itemstack = this.tableInventory.removeStackFromSlot(i);
 
-                if (!itemstack.isEmpty())
+                if (!itemstack.func_190926_b())
                 {
                     playerIn.dropItem(itemstack, false);
                 }
@@ -374,7 +374,7 @@ public class ContainerEnchantment extends Container
      */
     public ItemStack transferStackInSlot(EntityPlayer playerIn, int index)
     {
-        ItemStack itemstack = ItemStack.EMPTY;
+        ItemStack itemstack = ItemStack.field_190927_a;
         Slot slot = (Slot)this.inventorySlots.get(index);
 
         if (slot != null && slot.getHasStack())
@@ -386,57 +386,57 @@ public class ContainerEnchantment extends Container
             {
                 if (!this.mergeItemStack(itemstack1, 2, 38, true))
                 {
-                    return ItemStack.EMPTY;
+                    return ItemStack.field_190927_a;
                 }
             }
             else if (index == 1)
             {
                 if (!this.mergeItemStack(itemstack1, 2, 38, true))
                 {
-                    return ItemStack.EMPTY;
+                    return ItemStack.field_190927_a;
                 }
             }
             else if (itemstack1.getItem() == Items.DYE && EnumDyeColor.byDyeDamage(itemstack1.getMetadata()) == EnumDyeColor.BLUE)
             {
                 if (!this.mergeItemStack(itemstack1, 1, 2, true))
                 {
-                    return ItemStack.EMPTY;
+                    return ItemStack.field_190927_a;
                 }
             }
             else
             {
                 if (((Slot)this.inventorySlots.get(0)).getHasStack() || !((Slot)this.inventorySlots.get(0)).isItemValid(itemstack1))
                 {
-                    return ItemStack.EMPTY;
+                    return ItemStack.field_190927_a;
                 }
 
-                if (itemstack1.hasTagCompound() && itemstack1.getCount() == 1)
+                if (itemstack1.hasTagCompound() && itemstack1.func_190916_E() == 1)
                 {
                     ((Slot)this.inventorySlots.get(0)).putStack(itemstack1.copy());
-                    itemstack1.setCount(0);
+                    itemstack1.func_190920_e(0);
                 }
-                else if (!itemstack1.isEmpty())
+                else if (!itemstack1.func_190926_b())
                 {
                     ((Slot)this.inventorySlots.get(0)).putStack(new ItemStack(itemstack1.getItem(), 1, itemstack1.getMetadata()));
-                    itemstack1.shrink(1);
+                    itemstack1.func_190918_g(1);
                 }
             }
 
-            if (itemstack1.isEmpty())
+            if (itemstack1.func_190926_b())
             {
-                slot.putStack(ItemStack.EMPTY);
+                slot.putStack(ItemStack.field_190927_a);
             }
             else
             {
                 slot.onSlotChanged();
             }
 
-            if (itemstack1.getCount() == itemstack.getCount())
+            if (itemstack1.func_190916_E() == itemstack.func_190916_E())
             {
-                return ItemStack.EMPTY;
+                return ItemStack.field_190927_a;
             }
 
-            slot.onTake(playerIn, itemstack1);
+            slot.func_190901_a(playerIn, itemstack1);
         }
 
         return itemstack;

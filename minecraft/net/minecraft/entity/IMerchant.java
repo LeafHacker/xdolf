@@ -33,7 +33,7 @@ public interface IMerchant
      */
     ITextComponent getDisplayName();
 
-    World getWorld();
+    World func_190670_t_();
 
-    BlockPos getPos();
+    BlockPos func_190671_u_();
 }

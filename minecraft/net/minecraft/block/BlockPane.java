@@ -39,9 +39,13 @@ public class BlockPane extends Block
         this.setCreativeTab(CreativeTabs.DECORATIONS);
     }
 
-    public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn)
+    public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn, boolean p_185477_7_)
     {
-        state = this.getActualState(state, worldIn, pos);
+        if (!p_185477_7_)
+        {
+            state = this.getActualState(state, worldIn, pos);
+        }
+
         addCollisionBoxToList(pos, entityBox, collidingBoxes, AABB_BY_INDEX[0]);
 
         if (((Boolean)state.getValue(NORTH)).booleanValue())
@@ -117,7 +121,7 @@ public class BlockPane extends Block
      */
     public Item getItemDropped(IBlockState state, Random rand, int fortune)
     {
-        return !this.canDrop ? Items.AIR : super.getItemDropped(state, rand, fortune);
+        return !this.canDrop ? Items.field_190931_a : super.getItemDropped(state, rand, fortune);
     }
 
     /**

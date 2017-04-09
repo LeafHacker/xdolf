@@ -43,6 +43,7 @@ public class CustomItems
     private static Map mapPotionIds = null;
     private static ItemModelGenerator itemModelGenerator = new ItemModelGenerator();
     private static boolean useGlint = true;
+    private static boolean renderOffHand = false;
     public static final int MASK_POTION_SPLASH = 16384;
     public static final int MASK_POTION_NAME = 63;
     public static final int MASK_POTION_EXTENDED = 64;
@@ -681,7 +682,7 @@ public class CustomItems
             }
         }
 
-        if (p_matchesProperties_0_.stackSize != null && !p_matchesProperties_0_.stackSize.isInRange(p_matchesProperties_1_.getCount()))
+        if (p_matchesProperties_0_.stackSize != null && !p_matchesProperties_0_.stackSize.isInRange(p_matchesProperties_1_.func_190916_E()))
         {
             return false;
         }
@@ -753,6 +754,19 @@ public class CustomItems
                     {
                         return false;
                     }
+                }
+            }
+
+            if (p_matchesProperties_0_.hand != 0)
+            {
+                if (p_matchesProperties_0_.hand == 1 && renderOffHand)
+                {
+                    return false;
+                }
+
+                if (p_matchesProperties_0_.hand == 2 && !renderOffHand)
+                {
+                    return false;
                 }
             }
 
@@ -1072,5 +1086,10 @@ public class CustomItems
     public static boolean isUseGlint()
     {
         return useGlint;
+    }
+
+    public static void setRenderOffHand(boolean p_setRenderOffHand_0_)
+    {
+        renderOffHand = p_setRenderOffHand_0_;
     }
 }

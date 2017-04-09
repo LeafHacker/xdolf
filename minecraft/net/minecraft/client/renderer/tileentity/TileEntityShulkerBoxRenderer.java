@@ -10,24 +10,24 @@ import net.minecraft.util.EnumFacing;
 
 public class TileEntityShulkerBoxRenderer extends TileEntitySpecialRenderer<TileEntityShulkerBox>
 {
-    private final ModelShulker model;
+    private final ModelShulker field_191285_a;
 
     public TileEntityShulkerBoxRenderer(ModelShulker p_i47216_1_)
     {
-        this.model = p_i47216_1_;
+        this.field_191285_a = p_i47216_1_;
     }
 
     public void renderTileEntityAt(TileEntityShulkerBox te, double x, double y, double z, float partialTicks, int destroyStage)
     {
         EnumFacing enumfacing = EnumFacing.UP;
 
-        if (te.hasWorld())
+        if (te.hasWorldObj())
         {
             IBlockState iblockstate = this.getWorld().getBlockState(te.getPos());
 
             if (iblockstate.getBlock() instanceof BlockShulkerBox)
             {
-                enumfacing = (EnumFacing)iblockstate.getValue(BlockShulkerBox.FACING);
+                enumfacing = (EnumFacing)iblockstate.getValue(BlockShulkerBox.field_190957_a);
             }
         }
 
@@ -47,7 +47,7 @@ public class TileEntityShulkerBoxRenderer extends TileEntitySpecialRenderer<Tile
         }
         else
         {
-            this.bindTexture(RenderShulker.SHULKER_ENDERGOLEM_TEXTURE[te.getColor().getMetadata()]);
+            this.bindTexture(RenderShulker.SHULKER_ENDERGOLEM_TEXTURE[te.func_190592_s().getMetadata()]);
         }
 
         GlStateManager.pushMatrix();
@@ -98,10 +98,10 @@ public class TileEntityShulkerBoxRenderer extends TileEntitySpecialRenderer<Tile
                 GlStateManager.rotate(90.0F, 0.0F, 0.0F, 1.0F);
         }
 
-        this.model.base.render(0.0625F);
-        GlStateManager.translate(0.0F, -te.getProgress(partialTicks) * 0.5F, 0.0F);
-        GlStateManager.rotate(270.0F * te.getProgress(partialTicks), 0.0F, 1.0F, 0.0F);
-        this.model.lid.render(0.0625F);
+        this.field_191285_a.base.render(0.0625F);
+        GlStateManager.translate(0.0F, -te.func_190585_a(partialTicks) * 0.5F, 0.0F);
+        GlStateManager.rotate(270.0F * te.func_190585_a(partialTicks), 0.0F, 1.0F, 0.0F);
+        this.field_191285_a.lid.render(0.0625F);
         GlStateManager.enableCull();
         GlStateManager.disableRescaleNormal();
         GlStateManager.popMatrix();

@@ -42,7 +42,7 @@ public class SPacketUpdateBossInfo implements Packet<INetHandlerPlayClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.uniqueId = buf.readUniqueId();
+        this.uniqueId = buf.readUuid();
         this.operation = (SPacketUpdateBossInfo.Operation)buf.readEnumValue(SPacketUpdateBossInfo.Operation.class);
 
         switch (this.operation)
@@ -88,7 +88,7 @@ public class SPacketUpdateBossInfo implements Packet<INetHandlerPlayClient>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeUniqueId(this.uniqueId);
+        buf.writeUuid(this.uniqueId);
         buf.writeEnumValue(this.operation);
 
         switch (this.operation)
@@ -149,7 +149,7 @@ public class SPacketUpdateBossInfo implements Packet<INetHandlerPlayClient>
      */
     public void processPacket(INetHandlerPlayClient handler)
     {
-        handler.handleUpdateBossInfo(this);
+        handler.handleUpdateEntityNBT(this);
     }
 
     public UUID getUniqueId()

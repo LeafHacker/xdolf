@@ -11,16 +11,16 @@ public class QuadBounds
     private float maxY = -3.4028235E38F;
     private float maxZ = -3.4028235E38F;
 
-    public QuadBounds(int[] p_i70_1_)
+    public QuadBounds(int[] p_i73_1_)
     {
-        int i = p_i70_1_.length / 4;
+        int i = p_i73_1_.length / 4;
 
         for (int j = 0; j < 4; ++j)
         {
             int k = j * i;
-            float f = Float.intBitsToFloat(p_i70_1_[k + 0]);
-            float f1 = Float.intBitsToFloat(p_i70_1_[k + 1]);
-            float f2 = Float.intBitsToFloat(p_i70_1_[k + 2]);
+            float f = Float.intBitsToFloat(p_i73_1_[k + 0]);
+            float f1 = Float.intBitsToFloat(p_i73_1_[k + 1]);
+            float f2 = Float.intBitsToFloat(p_i73_1_[k + 2]);
 
             if (this.minX > f)
             {

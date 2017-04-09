@@ -6,9 +6,9 @@ public class IntArray
     private int position = 0;
     private int limit = 0;
 
-    public IntArray(int p_i56_1_)
+    public IntArray(int p_i59_1_)
     {
-        this.array = new int[p_i56_1_];
+        this.array = new int[p_i59_1_];
     }
 
     public void put(int p_put_1_)

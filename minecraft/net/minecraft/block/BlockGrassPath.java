@@ -48,10 +48,10 @@ public class BlockGrassPath extends Block
     public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state)
     {
         super.onBlockAdded(worldIn, pos, state);
-        this.updateBlockState(worldIn, pos);
+        this.func_190971_b(worldIn, pos);
     }
 
-    private void updateBlockState(World p_190971_1_, BlockPos p_190971_2_)
+    private void func_190971_b(World p_190971_1_, BlockPos p_190971_2_)
     {
         if (p_190971_1_.getBlockState(p_190971_2_.up()).getMaterial().isSolid())
         {
@@ -95,9 +95,9 @@ public class BlockGrassPath extends Block
      * change. Cases may include when redstone power is updated, cactus blocks popping off due to a neighboring solid
      * block, etc.
      */
-    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos)
+    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos p_189540_5_)
     {
-        super.neighborChanged(state, worldIn, pos, blockIn, fromPos);
-        this.updateBlockState(worldIn, pos);
+        super.neighborChanged(state, worldIn, pos, blockIn, p_189540_5_);
+        this.func_190971_b(worldIn, pos);
     }
 }

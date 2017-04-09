@@ -61,18 +61,18 @@ public class GuiScreenHorseInventory extends GuiContainer
         {
             AbstractChestHorse abstractchesthorse = (AbstractChestHorse)this.horseEntity;
 
-            if (abstractchesthorse.hasChest())
+            if (abstractchesthorse.func_190695_dh())
             {
-                this.drawTexturedModalRect(i + 79, j + 17, 0, this.ySize, abstractchesthorse.getInventoryColumns() * 18, 54);
+                this.drawTexturedModalRect(i + 79, j + 17, 0, this.ySize, abstractchesthorse.func_190696_dl() * 18, 54);
             }
         }
 
-        if (this.horseEntity.canBeSaddled())
+        if (this.horseEntity.func_190685_dA())
         {
             this.drawTexturedModalRect(i + 7, j + 35 - 18, 18, this.ySize + 54, 18, 18);
         }
 
-        if (this.horseEntity.wearsArmor())
+        if (this.horseEntity.func_190677_dK())
         {
             if (this.horseEntity instanceof EntityLlama)
             {

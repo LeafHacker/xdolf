@@ -56,7 +56,7 @@ public class BlockTallGrass extends BlockBush implements IGrowable
      */
     public Item getItemDropped(IBlockState state, Random rand, int fortune)
     {
-        return rand.nextInt(8) == 0 ? Items.WHEAT_SEEDS : Items.AIR;
+        return rand.nextInt(8) == 0 ? Items.WHEAT_SEEDS : Items.field_190931_a;
     }
 
     /**

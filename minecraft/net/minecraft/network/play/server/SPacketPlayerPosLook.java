@@ -43,7 +43,7 @@ public class SPacketPlayerPosLook implements Packet<INetHandlerPlayClient>
         this.yaw = buf.readFloat();
         this.pitch = buf.readFloat();
         this.flags = SPacketPlayerPosLook.EnumFlags.unpack(buf.readUnsignedByte());
-        this.teleportId = buf.readVarInt();
+        this.teleportId = buf.readVarIntFromBuffer();
     }
 
     /**
@@ -57,7 +57,7 @@ public class SPacketPlayerPosLook implements Packet<INetHandlerPlayClient>
         buf.writeFloat(this.yaw);
         buf.writeFloat(this.pitch);
         buf.writeByte(SPacketPlayerPosLook.EnumFlags.pack(this.flags));
-        buf.writeVarInt(this.teleportId);
+        buf.writeVarIntToBuffer(this.teleportId);
     }
 
     /**

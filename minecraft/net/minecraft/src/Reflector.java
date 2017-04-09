@@ -64,6 +64,7 @@ import net.minecraft.client.renderer.tileentity.TileEntityBannerRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityChestRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityEnchantmentTableRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityEnderChestRenderer;
+import net.minecraft.client.renderer.tileentity.TileEntityShulkerBoxRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntitySignRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntitySkullRenderer;
 import net.minecraft.client.renderer.vertex.VertexFormatElement;
@@ -309,6 +310,7 @@ public class Reflector
     public static ReflectorField LegacyV2Adapter_pack = new ReflectorField(LegacyV2Adapter, IResourcePack.class);
     public static ReflectorClass Minecraft = new ReflectorClass(Minecraft.class);
     public static ReflectorField Minecraft_defaultResourcePack = new ReflectorField(Minecraft, DefaultResourcePack.class);
+    public static ReflectorField Minecraft_actionKeyF3 = new ReflectorField(new FieldLocatorActionKeyF3());
     public static ReflectorClass ModelHumanoidHead = new ReflectorClass(ModelHumanoidHead.class);
     public static ReflectorField ModelHumanoidHead_head = new ReflectorField(ModelHumanoidHead, ModelRenderer.class);
     public static ReflectorClass ModelBat = new ReflectorClass(ModelBat.class);
@@ -349,9 +351,6 @@ public class Reflector
     public static ReflectorFields ModelOcelot_ModelRenderers = new ReflectorFields(ModelOcelot, ModelRenderer.class, 8);
     public static ReflectorClass ModelRabbit = new ReflectorClass(ModelRabbit.class);
     public static ReflectorFields ModelRabbit_renderers = new ReflectorFields(ModelRabbit, ModelRenderer.class, 12);
-    public static ReflectorClass ModelShulker = new ReflectorClass(ModelShulker.class);
-    public static ReflectorField ModelShulker_base = new ReflectorField(ModelShulker, ModelRenderer.class, 0);
-    public static ReflectorField ModelShulker_lid = new ReflectorField(ModelShulker, ModelRenderer.class, 0);
     public static ReflectorClass ModelSilverfish = new ReflectorClass(ModelSilverfish.class);
     public static ReflectorField ModelSilverfish_bodyParts = new ReflectorField(ModelSilverfish, ModelRenderer[].class, 0);
     public static ReflectorField ModelSilverfish_wingParts = new ReflectorField(ModelSilverfish, ModelRenderer[].class, 1);
@@ -394,6 +393,8 @@ public class Reflector
     public static ReflectorField TileEntityEnchantmentTableRenderer_modelBook = new ReflectorField(TileEntityEnchantmentTableRenderer, ModelBook.class);
     public static ReflectorClass TileEntityEnderChestRenderer = new ReflectorClass(TileEntityEnderChestRenderer.class);
     public static ReflectorField TileEntityEnderChestRenderer_modelChest = new ReflectorField(TileEntityEnderChestRenderer, ModelChest.class);
+    public static ReflectorClass TileEntityShulkerBoxRenderer = new ReflectorClass(TileEntityShulkerBoxRenderer.class);
+    public static ReflectorField TileEntityShulkerBoxRenderer_model = new ReflectorField(TileEntityShulkerBoxRenderer, ModelShulker.class);
     public static ReflectorClass TileEntitySignRenderer = new ReflectorClass(TileEntitySignRenderer.class);
     public static ReflectorField TileEntitySignRenderer_model = new ReflectorField(TileEntitySignRenderer, ModelSign.class);
     public static ReflectorClass TileEntitySkullRenderer = new ReflectorClass(TileEntitySkullRenderer.class);

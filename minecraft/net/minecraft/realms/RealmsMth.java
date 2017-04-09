@@ -58,7 +58,7 @@ public class RealmsMth
 
     public static long lfloor(double p_lfloor_0_)
     {
-        return MathHelper.lfloor(p_lfloor_0_);
+        return MathHelper.lFloor(p_lfloor_0_);
     }
 
     public static float sqrt(double p_sqrt_0_)

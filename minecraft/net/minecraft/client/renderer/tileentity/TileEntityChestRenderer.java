@@ -38,7 +38,7 @@ public class TileEntityChestRenderer extends TileEntitySpecialRenderer<TileEntit
         GlStateManager.depthMask(true);
         int i;
 
-        if (te.hasWorld())
+        if (te.hasWorldObj())
         {
             Block block = te.getBlockType();
             i = te.getBlockMetadata();

@@ -80,12 +80,12 @@ public class EntityItem extends Entity
         this.health = 5;
         this.hoverStart = (float)(Math.random() * Math.PI * 2.0D);
         this.setSize(0.25F, 0.25F);
-        this.setEntityItemStack(ItemStack.EMPTY);
+        this.setEntityItemStack(ItemStack.field_190927_a);
     }
 
     protected void entityInit()
     {
-        this.getDataManager().register(ITEM, ItemStack.EMPTY);
+        this.getDataManager().register(ITEM, ItemStack.field_190927_a);
     }
 
     /**
@@ -93,7 +93,7 @@ public class EntityItem extends Entity
      */
     public void onUpdate()
     {
-        if (this.getEntityItem().isEmpty())
+        if (this.getEntityItem().func_190926_b())
         {
             this.setDead();
         }
@@ -127,7 +127,7 @@ public class EntityItem extends Entity
                 this.noClip = this.pushOutOfBlocks(this.posX, (this.getEntityBoundingBox().minY + this.getEntityBoundingBox().maxY) / 2.0D, this.posZ);
             }
 
-            this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
+            this.moveEntity(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
             boolean flag = (int)this.prevPosX != (int)this.posX || (int)this.prevPosY != (int)this.posY || (int)this.prevPosZ != (int)this.posZ;
 
             if (flag || this.ticksExisted % 25 == 0)
@@ -239,17 +239,17 @@ public class EntityItem extends Entity
                     {
                         return false;
                     }
-                    else if (itemstack1.getCount() < itemstack.getCount())
+                    else if (itemstack1.func_190916_E() < itemstack.func_190916_E())
                     {
                         return other.combineItems(this);
                     }
-                    else if (itemstack1.getCount() + itemstack.getCount() > itemstack1.getMaxStackSize())
+                    else if (itemstack1.func_190916_E() + itemstack.func_190916_E() > itemstack1.getMaxStackSize())
                     {
                         return false;
                     }
                     else
                     {
-                        itemstack1.grow(itemstack.getCount());
+                        itemstack1.func_190917_f(itemstack.func_190916_E());
                         other.delayBeforeCanPickup = Math.max(other.delayBeforeCanPickup, this.delayBeforeCanPickup);
                         other.age = Math.min(other.age, this.age);
                         other.setEntityItemStack(itemstack1);
@@ -309,7 +309,7 @@ public class EntityItem extends Entity
      */
     protected void dealFireDamage(int amount)
     {
-        this.attackEntityFrom(DamageSource.IN_FIRE, (float)amount);
+        this.attackEntityFrom(DamageSource.inFire, (float)amount);
     }
 
     /**
@@ -321,7 +321,7 @@ public class EntityItem extends Entity
         {
             return false;
         }
-        else if (!this.getEntityItem().isEmpty() && this.getEntityItem().getItem() == Items.NETHER_STAR && source.isExplosion())
+        else if (!this.getEntityItem().func_190926_b() && this.getEntityItem().getItem() == Items.NETHER_STAR && source.isExplosion())
         {
             return false;
         }
@@ -363,7 +363,7 @@ public class EntityItem extends Entity
             compound.setString("Owner", this.owner);
         }
 
-        if (!this.getEntityItem().isEmpty())
+        if (!this.getEntityItem().func_190926_b())
         {
             compound.setTag("Item", this.getEntityItem().writeToNBT(new NBTTagCompound()));
         }
@@ -395,7 +395,7 @@ public class EntityItem extends Entity
         NBTTagCompound nbttagcompound = compound.getCompoundTag("Item");
         this.setEntityItemStack(new ItemStack(nbttagcompound));
 
-        if (this.getEntityItem().isEmpty())
+        if (this.getEntityItem().func_190926_b())
         {
             this.setDead();
         }
@@ -410,7 +410,7 @@ public class EntityItem extends Entity
         {
             ItemStack itemstack = this.getEntityItem();
             Item item = itemstack.getItem();
-            int i = itemstack.getCount();
+            int i = itemstack.func_190916_E();
 
             if (this.delayBeforeCanPickup == 0 && (this.owner == null || 6000 - this.age <= 200 || this.owner.equals(entityIn.getName())) && entityIn.inventory.addItemStackToInventory(itemstack))
             {
@@ -451,10 +451,10 @@ public class EntityItem extends Entity
 
                 entityIn.onItemPickup(this, i);
 
-                if (itemstack.isEmpty())
+                if (itemstack.func_190926_b())
                 {
                     this.setDead();
-                    itemstack.setCount(i);
+                    itemstack.func_190920_e(i);
                 }
 
                 entityIn.addStat(StatList.getObjectsPickedUpStats(item), i);

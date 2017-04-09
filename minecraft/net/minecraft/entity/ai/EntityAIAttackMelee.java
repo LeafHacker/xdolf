@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 
 public class EntityAIAttackMelee extends EntityAIBase
 {
-    World world;
+    World worldObj;
     protected EntityCreature attacker;
 
     /**
@@ -37,7 +37,7 @@ public class EntityAIAttackMelee extends EntityAIBase
     public EntityAIAttackMelee(EntityCreature creature, double speedIn, boolean useLongMemory)
     {
         this.attacker = creature;
-        this.world = creature.world;
+        this.worldObj = creature.world;
         this.speedTowardsTarget = speedIn;
         this.longMemory = useLongMemory;
         this.setMutexBits(3);

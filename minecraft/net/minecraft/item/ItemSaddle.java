@@ -29,7 +29,7 @@ public class ItemSaddle extends Item
             {
                 entitypig.setSaddled(true);
                 entitypig.world.playSound(playerIn, entitypig.posX, entitypig.posY, entitypig.posZ, SoundEvents.ENTITY_PIG_SADDLE, SoundCategory.NEUTRAL, 0.5F, 1.0F);
-                stack.shrink(1);
+                stack.func_190918_g(1);
             }
 
             return true;

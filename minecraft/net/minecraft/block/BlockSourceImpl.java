@@ -8,18 +8,18 @@ import net.minecraft.world.World;
 
 public class BlockSourceImpl implements IBlockSource
 {
-    private final World world;
+    private final World worldObj;
     private final BlockPos pos;
 
     public BlockSourceImpl(World worldIn, BlockPos posIn)
     {
-        this.world = worldIn;
+        this.worldObj = worldIn;
         this.pos = posIn;
     }
 
     public World getWorld()
     {
-        return this.world;
+        return this.worldObj;
     }
 
     public double getX()
@@ -48,11 +48,11 @@ public class BlockSourceImpl implements IBlockSource
      */
     public IBlockState getBlockState()
     {
-        return this.world.getBlockState(this.pos);
+        return this.worldObj.getBlockState(this.pos);
     }
 
     public <T extends TileEntity> T getBlockTileEntity()
     {
-        return (T)this.world.getTileEntity(this.pos);
+        return (T)this.worldObj.getTileEntity(this.pos);
     }
 }

@@ -9,10 +9,10 @@ public class ReflectorConstructor
     private boolean checked = false;
     private Constructor targetConstructor = null;
 
-    public ReflectorConstructor(ReflectorClass p_i78_1_, Class[] p_i78_2_)
+    public ReflectorConstructor(ReflectorClass p_i81_1_, Class[] p_i81_2_)
     {
-        this.reflectorClass = p_i78_1_;
-        this.parameterTypes = p_i78_2_;
+        this.reflectorClass = p_i81_1_;
+        this.parameterTypes = p_i81_2_;
         Constructor constructor = this.getTargetConstructor();
     }
 

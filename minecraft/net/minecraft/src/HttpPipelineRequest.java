@@ -6,10 +6,10 @@ public class HttpPipelineRequest
     private HttpListener httpListener = null;
     private boolean closed = false;
 
-    public HttpPipelineRequest(HttpRequest p_i52_1_, HttpListener p_i52_2_)
+    public HttpPipelineRequest(HttpRequest p_i55_1_, HttpListener p_i55_2_)
     {
-        this.httpRequest = p_i52_1_;
-        this.httpListener = p_i52_2_;
+        this.httpRequest = p_i55_1_;
+        this.httpListener = p_i55_2_;
     }
 
     public HttpRequest getHttpRequest()

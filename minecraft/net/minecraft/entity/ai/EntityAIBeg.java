@@ -10,15 +10,15 @@ import net.minecraft.world.World;
 public class EntityAIBeg extends EntityAIBase
 {
     private final EntityWolf theWolf;
-    private EntityPlayer player;
-    private final World world;
+    private EntityPlayer thePlayer;
+    private final World worldObject;
     private final float minPlayerDistance;
     private int timeoutCounter;
 
     public EntityAIBeg(EntityWolf wolf, float minDistance)
     {
         this.theWolf = wolf;
-        this.world = wolf.world;
+        this.worldObject = wolf.world;
         this.minPlayerDistance = minDistance;
         this.setMutexBits(2);
     }
@@ -28,8 +28,8 @@ public class EntityAIBeg extends EntityAIBase
      */
     public boolean shouldExecute()
     {
-        this.player = this.world.getClosestPlayerToEntity(this.theWolf, (double)this.minPlayerDistance);
-        return this.player == null ? false : this.hasTemptationItemInHand(this.player);
+        this.thePlayer = this.worldObject.getClosestPlayerToEntity(this.theWolf, (double)this.minPlayerDistance);
+        return this.thePlayer == null ? false : this.hasPlayerGotBoneInHand(this.thePlayer);
     }
 
     /**
@@ -37,7 +37,7 @@ public class EntityAIBeg extends EntityAIBase
      */
     public boolean continueExecuting()
     {
-        return !this.player.isEntityAlive() ? false : (this.theWolf.getDistanceSqToEntity(this.player) > (double)(this.minPlayerDistance * this.minPlayerDistance) ? false : this.timeoutCounter > 0 && this.hasTemptationItemInHand(this.player));
+        return !this.thePlayer.isEntityAlive() ? false : (this.theWolf.getDistanceSqToEntity(this.thePlayer) > (double)(this.minPlayerDistance * this.minPlayerDistance) ? false : this.timeoutCounter > 0 && this.hasPlayerGotBoneInHand(this.thePlayer));
     }
 
     /**
@@ -55,7 +55,7 @@ public class EntityAIBeg extends EntityAIBase
     public void resetTask()
     {
         this.theWolf.setBegging(false);
-        this.player = null;
+        this.thePlayer = null;
     }
 
     /**
@@ -63,14 +63,14 @@ public class EntityAIBeg extends EntityAIBase
      */
     public void updateTask()
     {
-        this.theWolf.getLookHelper().setLookPosition(this.player.posX, this.player.posY + (double)this.player.getEyeHeight(), this.player.posZ, 10.0F, (float)this.theWolf.getVerticalFaceSpeed());
+        this.theWolf.getLookHelper().setLookPosition(this.thePlayer.posX, this.thePlayer.posY + (double)this.thePlayer.getEyeHeight(), this.thePlayer.posZ, 10.0F, (float)this.theWolf.getVerticalFaceSpeed());
         --this.timeoutCounter;
     }
 
     /**
      * Gets if the Player has the Bone in the hand.
      */
-    private boolean hasTemptationItemInHand(EntityPlayer player)
+    private boolean hasPlayerGotBoneInHand(EntityPlayer player)
     {
         for (EnumHand enumhand : EnumHand.values())
         {

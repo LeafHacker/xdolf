@@ -411,14 +411,15 @@ public class StrUtils
         }
         else
         {
-            StringBuffer stringbuffer = new StringBuffer(p_fillLeft_0_);
+            StringBuffer stringbuffer = new StringBuffer();
+            int i = p_fillLeft_1_ - p_fillLeft_0_.length();
 
-            while (stringbuffer.length() < p_fillLeft_1_)
+            while (stringbuffer.length() < i)
             {
-                stringbuffer.insert(0, (char)p_fillLeft_2_);
+                stringbuffer.append(p_fillLeft_2_);
             }
 
-            return stringbuffer.toString();
+            return stringbuffer.toString() + p_fillLeft_0_;
         }
     }
 

@@ -12,11 +12,11 @@ import net.minecraft.world.WorldType;
 public class DerivedWorldInfo extends WorldInfo
 {
     /** Instance of WorldInfo. */
-    private final WorldInfo delegate;
+    private final WorldInfo theWorldInfo;
 
     public DerivedWorldInfo(WorldInfo worldInfoIn)
     {
-        this.delegate = worldInfoIn;
+        this.theWorldInfo = worldInfoIn;
     }
 
     /**
@@ -24,7 +24,7 @@ public class DerivedWorldInfo extends WorldInfo
      */
     public NBTTagCompound cloneNBTCompound(@Nullable NBTTagCompound nbt)
     {
-        return this.delegate.cloneNBTCompound(nbt);
+        return this.theWorldInfo.cloneNBTCompound(nbt);
     }
 
     /**
@@ -32,7 +32,7 @@ public class DerivedWorldInfo extends WorldInfo
      */
     public long getSeed()
     {
-        return this.delegate.getSeed();
+        return this.theWorldInfo.getSeed();
     }
 
     /**
@@ -40,7 +40,7 @@ public class DerivedWorldInfo extends WorldInfo
      */
     public int getSpawnX()
     {
-        return this.delegate.getSpawnX();
+        return this.theWorldInfo.getSpawnX();
     }
 
     /**
@@ -48,7 +48,7 @@ public class DerivedWorldInfo extends WorldInfo
      */
     public int getSpawnY()
     {
-        return this.delegate.getSpawnY();
+        return this.theWorldInfo.getSpawnY();
     }
 
     /**
@@ -56,12 +56,12 @@ public class DerivedWorldInfo extends WorldInfo
      */
     public int getSpawnZ()
     {
-        return this.delegate.getSpawnZ();
+        return this.theWorldInfo.getSpawnZ();
     }
 
     public long getWorldTotalTime()
     {
-        return this.delegate.getWorldTotalTime();
+        return this.theWorldInfo.getWorldTotalTime();
     }
 
     /**
@@ -69,12 +69,12 @@ public class DerivedWorldInfo extends WorldInfo
      */
     public long getWorldTime()
     {
-        return this.delegate.getWorldTime();
+        return this.theWorldInfo.getWorldTime();
     }
 
     public long getSizeOnDisk()
     {
-        return this.delegate.getSizeOnDisk();
+        return this.theWorldInfo.getSizeOnDisk();
     }
 
     /**
@@ -82,7 +82,7 @@ public class DerivedWorldInfo extends WorldInfo
      */
     public NBTTagCompound getPlayerNBTTagCompound()
     {
-        return this.delegate.getPlayerNBTTagCompound();
+        return this.theWorldInfo.getPlayerNBTTagCompound();
     }
 
     /**
@@ -90,7 +90,7 @@ public class DerivedWorldInfo extends WorldInfo
      */
     public String getWorldName()
     {
-        return this.delegate.getWorldName();
+        return this.theWorldInfo.getWorldName();
     }
 
     /**
@@ -98,7 +98,7 @@ public class DerivedWorldInfo extends WorldInfo
      */
     public int getSaveVersion()
     {
-        return this.delegate.getSaveVersion();
+        return this.theWorldInfo.getSaveVersion();
     }
 
     /**
@@ -106,7 +106,7 @@ public class DerivedWorldInfo extends WorldInfo
      */
     public long getLastTimePlayed()
     {
-        return this.delegate.getLastTimePlayed();
+        return this.theWorldInfo.getLastTimePlayed();
     }
 
     /**
@@ -114,7 +114,7 @@ public class DerivedWorldInfo extends WorldInfo
      */
     public boolean isThundering()
     {
-        return this.delegate.isThundering();
+        return this.theWorldInfo.isThundering();
     }
 
     /**
@@ -122,7 +122,7 @@ public class DerivedWorldInfo extends WorldInfo
      */
     public int getThunderTime()
     {
-        return this.delegate.getThunderTime();
+        return this.theWorldInfo.getThunderTime();
     }
 
     /**
@@ -130,7 +130,7 @@ public class DerivedWorldInfo extends WorldInfo
      */
     public boolean isRaining()
     {
-        return this.delegate.isRaining();
+        return this.theWorldInfo.isRaining();
     }
 
     /**
@@ -138,7 +138,7 @@ public class DerivedWorldInfo extends WorldInfo
      */
     public int getRainTime()
     {
-        return this.delegate.getRainTime();
+        return this.theWorldInfo.getRainTime();
     }
 
     /**
@@ -146,7 +146,7 @@ public class DerivedWorldInfo extends WorldInfo
      */
     public GameType getGameType()
     {
-        return this.delegate.getGameType();
+        return this.theWorldInfo.getGameType();
     }
 
     /**
@@ -229,7 +229,7 @@ public class DerivedWorldInfo extends WorldInfo
      */
     public boolean isMapFeaturesEnabled()
     {
-        return this.delegate.isMapFeaturesEnabled();
+        return this.theWorldInfo.isMapFeaturesEnabled();
     }
 
     /**
@@ -237,12 +237,12 @@ public class DerivedWorldInfo extends WorldInfo
      */
     public boolean isHardcoreModeEnabled()
     {
-        return this.delegate.isHardcoreModeEnabled();
+        return this.theWorldInfo.isHardcoreModeEnabled();
     }
 
     public WorldType getTerrainType()
     {
-        return this.delegate.getTerrainType();
+        return this.theWorldInfo.getTerrainType();
     }
 
     public void setTerrainType(WorldType type)
@@ -254,7 +254,7 @@ public class DerivedWorldInfo extends WorldInfo
      */
     public boolean areCommandsAllowed()
     {
-        return this.delegate.areCommandsAllowed();
+        return this.theWorldInfo.areCommandsAllowed();
     }
 
     public void setAllowCommands(boolean allow)
@@ -266,7 +266,7 @@ public class DerivedWorldInfo extends WorldInfo
      */
     public boolean isInitialized()
     {
-        return this.delegate.isInitialized();
+        return this.theWorldInfo.isInitialized();
     }
 
     /**
@@ -281,12 +281,12 @@ public class DerivedWorldInfo extends WorldInfo
      */
     public GameRules getGameRulesInstance()
     {
-        return this.delegate.getGameRulesInstance();
+        return this.theWorldInfo.getGameRulesInstance();
     }
 
     public EnumDifficulty getDifficulty()
     {
-        return this.delegate.getDifficulty();
+        return this.theWorldInfo.getDifficulty();
     }
 
     public void setDifficulty(EnumDifficulty newDifficulty)
@@ -295,7 +295,7 @@ public class DerivedWorldInfo extends WorldInfo
 
     public boolean isDifficultyLocked()
     {
-        return this.delegate.isDifficultyLocked();
+        return this.theWorldInfo.isDifficultyLocked();
     }
 
     public void setDifficultyLocked(boolean locked)
@@ -304,11 +304,11 @@ public class DerivedWorldInfo extends WorldInfo
 
     public void setDimensionData(DimensionType dimensionIn, NBTTagCompound compound)
     {
-        this.delegate.setDimensionData(dimensionIn, compound);
+        this.theWorldInfo.setDimensionData(dimensionIn, compound);
     }
 
     public NBTTagCompound getDimensionData(DimensionType dimensionIn)
     {
-        return this.delegate.getDimensionData(dimensionIn);
+        return this.theWorldInfo.getDimensionData(dimensionIn);
     }
 }

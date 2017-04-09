@@ -21,7 +21,7 @@ public class CommandFill extends CommandBase
     /**
      * Gets the name of the command
      */
-    public String getName()
+    public String getCommandName()
     {
         return "fill";
     }
@@ -37,7 +37,7 @@ public class CommandFill extends CommandBase
     /**
      * Gets the usage string for the command.
      */
-    public String getUsage(ICommandSender sender)
+    public String getCommandUsage(ICommandSender sender)
     {
         return "commands.fill.usage";
     }
@@ -61,7 +61,7 @@ public class CommandFill extends CommandBase
 
             if (args.length >= 8)
             {
-                iblockstate = convertArgToBlockState(block, args[7]);
+                iblockstate = func_190794_a(block, args[7]);
             }
             else
             {
@@ -139,7 +139,7 @@ public class CommandFill extends CommandBase
                                     {
                                         Block block1 = CommandBase.getBlockByText(sender, args[9]);
 
-                                        if (world.getBlockState(blockpos4).getBlock() != block1 || args.length > 10 && !"-1".equals(args[10]) && !"*".equals(args[10]) && !CommandBase.convertArgToBlockStatePredicate(block1, args[10]).apply(world.getBlockState(blockpos4)))
+                                        if (world.getBlockState(blockpos4).getBlock() != block1 || args.length > 10 && !"-1".equals(args[10]) && !"*".equals(args[10]) && !CommandBase.func_190791_b(block1, args[10]).apply(world.getBlockState(blockpos4)))
                                         {
                                             continue;
                                         }
@@ -214,7 +214,7 @@ public class CommandFill extends CommandBase
         }
     }
 
-    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
+    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
     {
         return args.length > 0 && args.length <= 3 ? getTabCompletionCoordinate(args, 0, pos) : (args.length > 3 && args.length <= 6 ? getTabCompletionCoordinate(args, 3, pos) : (args.length == 7 ? getListOfStringsMatchingLastWord(args, Block.REGISTRY.getKeys()) : (args.length == 9 ? getListOfStringsMatchingLastWord(args, new String[] {"replace", "destroy", "keep", "hollow", "outline"}): (args.length == 10 && "replace".equals(args[8]) ? getListOfStringsMatchingLastWord(args, Block.REGISTRY.getKeys()) : Collections.<String>emptyList()))));
     }

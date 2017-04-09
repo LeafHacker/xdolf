@@ -17,18 +17,18 @@ import net.minecraft.world.World;
 
 public class BlockObserver extends BlockDirectional
 {
-    public static final PropertyBool POWERED = PropertyBool.create("powered");
+    public static final PropertyBool field_190963_a = PropertyBool.create("powered");
 
     public BlockObserver()
     {
         super(Material.ROCK);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.SOUTH).withProperty(POWERED, Boolean.valueOf(false)));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.SOUTH).withProperty(field_190963_a, Boolean.valueOf(false)));
         this.setCreativeTab(CreativeTabs.REDSTONE);
     }
 
     protected BlockStateContainer createBlockState()
     {
-        return new BlockStateContainer(this, new IProperty[] {FACING, POWERED});
+        return new BlockStateContainer(this, new IProperty[] {FACING, field_190963_a});
     }
 
     /**
@@ -51,17 +51,17 @@ public class BlockObserver extends BlockDirectional
 
     public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
     {
-        if (((Boolean)state.getValue(POWERED)).booleanValue())
+        if (((Boolean)state.getValue(field_190963_a)).booleanValue())
         {
-            worldIn.setBlockState(pos, state.withProperty(POWERED, Boolean.valueOf(false)), 2);
+            worldIn.setBlockState(pos, state.withProperty(field_190963_a, Boolean.valueOf(false)), 2);
         }
         else
         {
-            worldIn.setBlockState(pos, state.withProperty(POWERED, Boolean.valueOf(true)), 2);
+            worldIn.setBlockState(pos, state.withProperty(field_190963_a, Boolean.valueOf(true)), 2);
             worldIn.scheduleUpdate(pos, this, 2);
         }
 
-        this.updateNeighborsInFront(worldIn, pos, state);
+        this.func_190961_e(worldIn, pos, state);
     }
 
     /**
@@ -69,21 +69,21 @@ public class BlockObserver extends BlockDirectional
      * change. Cases may include when redstone power is updated, cactus blocks popping off due to a neighboring solid
      * block, etc.
      */
-    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos)
+    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos p_189540_5_)
     {
     }
 
-    public void observedNeighborChanged(IBlockState p_190962_1_, World p_190962_2_, BlockPos p_190962_3_, Block p_190962_4_, BlockPos p_190962_5_)
+    public void func_190962_b(IBlockState p_190962_1_, World p_190962_2_, BlockPos p_190962_3_, Block p_190962_4_, BlockPos p_190962_5_)
     {
         if (!p_190962_2_.isRemote && p_190962_3_.offset((EnumFacing)p_190962_1_.getValue(FACING)).equals(p_190962_5_))
         {
-            this.startSignal(p_190962_1_, p_190962_2_, p_190962_3_);
+            this.func_190960_d(p_190962_1_, p_190962_2_, p_190962_3_);
         }
     }
 
-    private void startSignal(IBlockState p_190960_1_, World p_190960_2_, BlockPos p_190960_3_)
+    private void func_190960_d(IBlockState p_190960_1_, World p_190960_2_, BlockPos p_190960_3_)
     {
-        if (!((Boolean)p_190960_1_.getValue(POWERED)).booleanValue())
+        if (!((Boolean)p_190960_1_.getValue(field_190963_a)).booleanValue())
         {
             if (!p_190960_2_.isUpdateScheduled(p_190960_3_, this))
             {
@@ -92,11 +92,11 @@ public class BlockObserver extends BlockDirectional
         }
     }
 
-    protected void updateNeighborsInFront(World p_190961_1_, BlockPos p_190961_2_, IBlockState p_190961_3_)
+    protected void func_190961_e(World p_190961_1_, BlockPos p_190961_2_, IBlockState p_190961_3_)
     {
         EnumFacing enumfacing = (EnumFacing)p_190961_3_.getValue(FACING);
         BlockPos blockpos = p_190961_2_.offset(enumfacing.getOpposite());
-        p_190961_1_.neighborChanged(blockpos, this, p_190961_2_);
+        p_190961_1_.func_190524_a(blockpos, this, p_190961_2_);
         p_190961_1_.notifyNeighborsOfStateExcept(blockpos, this, enumfacing);
     }
 
@@ -115,7 +115,7 @@ public class BlockObserver extends BlockDirectional
 
     public int getWeakPower(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side)
     {
-        return ((Boolean)blockState.getValue(POWERED)).booleanValue() && blockState.getValue(FACING) == side ? 15 : 0;
+        return ((Boolean)blockState.getValue(field_190963_a)).booleanValue() && blockState.getValue(FACING) == side ? 15 : 0;
     }
 
     /**
@@ -125,12 +125,12 @@ public class BlockObserver extends BlockDirectional
     {
         if (!worldIn.isRemote)
         {
-            if (((Boolean)state.getValue(POWERED)).booleanValue())
+            if (((Boolean)state.getValue(field_190963_a)).booleanValue())
             {
                 this.updateTick(worldIn, pos, state, worldIn.rand);
             }
 
-            this.startSignal(state, worldIn, pos);
+            this.func_190960_d(state, worldIn, pos);
         }
     }
 
@@ -139,9 +139,9 @@ public class BlockObserver extends BlockDirectional
      */
     public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
     {
-        if (((Boolean)state.getValue(POWERED)).booleanValue() && worldIn.isUpdateScheduled(pos, this))
+        if (((Boolean)state.getValue(field_190963_a)).booleanValue() && worldIn.isUpdateScheduled(pos, this))
         {
-            this.updateNeighborsInFront(worldIn, pos, state.withProperty(POWERED, Boolean.valueOf(false)));
+            this.func_190961_e(worldIn, pos, state.withProperty(field_190963_a, Boolean.valueOf(false)));
         }
     }
 
@@ -149,9 +149,9 @@ public class BlockObserver extends BlockDirectional
      * Called by ItemBlocks just before a block is actually set in the world, to allow for adjustments to the
      * IBlockstate
      */
-    public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
+    public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
     {
-        return this.getDefaultState().withProperty(FACING, EnumFacing.getDirectionFromEntityLiving(pos, placer).getOpposite());
+        return this.getDefaultState().withProperty(FACING, EnumFacing.func_190914_a(pos, placer).getOpposite());
     }
 
     /**
@@ -162,7 +162,7 @@ public class BlockObserver extends BlockDirectional
         int i = 0;
         i = i | ((EnumFacing)state.getValue(FACING)).getIndex();
 
-        if (((Boolean)state.getValue(POWERED)).booleanValue())
+        if (((Boolean)state.getValue(field_190963_a)).booleanValue())
         {
             i |= 8;
         }
