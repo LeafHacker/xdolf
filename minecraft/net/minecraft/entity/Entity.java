@@ -1,5 +1,10 @@
 package net.minecraft.entity;
 
+import com.darkcart.xdolf.Wrapper;
+import com.darkcart.xdolf.mods.Hacks;
+import com.darkcart.xdolf.mods.aura.AntiVelocity;
+import com.darkcart.xdolf.mods.player.Flight;
+import com.darkcart.xdolf.mods.player.SafeWalk;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -792,7 +797,8 @@ public abstract class Entity implements ICommandSender
             double d3 = p_70091_4_;
             double d4 = p_70091_6_;
 
-            if ((x == MoverType.SELF || x == MoverType.PLAYER) && this.onGround && this.isSneaking() && this instanceof EntityPlayer)
+            if ((x == MoverType.SELF || x == MoverType.PLAYER) && this.onGround && this.isSneaking() && this instanceof EntityPlayer
+            		|| (Hacks.findMod(SafeWalk.class).isEnabled() && Wrapper.getPlayer().onGround) && !Hacks.findMod(Flight.class).isEnabled())
             {
                 for (double d5 = 0.05D; p_70091_2_ != 0.0D && this.world.getCollisionBoxes(this, this.getEntityBoundingBox().offset(p_70091_2_, (double)(-this.stepHeight), 0.0D)).isEmpty(); d2 = p_70091_2_)
                 {
@@ -1682,12 +1688,14 @@ public abstract class Entity implements ICommandSender
 
                     if (!this.isBeingRidden())
                     {
-                        this.addVelocity(-d0, 0.0D, -d1);
+                    	if(!Hacks.findMod(AntiVelocity.class).isEnabled())
+                    		this.addVelocity(-d0, 0.0D, -d1);
                     }
 
                     if (!entityIn.isBeingRidden())
                     {
-                        entityIn.addVelocity(d0, 0.0D, d1);
+                    	if(!Hacks.findMod(AntiVelocity.class).isEnabled())
+                    		entityIn.addVelocity(d0, 0.0D, d1);
                     }
                 }
             }
