@@ -6,12 +6,13 @@ import com.darkcart.xdolf.Module;
 import com.darkcart.xdolf.util.Category;
 
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.network.play.client.CPacketPlayer;
 
 public class NoFall extends Module
 {
 	public NoFall()
 	{
-		super("NoFall", "Prevents fall damage and bypasses NCP.", Keyboard.KEYBOARD_SIZE, 0xFFFFFF, Category.Player);
+		super("NoFall (Old)", "Prevents fall damage. Very old.", Keyboard.KEYBOARD_SIZE, 0xFFFFFF, Category.Player);
 	}
 	
 	@Override
@@ -24,7 +25,9 @@ public class NoFall extends Module
 	@Override
 	public void onUpdate(EntityPlayerSP player) {
 		if(isEnabled()) {
-			
+			if (player.fallDistance > 1) {
+				player.connection.sendPacket(new CPacketPlayer(true));
+			}
 		}
 	}
 }
