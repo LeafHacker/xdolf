@@ -46,7 +46,12 @@ public class Client {
 			"no oremonger!", "LOL", "2 B 2 T . O R G", "cocaine n hookers", "silentpedophile",
 			"Endorsed by the Camping Rusher!", "Try our sister game, ILOVEYOU", "Sponsered by federal taxes",
 			"100% nigger free!", "m-m-m-my sharona!", "Better than Adolf!", "Better than Impact!", "Better than Wurst!",
-			"popbob loves pretty ponies!", "ok" };
+			"popbob loves pretty ponies!", "ok", "RAWR XD!!!!", "Inspiring flashbacks since 1983!", "judes, amirite?",
+			"Monday Updates!", "Tuna is the hottest egirl", "Unrated!", "Big fluffy tiger!",
+			"I SAW POPBOB? Oldest Server in Minecraft #491", "DM 2F4U#5418 on discord for a suprise!",
+			"cheese and onions!", "why do i feel pain?", "DO I HAVE TO SPELL IT OUT?", "C-H-E-E-S-E A-N-D O-N-I-O-N-S",
+			"keep yourself clean!", "You better think twice!", "hey diddle diddle", "Am I in love?",
+			"I must be in love." };
 
 	public static HashMap<String, String> vTable = new HashMap<String, String>();
 
