@@ -2,9 +2,10 @@ package com.darkcart.xdolf.mods.player;
 
 import org.lwjgl.input.Keyboard;
 
-import com.darkcart.xdolf.Client;
 import com.darkcart.xdolf.Module;
 import com.darkcart.xdolf.Wrapper;
+import com.darkcart.xdolf.mods.Hacks;
+import com.darkcart.xdolf.mods.world.Freecam;
 import com.darkcart.xdolf.util.Category;
 import com.darkcart.xdolf.util.Value;
 
@@ -20,7 +21,7 @@ public class Flight extends Module {
 
 	@Override
 	public void onUpdate(EntityPlayerSP player) {
-		if(isEnabled()) {
+		if(isEnabled() || Hacks.findMod(Freecam.class).isEnabled()) {
 			try {
 				player.motionX = 0;
 				player.motionY = 0;

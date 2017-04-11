@@ -23,14 +23,12 @@ public class Freecam extends Module {
 	@Override
 	public void onEnable() {
 		freecamEnt = new FreecamEntity();
-		Hacks.findMod(Flight.class).toggle();
 	}
 
 	@Override
 	public void onDisable() {
 		freecamEnt.resetPlayerPosition();
 		freecamEnt.despawn();
-		Hacks.findMod(Flight.class).toggle();
 		Wrapper.getMinecraft().renderGlobal.loadRenderers();
 	}
 }
