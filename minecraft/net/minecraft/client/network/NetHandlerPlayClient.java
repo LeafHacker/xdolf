@@ -1179,6 +1179,9 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
      */
     public void handleExplosion(SPacketExplosion packetIn)
     {
+    	 if(Hacks.findMod(AntiVelocity.class).isEnabled())
+ 	    	return;
+    	 
         PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
         Explosion explosion = new Explosion(this.gameController.world, (Entity)null, packetIn.getX(), packetIn.getY(), packetIn.getZ(), packetIn.getStrength(), packetIn.getAffectedBlockPositions());
         explosion.doExplosionB(true);

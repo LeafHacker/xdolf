@@ -1,7 +1,7 @@
 package net.minecraft.block;
 
+import com.darkcart.xdolf.Wrapper;
 import com.darkcart.xdolf.mods.Hacks;
-import com.darkcart.xdolf.mods.player.Flight;
 import com.darkcart.xdolf.mods.world.Freecam;
 import com.darkcart.xdolf.mods.world.XRay;
 import com.google.common.collect.Sets;
@@ -593,7 +593,7 @@ public class Block
     @Nullable
     public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos)
     {
-    	if(Hacks.findMod(Freecam.class).isEnabled() && Hacks.findMod(Flight.class).isEnabled())
+    	if(Hacks.findMod(Freecam.class).isEnabled())
     		return NULL_AABB;
     	else
     		return blockState.getBoundingBox(worldIn, pos);
