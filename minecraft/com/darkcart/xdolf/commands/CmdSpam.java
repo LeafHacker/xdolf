@@ -15,7 +15,7 @@ public class CmdSpam extends Command {
 	public void runCommand(String s, String[] args) {
 		try {
 			if (args[0].equalsIgnoreCase("mode")) {
-				Spammer.mode = Integer.parseInt(args[1]);
+				Spammer.mode = args[1];
 			}
 			if (args[0].equalsIgnoreCase("msg")) {
 				String message = "";

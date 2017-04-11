@@ -20,7 +20,7 @@ public class Spammer extends Module {
 		super("Spammer", "Spams the server with chat messages.", Keyboard.KEYBOARD_SIZE, 0xFFFFFF, Category.Player);
 	}
 
-	public static int mode = 1;
+	public static String mode = "normal";
 	public static int delay = 1800;
 	public static String message = "test";
 	Timer mode0, mode1, mode2;
@@ -28,7 +28,7 @@ public class Spammer extends Module {
 
 	@Override
 	public void onEnable() {
-		if (mode == 0) {
+		if (mode == "normal") {
 			mode0 = new Timer(delay, new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -38,7 +38,7 @@ public class Spammer extends Module {
 			});
 			mode0.start();
 		}
-		if (mode == 1) {
+		if (mode == "randomchars") {
 			mode1 = new Timer(delay, new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -48,7 +48,7 @@ public class Spammer extends Module {
 			});
 			mode1.start();
 		}
-		if (mode == 2) {
+		if (mode == "file") {
 			try {
 				final String[] lines = new String(Files.readAllBytes(Paths.get(file))).split("\n");
 				final int MAX_INDEX = lines.length;
