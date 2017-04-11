@@ -498,6 +498,10 @@ public class Block
     @Deprecated
     public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side)
     {
+    	if (Hacks.findMod(XRay.class).isEnabled()) {
+     		return XRay.xrayBlocks.contains(this);
+     	}
+    	
         AxisAlignedBB axisalignedbb = blockState.getBoundingBox(blockAccess, pos);
 
         switch (side)
@@ -548,10 +552,6 @@ public class Block
                     return true;
                 }
         }
-        
-    	if (Hacks.findMod(XRay.class).isEnabled()) {
-     		return XRay.xrayBlocks.contains(this);
-     	}
 
         return !blockAccess.getBlockState(pos.offset(side)).isOpaqueCube();
     }
