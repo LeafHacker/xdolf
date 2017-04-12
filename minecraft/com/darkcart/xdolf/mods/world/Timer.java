@@ -20,6 +20,7 @@ public class Timer extends Module {
 		if(isEnabled() && net.minecraft.util.Timer.timerSpeed != speed) {
 			net.minecraft.util.Timer.timerSpeed = speed;
 		}
+	}
 
 	@Override
 	public void onDisable() {
