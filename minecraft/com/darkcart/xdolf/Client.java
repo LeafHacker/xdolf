@@ -35,7 +35,7 @@ public class Client {
 	public static ArrayList<String> friends = new ArrayList<String>();
 
 	public static final String CLIENT_NAME = "Xdolf";
-	public static final String CLIENT_VERSION = "1.1.0";
+	public static final String CLIENT_VERSION = "1.1.1";
 	
 	public static HashMap<String, String> vTable = new HashMap<String, String>();
 
@@ -45,7 +45,7 @@ public class Client {
 			System.out.println("[Xdolf] Initialising Xdolf...");
 			vTable.put(StringUtils.stripControlCodes(CLIENT_NAME),
 					StringUtils.stripControlCodes(CLIENT_NAME) + " v" + CLIENT_VERSION);
-			vTable.put("minecraft", "Minecraft 1.11");
+			vTable.put("minecraft", "Minecraft 1.11.2");
 
 			Wrapper.hacks = new Hacks();
 			Fonts.loadFonts();
@@ -68,7 +68,7 @@ public class Client {
 
 			System.out.println("[Xdolf] Initialised Xdolf.");
 		} catch (Exception err) {
-			System.out.println("[Xdolf] Failed to initialise Xdolf, tell Sgt Pepper or x0XP." + err.toString());
+			System.out.println("[Xdolf] Failed to initialise Xdolf, tell x0XP or Sgt Pepper." + err.toString());
 			err.printStackTrace();
 
 			String logString = "FT|CrashLog\r\n[PLAIN]\r\n---Begin plain text---\r\n";
