@@ -5,6 +5,8 @@ import org.lwjgl.input.Keyboard;
 import com.darkcart.xdolf.Module;
 import com.darkcart.xdolf.util.Category;
 
+import net.minecraft.client.entity.EntityPlayerSP;
+
 public class Timer extends Module {
 	
 	public Timer()
@@ -14,10 +16,10 @@ public class Timer extends Module {
 	
 	public static float speed = 5.0f;
 
-	@Override
-	public void onEnable() {
-	        net.minecraft.util.Timer.timerSpeed = speed;
-	}
+	public void onUpdate(EntityPlayerSP player) {
+		if(isEnabled() && net.minecraft.util.Timer.timerSpeed != speed) {
+			net.minecraft.util.Timer.timerSpeed = speed;
+		}
 
 	@Override
 	public void onDisable() {

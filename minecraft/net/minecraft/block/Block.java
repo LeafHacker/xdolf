@@ -498,7 +498,9 @@ public class Block
     @Deprecated
     public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side)
     {
-    	
+    	if (Hacks.findMod(XRay.class).isEnabled()) {
+     		return XRay.xrayBlocks.contains(this);
+     	}
     	
         AxisAlignedBB axisalignedbb = blockState.getBoundingBox(blockAccess, pos);
 
@@ -551,13 +553,8 @@ public class Block
                 }
         }
 
-	if (Hacks.findMod(XRay.class).isEnabled()) {
-     		return XRay.xrayBlocks.contains(this);
-     	} else {
-        	return !blockAccess.getBlockState(pos.offset(side)).isOpaqueCube();
+        return !blockAccess.getBlockState(pos.offset(side)).isOpaqueCube();
 	}
-	return true;
-    }
 
     /**
      * Whether this Block is solid on the given Side
