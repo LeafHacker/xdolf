@@ -38,7 +38,11 @@ public class Spammer extends Module {
 			});
 			mode0.start();
 		}
+<<<<<<< HEAD
 		if (mode.equals("randomchars")) {
+=======
+		if (mode == "antispam") {
+>>>>>>> origin/master
 			mode1 = new Timer(delay, new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {

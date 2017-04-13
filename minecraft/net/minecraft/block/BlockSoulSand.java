@@ -4,7 +4,6 @@ import javax.annotation.Nullable;
 
 import com.darkcart.xdolf.Wrapper;
 import com.darkcart.xdolf.mods.Hacks;
-import com.darkcart.xdolf.mods.player.Flight;
 import com.darkcart.xdolf.mods.player.NoSlowdown;
 import com.darkcart.xdolf.mods.world.Freecam;
 
@@ -31,7 +30,7 @@ public class BlockSoulSand extends Block
     @Nullable
     public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos)
     {
-    	if(Hacks.findMod(Freecam.class).isEnabled() && Hacks.findMod(Flight.class).isEnabled())
+    	if(Hacks.findMod(Freecam.class).isEnabled())
     		return NULL_AABB;
     	else
     		return SOUL_SAND_AABB;

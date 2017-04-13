@@ -3,7 +3,6 @@ package net.minecraft.block;
 import javax.annotation.Nullable;
 
 import com.darkcart.xdolf.mods.Hacks;
-import com.darkcart.xdolf.mods.player.Flight;
 import com.darkcart.xdolf.mods.world.Freecam;
 
 import net.minecraft.block.material.Material;
@@ -91,7 +90,7 @@ public class BlockFenceGate extends BlockHorizontal
     @Nullable
     public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos)
     {
-    	if(Hacks.findMod(Freecam.class).isEnabled() && Hacks.findMod(Flight.class).isEnabled())
+    	if(Hacks.findMod(Freecam.class).isEnabled())
     		return NULL_AABB;
     	else
     		return ((Boolean)blockState.getValue(OPEN)).booleanValue() ? NULL_AABB : (((EnumFacing)blockState.getValue(FACING)).getAxis() == EnumFacing.Axis.Z ? AABB_CLOSED_SELECTED_ZAXIS : AABB_CLOSED_SELECTED_XAXIS);

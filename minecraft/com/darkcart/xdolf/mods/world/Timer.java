@@ -16,9 +16,8 @@ public class Timer extends Module {
 	
 	public static float speed = 5.0f;
 
-	@Override
 	public void onUpdate(EntityPlayerSP player) {
-		if(isEnabled()) {
+		if(isEnabled() && net.minecraft.util.Timer.timerSpeed != speed) {
 			net.minecraft.util.Timer.timerSpeed = speed;
 		}
 	}
