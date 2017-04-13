@@ -28,7 +28,7 @@ public class Spammer extends Module {
 
 	@Override
 	public void onEnable() {
-		if (mode == "normal") {
+		if (mode.equals("normal")) {
 			mode0 = new Timer(delay, new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -38,7 +38,7 @@ public class Spammer extends Module {
 			});
 			mode0.start();
 		}
-		if (mode == "randomchars") {
+		if (mode.equals("randomchars")) {
 			mode1 = new Timer(delay, new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -48,7 +48,7 @@ public class Spammer extends Module {
 			});
 			mode1.start();
 		}
-		if (mode == "file") {
+		if (mode.equals("file")) {
 			try {
 				final String[] lines = new String(Files.readAllBytes(Paths.get(file))).split("\n");
 				final int MAX_INDEX = lines.length;
