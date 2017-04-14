@@ -89,11 +89,8 @@ public class Hacks
 			new Nametags(),
 			new Criticals(),
 			new NoFall(),
-<<<<<<< HEAD
 			new AutoFish(),
-=======
 			new ElytraFly(),
->>>>>>> origin/master
 	});
 
 	public static Module[] getEnabledHacks()
