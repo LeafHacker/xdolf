@@ -1,6 +1,11 @@
 package net.minecraft.entity.projectile;
 
 import java.util.List;
+
+import com.darkcart.xdolf.Wrapper;
+import com.darkcart.xdolf.mods.Hacks;
+import com.darkcart.xdolf.mods.player.AutoFish;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.material.Material;
@@ -19,7 +24,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.network.play.client.CPacketPlayerTryUseItem;
 import net.minecraft.stats.StatList;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -440,6 +447,10 @@ public class EntityFishHook extends Entity
                 this.motionY = (double)(-0.4F * MathHelper.nextFloat(this.rand, 0.6F, 1.0F));
                 this.playSound(SoundEvents.ENTITY_BOBBER_SPLASH, 0.25F, 1.0F + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.4F);
                 double d3 = this.getEntityBoundingBox().minY + 0.5D;
+                if (Hacks.findMod(AutoFish.class).isEnabled()) {
+                	Wrapper.getMinecraft().rightClickMouse();
+                	Wrapper.getMinecraft().rightClickMouse();
+                }
                 worldserver.spawnParticle(EnumParticleTypes.WATER_BUBBLE, this.posX, d3, this.posZ, (int)(1.0F + this.width * 20.0F), (double)this.width, 0.0D, (double)this.width, 0.20000000298023224D, new int[0]);
                 worldserver.spawnParticle(EnumParticleTypes.WATER_WAKE, this.posX, d3, this.posZ, (int)(1.0F + this.width * 20.0F), (double)this.width, 0.0D, (double)this.width, 0.20000000298023224D, new int[0]);
                 this.ticksCatchable = MathHelper.getInt(this.rand, 20, 40);
