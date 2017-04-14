@@ -69,8 +69,6 @@ public class KillAura extends Module {
 								{
 									player.setSprinting(false);
 									faceEntity(e);
-									if(Hacks.findMod(Criticals.class).isEnabled())
-										Criticals.doCrit();
 									Wrapper.getMinecraft().playerController.attackEntity(player, e);
 									player.swingArm(EnumHand.MAIN_HAND);
 									player.setSprinting(false);
@@ -85,8 +83,6 @@ public class KillAura extends Module {
 								{
 									player.setSprinting(false);
 									faceEntity(e);
-									if(Hacks.findMod(Criticals.class).isEnabled())
-										Criticals.doCrit();
 									Wrapper.getMinecraft().playerController.attackEntity(player, e);
 									player.swingArm(EnumHand.MAIN_HAND);
 									break;
@@ -108,8 +104,6 @@ public class KillAura extends Module {
 							{
 								player.setSprinting(false);
 								faceEntity(e);
-								if(Hacks.findMod(Criticals.class).isEnabled())
-									Criticals.doCrit();
 								Wrapper.getMinecraft().playerController.attackEntity(player, e);
 								player.swingArm(EnumHand.MAIN_HAND);
 								break;

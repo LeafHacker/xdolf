@@ -1,5 +1,8 @@
 package net.minecraft.client.multiplayer;
 
+import com.darkcart.xdolf.mods.Hacks;
+import com.darkcart.xdolf.mods.aura.Criticals;
+
 import io.netty.buffer.Unpooled;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCommandBlock;
@@ -521,6 +524,9 @@ public class PlayerControllerMP
      */
     public void attackEntity(EntityPlayer playerIn, Entity targetEntity)
     {
+		if(Hacks.findMod(Criticals.class).isEnabled())
+			Criticals.doCrit();
+		
         this.syncCurrentPlayItem();
         this.connection.sendPacket(new CPacketUseEntity(targetEntity));
 
