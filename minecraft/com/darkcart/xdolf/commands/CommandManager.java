@@ -34,6 +34,8 @@ public class CommandManager
 		commands.add(new CmdWaypoint());
 		commands.add(new CmdPraiseOre());
 		commands.add(new CmdDeathCoords());
+		commands.add(new CmdPlayerInfo());
+		commands.add(new CmdMusic());
 	}
 	
 	public void runCommands(String s)
