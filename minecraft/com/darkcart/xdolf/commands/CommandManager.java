@@ -2,10 +2,7 @@ package com.darkcart.xdolf.commands;
 
 import java.util.ArrayList;
 
-import com.darkcart.xdolf.Client;
 import com.darkcart.xdolf.Wrapper;
-
-import net.minecraft.util.text.TextComponentString;
 
 public class CommandManager
 {
@@ -36,6 +33,7 @@ public class CommandManager
 		commands.add(new CmdXray());
 		commands.add(new CmdWaypoint());
 		commands.add(new CmdPraiseOre());
+		commands.add(new CmdDeathCoords());
 	}
 	
 	public void runCommands(String s)

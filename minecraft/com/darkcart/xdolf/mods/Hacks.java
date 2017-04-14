@@ -17,6 +17,7 @@ import com.darkcart.xdolf.mods.aura.KillAura;
 import com.darkcart.xdolf.mods.player.AutoFish;
 import com.darkcart.xdolf.mods.player.AutoRespawn;
 import com.darkcart.xdolf.mods.player.AutoWalk;
+import com.darkcart.xdolf.mods.player.DeathCoords;
 import com.darkcart.xdolf.mods.player.ElytraFly;
 import com.darkcart.xdolf.mods.player.Flight;
 import com.darkcart.xdolf.mods.player.HorseJump;
@@ -91,6 +92,7 @@ public class Hacks
 			new NoFall(),
 			new AutoFish(),
 			new ElytraFly(),
+			new DeathCoords()
 	});
 
 	public static Module[] getEnabledHacks()
