@@ -24,7 +24,6 @@ public class DeathCoords extends Module {
 				x = player.getPosition().getX();
 				y = player.getPosition().getY();
 				y = player.getPosition().getZ();
-				Wrapper.addChatMessage("You died at X: " + x + ", Y: " + y + ", Z: " + z);
 			}
 		}
 	}
