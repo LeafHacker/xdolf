@@ -16,7 +16,7 @@ public class Flight extends Module {
 	public static Value flySpeed = new Value("Fly");
 	
 	public Flight() {
-		super("Flight", "Flying mode.", Keyboard.KEY_V, 0xFFFFFF, Category.Player);
+		super("Flight", "Flying mode.", Keyboard.KEY_V, 0xFFFFFF, Category.PLAYER);
 	}
 
 	@Override

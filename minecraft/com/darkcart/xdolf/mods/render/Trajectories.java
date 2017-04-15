@@ -28,7 +28,7 @@ public class Trajectories extends Module {
 	private double r, g, b;
 	
 	public Trajectories() {
-		super("Trajectories", "Predicts where throwable items and projectiles will land.", Keyboard.KEY_F6, 0xFFFFFF, Category.Render);
+		super("Trajectories", "Predicts where throwable items and projectiles will land.", Keyboard.KEY_F6, 0xFFFFFF, Category.RENDER);
 	}
 	
 	public double pX = -9000, pY = -9000, pZ = -9000;

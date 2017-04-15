@@ -18,7 +18,7 @@ import net.minecraft.entity.player.EntityPlayer;
 public class HitSpheres extends Module {
 
 	public HitSpheres() {
-		super("HitSpheres", "Draws a sphere around players showing your kill aura range.", Keyboard.KEYBOARD_SIZE, 0xFFFFFF, Category.Render);
+		super("HitSpheres", "Draws a sphere around players showing your kill aura range.", Keyboard.KEYBOARD_SIZE, 0xFFFFFF, Category.RENDER);
 	}
 	
 	@Override

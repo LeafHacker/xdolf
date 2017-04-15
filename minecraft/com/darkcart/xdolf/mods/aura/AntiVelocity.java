@@ -9,6 +9,6 @@ import com.darkcart.xdolf.util.Category;
 public class AntiVelocity extends Module {
 	
 	public AntiVelocity() {
-		super("AntiVelocity", "Blocks velocity.", Keyboard.KEY_L, 0xFFFFFF, Category.Combat);
+		super("AntiVelocity", "Blocks velocity.", Keyboard.KEY_L, 0xFFFFFF, Category.COMBAT);
 	}
 }

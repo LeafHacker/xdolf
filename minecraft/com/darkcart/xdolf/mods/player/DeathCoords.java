@@ -15,7 +15,7 @@ public class DeathCoords extends Module {
 
 	public DeathCoords() {
 		super("DeathCoords", "Tells you where you died. Works in conjunction with .deathcoords", Keyboard.KEY_NONE,
-				0xffffff, Category.Player);
+				0xffffff, Category.PLAYER);
 	}
 
 	public void onUpdate(EntityPlayerSP player) {

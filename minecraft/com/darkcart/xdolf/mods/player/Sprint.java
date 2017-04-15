@@ -13,7 +13,7 @@ public class Sprint extends Module {
 
 	public Sprint()
 	{
-		super("AutoSprint", "Automatically start sprinting.", Keyboard.KEYBOARD_SIZE, 0xFFFFFF, Category.Player);
+		super("AutoSprint", "Automatically start sprinting.", Keyboard.KEYBOARD_SIZE, 0xFFFFFF, Category.PLAYER);
 	}
 	
 	@Override

@@ -14,7 +14,7 @@ import net.minecraft.entity.Entity;
 public class ItemESP extends Module {
 
 	public ItemESP() {
-		super("ItemESP", "Creates an ESP box around dropped items.", Keyboard.KEYBOARD_SIZE, 0xFFFFFF, Category.Render);
+		super("ItemESP", "Creates an ESP box around dropped items.", Keyboard.KEYBOARD_SIZE, 0xFFFFFF, Category.RENDER);
 	}
 	
 	@Override

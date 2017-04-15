@@ -32,7 +32,7 @@ import net.minecraft.item.ItemStack;
 public class Nametags extends Module {
 
 	public Nametags() {
-		super("Nametags", "Displays custom nametags.", Keyboard.KEYBOARD_SIZE, 0xFFFFFF, Category.Render);
+		super("Nametags", "Displays custom nametags.", Keyboard.KEYBOARD_SIZE, 0xFFFFFF, Category.RENDER);
 	}
 	
 	@Override

@@ -19,7 +19,7 @@ import net.minecraft.util.text.TextComponentString;
 public class AutoArmor extends Module {
 	
 	public AutoArmor() {
-		super("AutoArmor", "Automatically equips armour detected in inventory.", Keyboard.KEYBOARD_SIZE, 0xFFFFFF, Category.Combat);
+		super("AutoArmor", "Automatically equips armour detected in inventory.", Keyboard.KEYBOARD_SIZE, 0xFFFFFF, Category.COMBAT);
 	}
 	
 	private int timer;

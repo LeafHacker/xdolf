@@ -16,7 +16,7 @@ public class AutoLog extends Module {
 	public static Value pvpHealthFactor = new Value("AutoLog Threshold");
 
 	public AutoLog() {
-		super("AutoLog", "Disconnects the player when the player reaches the specified health.", Keyboard.KEYBOARD_SIZE, 0xFFFFFF, Category.Combat);
+		super("AutoLog", "Disconnects the player when the player reaches the specified health.", Keyboard.KEYBOARD_SIZE, 0xFFFFFF, Category.COMBAT);
 	}
 	
 	@Override

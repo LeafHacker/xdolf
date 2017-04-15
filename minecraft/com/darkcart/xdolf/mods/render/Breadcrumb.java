@@ -21,7 +21,7 @@ public class Breadcrumb extends Module {
 	public static ArrayList<double[]> positionsList = new ArrayList<double[]>();
 	
 	public Breadcrumb() {
-		super("Breadcrumb", "Draws a trail behind the player.", Keyboard.KEY_G, 0xCCFFCC, Category.Render);
+		super("Breadcrumb", "Draws a trail behind the player.", Keyboard.KEY_G, 0xCCFFCC, Category.RENDER);
 	}
 	
 	static int count = 0;

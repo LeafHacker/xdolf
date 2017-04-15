@@ -14,7 +14,7 @@ public class NoFall extends Module
 {
 	public NoFall()
 	{
-		super("NoFall", "Prevents fall damage. Doesn't work on most servers.", Keyboard.KEYBOARD_SIZE, 0xFFFFFF, Category.Player);
+		super("NoFall", "Prevents fall damage. Doesn't work on most servers.", Keyboard.KEYBOARD_SIZE, 0xFFFFFF, Category.PLAYER);
 	}
 	
 	@Override

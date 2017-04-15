@@ -13,7 +13,7 @@ import net.minecraft.network.play.client.CPacketPlayer;
 public class Criticals extends Module {
 	
 	public Criticals() {
-		super("Criticals", "Blocks velocity.", Keyboard.KEYBOARD_SIZE, 0xFFFFFF, Category.Combat);
+		super("Criticals", "Blocks velocity.", Keyboard.KEYBOARD_SIZE, 0xFFFFFF, Category.COMBAT);
 	}
 	
 	public static void doCrit() {

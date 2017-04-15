@@ -12,7 +12,7 @@ import net.minecraft.client.entity.EntityPlayerSP;
 public class ElytraFly extends Module {
 	
 	public ElytraFly() {
-		super("ElytraFlight", "Vanilla flight using Elytra.", Keyboard.KEYBOARD_SIZE, 0xFFFFFF, Category.Player);
+		super("ElytraFlight", "Vanilla flight using Elytra.", Keyboard.KEYBOARD_SIZE, 0xFFFFFF, Category.PLAYER);
 	}
 	
 	public static Value elytraSpeed = new Value("ElytraFlight Speed");

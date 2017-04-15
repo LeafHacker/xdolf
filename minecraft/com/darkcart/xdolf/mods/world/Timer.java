@@ -11,7 +11,7 @@ public class Timer extends Module {
 	
 	public Timer()
 	{
-		super("Timer", "Speeds up the game. Doesn't bypass on most servers.", Keyboard.KEYBOARD_SIZE, 0xFFFFFF, Category.World);
+		super("Timer", "Speeds up the game. Doesn't bypass on most servers.", Keyboard.KEYBOARD_SIZE, 0xFFFFFF, Category.WORLD);
 	}
 	
 	public static float speed = 5.0f;

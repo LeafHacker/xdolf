@@ -43,6 +43,7 @@ import com.darkcart.xdolf.mods.render.Waypoints;
 import com.darkcart.xdolf.mods.world.FastPlace;
 import com.darkcart.xdolf.mods.world.Freecam;
 import com.darkcart.xdolf.mods.world.Fullbright;
+import com.darkcart.xdolf.mods.world.Nuker;
 import com.darkcart.xdolf.mods.world.Timer;
 import com.darkcart.xdolf.mods.world.XRay;
 
@@ -92,7 +93,8 @@ public class Hacks
 			new NoFall(),
 			new AutoFish(),
 			new ElytraFly(),
-			new DeathCoords()
+			new DeathCoords(),
+			new Nuker()
 	});
 
 	public static Module[] getEnabledHacks()

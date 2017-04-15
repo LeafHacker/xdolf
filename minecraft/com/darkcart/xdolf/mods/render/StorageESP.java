@@ -25,7 +25,7 @@ import net.minecraft.tileentity.TileEntityShulkerBox;
 public class StorageESP extends Module {
 
 	public StorageESP() {
-		super("StorageESP", "Creates an ESP box around blocks which can be used to store items.", Keyboard.KEYBOARD_SIZE, 0xFFFFFF, Category.Render);
+		super("StorageESP", "Creates an ESP box around blocks which can be used to store items.", Keyboard.KEYBOARD_SIZE, 0xFFFFFF, Category.RENDER);
 	}
 	
 	@Override

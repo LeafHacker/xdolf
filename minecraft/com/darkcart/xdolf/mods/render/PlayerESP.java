@@ -17,7 +17,7 @@ import net.minecraft.entity.player.EntityPlayer;
 public class PlayerESP extends Module {
 
 	public PlayerESP() {
-		super("PlayerESP", "Creates an ESP box around players.", Keyboard.KEYBOARD_SIZE, 0xFFFFFF, Category.Render);
+		super("PlayerESP", "Creates an ESP box around players.", Keyboard.KEYBOARD_SIZE, 0xFFFFFF, Category.RENDER);
 	}
 	
 	@Override

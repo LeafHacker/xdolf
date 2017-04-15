@@ -11,7 +11,7 @@ import net.minecraft.client.entity.EntityPlayerSP;
 public class AutoRespawn extends Module {
 	
 	public AutoRespawn() {
-		super("AutoRespawn", "Automatically respawns for you.", Keyboard.KEYBOARD_SIZE, 0xFFFFFF, Category.Player);
+		super("AutoRespawn", "Automatically respawns for you.", Keyboard.KEYBOARD_SIZE, 0xFFFFFF, Category.PLAYER);
 	}
 	
 	@Override

@@ -15,7 +15,7 @@ public class Freecam extends Module {
 	
 	public Freecam()
 	{
-		super("Freecam", "Frees the players camera to move freely.", Keyboard.KEY_B, 0xFFFFFF, Category.World);
+		super("Freecam", "Frees the players camera to move freely.", Keyboard.KEY_B, 0xFFFFFF, Category.WORLD);
 	}
 	
 	private FreecamEntity freecamEnt;

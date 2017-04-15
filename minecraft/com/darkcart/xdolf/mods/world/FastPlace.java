@@ -12,7 +12,7 @@ import net.minecraft.client.entity.EntityPlayerSP;
 public class FastPlace extends Module {
 	
 	public FastPlace() {
-		super("FastPlace", "Allows you to quickly place blocks.", Keyboard.KEYBOARD_SIZE, 0xFFFFFF, Category.World);
+		super("FastPlace", "Allows you to quickly place blocks.", Keyboard.KEYBOARD_SIZE, 0xFFFFFF, Category.WORLD);
 	}
 
 	@Override
