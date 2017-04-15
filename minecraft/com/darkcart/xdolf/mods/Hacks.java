@@ -13,6 +13,7 @@ import com.darkcart.xdolf.mods.aura.AutoLog;
 import com.darkcart.xdolf.mods.aura.AutoTotem;
 import com.darkcart.xdolf.mods.aura.Criticals;
 import com.darkcart.xdolf.mods.aura.CrystalAura;
+import com.darkcart.xdolf.mods.aura.CrystalLog;
 import com.darkcart.xdolf.mods.aura.KillAura;
 import com.darkcart.xdolf.mods.player.AutoFish;
 import com.darkcart.xdolf.mods.player.AutoRespawn;
@@ -94,7 +95,8 @@ public class Hacks
 			new AutoFish(),
 			new ElytraFly(),
 			new DeathCoords(),
-			new Nuker()
+			new Nuker(),
+			new CrystalLog()
 	});
 
 	public static Module[] getEnabledHacks()
