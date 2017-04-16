@@ -2,6 +2,9 @@ package net.minecraft.client.gui;
 
 import java.io.IOException;
 import javax.annotation.Nullable;
+
+import com.darkcart.xdolf.Wrapper;
+
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
@@ -10,6 +13,8 @@ import net.minecraft.util.text.TextFormatting;
 
 public class GuiGameOver extends GuiScreen
 {
+	
+	public static int deathX, deathY, deathZ = 0;
     /**
      * The integer value containing the number of ticks that have passed since the player's death
      */
@@ -110,6 +115,9 @@ public class GuiGameOver extends GuiScreen
      */
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
+    	deathX = (int) Wrapper.getPlayer().posX;
+    	deathY = (int) Wrapper.getPlayer().posY;
+    	deathZ = (int) Wrapper.getPlayer().posZ;
         boolean flag = this.mc.world.getWorldInfo().isHardcoreModeEnabled();
         this.drawGradientRect(0, 0, this.width, this.height, 1615855616, -1602211792);
         GlStateManager.pushMatrix();
