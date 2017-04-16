@@ -51,7 +51,7 @@ public class Splashes {
 			}
 
 			bufferedReader.close();
-			return stringBuilder.toString().substring(0, stringBuilder.toString().length()-1).split("\n");
+			return stringBuilder.toString().substring(0, stringBuilder.toString().length()).split("\r\n");
 		} catch (Exception e) {
 		}
 		return new String[] { "missingno" };
