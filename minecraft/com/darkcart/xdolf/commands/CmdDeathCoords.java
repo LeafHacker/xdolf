@@ -1,7 +1,6 @@
 package com.darkcart.xdolf.commands;
 
 import com.darkcart.xdolf.Wrapper;
-import com.darkcart.xdolf.mods.player.DeathCoords;
 
 import net.minecraft.client.gui.GuiGameOver;
 

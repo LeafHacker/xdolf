@@ -1598,11 +1598,11 @@ public class Minecraft implements IThreadListener, ISnooperInfo
     }
 
     @SuppressWarnings("incomplete-switch")
-	public
 
     /**
      * Called when user clicked he's mouse right button (place)
-     */ void rightClickMouse()
+     */
+    private void rightClickMouse()
     {
         if (!this.playerController.getIsHittingBlock())
         {
