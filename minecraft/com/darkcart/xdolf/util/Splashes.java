@@ -14,8 +14,6 @@ import javax.net.ssl.X509TrustManager;
 
 import com.darkcart.xdolf.Client;
 
-import net.minecraft.util.Util;
-
 public class Splashes {
 
 	public static String[] getSplashes() {
@@ -53,12 +51,7 @@ public class Splashes {
 			}
 
 			bufferedReader.close();
-			
-			Util.EnumOS util$enumos = Util.getOSType();
-			if (util$enumos != Util.EnumOS.WINDOWS)
-				return stringBuilder.toString().substring(0, stringBuilder.toString().length()).split("\r\n");
-			
-			return stringBuilder.toString().substring(0, stringBuilder.toString().length()).split("\n");
+			return stringBuilder.toString().substring(0, stringBuilder.toString().length()).split("\r\n");
 		} catch (Exception e) {
 		}
 		return new String[] { "missingno" };
