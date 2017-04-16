@@ -5,7 +5,6 @@ import com.darkcart.xdolf.mods.aura.AutoLog;
 import com.darkcart.xdolf.mods.aura.CrystalAura;
 import com.darkcart.xdolf.mods.aura.CrystalLog;
 import com.darkcart.xdolf.mods.aura.KillAura;
-import com.darkcart.xdolf.mods.player.ElytraFly;
 import com.darkcart.xdolf.mods.player.Flight;
 
 public class WindowValues extends XdolfWindow
@@ -14,7 +13,6 @@ public class WindowValues extends XdolfWindow
 	{
 		super("Values", 2, 2);
 		addSlider(Flight.flySpeed, 0.1F, 10F, false).setValue(1.0F);
-		addSlider(ElytraFly.elytraSpeed, 0.1F, 1.45F, false).setValue(1.0F);
 		addSlider(KillAura.auraRange, 3.0F, 10.0F, false).setValue(3.75F);
 		addSlider(CrystalAura.crystalSpeed, 1.0F, 20.0F, true).setValue(8.0F);
 		addSlider(CrystalAura.crystalRange, 3.0F, 10.0F, false).setValue(3.75F);
