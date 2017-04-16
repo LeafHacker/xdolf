@@ -19,7 +19,6 @@ import com.darkcart.xdolf.mods.player.AutoFish;
 import com.darkcart.xdolf.mods.player.AutoRespawn;
 import com.darkcart.xdolf.mods.player.AutoWalk;
 import com.darkcart.xdolf.mods.player.DeathCoords;
-import com.darkcart.xdolf.mods.player.ElytraFly;
 import com.darkcart.xdolf.mods.player.Flight;
 import com.darkcart.xdolf.mods.player.HorseJump;
 import com.darkcart.xdolf.mods.player.NoFall;
@@ -93,7 +92,6 @@ public class Hacks
 			new Criticals(),
 			new NoFall(),
 			new AutoFish(),
-			new ElytraFly(),
 			new DeathCoords(),
 			new Nuker(),
 			new CrystalLog()

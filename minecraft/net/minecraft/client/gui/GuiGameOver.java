@@ -37,8 +37,8 @@ public class GuiGameOver extends GuiScreen
         }
         else
         {
-            this.buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height / 4 + 72, "Respawn"));
-            this.buttonList.add(new GuiButton(1, this.width / 2 - 100, this.height / 4 + 96, "RAGEQUIT!!!!!"));
+            this.buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height / 4 + 72, I18n.format("deathScreen.respawn", new Object[0])));
+            this.buttonList.add(new GuiButton(1, this.width / 2 - 100, this.height / 4 + 96, I18n.format("deathScreen.titleScreen", new Object[0])));
 
             if (this.mc.getSession() == null)
             {
@@ -114,7 +114,7 @@ public class GuiGameOver extends GuiScreen
         this.drawGradientRect(0, 0, this.width, this.height, 1615855616, -1602211792);
         GlStateManager.pushMatrix();
         GlStateManager.scale(2.0F, 2.0F, 2.0F);
-        this.drawCenteredString(this.fontRendererObj, "PWND", this.width / 2 / 2, 30, 16777215);
+        this.drawCenteredString(this.fontRendererObj, I18n.format(flag ? "deathScreen.title.hardcore" : "deathScreen.title", new Object[0]), this.width / 2 / 2, 30, 16777215);
         GlStateManager.popMatrix();
 
         if (this.causeOfDeath != null)
