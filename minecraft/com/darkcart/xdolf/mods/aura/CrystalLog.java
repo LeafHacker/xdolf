@@ -18,21 +18,17 @@ public class CrystalLog extends Module {
 	public static Value distance = new Value("CrystalLog distance");
 
 	public CrystalLog() {
-		super("CrystalLog", "Logs when there's an ender crystal near.", Keyboard.KEY_NONE, 0xffffff, Category.COMBAT);
+		super("CrystalLog", "Disconnects the player if an endercrystal comes into range.", Keyboard.KEY_NONE, 0xffffff, Category.COMBAT);
 	}
 
 	public void onUpdate(EntityPlayerSP player) {
 		for (Entity e : Wrapper.getWorld().loadedEntityList) {
 			if (e instanceof EntityEnderCrystal) {
-				if (player.getDistanceToEntity(e) > distance.getValue()
-						&& player.getPosition().getY() >= e.getPosition().getY()) {
-					Hacks.findMod(CrystalLog.class).setState(false);
+				if (player.getDistanceToEntity(e) > distance.getValue() && player.getPosition().getY() >= e.getPosition().getY()) {
+					Wrapper.getWorld().sendQuittingDisconnectingPacket();
+					Hacks.findMod(CrystalLog.class).toggle();
 				}
 			}
 		}
-	}
-
-	public void onDisable() {
-		Wrapper.getWorld().sendQuittingDisconnectingPacket();
 	}
 }
