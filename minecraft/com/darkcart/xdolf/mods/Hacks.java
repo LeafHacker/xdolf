@@ -42,7 +42,6 @@ import com.darkcart.xdolf.mods.render.Waypoints;
 import com.darkcart.xdolf.mods.world.FastPlace;
 import com.darkcart.xdolf.mods.world.Freecam;
 import com.darkcart.xdolf.mods.world.Fullbright;
-import com.darkcart.xdolf.mods.world.Nuker;
 import com.darkcart.xdolf.mods.world.Timer;
 import com.darkcart.xdolf.mods.world.XRay;
 
@@ -91,7 +90,6 @@ public class Hacks
 			new Criticals(),
 			new NoFall(),
 			new AutoFish(),
-			new Nuker(),
 			new CrystalLog()
 	});
 
