@@ -1865,7 +1865,7 @@ public class Minecraft implements IThreadListener, ISnooperInfo
             }
         }
 
-        if (this.currentScreen.allowUserInput)
+        if (this.currentScreen == null || this.currentScreen.allowUserInput)
         {
             this.mcProfiler.endStartSection("mouse");
             this.runTickMouse();
