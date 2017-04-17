@@ -33,7 +33,7 @@ public class FileManager
 	
 	public FileManager()
 	{
-		xdolfDir = new File(Wrapper.getAppDir("minecraft") + File.separator + "Xdolf");
+		xdolfDir = new File(Wrapper.getMinecraftDir() + File.separator + "Xdolf");
 		if(!xdolfDir.exists())
 		{
 			xdolfDir.mkdirs();
