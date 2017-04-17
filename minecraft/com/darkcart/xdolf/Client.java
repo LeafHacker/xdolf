@@ -35,7 +35,7 @@ public class Client {
 	public static ArrayList<String> friends = new ArrayList<String>();
 
 	public static final String CLIENT_NAME = "Xdolf";
-	public static final String CLIENT_VERSION = "1.1.1";
+	public static final String CLIENT_VERSION = "1.1.2";
 	
 	public static HashMap<String, String> vTable = new HashMap<String, String>();
 
