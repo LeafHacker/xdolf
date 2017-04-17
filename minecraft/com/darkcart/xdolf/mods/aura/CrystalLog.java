@@ -22,11 +22,13 @@ public class CrystalLog extends Module {
 	}
 
 	public void onUpdate(EntityPlayerSP player) {
-		for (Entity e : Wrapper.getWorld().loadedEntityList) {
-			if (e instanceof EntityEnderCrystal) {
-				if (player.getDistanceToEntity(e) > distance.getValue() && player.getPosition().getY() >= e.getPosition().getY()) {
-					Wrapper.getWorld().sendQuittingDisconnectingPacket();
-					Hacks.findMod(CrystalLog.class).toggle();
+		if(isEnabled()) {
+			for (Entity e : Wrapper.getWorld().loadedEntityList) {
+				if (e instanceof EntityEnderCrystal) {
+					if (player.getDistanceToEntity(e) > distance.getValue() && player.getPosition().getY() >= e.getPosition().getY()) {
+						Wrapper.getWorld().sendQuittingDisconnectingPacket();
+						Hacks.findMod(CrystalLog.class).toggle();
+					}
 				}
 			}
 		}
