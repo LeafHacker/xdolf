@@ -15,6 +15,7 @@ import com.darkcart.xdolf.mods.aura.Criticals;
 import com.darkcart.xdolf.mods.aura.CrystalAura;
 import com.darkcart.xdolf.mods.aura.CrystalLog;
 import com.darkcart.xdolf.mods.aura.KillAura;
+import com.darkcart.xdolf.mods.player.AutoEat;
 import com.darkcart.xdolf.mods.player.AutoRespawn;
 import com.darkcart.xdolf.mods.player.AutoWalk;
 import com.darkcart.xdolf.mods.player.Flight;
@@ -88,7 +89,8 @@ public class Hacks
 			new Nametags(),
 			new Criticals(),
 			new NoFall(),
-			new CrystalLog()
+			new CrystalLog(),
+			new AutoEat(),
 	});
 
 	public static Module[] getEnabledHacks()

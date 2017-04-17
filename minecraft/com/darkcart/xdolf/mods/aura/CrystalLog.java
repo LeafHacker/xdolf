@@ -18,7 +18,7 @@ public class CrystalLog extends Module {
 	public static Value distance = new Value("CrystalLog distance");
 
 	public CrystalLog() {
-		super("CrystalLog", "Disconnects the player if an endercrystal comes into range.", Keyboard.KEY_NONE, 0xffffff, Category.COMBAT);
+		super("CrystalLog", "Disconnects the player if an endercrystal comes into range.", Keyboard.KEYBOARD_SIZE, 0xffffff, Category.COMBAT);
 	}
 
 	public void onUpdate(EntityPlayerSP player) {
