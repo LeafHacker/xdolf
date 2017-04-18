@@ -8,7 +8,7 @@ public class CmdPraiseOre extends Command {
 
 	String[] praises = { "Don't smoke pot around kids. I know from experience.",
 			"I didn't beat my wife. She beat herself.", "Ignored.", "Bigotry is bad.",
-			"please stop slandering me.. I don't approve of domestic violence.. and I've never hit a women. please send your unhealthy obsession to someone else﻿" };
+			"please stop slandering me.. I don't approve of domestic violence.. and I've never hit a women. please send your unhealthy obsession to someone else" };
 
 	public CmdPraiseOre() {
 		super("praiseore");
