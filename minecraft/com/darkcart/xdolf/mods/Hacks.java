@@ -133,13 +133,13 @@ public class Hacks
 		return null;
 	}
 	
-	public static Module findMod(Class<?extends Module> clazz) 
+	public static <T extends Module> T findMod(Class<T> clazz)
 	{
 		for(Module mod: hackList)
 		{
 			if(mod.getClass() == clazz)
 			{
-				return mod;
+				return clazz.cast(mod);
 			}
 		}
 		
