@@ -5,45 +5,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.darkcart.xdolf.Module;
-import com.darkcart.xdolf.mods.aura.AntiVelocity;
-import com.darkcart.xdolf.mods.aura.AuraMob;
-import com.darkcart.xdolf.mods.aura.AuraPlayer;
-import com.darkcart.xdolf.mods.aura.AutoArmor;
-import com.darkcart.xdolf.mods.aura.AutoLog;
-import com.darkcart.xdolf.mods.aura.AutoTotem;
-import com.darkcart.xdolf.mods.aura.Criticals;
-import com.darkcart.xdolf.mods.aura.CrystalAura;
-import com.darkcart.xdolf.mods.aura.CrystalLog;
-import com.darkcart.xdolf.mods.aura.KillAura;
-import com.darkcart.xdolf.mods.player.AutoEat;
-import com.darkcart.xdolf.mods.player.AutoRespawn;
-import com.darkcart.xdolf.mods.player.AutoWalk;
-import com.darkcart.xdolf.mods.player.Flight;
-import com.darkcart.xdolf.mods.player.HorseJump;
-import com.darkcart.xdolf.mods.player.NoFall;
-import com.darkcart.xdolf.mods.player.NoSlowdown;
-import com.darkcart.xdolf.mods.player.SafeWalk;
-import com.darkcart.xdolf.mods.player.Spammer;
-import com.darkcart.xdolf.mods.player.Sprint;
-import com.darkcart.xdolf.mods.render.AntiTotemAnimation;
-import com.darkcart.xdolf.mods.render.Breadcrumb;
-import com.darkcart.xdolf.mods.render.Chams;
-import com.darkcart.xdolf.mods.render.EntityESP;
-import com.darkcart.xdolf.mods.render.HitSpheres;
-import com.darkcart.xdolf.mods.render.ItemESP;
-import com.darkcart.xdolf.mods.render.Nametags;
-import com.darkcart.xdolf.mods.render.NoHurtCam;
-import com.darkcart.xdolf.mods.render.NoPumpkinBlur;
-import com.darkcart.xdolf.mods.render.PlayerESP;
-import com.darkcart.xdolf.mods.render.StorageESP;
-import com.darkcart.xdolf.mods.render.Tracers;
-import com.darkcart.xdolf.mods.render.Trajectories;
-import com.darkcart.xdolf.mods.render.Waypoints;
-import com.darkcart.xdolf.mods.world.FastPlace;
-import com.darkcart.xdolf.mods.world.Freecam;
-import com.darkcart.xdolf.mods.world.Fullbright;
-import com.darkcart.xdolf.mods.world.Timer;
-import com.darkcart.xdolf.mods.world.XRay;
+import com.darkcart.xdolf.mods.aura.*;
+import com.darkcart.xdolf.mods.player.*;
+import com.darkcart.xdolf.mods.render.*;
+import com.darkcart.xdolf.mods.world.*;
 
 public class Hacks
 {
@@ -91,6 +56,7 @@ public class Hacks
 			new NoFall(),
 			new CrystalLog(),
 			new AutoEat(),
+			new Jesus(),
 	});
 
 	public static Module[] getEnabledHacks()

@@ -7,8 +7,12 @@ import com.darkcart.xdolf.fonts.Fonts;
 import com.darkcart.xdolf.mods.Hacks;
 import com.darkcart.xdolf.util.Category;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.network.Packet;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 
 public class Module {
 
@@ -80,6 +84,28 @@ public class Module {
 
 	public GuiScreen onDisplayGuiScreen(GuiScreen guiScreen) {
 		return guiScreen;
+	}
+
+	/**
+	 * Fired just before a packet is sent
+	 *
+	 * @param packet the Packet to be sent
+	 * @return the packet to send, or null to cancel
+	 */
+	public Packet<?> onPacketSend(Packet<?> packet) {
+		return packet;
+	}
+
+	/**
+	 * Fired when adding a collision box for a Block
+	 *
+	 * @param block the block to add collision for
+	 * @param pos the position of the block
+	 * @param collisionBox the collision box to be added
+	 * @return the AxisAlignedBB to add, will be passed on to any other listeners
+	 */
+	public AxisAlignedBB onAddCollisionBox(Block block, BlockPos pos, AxisAlignedBB collisionBox) {
+		return collisionBox;
 	}
 
 	public void onKeyPressed(int key) {

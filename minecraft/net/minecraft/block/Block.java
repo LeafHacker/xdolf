@@ -1,5 +1,6 @@
 package net.minecraft.block;
 
+import com.darkcart.xdolf.Module;
 import com.darkcart.xdolf.Wrapper;
 import com.darkcart.xdolf.mods.Hacks;
 import com.darkcart.xdolf.mods.world.Freecam;
@@ -16,6 +17,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -573,7 +575,17 @@ public class Block
     @Deprecated
     public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn, boolean p_185477_7_)
     {
-        addCollisionBoxToList(pos, entityBox, collidingBoxes, state.getCollisionBoundingBox(worldIn, pos));
+        // TODO: Client hook
+        // FIXME: This hook could be better with a decent event system
+        AxisAlignedBB blockBox = state.getCollisionBoundingBox(worldIn, pos);
+
+        for(Module aMod: Hacks.hackList)
+        {
+            blockBox = aMod.onAddCollisionBox(this, pos, blockBox);
+        }
+        addCollisionBoxToList(pos, entityBox, collidingBoxes, blockBox);
+        // End: Client
+//        addCollisionBoxToList(pos, entityBox, collidingBoxes, state.getCollisionBoundingBox(worldIn, pos));
     }
 
     protected static void addCollisionBoxToList(BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable AxisAlignedBB blockBox)

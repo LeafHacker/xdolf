@@ -1,5 +1,7 @@
 package net.minecraft.network;
 
+import com.darkcart.xdolf.Module;
+import com.darkcart.xdolf.mods.Hacks;
 import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import io.netty.bootstrap.Bootstrap;
@@ -172,6 +174,13 @@ public class NetworkManager extends SimpleChannelInboundHandler < Packet<? >>
 
     public void sendPacket(Packet<?> packetIn)
     {
+        // TODO: Client hook
+        for(Module aMod: Hacks.hackList)
+        {
+            packetIn = aMod.onPacketSend(packetIn);
+            if (packetIn == null) return;
+        }
+        // End: Client
         if (this.isChannelOpen())
         {
             this.flushOutboundQueue();
@@ -194,6 +203,13 @@ public class NetworkManager extends SimpleChannelInboundHandler < Packet<? >>
 
     public void sendPacket(Packet<?> packetIn, GenericFutureListener <? extends Future <? super Void >> listener, GenericFutureListener <? extends Future <? super Void >> ... listeners)
     {
+        // TODO: Client hook
+        for(Module aMod: Hacks.hackList)
+        {
+            packetIn = aMod.onPacketSend(packetIn);
+            if (packetIn == null) return;
+        }
+        // End: Client
         if (this.isChannelOpen())
         {
             this.flushOutboundQueue();
